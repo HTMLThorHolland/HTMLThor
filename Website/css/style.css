@@ -594,18 +594,18 @@ button:hover {
 		font-size:.9em;
 	}
 	
-	code {
+	pre {
 		margin-left:50px;
 		font-size:.9em;
 		color: #212121;
 		margin-bottom:20px;
 	}
 	
-	.syntaxError code strong {
+	.syntaxError pre strong {
 		color:#f31040;
 	}
 	
-	.semanticError code strong {
+	.semanticError pre strong {
 		color:#0D76EB;
 	}
 
@@ -663,15 +663,15 @@ button:hover {
 		margin-right: 10px;
 	}
 	
-	.syntaxError {
+	.syntaxError, .syntaxError span {
 		color: #f31040 !important;
 	}
 	
-	.semanticError {
+	.semanticError, .semanticError span {
 		color: #2d90ff !important;
 	}
 	
-	.warningError {
+	.warningError , .warningError span {
 			color: #ffd050 !important; /* best practice */
 	}
 	

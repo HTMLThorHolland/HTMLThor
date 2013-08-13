@@ -6,9 +6,15 @@
 	<script type="text/javascript" src="scripts/shCore.js"></script>
 	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
 	<link type="text/css" rel="stylesheet" href="styles/shCoreDefault.css"/>
-	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	<script>
-		
+		function test() {
+			alert("click");
+			var test = "<div>test</d";
+			$("#test").html(test);
+			alert("end");
+			SyntaxHighlighter.highlight();
+		}
 	</script>
 </head>
 
@@ -22,6 +28,7 @@ function helloSyntaxHighlighter()
 }
 <div>hello there</div>
 </pre>
+<div id="test2"></div>
 <button type="button" onclick="test()">
 
 </html>

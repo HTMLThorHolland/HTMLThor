@@ -36,8 +36,10 @@ function readTextFile(file)
 
 /* Gets the file data to be converted and then displayed */
 function loadFile(array) {
-	sourceData = array;
-	convertHTML(sourceData);
+	html = array;
+	html = convertHTML(html);
+	$("#pageCode").html(html);
+	prettyPrint();
 }
 
 
@@ -53,7 +55,8 @@ function convertHTML(html) {
 			i++;
 		}*/
 	}
-	$("#pageCode").html(html);
+	return html;
+	//SyntaxHighlighter.highlight();
 }
 
 /* Converts the HTML to escaped characters so it can be displayed. */
