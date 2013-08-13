@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>HTML THOR</title>
+	<meta name="description" content="">
+	<meta name="author" content="Simon Fatima Jonathan Ameer Christopher THOR">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<link type="text/css" rel="stylesheet" href="css/jquery.qtip.min.css" />
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" size="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" size="114x114" href="images/apple-touch-icon-114x114.png">
+	
+	<!-- Syntax Highlighter Imports
+	================================================== -->
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	
+	
+	<!-- JavaScript / JQuery
+	================================================== -->
+	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	
+	<script>
+	
+	
+		var selectedFile;
+	
+	
+		function hideInnerContent() {
+			$('#structure > .sectionContent').slideUp();
+			$('#structure').addClass("noMargin");		
+			$('#sourceContainer').hide();
+			$('#errorsContainer').hide();
+			$('#errorsTitle').addClass("bottomBorder");	
+			$('#errorsTitle').addClass("extraMargin");
+			$('#sourceTitle').addClass("bottomBorder");
+			$('#sourceTitle').addClass("extraMargin");
+		}
+		
+		function openSource() {
+			$('#sourceTitle').removeClass("bottomBorder");
+			$('#sourceTitle').removeClass("extraMargin");
+			$('#sourceTitle').show();
+			$('#sourceContainer').show();
+		}
+		
+		function openErrors() {
+			$('#errorsTitle').removeClass("bottomBorder");
+			$('#errorsTitle').removeClass("extraMargin");
+			$('#errorsTitle').show();
+			$('#errorsContainer').show();
+		}
+		
+		function openOthers(id) {
+			$('#'+id).show();
+			$('#'+id+' > .sectionContent').show();
+			$('#'+id).removeClass("noMargin");	
+		}
+	
+		$(document).ready(function() {
+		
+		
+			/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
+				from http://craigsworks.com/projects/forums/showthread.php?tid=3253 
+				http://qtip2.com/options
+				*/
+			 $(document).delegate('.errorHighlight', 'mouseover', function(event) {
+				$(this).qtip({
+					overwrite: false,
+					show: {
+						event: event.type,
+						ready: true
+					},
+					position: {
+						my: 'bottom left',
+						at: 'top left',
+						target: $(this)
+					},
+					style: { classes: 'qTipHighlight' },
+					hide: {
+						delay: 0//enter in milliseconds
+					}, 
+					content: {
+						text: getContent($(this).attr('id'))
+					}
+				});
+				
+				event.preventDefault();
+			});
+			
+			/* Detect if 'U' is pressed then switch to upload tab */
+			$(document).keydown(function(event){
+				if(event.which == 85){
+					$("#uploadLink").click();
+				}
+			});
+			
+			/* Detect if 'H' is pressed then switch to home tab */
+			$(document).keydown(function(event){
+				if(event.which == 72){
+					$("#homeLink").click();
+				}
+			});
+			
+			/* Detect if 'B' is pressed then switch to home tab */
+			$(document).keydown(function(event){
+				if(event.which == 66){
+					$("#breakdownLink").click();
+				}
+			});
+			
+			/* Detect if 'P' is pressed then switch to home tab */
+			$(document).keydown(function(event){
+				if(event.which == 80){
+					$("#sourceLink").click();
+				}
+			});
+			
+			/* Detect if 'E' is pressed then switch to home tab */
+			$(document).keydown(function(event){
+				if(event.which == 69){
+					$("#errorsLink").click();
+				}
+			});
+			
+			/* Detect if 'F' is pressed then switch to home tab */
+			$(document).keydown(function(event){
+				if(event.which == 20){
+					$("#structureLink").click();
+				}
+			});
+		
+			linkFiles();
+		
+		
+			$('.extraOne').hide();
+			$('.extraTwo').hide();
+			$('.hidden').hide();
+		
+		
+			/* 
+				These toggles aren't smooth and consistent with the code toggles due to the way 
+				the div's have been set out. I'm not sure if there's an easy fix. But there's a good 
+				chance that upload and breakdown aren't sections that will need to be toggleable 
+				by the user.
+			*/
+			
+			/*
+		
+			$(".uploadTitle").click(function(e) {
+				e.preventDefault();				
+				$('#upload > .sectionContent').slideToggle();
+				$('#upload').toggleClass("noMargin");			
+			});
+		
+			$(".breakdownTitle").click(function(e) {
+				e.preventDefault();				
+				$('#breakdown > .sectionContent').slideToggle();	
+				$('#breakdown').toggleClass("noMargin");					
+			});
+		
+			$(".structureTitle").click(function(e) {
+				e.preventDefault();				
+				$('#structure > .sectionContent').slideToggle();	
+				$('#structure').toggleClass("noMargin");					
+			});
+			
+			*/
+		
+		
+		
+			/* CODE TOGGLE SLIDE */
+			/*
+				There are two if and else statements so that the bottom blue border appears 
+				and disappears correctly. The toggleClass won't be necessary for the sections 
+				of the site that don't have the white background.
+				
+				Showcase
+				
+			*/
+			
+			/*
+			$(".errorsTitle").click(function(e) {
+				e.preventDefault();
+				
+				if($('#errorsTitle').hasClass("bottomBorder")) {
+					$('#errorsTitle').toggleClass("bottomBorder");
+					$('#errorsTitle').toggleClass("extraMargin");
+					$('#errorsContainer').slideToggle();
+				}
+				
+				else {				
+					$('#errorsContainer').slideToggle(function() {
+						$('#errorsTitle').toggleClass("bottomBorder");	
+						$('#errorsTitle').toggleClass("extraMargin");			
+					});				
+				}
+				
+				
+			});
+						
+			$(".sourceTitle").click(function(e) {
+				e.preventDefault();
+				
+				if($('#sourceTitle').hasClass("bottomBorder")) {
+					$('#sourceTitle').toggleClass("bottomBorder");
+					$('#sourceTitle').toggleClass("extraMargin");
+					$('#sourceContainer').slideToggle();
+				}
+				
+				else {				
+					$('#sourceContainer').slideToggle(function() {
+						$('#sourceTitle').toggleClass("bottomBorder");
+						$('#sourceTitle').toggleClass("extraMargin");				
+					});				
+				}
+				
+			});
+			
+			*/
+			
+			/* END CODE TOGGLE SLIDE */
+			
+			
+			/* PAGE NAVIGATION */
+			
+			/* not working perfectly
+			
+			function removeLink(add)
+			  {
+				$('#uploadLink').removeClass('currentLocation');
+				$('#breakdownLink').removeClass('currentLocation');
+				$('#structureLink').removeClass('currentLocation');
+				$('#sourceLink').removeClass('currentLocation');
+				$('#errorsLink').removeClass('currentLocation');
+				$('#topLink').removeClass('currentLocation');
+				$(add).addClass('currentLocation');
+			  }
+			
+			
+			
+			
+			$('#upload').waypoint(function(direction) {
+			  removeLink('#uploadLink');
+			});
+			$('#upload').waypoint(function(direction) {
+			  removeLink('#uploadLink');
+			}, {
+				offset: 'bottom-in-view'
+			});
+			
+			
+			$('#breakdown').waypoint(function(direction) {
+			  removeLink('#breakdownLink');
+			});
+			$('#breakdown').waypoint(function(direction) {
+			  removeLink('#breakdownLink');
+			}, {
+				offset: 'bottom-in-view'
+			});
+			
+			
+			$('#structure').waypoint(function(direction) {
+			  removeLink('#structureLink');
+			});
+			$('#structure').waypoint(function(direction) {
+			  removeLink('#structureLink');
+			}, {
+				offset: 'bottom-in-view'
+			});
+			
+			
+			$('#source').waypoint(function(direction) {
+			  removeLink('#sourceLink');
+			});
+			$('#source').waypoint(function(direction) {
+			  removeLink('#sourceLink');
+			}, {
+				offset: 'bottom-in-view'
+			});
+			
+			
+			$('#errors').waypoint(function(direction) {
+			  removeLink('#errorsLink');
+			});
+			$('#errors').waypoint(function(direction) {
+			  removeLink('#errorsLink');
+			}, {
+				offset: 'bottom-in-view'
+			});
+			
+			$('#siteContainer').waypoint(function(direction) {
+			  removeLink('#topLink');
+			});
+			
+			*/
+			
+			$("#homeLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				$('#home').show();
+			 });
+			
+			$("#uploadLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				openOthers("upload");
+			 });
+			
+			$("#breakdownLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				openOthers("breakdown");
+			 });
+			
+			$("#structureLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				openOthers("structure");
+			 });
+			
+			$("#sourceLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				openSource();
+			 });
+			
+			$("#errorsLink").click(function(e) {
+				hideSections();
+				removeLocation();
+				$(this).addClass('currentLocation');
+				openErrors();
+			 });
+			
+			$("#topLink").click(function(e) {
+				linkFiles(); // remove this
+				e.preventDefault();
+				 $('html, body').animate({
+					 scrollTop: $("html").offset().top
+				 }, 600);
+			 });
+			
+			
+			/* END PAGE NAVIGATION */
+			
+			/* FOLDER SELECTION */
+			
+			/* 
+				When a folder class is clicked, it searches through all of the other folders within that 
+				ul and then removes the .selectedFolder class from them. This is where you'll detect 
+				which folder a user has selected.
+			*/
+			$(".folder").click(function(e) {
+				var id = new Array();
+				id = $(this).attr('class');
+				id = id.split(' ');
+				var parentId = $(this).closest(".structureSide").attr('id');
+				changeList(id[0], parentId);
+				$(this).closest("ul").children("li").children(".folder").removeClass("selectedFolder");
+				$(this).addClass("selectedFolder");
+			});
+			
+			function changeList(id, parentId) {
+				console.log(id);
+				console.log(parentId);
+				$('#'+parentId).children('.filesList').children("ul").addClass("hiddenList");
+				$('#'+parentId).children('.filesList').children('.'+id+'List').removeClass("hiddenList");
+			}
+			
+			function hideLists() {
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/* END FOLDER SELECTION */
+					
+			
+		});
+		
+		
+		/* Updating site section */
+			 
+		 function removeLocation() {
+				$("#homeLink").removeClass('currentLocation');
+				$("#uploadLink").removeClass('currentLocation');
+				$("#breakdownLink").removeClass('currentLocation');
+				$("#structureLink").removeClass('currentLocation');
+				$("#sourceLink").removeClass('currentLocation');
+				$("#errorsLink").removeClass('currentLocation');
+		 }
+		 
+		 function hideSections() {
+		 
+			$('#home').hide();
+			$('#sourceContainer').hide();
+			$('#errorsContainer').hide();
+			$('#errorsTitle').hide();
+			$('#sourceTitle').hide();
+			$('#upload').hide();
+			$('#breakdown').hide();
+			$('#structure').hide();
+			
+		 }
+		
+		/* END Updating Site Section */
+		
+		/* UPLOAD CODE */
+		
+		function getFile(id) {
+			console.log(id);
+			var stringId = id + "Upload";
+			console.log(stringId);
+			document.getElementById(stringId).click();
+		}
+		
+		
+		function uploadFile(id) {
+		
+			/* Will need to add the ability for multiple files in the future */
+			
+			selectedFile = $('#'+id).val();
+			readTextFile(selectedFile);
+			// readFile(selectedFile);
+		
+			console.log(selectedFile);
+			 $('html, body').animate({
+				 scrollTop: $("html").offset().top
+			 }, 600);
+			if(id=="zipUpload"){
+				revealSiteZip();
+			}
+			else {
+				$('.extraTwo').hide();
+				revealSite();
+			}
+			resetForms();
+			
+			hideSections();
+			removeLocation();
+			$('#breakdownLink').addClass('currentLocation');
+			openOthers("breakdown");
+			
+		}
+		
+		function hide(id) {
+			$('#'+id+' > .sectionContent').fadeOut();
+			$('#'+id+' > .sectionContent').slideUp();
+			$('#'+id).addClass("noMargin");
+		}
+		
+		function revealSite() {
+			$('.extraOne').fadeIn();
+		}
+		
+		function revealSiteZip() {
+			revealSite();
+			$('.extraTwo').fadeIn();
+		}
+		
+		function resetForms() {
+			$('form[name="singleForm"]').find("input[type=file]").val("");
+			$('form[name="multiForm"]').find("input[type=file]").val("");
+			$('form[name="zipForm"]').find("input[type=file]").val("");
+		}
+		
+		/* END UPLOAD CODE */
+		
+		
+		/* File Linking Code */
+		
+			function linkFiles() {
+				console.log("batman");
+				console.log($('#batman_left').offset());
+				console.log("index");
+				console.log($('#index_left').offset());
+				console.log("cool");
+				console.log($('#cool_right').offset());
+			}
+		
+		
+		
+		/* END FILE LINKING CODE */
+	 
+	</script>
+	
+
+</head>
+<body>
+
+	<!-- Simon's notes
+
+		a div with clear:both is needed after each section of the site to ensure that 
+		the default "floating" applied by columns is cleared up and does not carry over 
+		to the other divs. You can check to make sure you've cleared it correctly by 
+		checking the height of the div in the browser, if it's 0 then you need to 
+		clear a float somewhere.
+
+	-->
+
+	<!-- Primary Page Layout
+	================================================== -->
+	
+	<div class="sideBarNavigation">
+		<ul>
+			<li id="topLink" class="smallLink">
+				<a href=#>top</a>
+			</li>
+			<li id="homeLink" class="currentLocation">
+				<a href=#>home</a>
+			</li>
+			<li id="uploadLink">
+				<a href=#>upload</a>
+			</li>
+			<li id="breakdownLink" class="extraOne">
+				<a href=#>breakdown</a>
+			</li>
+			<li id="structureLink" class="extraTwo">
+				<a href=#>file structure</a>
+			</li>
+			<li id="sourceLink" class="extraOne">
+				<a href=#>page source</a>
+			</li>
+			<li id="errorsLink" class="extraOne">
+				<a href=#>errors</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="siteContainer">
+		<div class="site container">
+			<!-- HEADER SECTION -->
+			<div class="siteHeader sixteen columns">
+				<h1><strong>HTML</strong> THOR</h1>
+				<h4>Validate your <strong>HTML5</strong></h4>
+			</div>
+			
+			
+			<div id="home" class="siteIntro section sixteen columns">
+			
+				<p>
+					This website is designed as a learning tool to validate HTML5, but will also validate older versions.
+				</p>
+				
+				<div class="colourKey">
+					<h4>Colour Key</h4>
+					<ul>
+						<li>
+							<div class="red colourSquare"></div>
+							<p>Red is a syntactic error in your code or link.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="orange colourSquare"></div>
+							<p>Orange is a semantic error.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="blue colourSquare"></div>
+							<p>Blue are any 'best practice' errors.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="green colourSquare"></div>
+							<p>Green indicates no errors.</p>
+						</li>
+						<div style="clear: both"></div>
+					</ul>
+				</div>
+			</div>
+			<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			<!-- END HEADER -->
+			
+			<!-- UPLOAD SECTION -->
+			<div id="upload" class="hidden section upload">
+				<div class="sectionTitle sixteen columns">
+					<h2>upload</h2>
+				</div>
+				<div class="sectionContent">
+					<div onclick="getFile('single')" class="uploadCat one-third column">
+						<div id="iconSingleUpload" class="thumb"></div>
+						<p>upload a single file</p>
+						<form action="#" method="POST" enctype="multipart/form-data" name="singleForm">
+							<button id="single" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
+						</form>
+				</div>
+					<div onclick="getFile('multi')" class="uploadCat one-third column">
+						<div id="iconMultiUpload" class="thumb"></div>
+						<p>upload multiple files</p>
+						<form action="#" method="POST" enctype="multipart/form-data" name="multiForm">
+							<button id="multi" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
+						</form>
+					</div>
+					<div onclick="getFile('zip')" class="uploadCat one-third column">
+						<div id="iconZipUpload" class="thumb"></div>
+						<p>upload a .zip directory</p>
+						<form action="#" method="POST" enctype="multipart/form-data" name="zipForm">
+							<button id="zip" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
+						</form>
+					</div>
+					<div class="sixteen columns">
+						<div class="alternativeUploads">
+							<h3>or</h3>
+							<form>
+							<label for="input-url">enter a url</label><input type="text" name="input-url">
+							<label for="input-direct">direct input</label>
+							<textarea rows="4" cols="50"></textarea>
+							<div class="submitButton">
+								<button type="button">UPLOAD</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END UPLOAD -->
+			
+			<!-- breakdown SECTION -->
+			
+			<!-- Explanation:
+				
+				.bar is given a width and height and a default background colour 
+				of green to indicate that there are no errors.
+				
+				Within .bar are three sub classes referring to the three different 
+				types of errors.
+				.syntax
+				.semantic
+				.warning
+				
+				These three subclasses are assigned a width within the html to 
+				determine how much of the bar they take up. I.e.
+					<div class="syntax graph" style="width:20%;"></div>
+					
+				IMPORTANT: The three subclasses must add up to 100%.
+				So if syntax has a width of 20%, then 80% must be made up 
+				from the other two error classes.
+				
+				IMPORTANT: The default green background should only ever appear 
+				when the three error subclasses have ZERO width. This is because the 
+				green indicates that there are NO errors.
+				So it is not suitable to have syntax with a width of 20% and 
+				the remaining width of the graph being green.
+				
+				
+				TO BE FIXED:
+				There is a 1px sliver of green visible despite the values adding 
+				up to 100%
+
+			-->
+			
+			<div id="breakdown" class="hidden section breakdown">
+				<div class="sectionTitle sixteen columns">
+					<h2>breakdown</h2>
+				</div>
+				<div class="sectionContent">
+					<div class="statGraph sixteen columns">
+						<div class="fileGraph">
+							<p class="fileName">index.php</p>
+							<div class="bar">
+								<div class="syntax graph" style="width:20%;"></div>
+								<div class="semantic graph" style="width:40%;"></div>
+								<div class="warning graph" style="width:40%;"></div>
+								<div class="zero graph" style="width:0;"></div>
+							</div>
+							<p class="errorNumber">256 errors</p>
+							<div style="clear:both"></div>
+						</div>
+						<div class="fileGraph">
+							<p class="fileName">about.php</p>
+							<div class="bar">
+								<div class="syntax graph" style="width:25%;"></div>
+								<div class="semantic graph" style="width:60%;"></div>
+								<div class="warning graph" style="width:15%;"></div>
+								<div class="zero graph" style="width:0;"></div>
+							</div>
+							<p class="errorNumber">12 errors</p>
+							<div style="clear:both"></div>
+						</div>
+						<div class="fileGraph">
+							<p class="fileName">batman.php</p>
+							<div class="bar">
+								<div class="syntax graph" style="width:0;"></div>
+								<div class="semantic graph" style="width:0;"></div>
+								<div class="warning graph" style="width:0;"></div>
+								<div class="zero graph" style="width:100%;"></div>
+							</div>
+							<p class="errorNumber">0 errors</p>
+							<div style="clear:both"></div>
+						</div>
+					</div>
+					<div class="middleText">
+						<h3>Overall Feedback</h3>
+						<div class="feedback">
+							<p>Holy Batman! Your site sucks!</p>
+						</div>
+					</div>
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END breakdown -->
+			
+			
+			<!-- FILE STRUCTURE -->
+			<!-- add extraTwo back into the below div's class -->
+			<div id="structure" class="hidden section structure">
+				<div class="sectionTitle sixteen columns">
+					<h2>file structure</h2>
+				</div>
+				<div class="structureContent sectionContent sixteen columns">
+				
+				<!--
+				
+					<div id="topFolders" class="folders">
+						<ul>
+							<li>
+								<!--
+									IMPORTANT
+									Need to have a character length limit for the folderName otherwise it'll go outside 
+									of the div.
+								<div class="folder">
+									<div class="folderThumb"></div>
+									<div class="folderName">
+										<p>root</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="folder">
+									<div class="folderThumb"></div>
+									<div class="folderName">
+										<p>images</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="folder">
+									<div class="folderThumb"></div>
+									<div class="folderName">
+										<p>css</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div style="clear:both"></div>
+					-->
+					
+					<div id="leftStructure" class="structureSide">
+				
+						<div id="sideFoldersLeft" class="folders">
+							<ul>
+								<li>
+									<!--
+										IMPORTANT
+										Need to have a character length limit for the folderName otherwise it'll go outside 
+										of the div.
+									-->
+									<div class="root folder selectedFolder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>root</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="images folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>images</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>css</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>js</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>music</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						
+						<div id="filesListLeft" class="filesList">
+							<ul class="rootList">
+								<li id="index_left">
+									<p>index.php</p>
+								</li>
+								<li>
+									<p>about.php</p>
+								</li>
+								<li id="batman_left">
+									<p>batman.php</p>
+								</li>
+								<li>
+									<p>mylife.php</p>
+								</li>
+								<li>
+									<p>youelectrify.php</p>
+								</li>
+								<li>
+									<p>mylife(1).php</p>
+								</li>
+								<li>
+									<p>starlight.php</p>
+								</li>
+								<li>
+									<p>chasing.php</p>
+								</li>
+								<li>
+									<p>your.php</p>
+								</li>
+								<li>
+									<p>starlight(1).php</p>
+								</li>
+							</ul>
+							<ul class="hiddenList imagesList">
+								<li id="cool_right">
+									<p>cool.jpg</p>
+								</li>
+								<li>
+									<p>beans.png</p>
+								</li>
+								<li>
+									<p>sweet.jpg</p>
+								</li>
+								<li>
+									<p>nuts.bmp</p>
+								</li>
+							</ul>
+						</div>
+					
+					</div>
+					
+					<div id="rightStructure" class="structureSide">
+					
+						<div id="filesListRight" class="filesList">
+							<ul class="rootList hiddenList">
+								<li>
+									<p>index.php</p>
+								</li>
+								<li>
+									<p>about.php</p>
+								</li>
+								<li>
+									<p>batman.php</p>
+								</li>
+								<li>
+									<p>mylife.php</p>
+								</li>
+								<li>
+									<p>youelectrify.php</p>
+								</li>
+								<li>
+									<p>mylife(1).php</p>
+								</li>
+								<li>
+									<p>starlight.php</p>
+								</li>
+								<li>
+									<p>chasing.php</p>
+								</li>
+								<li>
+									<p>your.php</p>
+								</li>
+								<li>
+									<p>starlight(1).php</p>
+								</li>
+							</ul>
+							<ul class="imagesList">
+								<li>
+									<p>cool.jpg</p>
+								</li>
+								<li>
+									<p>beans.png</p>
+								</li>
+								<li>
+									<p>sweet.jpg</p>
+								</li>
+								<li>
+									<p>nuts.bmp</p>
+								</li>
+							</ul>
+						</div>
+					
+						<div id="sideFoldersRight" class="folders">
+							<ul>
+								<li>
+									<!--
+										IMPORTANT
+										Need to have a character length limit for the folderName otherwise it'll go outside 
+										of the div.
+									-->
+									<div class="root folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>root</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="images folder selectedFolder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>images</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>css</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="folder">
+										<div class="folderThumb"></div>
+										<div class="folderName">
+											<p>js</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div style="clear:both"></div>
+					
+					</div>
+					
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END FILE STRUCTURE -->
+			
+			
+			
+			<!-- ERRORS SECTION -->
+			
+			
+			
+			
+			<div id="sourceTitle" class="hidden codeTitle sectionTitle sixteen columns">
+				<h2>view page source</h2>
+			</div>
+		</div>
+			<!-- IMPORTANT
+				Don't delete the above or below tags.
+				They allow me to change the background colour.
+			-->
+		<div id="sourceContainer" class="hidden codeBackground">
+			<div class="codeSection container">
+							
+				<div id="source" class="section code source">
+					<div class="sectionContent sixteen columns">
+						<form id="pageSourceSelect" class=" selectFile">
+							<label for="selectSourceFile">Select a page to view </label>
+							<select name="selectSourceFile">
+								<option>index.php</option>
+								<option>about.php</option>
+								<option>batman.php</option>
+							</select>
+						</form>
+						<div style="clear:both"></div>
+						<div class="pageSource">
+	<pre class="brush: js;" id="pageCode" >
+	</pre>
+
+						</div>
+						
+					</div>
+					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+				</div>
+			
+			</div>		
+				
+		</div><!-- container -->
+		
+		
+		<!-- END ERRORS SECTION -->
+			
+		
+		<!-- SOURCE CODE SECTION -->
+		
+		
+		<div class="noMargin site container"> <!-- NEW CONTAINER -->
+		
+		
+			<div id="errorsTitle" class="hidden codeTitle sectionTitle sixteen columns">
+				<h2>errors and warnings</h2>
+			</div>
+		</div>
+			<!-- IMPORTANT
+				Don't delete the above or below tags.
+				They allow me to change the background colour.
+			-->
+		<div id="errorsContainer" class="hidden codeBackground">
+			<div class="codeSection container">
+							
+				<div id="errors" class="section code errors">
+					<div class="sectionContent sixteen columns">
+						<form id="pageSourceSelect" class=" selectFile">
+							<label for="selectSourceFile">Select a page to view </label>
+							<select name="selectSourceFile">
+								<option>index.php</option>
+								<option>about.php</option>
+								<option>batman.php</option>
+							</select>
+						</form>
+						<div style="clear:both"></div>
+					
+						<!--
+							IMPORTANT
+							We're going to have to convert html such that it no longer has certain characters.
+							I used this site to do it manually:
+							http://accessify.com/tools-and-wizards/developer-tools/quick-escape/default.php
+							But we're going to have to implement it into our site.
+							
+							When using the <xmp> tag, it wasn't necessary to convert the html string. However 
+							I could not work out how to add a <span> tag inside to highlight parts of the code.
+							And I don't think <xmp> would have validated. But this is something we're going to 
+							have to look into.
+							
+						-->
+					
+						<div class="syntaxError errorListing">
+							<p class="errorLocation">Line 01, Column 22:</p>
+							<p class="errorDescription">Error description goes here.</p>
+							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;Excerpt of the code goes here.<strong>&lt;p&gt;</strong></code></pre>
+						</div>
+					
+						<div class="semanticError errorListing">
+							<p class="errorLocation">Line 05, Column 13:</p>
+							<p class="errorDescription">Error description goes here.</p>
+							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;<strong>Excerpt of the code goes here.&lt;/p&gt;</strong></code></pre>
+						</div>
+					
+						<div class="syntaxError errorListing">
+							<p class="errorLocation">Line 01, Column 22:</p>
+							<p class="errorDescription">Error description goes here.</p>
+							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;Excerpt of the code goes here.<strong>&lt;p&gt;</strong></code></pre>
+						</div>
+						
+					</div>
+					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+				</div>
+			
+			</div>				
+		</div><!-- container -->
+		
+		
+		<!-- END SOURCE CODE SECTION -->
+			
+				
+				
+		
+		
+		<div class="noMargin site container"> <!-- NEW FINAL CONTAINER -->
+		
+			
+		
+		</div><!-- container -->
+	
+	
+	</div><!-- overall content container -->
+
+	
+	
+
+<!-- End Document
+================================================== -->
+
+<!-- 
+	Class and ID explanations
+	
+	.extraOne, .extraTwo
+	
+		These two classes determine what is hidden from the user initially.
+		.extraOne refers to elements of the site that will appear for any type of upload.
+		.extraTwo refers to elements of the site that only appear for .zip uploads.
+
+
+
+-->
+
+
+
+<!-- JS imports -->
+
+
+	<script language="javascript" type="text/javascript" src="js/scroll.js"></script>
+	<script language="javascript" type="text/javascript" src="js/waypoints.js"></script>
+	<script language="javascript" type="text/javascript" src="js/convert.js"></script><!-- Simon's -->
+	<script language="javascript" type="text/javascript" src="js/highlight.js"></script><!-- Simon's -->
+	<script language="javascript" type="text/javascript" type="text/javascript" src="js/jquery.qtip.min.js"></script>
+
+
+</body>
+</html>

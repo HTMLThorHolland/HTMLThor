@@ -1,0 +1,765 @@
+/*
+* Skeleton V1.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 6/20/2012
+*/
+
+/* Table of Content
+==================================================
+	#Site Styles
+	#Page Styles
+	#Media Queries
+	#Font-Face */
+
+/* #Site Styles
+================================================== */
+
+
+/* Hiding Site Elements */
+
+
+.extraOne, .extraTwo {
+	display: none;
+}
+
+
+/* Colours */
+
+.red {
+	background-color:#f31040;
+}
+
+.orange {
+		background-color:#ffd050;
+}
+
+.blue {
+		background-color:#2d90ff;
+}
+
+.green {
+		background-color:#2aeb8a;
+}
+
+
+
+/* Hacks */
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+.clearfix {
+    display: block;
+}
+
+
+.noMargin {
+	margin-bottom: 0!important;
+}
+
+.extraMargin {
+	margin-bottom: 30px !important;
+}
+
+
+
+
+/* General */
+
+#siteContainer {
+	padding-bottom: 50px;
+}
+
+body {
+	background-image:url("../images/tile_dark.png");
+	background-attachment:fixed;
+	font-family:"Source Sans Pro",Arial,sans-serif;
+	color:#c7c7c7;
+	font-size:14pt;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-family:"Century Gothic",Arial,sans-serif;
+	color:#c7c7c7;
+}
+
+p {
+	font-family:"Source Sans Pro",Arial,sans-serif;
+	color:#c7c7c7;
+}
+
+h1, h2 {
+	color:#e3e6ec;
+}
+
+h1 {
+	font-size:3em;
+	margin-bottom:2px;
+}
+
+h2  {
+	font-size:1.6em;
+	font-style:italic;
+	font-weight:bold;
+}
+
+h4 {
+	color:#b7b7b7;
+	font-size:1.3em;
+}
+
+a {
+	text-decoration:none;
+}
+
+/* Temp Elements */
+.round {
+	border-radius:130px;
+}
+
+/* END Temp Elements */
+
+
+/* END General */
+
+
+/* SIDE BAR */
+
+#siteContainer {
+	margin-left: 10%;
+}
+
+.sideBarNavigation {
+	width: 10%;
+	min-width: 122px;
+	position: fixed;
+	background-color: #191D27;
+	height: 100%;
+	top: 0;
+	left: 0;
+	float: left;
+}
+
+	.sideBarNavigation ul {
+		margin-top: 50px;
+	}
+
+	.sideBarNavigation ul li {
+		padding: 2px;
+		margin-left: 0;
+		padding-left: 0;
+		padding-right: 0;
+		margin-bottom: 0;
+	}
+
+	.sideBarNavigation a {
+		font-size:.7em;
+		padding: 2px;
+		padding-left: 20px;
+		padding-right: 20px;
+		color: #B9B9B9;
+	}
+
+	.sideBarNavigation a:hover {
+		color: #4B70A5;
+	}
+	
+	.currentLocation {
+		background-color: #37537C;
+	}
+	
+	.currentLocation a {
+		color: #e3e6ec;
+	}
+	
+	.currentLocation a:hover {
+		color: #e3e6ec;
+	}
+	
+	.smallLink a {
+		font-size: .65em;
+		color: #636770;
+	}
+
+
+
+/* END Side Bar */
+
+
+/* SITE HEADER */
+
+.siteHeader h1:hover, .siteHeader h4:hover {
+	cursor:pointer;
+}
+
+/* END Site Header */
+
+
+.site {
+	margin-top:50px;
+}
+
+#home {
+	margin-top: 50px;
+}
+
+
+.section {
+	margin-top: 10px;
+	margin-bottom:60px;
+}
+
+	/* Looking for the code that has changed the code section?
+		Scroll down to the CODING section and look for the class
+		.codeTitle
+	*/
+
+.sectionTitle {
+	border-bottom:2px solid #3f7cd7;
+	margin-bottom:30px;
+	margin-top:20px;
+}
+
+.sectionTitle h2 {
+	margin-left:50px;
+	margin-bottom:2px;
+}
+/* index.php_left cool.jpg_right */
+
+/* Home / Help Section */
+
+.colourKey h4 {
+	margin-bottom: 20px;
+}
+
+.colourKey ul li {
+	margin-bottom: 20px;
+	height: 50px;
+}
+
+.colourKey p {
+	line-height: 50px;
+}
+
+.colourSquare {
+	margin-top:12px;
+	width: 50px;
+	height: 25px;
+	float: left;
+	margin-right: 20px;
+}
+
+
+
+/* END Home / Help Section */
+
+/* Upload Section */
+
+.uploadCat {
+	text-align:center;
+	cursor: pointer;
+}
+
+.alternativeUploads {
+	width:40%;
+	margin:0 auto;
+	margin-top:10px;
+}
+
+.alternativeUploads h3 {
+	text-align:center;
+	margin-bottom:25px;
+}
+
+input, input[type="text"], textarea {
+	width:100%;
+	background-color:#535353;
+	border-color:#929292;
+	border-radius:2px;
+	color:#929292;
+}
+
+input:focus, input[type="text"]:focus, textarea:focus {
+	color:#CECECE;
+}
+
+label {
+	font-size:1em;
+	font-weight:normal;
+	margin-bottom:4px;
+}
+
+button, button:hover {
+	background:none;
+	background-color:#3982ee;
+	font-size:1em;
+	color:#f1f1f1;
+	text-shadow:none;
+	border:0;
+	border-radius:0;
+	text-align:center;
+	padding:6px 8px;
+}
+
+button:hover {
+	background-color:#4890fb;
+	text-decoration:underline;
+}
+
+.submitButton button, .submitButton button:hover {
+	font-size:1.5em;
+	margin-top:20px;
+	padding:6px 12px;
+	padding-top:8px;
+}
+
+.submitButton {
+	text-align:center;
+}
+
+.thumb {
+	width:170px;
+	height:170px;
+	margin: 0 auto;
+	margin-bottom:10px;
+}
+
+
+	#iconSingleUpload {
+		background-image: url("../images/icon_singleDoc.png");
+		background-position: center;
+	}
+	
+	#iconMultiUpload {
+		background-image: url("../images/icon_multiDoc.png");
+		background-position: center;
+	}
+	
+	#iconZipUpload {
+		background-image: url("../images/icon_zip.png");
+		background-position: center;
+	}
+
+/* END Upload Section */
+
+
+
+/* breakdown SECTION */
+
+.fileGraph {
+	height:30px;
+	margin-bottom:20px;
+}
+
+.fileGraph p {
+	line-height:30px;
+	float:left;
+}
+
+.fileName {
+	min-width:200px;
+}
+
+.errorNumber {
+	float:left;
+	color: #e3e6ec;
+}
+
+/* ERROR GRAPHS */
+
+.bar {
+	height:30px;
+	width:60%;
+	float:left;
+	margin-right:25px;
+}
+
+.graph {
+	height:100%;
+	float:left;
+}
+
+	.syntax {
+		background-color:#f31040;
+	}
+
+	.semantic {
+		background-color:#2d90ff;
+	}
+
+	.warning {
+		background-color:#ffd050;
+	}
+
+	.statGraph {
+		margin-bottom:20px;
+	}
+
+	.zero {
+		background-color:#2aeb8a;
+	}
+
+/* END Error Graphs */
+
+
+.middleText {
+	width:80%;
+	margin:0 auto;
+}
+
+.middleText h3 {
+	text-align:center;
+	font-size:1.3em;
+	font-weight:bold;
+	color: #e3e6ec;
+}
+
+	.feedback {
+		border:1px solid #243f66;
+		padding:14px 18px;
+	}
+	
+	.feedback p:last-child {
+		margin-bottom:0;
+	}
+
+
+/* END breakdown Section */
+
+
+/* FILE STRUCTURE SECTION */
+
+.structureContent {
+	max-height: 522px;
+}
+
+.folders {
+	width:13%;
+	max-height: 522px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+	.folders ul {
+		display: block;
+	}
+
+	.folderThumb {
+		width:80px;
+		height:58px;
+		background-image:url("../images/folder_80.png");
+	}
+	
+	.folder {
+		width:80px;	
+		cursor: pointer;
+		border:2px solid rgba(0,0,0,0);
+		padding: 2px;
+		padding-bottom: 5px;
+		margin-bottom: 10px;
+	}
+	
+	.folder:hover {
+		border:2px solid #3f7cd7;
+	}
+	
+	.folderName p {
+		font-size:.9em;
+		color:#f1f1f1;
+		text-align:center;
+		margin-bottom: 0;
+	}
+	
+	.selectedFolder {
+		border:2px solid #3f7cd7;
+	}
+
+#topFolders {
+	width:50%;
+	margin: 0 auto;
+}
+
+	#topFolders .folder {
+		float:left;
+	}
+
+	#topFolders .folderName {
+		width:90%;
+		margin:0 auto;
+	}
+
+	
+#sideFoldersLeft {
+	float: left;
+}
+	
+#sideFoldersRight {
+	float: right;
+}
+
+	#sideFoldersRight ul {
+		float: right;
+	}
+	
+	
+	
+.filesList {
+	max-height: 522px;
+	margin-top: 20px;
+	width: 30%;
+	float: left;
+	overflow-y: auto;
+	margin-left: 5%;
+}
+
+
+	#filesListLeft ul li p {
+		border-right:20px solid #747474;
+	}
+
+	#filesListRight ul li p {
+		border-left:20px solid #747474;
+		text-align: right;
+	}
+
+	.hiddenList {
+		display: none;
+	}
+
+
+
+/* END File Structure Section */
+
+
+/* CODING SECTION */
+
+.codeSection {
+	padding-top:40px;
+}
+
+.codeBackground {
+	background-image:url("../images/tile_light.png");
+	background-attachment:fixed;
+	width:100%;
+	margin-top:0;
+	border-top:2px solid #3f7cd7;
+	border-bottom:1px solid #3f7cd7;
+	margin-bottom:50px;
+}
+
+.codeTitle {
+	margin-top: 30px;
+	margin-bottom:0;
+	border:0;
+}
+
+.noMargin {
+	margin-top:0;
+}
+
+.code p {
+	color:#212121;
+}
+
+
+/* Error Listing */
+
+.errorListing {
+	padding-bottom:20px;
+	margin-bottom:30px;
+	border-bottom:1px solid #979797;
+}
+
+	.errorLocation {
+		float:left;
+		margin-right:10px;
+	}
+	
+	.errorDescription {
+		font-weight:bold;
+	}
+	
+	.errorExcerpt {
+		margin-left:50px;
+		font-size:.9em;
+	}
+	
+	code {
+		margin-left:50px;
+		font-size:.9em;
+		color: #212121;
+		margin-bottom:20px;
+	}
+	
+	.syntaxError code strong {
+		color:#f31040;
+	}
+	
+	.semanticError code strong {
+		color:#0D76EB;
+	}
+
+/* END Error Listing */
+
+
+/* END Coding Section */
+
+
+/* PAGE SOURCE SECTION */
+
+.pageSource {
+	margin-bottom:50px;
+	max-width:100%;
+	overflow-x: scroll;
+}
+
+#pageCode {
+	max-width:100%;
+	overflow-x: scroll;
+}
+
+.selectFile {
+	margin-left: 50px;
+	border-bottom: 2px solid #A2A7AC;
+	width: 450px;
+	height:20px;	
+	margin-bottom: 30px;
+	padding-bottom: 10px;
+}
+
+	.selectFile label {
+		font-weight: bold;
+		float: left;
+		margin-right:20px;
+		color: #2E54B6;
+	}
+	
+	.selectFile select {
+		float: right;
+	}
+
+	
+	/* Page Source Errors */
+	
+	.errorMessage {
+		margin-bottom: 0;
+	}
+	
+	.errorLine {
+		font-size: .8em;
+	}
+	
+	.syntaxError, .semanticError, .warningError {
+		margin-right: 10px;
+	}
+	
+	.syntaxError {
+		color: #f31040 !important;
+	}
+	
+	.semanticError {
+		color: #2d90ff !important;
+	}
+	
+	.warningError {
+			color: #ffd050 !important; /* best practice */
+	}
+	
+	.qTipHighlight {
+		color: #ffffff !important;
+		background-color: #424242 !important;
+		border:1px solid #191D27 !important;
+		font-size: .9em !important;
+		padding: 5px !important;
+		line-height: 1em !important;
+		max-width: 50% !important;
+	}
+	
+	.errorHighlight {
+		cursor: pointer;
+	}
+
+
+/* END Page Source Section */
+
+
+
+
+
+
+
+/* JQuery Elements */
+
+#errorsContainer {
+}
+
+.bottomBorder {
+	border-bottom:2px solid #3f7cd7;
+}
+
+
+/* END JQuery Elements */
+
+
+/* #Page Styles
+================================================== */
+
+/* #Media Queries
+================================================== */
+
+	
+	@media only screen and (min-width: 1400px) {
+		#siteContainer {
+			margin-left: 0;
+		}
+	}
+	
+	@media only screen and (min-width: 1300px) {
+		#siteContainer {
+			margin-left: 5%;
+		}
+	}
+
+	/* Smaller than standard 960 (devices and browsers) */
+	@media only screen and (max-width: 959px) {}
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {}
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {}
+
+
+/* #Font-Face
+================================================== */
+/* 	This is the proper syntax for an @font-face file
+		Just create a "fonts" folder at the root,
+		copy your FontName into code below and remove
+		comment brackets */
+
+/*	@font-face {
+	    font-family: 'FontName';
+	    src: url('../fonts/FontName.eot');
+	    src: url('../fonts/FontName.eot?iefix') format('eot'),
+	         url('../fonts/FontName.woff') format('woff'),
+	         url('../fonts/FontName.ttf') format('truetype'),
+	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
+	    font-weight: normal;
+	    font-style: normal; }
+*/

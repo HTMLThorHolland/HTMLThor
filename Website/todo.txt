@@ -1,0 +1,15 @@
+TO DO LIST
+
+Add the ability to change files to view the errors / source code for a specific file.
+
+Add in the folder view.
+
+Integrate the ability to "select" a file to "upload".
+
+Make the site "work" as though it was functional. I.e. select a file, then the statistics are generated. Then the errors appear...
+
+Hover effect to display the type of error / further statistics.
+
+Navigation Bar (top and side).
+
+Help page.

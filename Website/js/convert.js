@@ -1,0 +1,83 @@
+/* This is semi-temporary to act as the loading and converting section */
+
+var sourceData = [];
+
+var test = "This is a syntax error";
+
+$(document).ready(function() {
+	//testStuff();
+});
+
+
+/* This is just for testing stuff as I add it */
+function testStuff() {
+	console.log("Initiate test");
+	readTextFile("test.txt");
+	console.log("end test");
+}
+
+
+/* Loads the text file */
+function readTextFile(file)
+{
+	$.ajax({ 
+        url: file,
+        type: "POST",
+        dataType: "text",
+        success: function(data) {
+            alert(data);
+			var something = data;
+			var splitData = something.split('\n');
+			loadFile(splitData);
+        }
+    });
+}
+
+
+/* Gets the file data to be converted and then displayed */
+function loadFile(array) {
+	sourceData = array;
+	convertHTML(sourceData);
+}
+
+
+/* Iterates through the HTML and sets it in the div*/
+function convertHTML(html) {
+	for(var i=0; i<html.length; i++) {
+		html[i]=replaceHTML(html[i]);
+		console.log(html[i]);
+		/* Below code is being used to randomly insert an error message */
+		/*if(i == 7) {
+			console.log(i);
+			html.splice(7, 0, "<p title='This is a terrible error.' class='errorHighlight redError'>test error</p>");
+			i++;
+		}*/
+	}
+	$("#pageCode").html(html);
+}
+
+/* Converts the HTML to escaped characters so it can be displayed. */
+function replaceHTML(line) {
+	var newLine = line;
+	var reg;
+	var htmlElements = [["<","&lt;"],[">","&gt;"],["\"","&quot;"],["\'","&#39;"]];
+	for(var i=0; i<htmlElements.length; i++) {
+		reg = new RegExp(htmlElements[i][0], "gi");
+		newLine = newLine.replace(reg,htmlElements[i][1]);
+	}
+	
+	/* Trial method for adding error span */
+	patt = /html5shim/gi;
+	if(patt.test(newLine)) {
+		newLine = "<span id='error1' class='errorHighlight syntaxError'>"+newLine+"</span>";
+	}
+	
+	/* Random error */
+	var errorChance = Math.floor(Math.random() * 20) + 1;
+	console.log(errorChance);
+	if(errorChance == 1) {
+		newLine = "<span id='error2' class='errorHighlight semanticError'>"+newLine+"</span>";
+	}
+	
+	return newLine;
+}
