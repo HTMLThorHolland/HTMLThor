@@ -8,6 +8,7 @@
 <%
       String saveFile = "";
       String contentType = request.getContentType();
+	  
       if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)) {
             DataInputStream in = new DataInputStream(request.getInputStream());
             int formDataLength = request.getContentLength();
@@ -38,7 +39,56 @@
             fileOut.write(dataBytes, startPos, (endPos - startPos));
             fileOut.flush();
             fileOut.close();
-%><Br>
+			
+			<!-- Now that the file has been saved appropriately, open the same file (could just reference an earlier component before flushing and closing but it might be best to copy it over first) --!> 
+			<!-- and read in the file line by line using java.io.BufferedReader: --!> 
+			
+			BufferedReader lineRead = new BufferedReader(new FileReader("/" + saveFile));
+			String singleLine = "";
+			while((singleLine = lineRead.readLine()) != null) {
+				<!-- run function to parse each line for tags (tagParse) --!>
+				lineParse(singleLine);
+			}
+			
+			
+		public void lineParse(String singleLine) {
+			char carr[] = singleLine.toCharArray(); <!-- convert the string to an array of characters for tag checking --!>
+			BOOLEAN beginTag = FALSE;
+			BOOLEAN endTag = FALSE;
+			int beginIndex = 0;
+			
+			
+			for(int i = 0; (i < carr.length); i++) {
+				if((carr[i] == "<")&&(endTag == FALSE)){
+					beginTag =  TRUE;
+					beginIndex = i+1; 
+				}
+				
+				if((carr[i] == ">")&&(beginTag == TRUE)) {
+					endTag =  TRUE;
+					beginTag = FALSE;
+					List<String> tarr = new ArrayList<String>(); 
+					<!-- (i - beginIndex) will give the length of the tag, then a loop needs to extract every character into a separate array to be checked in another function? --!>
+					for(int j = (i-beginIndex); (j < i); j++) {
+						tarr.add(carr[j]);
+						<!--  note that this is an ArrayList, not an array, may need to use .toArray later --!>
+						tagParse(tarr);
+					}
+					
+					
+				}
+			
+			
+			}
+			
+			
+		public void tagParse(tarr) {
+			<!-- split by whitespace, grab original tag word, check that for errors, then move on to similar methods for any and all listed attributes of the tag --!>
+		
+		}
+%>
+
+<Br>
 <table border="2">
       <tr>
             <td><b>You have successfully upload the file by the name of:</b>
