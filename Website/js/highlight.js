@@ -2,6 +2,7 @@
 var errors = [["error1","syntaxError","Syntax Error","201","Terrible code from the database."],["error2","semanticError","Semantic Error","98","A terrible code"]];
 
 function getContent(errorId) {
+		linePos = $('#'+errorId).parent().index() + 1;
 		for(var i = 0; i < errors.length; i++) {
 			/* If this is the case, we know what error message to show */
 			if(errors[i][0] == errorId) {
@@ -13,11 +14,11 @@ function getContent(errorId) {
 					errors[i][3] - error Line (the line the error takes place on)
 					errors[i][4] - error Message (the message that appears)
 				*/
-				return "<p class='errorMessage'><span class='"+errors[i][1]+"'>"+errors[i][2]+"</span>"+errors[i][4]+"</p><p class='errorLine errorMessage'>Line "+errors[i][3]+"</p>"
+				return "<p class='errorMessage'><span class='"+errors[i][1]+"'>"+errors[i][2]+"</span>"+errors[i][4]+"</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
 			}
 		}
 		
-		return "couldn't find error in database";
+		return "<p class='errorMessage'><span class='syntaxError'>Syntax Error</span>Not in database</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
 		
 }
 

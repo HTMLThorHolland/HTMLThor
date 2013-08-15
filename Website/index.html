@@ -406,7 +406,6 @@
 			}
 			
 			function hideLists() {
-				
 			}
 			
 			
@@ -418,6 +417,12 @@
 			
 			
 			/* END FOLDER SELECTION */
+			
+			
+			$("#alternativeButton").click(function(e) {
+				e.preventDefault();
+				uploadFile("index.html");
+			});
 					
 			
 		});
@@ -653,7 +658,7 @@
 							<label for="input-direct">direct input</label>
 							<textarea rows="4" cols="50"></textarea>
 							<div class="submitButton">
-								<button type="button">UPLOAD</button>
+								<button id="alternativeButton" type="button">UPLOAD</button>
 							</div>
 							</form>
 						</div>

@@ -714,6 +714,15 @@ button:hover {
 /* END JQuery Elements */
 
 
+/* Syntax Highlighter */
+
+ol, ul.square, ul.circle, ul.disc {
+    margin-left: 60px;
+}
+
+
+
+
 /* #Page Styles
 ================================================== */
 

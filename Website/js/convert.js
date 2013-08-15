@@ -1,6 +1,7 @@
 /* This is semi-temporary to act as the loading and converting section */
 
 var sourceData = [];
+var errorNumber = 2;
 
 var test = "This is a syntax error";
 
@@ -79,7 +80,8 @@ function replaceHTML(line) {
 	var errorChance = Math.floor(Math.random() * 20) + 1;
 	console.log(errorChance);
 	if(errorChance == 1) {
-		newLine = "<span id='error2' class='errorHighlight semanticError'>"+newLine+"</span>";
+		newLine = "<span id='error"+errorNumber+"' class='errorHighlight semanticError'>"+newLine+"</span>";
+		errorNumber++;
 	}
 	
 	return newLine;
