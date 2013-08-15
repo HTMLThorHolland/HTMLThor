@@ -48,7 +48,6 @@ function loadFile(array) {
 function convertHTML(html) {
 	for(var i=0; i<html.length; i++) {
 		html[i]=replaceHTML(html[i]);
-		console.log(html[i]);
 		/* Below code is being used to randomly insert an error message */
 		/*if(i == 7) {
 			console.log(i);
@@ -78,7 +77,6 @@ function replaceHTML(line) {
 	
 	/* Random error */
 	var errorChance = Math.floor(Math.random() * 20) + 1;
-	console.log(errorChance);
 	if(errorChance == 1) {
 		newLine = "<span id='error"+errorNumber+"' class='errorHighlight semanticError'>"+newLine+"</span>";
 		errorNumber++;

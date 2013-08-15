@@ -625,7 +625,7 @@ button:hover {
 
 #pageCode {
 	max-width:100%;
-	overflow-x: scroll;
+	width: 100%;
 }
 
 .selectFile {
@@ -718,6 +718,10 @@ button:hover {
 
 ol, ul.square, ul.circle, ul.disc {
     margin-left: 60px;
+}
+
+pre {
+	margin: 0;
 }
 
 
