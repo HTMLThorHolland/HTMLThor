@@ -41,6 +41,7 @@ function loadFile(array) {
 	html = convertHTML(html);
 	$("#pageCode").html(html);
 	prettyPrint();
+	addErrorIcon();
 }
 
 
@@ -72,13 +73,13 @@ function replaceHTML(line) {
 	/* Trial method for adding error span */
 	patt = /html5shim/gi;
 	if(patt.test(newLine)) {
-		newLine = "<div id='error1' class='errorContainer'><span class='errorHighlight syntaxError'>"+newLine+"</span></div><div style='clear:both'></div>";
+		newLine = "<div id='error1' class='errorContainer clearfix'><span class='errorHighlight syntaxError'>"+newLine+"</span></div><div style='clear:both'></div>";
 	}
 	
 	/* Random error */
 	var errorChance = Math.floor(Math.random() * 20) + 1;
 	if(errorChance == 1) {
-		newLine = "<div id='error"+errorNumber+"' class='errorContainer'><span class='errorHighlight semanticError'>"+newLine+"</span><div class='testError'></div></div><div style='clear:both'></div>";
+		newLine = "<div id='error"+errorNumber+"' class='errorContainer clearfix'><span class='errorHighlight semanticError'>"+newLine+"</span></div>";
 		errorNumber++;
 	}
 	

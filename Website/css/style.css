@@ -661,7 +661,6 @@ button:hover {
 	
 	.syntaxError, .semanticError, .warningError {
 		margin-right: 10px;
-		width: 100%;
 	}
 	
 	.syntaxError, .syntaxError span {
@@ -688,6 +687,7 @@ button:hover {
 	
 	.errorHighlight {
 		cursor: pointer;
+		float: left;
 	}
 	
 	.testError {
@@ -695,6 +695,20 @@ button:hover {
 		height: 15px;
 		background-color: blue;
 		float: right;
+	}
+	
+	.errorContainer {
+		height: 20px;
+		width: 100%;
+		cursor: pointer;
+	}
+	
+	.clearfix:after {
+	   content: " "; /* Older browser do not support empty content */
+	   visibility: hidden;
+	   display: block;
+	   height: 0;
+	   clear: both;
 	}
 
 

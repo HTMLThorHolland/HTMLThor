@@ -22,6 +22,14 @@ function getContent(errorId) {
 		
 }
 
+function addErrorIcon() {
+	console.log("running");
+	$("#pageCode").children(".linenums").children("li").children(".errorContainer").each(function () {
+		console.log($(this));
+		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
+	});
+}
+
 
 
 $(document).ready(function() {
@@ -31,7 +39,7 @@ $(document).ready(function() {
 		hovered over, it gets its id. Soon it will show the error depending 
 		on that id.
 	*/
-	$("#pageCode").on('mouseover', '.errorHighlight', function() {
+	$("#pageCode").on('mouseover', '.errorContainer', function() {
 		errorId = $(this).attr('id');
 		console.log($(this).attr('id'));
 		for(var i = 0; i < errors.length; i++) {
