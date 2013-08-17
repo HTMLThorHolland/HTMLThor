@@ -688,7 +688,6 @@ button:hover {
 	
 	.errorHighlight {
 		cursor: pointer;
-		float: left;
 	}
 	
 	.testError {
