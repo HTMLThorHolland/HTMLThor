@@ -666,8 +666,6 @@ button:hover {
 	
 	.syntaxError, .syntaxError span {
 		color: #f31040 !important;
-		background-color: rgba(0,0,0,0.45) !important;
-		padding-right: 20px;
 	}
 	
 	.semanticError, .semanticError span {
@@ -675,7 +673,7 @@ button:hover {
 	}
 	
 	.warningError , .warningError span {
-			color: #ffd050 !important; /* best practice */
+		color: #ffd050 !important; /* best practice */
 	}
 	
 	.qTipHighlight {
@@ -690,6 +688,14 @@ button:hover {
 	
 	.errorHighlight {
 		cursor: pointer;
+		float: left;
+	}
+	
+	.testError {
+		width: 15px;
+		height: 15px;
+		background-color: blue;
+		float: right;
 	}
 
 

@@ -78,7 +78,7 @@ function replaceHTML(line) {
 	/* Random error */
 	var errorChance = Math.floor(Math.random() * 20) + 1;
 	if(errorChance == 1) {
-		newLine = "<span id='error"+errorNumber+"' class='errorHighlight semanticError'>"+newLine+"</span>";
+		newLine = "<span id='error"+errorNumber+"' class='errorHighlight semanticError'>"+newLine+"</span><div class='testError'></div><div style='clear:both'></div>";
 		errorNumber++;
 	}
 	
