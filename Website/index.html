@@ -6,18 +6,23 @@
 <head>
 
 	<!-- Basic Page Needs
-  ================================================== -->
+	================================================== -->
 	<meta charset="utf-8">
 	<title>HTML THOR</title>
 	<meta name="description" content="">
 	<meta name="author" content="Simon Fatima Jonathan Ameer Christopher THOR">
 
 	<!-- Mobile Specific Metas
-  ================================================== -->
+	================================================== -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	
+	<!-- JavaScript / JQuery
+	================================================== -->
+	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 
 	<!-- CSS
-  ================================================== -->
+	================================================== -->
 	<link href="css/prettify.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" href="css/base.css">
 	<link rel="stylesheet" href="css/skeleton.css">
@@ -46,10 +51,12 @@
 	================================================== -->
 	<script type="text/javascript" src="js/prettify/prettify.js"></script>
 	
-	
-	<!-- JavaScript / JQuery
+	<!-- SIGMA Graph JS
 	================================================== -->
-	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/sigma.min.js"></script>
+	<script type="text/javascript" src="js/jquery.graph.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="js/test-graph.js"></script>
 	
 	
 	
@@ -91,6 +98,18 @@
 		}
 	
 		$(document).ready(function() {
+		
+		
+			var $graph = $("#structure").graph();
+			$graph.fnNode(".node");
+			$graph.fnEdge(".parent", ".child");
+		
+		
+		
+		
+		
+		
+		
 		
 		
 			/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
@@ -165,168 +184,10 @@
 		
 			linkFiles();
 		
-		
+			/* Hide sections of the site */
 			$('.extraOne').hide();
 			$('.extraTwo').hide();
 			$('.hidden').hide();
-		
-		
-			/* 
-				These toggles aren't smooth and consistent with the code toggles due to the way 
-				the div's have been set out. I'm not sure if there's an easy fix. But there's a good 
-				chance that upload and breakdown aren't sections that will need to be toggleable 
-				by the user.
-			*/
-			
-			/*
-		
-			$(".uploadTitle").click(function(e) {
-				e.preventDefault();				
-				$('#upload > .sectionContent').slideToggle();
-				$('#upload').toggleClass("noMargin");			
-			});
-		
-			$(".breakdownTitle").click(function(e) {
-				e.preventDefault();				
-				$('#breakdown > .sectionContent').slideToggle();	
-				$('#breakdown').toggleClass("noMargin");					
-			});
-		
-			$(".structureTitle").click(function(e) {
-				e.preventDefault();				
-				$('#structure > .sectionContent').slideToggle();	
-				$('#structure').toggleClass("noMargin");					
-			});
-			
-			*/
-		
-		
-		
-			/* CODE TOGGLE SLIDE */
-			/*
-				There are two if and else statements so that the bottom blue border appears 
-				and disappears correctly. The toggleClass won't be necessary for the sections 
-				of the site that don't have the white background.
-				
-				Showcase
-				
-			*/
-			
-			/*
-			$(".errorsTitle").click(function(e) {
-				e.preventDefault();
-				
-				if($('#errorsTitle').hasClass("bottomBorder")) {
-					$('#errorsTitle').toggleClass("bottomBorder");
-					$('#errorsTitle').toggleClass("extraMargin");
-					$('#errorsContainer').slideToggle();
-				}
-				
-				else {				
-					$('#errorsContainer').slideToggle(function() {
-						$('#errorsTitle').toggleClass("bottomBorder");	
-						$('#errorsTitle').toggleClass("extraMargin");			
-					});				
-				}
-				
-				
-			});
-						
-			$(".sourceTitle").click(function(e) {
-				e.preventDefault();
-				
-				if($('#sourceTitle').hasClass("bottomBorder")) {
-					$('#sourceTitle').toggleClass("bottomBorder");
-					$('#sourceTitle').toggleClass("extraMargin");
-					$('#sourceContainer').slideToggle();
-				}
-				
-				else {				
-					$('#sourceContainer').slideToggle(function() {
-						$('#sourceTitle').toggleClass("bottomBorder");
-						$('#sourceTitle').toggleClass("extraMargin");				
-					});				
-				}
-				
-			});
-			
-			*/
-			
-			/* END CODE TOGGLE SLIDE */
-			
-			
-			/* PAGE NAVIGATION */
-			
-			/* not working perfectly
-			
-			function removeLink(add)
-			  {
-				$('#uploadLink').removeClass('currentLocation');
-				$('#breakdownLink').removeClass('currentLocation');
-				$('#structureLink').removeClass('currentLocation');
-				$('#sourceLink').removeClass('currentLocation');
-				$('#errorsLink').removeClass('currentLocation');
-				$('#topLink').removeClass('currentLocation');
-				$(add).addClass('currentLocation');
-			  }
-			
-			
-			
-			
-			$('#upload').waypoint(function(direction) {
-			  removeLink('#uploadLink');
-			});
-			$('#upload').waypoint(function(direction) {
-			  removeLink('#uploadLink');
-			}, {
-				offset: 'bottom-in-view'
-			});
-			
-			
-			$('#breakdown').waypoint(function(direction) {
-			  removeLink('#breakdownLink');
-			});
-			$('#breakdown').waypoint(function(direction) {
-			  removeLink('#breakdownLink');
-			}, {
-				offset: 'bottom-in-view'
-			});
-			
-			
-			$('#structure').waypoint(function(direction) {
-			  removeLink('#structureLink');
-			});
-			$('#structure').waypoint(function(direction) {
-			  removeLink('#structureLink');
-			}, {
-				offset: 'bottom-in-view'
-			});
-			
-			
-			$('#source').waypoint(function(direction) {
-			  removeLink('#sourceLink');
-			});
-			$('#source').waypoint(function(direction) {
-			  removeLink('#sourceLink');
-			}, {
-				offset: 'bottom-in-view'
-			});
-			
-			
-			$('#errors').waypoint(function(direction) {
-			  removeLink('#errorsLink');
-			});
-			$('#errors').waypoint(function(direction) {
-			  removeLink('#errorsLink');
-			}, {
-				offset: 'bottom-in-view'
-			});
-			
-			$('#siteContainer').waypoint(function(direction) {
-			  removeLink('#topLink');
-			});
-			
-			*/
 			
 			$("#homeLink").click(function(e) {
 				hideSections();
@@ -583,6 +444,11 @@
 				<h1><strong>HTML</strong> THOR</h1>
 				<h4>Validate your <strong>HTML5</strong></h4>
 			</div>
+			<div style="clear:both"></div>
+			
+			<div id="sigma-example" style="width:100%; height:400px;">
+			
+			</div>
 			
 			
 			<div id="home" class="siteIntro section sixteen columns">
@@ -756,7 +622,7 @@
 			
 			<!-- FILE STRUCTURE -->
 			<!-- add extraTwo back into the below div's class -->
-			<div id="structure" class="hidden section structure">
+			<div id="structure" class=" section structure">
 				<div class="sectionTitle sixteen columns">
 					<h2>file structure</h2>
 				</div>
@@ -853,7 +719,7 @@
 						
 						<div id="filesListLeft" class="filesList">
 							<ul class="rootList">
-								<li id="index_left">
+								<li class="child node" id="index_left">
 									<p>index.php</p>
 								</li>
 								<li>
@@ -938,7 +804,7 @@
 								</li>
 							</ul>
 							<ul class="imagesList">
-								<li>
+								<li class=" parent node">
 									<p>cool.jpg</p>
 								</li>
 								<li>
