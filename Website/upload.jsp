@@ -10,8 +10,12 @@
 </head>
 <body> 
 	 
+	 
 	
-	<%!public List<String> readUploadedFile(String filename) {
+	
+	<%!
+	
+	public List<String> readUploadedFile(String filename) {
 		BufferedReader br = null;
 		String tempLine = null;
 		List<String> lines = new ArrayList<String>();
@@ -33,10 +37,47 @@
 			return lines;
 		}
 		return lines;
+	}
+		
+		
+		
+	public List<String> removeComments(List<String> lines) {
+		// convert string-list to string
+		StringBuilder source = new StringBuilder();
+		for (int i = 0; i < lines.size(); i++) {
+			source.append(lines.get(i));
+			source.append("--lb--"); //placeholder character for linebreak
 		}
-		%>
-	
-	
+		
+		String sourceString = source.toString();
+		
+		int startIndex = sourceString.indexOf("<!--");
+		int endIndex;
+		
+		// will be -1 if there are no comments
+		while (startIndex != -1) {
+			endIndex = sourceString.indexOf("-->", startIndex);
+			
+			sourceString = sourceString.substring(0,startIndex) + sourceString.substring(endIndex+3);
+			
+			startIndex = sourceString.indexOf("<!--");
+			
+		}
+		
+		sourceString = sourceString.replaceAll("<!--(.*?)-->", "");
+		
+		
+		// convert string to string-list
+		String[] lineArray = sourceString.split("--lb--");
+		lines = new ArrayList<String>();
+		for (String line : lineArray) {
+			lines.add(line);
+		}
+		
+		return lines;
+	}
+		
+	%>
 	
 <%--
 	System.out.println("loaded the page");
@@ -90,7 +131,7 @@
 			
 			
 		public void lineParse(String singleLine) {
-		char carr[] = singleLine.toCharArray(); <!-- convert the string to an array of characters for tag checking --!>
+		char carr[] = singleLine.toCharArray(); < !-- convert the string to an array of characters for tag checking --!>
 			BOOLEAN beginTag = FALSE;
 			BOOLEAN endTag = FALSE;
 			int beginIndex = 0;
@@ -109,7 +150,7 @@
 					// (i - beginIndex) will give the length of the tag, then a loop needs to extract every character into a separate array to be checked in another function? --!>
 				for(int j = (i-beginIndex); (j < i); j++) {
 					tarr.add(carr[j]);
-						<!--  note that this is an ArrayList, not an array, may need to use .toArray later --!>
+						< !--  note that this is an ArrayList, not an array, may need to use .toArray later --!>
 						tagParse(tarr);
 					}
 					
@@ -121,7 +162,7 @@
 			
 		
 		public void tagParse(tarr) {
-			//split by whitespace, grab original tag word, check that for errors, then move on to similar methods for any and all listed attributes of the tag --!>
+			<!-- //split by whitespace, grab original tag word, check that for errors, then move on to similar methods for any and all listed attributes of the tag -->
 		
 		}
 --%>
@@ -129,10 +170,16 @@
 <br />
 <div>
             <%
+            	// read contents of filename set as parameter "path"
             	List<String> fileContents = readUploadedFile(getServletContext().getRealPath("/").concat(request.getParameter("path")));
-            	for (int i = 0; i < fileContents.size(); i++) {
             	
+            	fileContents = removeComments(fileContents);
+            	
+            	for (int i = 0; i < fileContents.size(); i++) {
+
             		String tempLine = fileContents.get(i);
+            		
+            		// fix tags
             		tempLine = tempLine.replaceAll("<", "&lt;");
             		tempLine = tempLine.replaceAll(">", "&gt;");
             		out.println(tempLine.concat("<br />"));
