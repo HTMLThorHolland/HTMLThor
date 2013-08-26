@@ -1,5 +1,5 @@
 
-$(document).ready(function() {
+function createTree() {
 
 	$('#structureContainer').jstree({
 		"plugins" : ["themes","html_data","ui","types"],
@@ -43,4 +43,5 @@ $(document).ready(function() {
 		event.preventDefault();
 		$(this.parentNode).children(".jstree-icon").click();
 	})
-});
+
+}
