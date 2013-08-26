@@ -47,7 +47,11 @@ function getFiles(container) {
 		if(container[i].children != "" && container[i].children != null) {
 			list += "<a href='#'>" + container[i].name + "</a>";
 			console.log(container[i].name + " has children and is a folder");
+<<<<<<< HEAD
 			list += getFiles(container[i].children);
+=======
+			getFiles(container[i].children);
+>>>>>>> fa1058cd0856e2778cf0cb54db003a98ee9891ec
 		}
 		else {
 			list += "<a href='#'>" + container[i].name + "</a>";
