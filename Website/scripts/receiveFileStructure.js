@@ -17,7 +17,7 @@ function getFiles(container) {
 		console.log("loop started with " + container[i].name);
 		if(container[i].children != "none") {
 			console.log(container[i].name + " has children and is a folder");
-			getFiles(container[i]);
+			getFiles(container[i].children);
 		}
 		else {
 			console.log(container[i].name + " has no children and is a file");
