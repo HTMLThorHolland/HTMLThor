@@ -1,0 +1,9 @@
+.jstree a {
+	color: #e3e6ec;
+	font-weight: 300;
+	font-family: "Source Sans Pro","Century Gothic";
+}
+
+.jstree li[rel="brokenLink"] > a { 
+	color: red; 
+}

@@ -20,9 +20,18 @@
 	<!-- JavaScript / JQuery
 	================================================== -->
 	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	
+	<!-- Scroll / Custom js
+	================================================== -->
+	
+	<script type="text/javascript" src="js/scroll-simon.js"></script>
 
 	<!-- CSS
 	================================================== -->
+	<!-- jsTree -->
+	<link type="text/css" rel="stylesheet" href="_docs/syntax/!style.css"/>
+	<link type="text/css" rel="stylesheet" href="_docs/!style.css"/>
+	
 	<link href="css/prettify.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" href="css/base.css">
 	<link rel="stylesheet" href="css/skeleton.css">
@@ -51,348 +60,20 @@
 	================================================== -->
 	<script type="text/javascript" src="js/prettify/prettify.js"></script>
 	
-	<!-- SIGMA Graph JS
+	<!-- JSTREE
 	================================================== -->
-	<script type="text/javascript" src="js/sigma.min.js"></script>
-	<script type="text/javascript" src="js/jquery.graph.js"></script>
-	
-	<script language="javascript" type="text/javascript" src="js/test-graph.js"></script>
-	
-	
-	
-	<script>
+	<script type="text/javascript" src="js/jquery.jstree.js"></script>
+	<script type="text/javascript" src="js/custom-jstree.js"></script>
+	<script type="text/javascript" src="_lib/jquery.cookie.js"></script>
+	<script type="text/javascript" src="_lib/jquery.hotkeys.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/custom-jstree.css"/>
 	
 	
-		var selectedFile;
 	
+	<!-- MAIN htmlThor JavaScript (I (Simon) have moved all of the previous js into this file!!!)
+	================================================== -->
+	<script type="text/javascript" src="js/main.js"></script>
 	
-		function hideInnerContent() {
-			$('#structure > .sectionContent').slideUp();
-			$('#structure').addClass("noMargin");		
-			$('#sourceContainer').hide();
-			$('#errorsContainer').hide();
-			$('#errorsTitle').addClass("bottomBorder");	
-			$('#errorsTitle').addClass("extraMargin");
-			$('#sourceTitle').addClass("bottomBorder");
-			$('#sourceTitle').addClass("extraMargin");
-		}
-		
-		function openSource() {
-			$('#sourceTitle').removeClass("bottomBorder");
-			$('#sourceTitle').removeClass("extraMargin");
-			$('#sourceTitle').show();
-			$('#sourceContainer').show();
-		}
-		
-		function openErrors() {
-			$('#errorsTitle').removeClass("bottomBorder");
-			$('#errorsTitle').removeClass("extraMargin");
-			$('#errorsTitle').show();
-			$('#errorsContainer').show();
-		}
-		
-		function openOthers(id) {
-			$('#'+id).show();
-			$('#'+id+' > .sectionContent').show();
-			$('#'+id).removeClass("noMargin");	
-		}
-	
-		$(document).ready(function() {
-		
-		
-			var $graph = $("#structure").graph();
-			$graph.fnNode(".node");
-			$graph.fnEdge(".parent", ".child");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
-				from http://craigsworks.com/projects/forums/showthread.php?tid=3253 
-				http://qtip2.com/options
-				*/
-			 $(document).delegate('.errorContainer', 'mouseover', function(event) {
-				$(this).qtip({
-					overwrite: false,
-					show: {
-						event: event.type,
-						ready: true
-					},
-					position: {
-						my: 'bottom left',
-						at: 'top left',
-						target: $(this)
-					},
-					style: { classes: 'qTipHighlight' },
-					hide: {
-						delay: 0//enter in milliseconds
-					}, 
-					content: {
-						text: getContent($(this).attr('id'))
-					}
-				});
-				
-				event.preventDefault();
-			});
-			
-			/* Detect if 'U' is pressed then switch to upload tab */
-			$(document).keydown(function(event){
-				if(event.which == 85){
-					$("#uploadLink").click();
-				}
-			});
-			
-			/* Detect if 'H' is pressed then switch to home tab */
-			$(document).keydown(function(event){
-				if(event.which == 72){
-					$("#homeLink").click();
-				}
-			});
-			
-			/* Detect if 'B' is pressed then switch to home tab */
-			$(document).keydown(function(event){
-				if(event.which == 66){
-					$("#breakdownLink").click();
-				}
-			});
-			
-			/* Detect if 'P' is pressed then switch to home tab */
-			$(document).keydown(function(event){
-				if(event.which == 80){
-					$("#sourceLink").click();
-				}
-			});
-			
-			/* Detect if 'E' is pressed then switch to home tab */
-			$(document).keydown(function(event){
-				if(event.which == 69){
-					$("#errorsLink").click();
-				}
-			});
-			
-			/* Detect if 'F' is pressed then switch to home tab */
-			$(document).keydown(function(event){
-				if(event.which == 20){
-					$("#structureLink").click();
-				}
-			});
-		
-			linkFiles();
-		
-			/* Hide sections of the site */
-			$('.extraOne').hide();
-			$('.extraTwo').hide();
-			$('.hidden').hide();
-			
-			$("#homeLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				$('#home').show();
-			 });
-			
-			$("#uploadLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				openOthers("upload");
-			 });
-			
-			$("#breakdownLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				openOthers("breakdown");
-			 });
-			
-			$("#structureLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				openOthers("structure");
-			 });
-			
-			$("#sourceLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				openSource();
-			 });
-			
-			$("#errorsLink").click(function(e) {
-				hideSections();
-				removeLocation();
-				$(this).addClass('currentLocation');
-				openErrors();
-			 });
-			
-			$("#topLink").click(function(e) {
-				linkFiles(); // remove this
-				e.preventDefault();
-				 $('html, body').animate({
-					 scrollTop: $("html").offset().top
-				 }, 600);
-			 });
-			
-			
-			/* END PAGE NAVIGATION */
-			
-			/* FOLDER SELECTION */
-			
-			/* 
-				When a folder class is clicked, it searches through all of the other folders within that 
-				ul and then removes the .selectedFolder class from them. This is where you'll detect 
-				which folder a user has selected.
-			*/
-			$(".folder").click(function(e) {
-				var id = new Array();
-				id = $(this).attr('class');
-				id = id.split(' ');
-				var parentId = $(this).closest(".structureSide").attr('id');
-				changeList(id[0], parentId);
-				$(this).closest("ul").children("li").children(".folder").removeClass("selectedFolder");
-				$(this).addClass("selectedFolder");
-			});
-			
-			function changeList(id, parentId) {
-				console.log(id);
-				console.log(parentId);
-				$('#'+parentId).children('.filesList').children("ul").addClass("hiddenList");
-				$('#'+parentId).children('.filesList').children('.'+id+'List').removeClass("hiddenList");
-			}
-			
-			function hideLists() {
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			/* END FOLDER SELECTION */
-			
-			
-			$("#alternativeButton").click(function(e) {
-				e.preventDefault();
-				uploadFile("index.html");
-			});
-					
-			
-		});
-		
-		
-		/* Updating site section */
-			 
-		 function removeLocation() {
-				$("#homeLink").removeClass('currentLocation');
-				$("#uploadLink").removeClass('currentLocation');
-				$("#breakdownLink").removeClass('currentLocation');
-				$("#structureLink").removeClass('currentLocation');
-				$("#sourceLink").removeClass('currentLocation');
-				$("#errorsLink").removeClass('currentLocation');
-		 }
-		 
-		 function hideSections() {
-		 
-			$('#home').hide();
-			$('#sourceContainer').hide();
-			$('#errorsContainer').hide();
-			$('#errorsTitle').hide();
-			$('#sourceTitle').hide();
-			$('#upload').hide();
-			$('#breakdown').hide();
-			$('#structure').hide();
-			
-		 }
-		
-		/* END Updating Site Section */
-		
-		/* UPLOAD CODE */
-		
-		function getFile(id) {
-			console.log(id);
-			var stringId = id + "Upload";
-			console.log(stringId);
-			document.getElementById(stringId).click();
-		}
-		
-		
-		function uploadFile(id) {
-		
-			/* Will need to add the ability for multiple files in the future */
-			
-			selectedFile = $('#'+id).val();
-			readTextFile(selectedFile);
-			// readFile(selectedFile);
-		
-			console.log(selectedFile);
-			 $('html, body').animate({
-				 scrollTop: $("html").offset().top
-			 }, 600);
-			if(id=="zipUpload"){
-				revealSiteZip();
-			}
-			else {
-				$('.extraTwo').hide();
-				revealSite();
-			}
-			resetForms();
-			
-			hideSections();
-			removeLocation();
-			$('#breakdownLink').addClass('currentLocation');
-			openOthers("breakdown");
-			
-		}
-		
-		function hide(id) {
-			$('#'+id+' > .sectionContent').fadeOut();
-			$('#'+id+' > .sectionContent').slideUp();
-			$('#'+id).addClass("noMargin");
-		}
-		
-		function revealSite() {
-			$('.extraOne').fadeIn();
-		}
-		
-		function revealSiteZip() {
-			revealSite();
-			$('.extraTwo').fadeIn();
-		}
-		
-		function resetForms() {
-			$('form[name="singleForm"]').find("input[type=file]").val("");
-			$('form[name="multiForm"]').find("input[type=file]").val("");
-			$('form[name="zipForm"]').find("input[type=file]").val("");
-		}
-		
-		/* END UPLOAD CODE */
-		
-		
-		/* File Linking Code */
-		
-			function linkFiles() {
-				console.log("batman");
-				console.log($('#batman_left').offset());
-				console.log("index");
-				console.log($('#index_left').offset());
-				console.log("cool");
-				console.log($('#cool_right').offset());
-			}
-		
-		
-		
-		/* END FILE LINKING CODE */
-	 
-	</script>
 	
 
 </head>
@@ -425,7 +106,8 @@
 			<li id="breakdownLink" class="extraOne">
 				<a href=#>breakdown</a>
 			</li>
-			<li id="structureLink" class="extraTwo">
+			<!-- add .extraTwo back in structureLink -->
+			<li id="structureLink" class="">
 				<a href=#>file structure</a>
 			</li>
 			<li id="sourceLink" class="extraOne">
@@ -446,10 +128,6 @@
 			</div>
 			<div style="clear:both"></div>
 			
-			<div id="sigma-example" style="width:100%; height:400px;">
-			
-			</div>
-			
 			
 			<div id="home" class="siteIntro section sixteen columns">
 			
@@ -466,13 +144,18 @@
 						</li>
 						<div style="clear: both"></div>
 						<li>
-							<div class="orange colourSquare"></div>
-							<p>Orange is a semantic error.</p>
+							<div class="blue colourSquare"></div>
+							<p>Blue is a semantic error.</p>
 						</li>
 						<div style="clear: both"></div>
 						<li>
-							<div class="blue colourSquare"></div>
-							<p>Blue are any 'best practice' errors.</p>
+							<div class="yellow colourSquare"></div>
+							<p>Yellow are any 'best practice' errors.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="purple colourSquare"></div>
+							<p>Purple are any 'deprecated' tags.</p>
 						</li>
 						<div style="clear: both"></div>
 						<li>
@@ -622,247 +305,44 @@
 			
 			<!-- FILE STRUCTURE -->
 			<!-- add extraTwo back into the below div's class -->
-			<div id="structure" class=" section structure">
+			<div id="structure" class="extraTwo section structure">
 				<div class="sectionTitle sixteen columns">
 					<h2>file structure</h2>
 				</div>
-				<div class="structureContent sectionContent sixteen columns">
-				
-				<!--
-				
-					<div id="topFolders" class="folders">
-						<ul>
-							<li>
-								<!--
-									IMPORTANT
-									Need to have a character length limit for the folderName otherwise it'll go outside 
-									of the div.
-								<div class="folder">
-									<div class="folderThumb"></div>
-									<div class="folderName">
-										<p>root</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="folder">
-									<div class="folderThumb"></div>
-									<div class="folderName">
-										<p>images</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="folder">
-									<div class="folderThumb"></div>
-									<div class="folderName">
-										<p>css</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<div style="clear:both"></div>
-					-->
+				<div id="structureContainer" class="structureContent sectionContent sixteen columns">
 					
-					<div id="leftStructure" class="structureSide">
-				
-						<div id="sideFoldersLeft" class="folders">
+					<ul>
+						<!-- This root level is for folders. -->
+						<li rel="folder">
+							<a href="#">images</a>
+							<!-- This sub level is for both files and sub-folders. -->
 							<ul>
-								<li>
-									<!--
-										IMPORTANT
-										Need to have a character length limit for the folderName otherwise it'll go outside 
-										of the div.
-									-->
-									<div class="root folder selectedFolder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>root</p>
-										</div>
-									</div>
+								<li rel="folder">
+									<a href="#">full</a>
+									<ul>
+										<li>
+											<a href="#">starlight.bmp</a>
+										</li>
+										<li>
+											<a href="#">jonrar.lol</a>
+										</li>
+									</ul>
 								</li>
 								<li>
-									<div class="images folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>images</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>css</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>js</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>music</p>
-										</div>
-									</div>
+									<a href="#">cool.jpg</a>
 								</li>
 							</ul>
-						</div>
-						
-						<div id="filesListLeft" class="filesList">
-							<ul class="rootList">
-								<li class="child node" id="index_left">
-									<p>index.php</p>
-								</li>
-								<li>
-									<p>about.php</p>
-								</li>
-								<li id="batman_left">
-									<p>batman.php</p>
-								</li>
-								<li>
-									<p>mylife.php</p>
-								</li>
-								<li>
-									<p>youelectrify.php</p>
-								</li>
-								<li>
-									<p>mylife(1).php</p>
-								</li>
-								<li>
-									<p>starlight.php</p>
-								</li>
-								<li>
-									<p>chasing.php</p>
-								</li>
-								<li>
-									<p>your.php</p>
-								</li>
-								<li>
-									<p>starlight(1).php</p>
-								</li>
-							</ul>
-							<ul class="hiddenList imagesList">
-								<li id="cool_right">
-									<p>cool.jpg</p>
-								</li>
-								<li>
-									<p>beans.png</p>
-								</li>
-								<li>
-									<p>sweet.jpg</p>
-								</li>
-								<li>
-									<p>nuts.bmp</p>
-								</li>
-							</ul>
-						</div>
-					
-					</div>
-					
-					<div id="rightStructure" class="structureSide">
-					
-						<div id="filesListRight" class="filesList">
-							<ul class="rootList hiddenList">
-								<li>
-									<p>index.php</p>
-								</li>
-								<li>
-									<p>about.php</p>
-								</li>
-								<li>
-									<p>batman.php</p>
-								</li>
-								<li>
-									<p>mylife.php</p>
-								</li>
-								<li>
-									<p>youelectrify.php</p>
-								</li>
-								<li>
-									<p>mylife(1).php</p>
-								</li>
-								<li>
-									<p>starlight.php</p>
-								</li>
-								<li>
-									<p>chasing.php</p>
-								</li>
-								<li>
-									<p>your.php</p>
-								</li>
-								<li>
-									<p>starlight(1).php</p>
-								</li>
-							</ul>
-							<ul class="imagesList">
-								<li class=" parent node">
-									<p>cool.jpg</p>
-								</li>
-								<li>
-									<p>beans.png</p>
-								</li>
-								<li>
-									<p>sweet.jpg</p>
-								</li>
-								<li>
-									<p>nuts.bmp</p>
-								</li>
-							</ul>
-						</div>
-					
-						<div id="sideFoldersRight" class="folders">
-							<ul>
-								<li>
-									<!--
-										IMPORTANT
-										Need to have a character length limit for the folderName otherwise it'll go outside 
-										of the div.
-									-->
-									<div class="root folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>root</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="images folder selectedFolder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>images</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>css</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="folder">
-										<div class="folderThumb"></div>
-										<div class="folderName">
-											<p>js</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-						<div style="clear:both"></div>
-					
-					</div>
+						</li>
+						<li rel="brokenLink">
+							<a href="#">index.html</a>
+						</li>
+						<li>
+							<a href="#">about.html</a>
+						</li>
+						<li>
+							<a href="#">contact.html</a>
+						</li>
+					</ul>
 					
 				</div>
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
@@ -886,6 +366,10 @@
 			-->
 		<div id="sourceContainer" class="hidden codeBackground">
 			<div class="codeSection container">
+			
+				<div id="scrollParent">
+					<div id="scrollContent"></div>
+				</div>
 							
 				<div id="source" class="section code source">
 					<div class="sectionContent sixteen columns">
@@ -898,7 +382,7 @@
 							</select>
 						</form>
 						<div style="clear:both"></div>
-						<div class="pageSource">
+						<div id="pageSource" class="pageSource">
 	<pre class="prettyprint linenums" id="pageCode" >
 	
 	</pre>

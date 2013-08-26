@@ -32,12 +32,16 @@
 	background-color:#f31040;
 }
 
-.orange {
+.yellow {
 		background-color:#ffd050;
 }
 
 .blue {
 		background-color:#2d90ff;
+}
+
+.purple {
+		background-color:#b24987;
 }
 
 .green {
@@ -389,23 +393,27 @@ button:hover {
 	float:left;
 }
 
-	.syntax {
+	.graph.syntax {
 		background-color:#f31040;
 	}
 
-	.semantic {
+	.graph.semantic {
 		background-color:#2d90ff;
 	}
 
-	.warning {
+	.graph.warning {
 		background-color:#ffd050;
 	}
+	
+	.graph.deprecated {
+		background-color:#b24987;	
+	}
 
-	.statGraph {
+	.graph.statGraph {
 		margin-bottom:20px;
 	}
 
-	.zero {
+	.graph.zero {
 		background-color:#2aeb8a;
 	}
 
@@ -543,6 +551,21 @@ button:hover {
 
 /* CODING SECTION */
 
+#scrollParent {
+	position: fixed;
+	bottom: 0;
+	left: 25%;
+	right: 25%;
+	width: 50%;
+	height: 20px;
+	overflow-x: auto;
+}
+
+#scrollContent {
+	width: 2000px;
+	height: 20px;
+}
+
 .codeSection {
 	padding-top:40px;
 }
@@ -608,6 +631,14 @@ button:hover {
 	.semanticError pre strong {
 		color:#0D76EB;
 	}
+	
+	.warningError pre strong {
+		color:#ffd050;
+	}
+	
+	.deprecatedError pre strong {
+		color:#b24987;
+	}
 
 /* END Error Listing */
 
@@ -620,7 +651,7 @@ button:hover {
 .pageSource {
 	margin-bottom:50px;
 	max-width:100%;
-	overflow-x: scroll;
+	overflow:hidden;
 }
 
 #pageCode {
@@ -659,7 +690,7 @@ button:hover {
 		font-size: .8em;
 	}
 	
-	.syntaxError, .semanticError, .warningError {
+	.syntaxError, .semanticError, .warningError, .deprecatedError {
 		margin-right: 10px;
 	}
 	
@@ -673,6 +704,10 @@ button:hover {
 	
 	.warningError , .warningError span {
 		color: #ffd050 !important; /* best practice */
+	}
+	
+	.deprecatedError , .deprecatedError span {
+		color: #b24987 !important; /* best practice */
 	}
 	
 	.qTipHighlight {
@@ -690,18 +725,43 @@ button:hover {
 		float: left;
 	}
 	
+	/* Error Icons */
+	
 	.testError {
-		width: 15px;
-		height: 15px;
-		background-color: blue;
+		width: 20px;
+		height: 20px;
 		float: right;
 	}
+	
+		.syntax .testError {
+			background-image: url("../images/warnings.png");
+			background-repeat: no-repeat;
+			background-position: -2px 0px;
+		}
+	
+		.semantic .testError {
+			background-image: url("../images/warnings.png");
+			background-repeat: no-repeat;
+			background-position: -50px 0px;
+		}
+	
+		.warning .testError {
+			background-image: url("../images/warnings.png");
+			background-repeat: no-repeat;
+			background-position: -25px 0px;
+		}
+	
+		.deprecated .testError {
+			background-image: url("../images/warnings.png");
+			background-repeat: no-repeat;
+			background-position: -75px 0px;
+		}
 	
 	.errorContainer {
 		height: 20px;
 		width: 100%;
 		cursor: pointer;
-		margin-top: -18px;
+		/*margin-top: -18px;*/
 	}
 	
 	.clearfix:after {

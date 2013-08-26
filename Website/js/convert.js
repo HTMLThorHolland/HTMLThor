@@ -73,13 +73,21 @@ function replaceHTML(line) {
 	/* Trial method for adding error span */
 	patt = /html5shim/gi;
 	if(patt.test(newLine)) {
-		newLine = "<div id='error1' class='errorContainer'><span class='errorHighlight syntaxError'>"+newLine+"</span></div><div style='clear:both'></div>";
+		newLine = "<div id='error1' class='errorContainer syntax'><span class='errorHighlight syntaxError'>"+newLine+"</span></div><div style='clear:both'></div>";
 	}
 	
 	/* Random error */
-	var errorChance = Math.floor(Math.random() * 20) + 1;
+	var errorChance = Math.floor(Math.random() * 21) + 1;
 	if(errorChance == 1) {
-		newLine = "<div id='error"+errorNumber+"' class='errorContainer'><span class='errorHighlight semanticError'>"+newLine+"</span></div>";
+		newLine = "<div id='error"+errorNumber+"' class='errorContainer semantic'><span class='errorHighlight semanticError'>"+newLine+"</span></div>";
+		errorNumber++;
+	}
+	if(errorChance == 2) {
+		newLine = "<div id='error"+errorNumber+"' class='errorContainer warning'><span class='errorHighlight warningError'>"+newLine+"</span></div>";
+		errorNumber++;
+	}
+	if(errorChance == 3) {
+		newLine = "<div id='error"+errorNumber+"' class='errorContainer syntax'><span class='errorHighlight syntaxError'>"+newLine+"</span></div>";
 		errorNumber++;
 	}
 	
