@@ -4,6 +4,6 @@
 	font-family: "Source Sans Pro","Century Gothic";
 }
 
-.jstree li[rel="brokenLink"] > a { 
+.jstree li.brokenLink > a { 
 	color: red; 
 }
