@@ -84,18 +84,46 @@
 		JSONObject errors = new JSONObject();
 		json.put("source", sourceCode);
 		
+		
+		
 		// do the error processing here
+		int errorCount = 0;
+		int tagCount = 0;
+		int tagStartIndex = sourceCode.indexOf("<");
+		int tagEndIndex;
+		String tag;
+		while (tagStartIndex != -1) {
+			tagEndIndex = sourceCode.indexOf(">", tagStartIndex);
+			
+			tag = sourceCode.substring(tagStartIndex, tagEndIndex+1);
+			
+			if (errorCount == 0 && tag.indexOf("!DOCTYPE") == -1) {
+				
+				JSONObject sampleError = new JSONObject();
+				sampleError.put("line", 5);
+				sampleError.put("col", 10);
+				sampleError.put("type", "Semantic");
+				sampleError.put("message", "You are missing DOCTYPE!!!!");
+				errors.put(Integer.toString(errorCount), sampleError);
+			}
+			
+			
+			
+			
+			
+			sourceCode = sourceCode.substring(tagEndIndex+1);
+			
+			tagStartIndex = sourceCode.indexOf("<");
+			errorCount++;
+			tagCount++;
+		}
+		
 		
 		
 		// THIS NEXT CODE IS JUST SAMPLE CODE TO GENERATE A FEW ERRORS FOR SIMON		
-		JSONObject sampleError = new JSONObject();
-		sampleError.put("line", 5);
-		sampleError.put("col", 10);
-		sampleError.put("type", "Semantic");
-		sampleError.put("message", "You did something wrong! FIX IT!");
 		
 		
-		errors.put("1", sampleError);
+		
 		// END OF SAMPLE CODE
 		
 		json.put("errors", errors);
@@ -195,15 +223,15 @@
 
 	<br />
 	<div>
-	<pre>
+	
             <%
             	// read contents of filename set as parameter "path"
             	
             	List<String> fileContents = readUploadedFile(getServletContext().getRealPath("/").concat(request.getParameter("path")));
             	String sourceCode = "";
-            	/*
+            	
             	fileContents = removeComments(fileContents);
-            	*/
+            	
             	
             	for (int i = 0; i < fileContents.size(); i++) {
 
@@ -221,12 +249,13 @@
                 JSONObject json = new JSONObject();
                 json.put(request.getParameter("path"), jsonFile);
                 
-                out.println(json.toString());               
+                out.println("<script>alert('"+json.toString()+"');</script>");               
                 
                 
                 
             %>
-            </pre>
+            
+            
             </div>
 </body>
 </html>
