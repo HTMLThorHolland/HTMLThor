@@ -2,6 +2,7 @@
 	import="java.*" errorPage=""%>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="org.json.simple.JSONObject;" %>
 <%-- This is the base jsp file that runs the file upload method.
 	 It requires the HTML form section to have ENCTYPE="multipart/form-data" ACTION="upload.jsp" METHOD=POST --%>
 	 
@@ -64,8 +65,6 @@
 			
 		}
 		
-		sourceString = sourceString.replaceAll("<!--(.*?)-->", "");
-		
 		
 		// convert string to string-list
 		String[] lineArray = sourceString.split("--lb--");
@@ -75,6 +74,33 @@
 		}
 		
 		return lines;
+	}
+	
+	
+	// Takes the source code as a string and returns a complete JSONObject
+	// with source code as well as all errors found in the code
+	public JSONObject findErrors(String sourceCode) {
+		JSONObject json = new JSONObject();
+		JSONObject errors = new JSONObject();
+		json.put("source", sourceCode);
+		
+		// do the error processing here
+		
+		
+		// THIS NEXT CODE IS JUST SAMPLE CODE TO GENERATE A FEW ERRORS FOR SIMON		
+		JSONObject sampleError = new JSONObject();
+		sampleError.put("line", 5);
+		sampleError.put("col", 10);
+		sampleError.put("type", "Semantic");
+		sampleError.put("message", "You did something wrong! FIX IT!");
+		
+		
+		errors.put("1", sampleError);
+		// END OF SAMPLE CODE
+		
+		json.put("errors", errors);
+		
+		return json;
 	}
 		
 	%>
@@ -167,25 +193,40 @@
 		}
 --%>
 
-<br />
-<div>
+	<br />
+	<div>
+	<pre>
             <%
             	// read contents of filename set as parameter "path"
-            	List<String> fileContents = readUploadedFile(getServletContext().getRealPath("/").concat(request.getParameter("path")));
             	
+            	List<String> fileContents = readUploadedFile(getServletContext().getRealPath("/").concat(request.getParameter("path")));
+            	String sourceCode = "";
+            	/*
             	fileContents = removeComments(fileContents);
+            	*/
             	
             	for (int i = 0; i < fileContents.size(); i++) {
 
             		String tempLine = fileContents.get(i);
-            		
+            		/*
             		// fix tags
             		tempLine = tempLine.replaceAll("<", "&lt;");
             		tempLine = tempLine.replaceAll(">", "&gt;");
             		out.println(tempLine.concat("<br />"));
+            		*/
+            		sourceCode = sourceCode.concat(tempLine);
                 }
+                
+                JSONObject jsonFile = findErrors(sourceCode);
+                JSONObject json = new JSONObject();
+                json.put(request.getParameter("path"), jsonFile);
+                
+                out.println(json.toString());               
+                
+                
+                
             %>
-            
+            </pre>
             </div>
 </body>
 </html>
