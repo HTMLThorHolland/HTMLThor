@@ -97,8 +97,13 @@ $(document).delegate('.brokenLink', 'mouseover', function(event) {
 		},
 		style: { classes: 'fileStructureHighlight' },
 		hide: {
+<<<<<<< HEAD
+			//delay: 0 enter in milliseconds
+			event: false
+=======
 			//event:false
 			delay: 0//enter in milliseconds
+>>>>>>> 2b82d93ae3befd29bc70057dd49bb841b70d617b
 		}, 
 		content: {
 			text: getFileErrors($(this).attr('id'))

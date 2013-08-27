@@ -48,6 +48,17 @@ if ($.cookie("jsonObjectHtml")) {
 
 	
 	$(document).ready(function() {
+		if(jsonObject[0].errors[0]) {
+			console.log("error location "+jsonObject[0].errors[0].line);		
+		}
+		else {
+			console.log("no errors");		
+		}
+		if(jsonObject[0].errors.count != 0) {
+			console.log("there are "+jsonObject[0].errors.count+" errors");		
+		}
+
+
 		setPageSource(jsonObject[0].source);
 		revealSite();
 	});

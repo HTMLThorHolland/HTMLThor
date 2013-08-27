@@ -769,7 +769,7 @@ button:hover {
 		height: 20px;
 		width: 100%;
 		cursor: pointer;
-		/*margin-top: -18px;*/
+		margin-top: -18px;
 	}
 	
 	.clearfix:after {
