@@ -207,11 +207,12 @@
                 
                 
                 Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
+                response.addCookie(cookie);
                 
-                /*
+                
                 String redirectURL = "index.html";
    		 		response.sendRedirect(redirectURL);
-   		 		*/
+   		 		
             %>
             
             
