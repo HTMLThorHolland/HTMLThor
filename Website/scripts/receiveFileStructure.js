@@ -10,10 +10,9 @@ var directory = [
 	{ "name":"images", "id":"images_0", "type":"folder", "errorTypes":"", "children":
 		[
 			{ "name":"index.html", "id":"index.html_0", "type":"file", "errorTypes":
-				["brokenLink","locationSuggestion"]
-			, "children":""},
-			{ "name":"webloop.html", "id":"testfile.html_0", "type":"file", "errorTypes":"", "children":"" },
-			{ "name":"testfile.html", "id":"testfile.html_0", "type":"file", "errorTypes":"", "children":"" },
+				["brokenLink","locationSuggestion"], "children":""},
+			{ "name":"webloop.html", "id":"testfile.html_0", "type":"file", "errorTypes":["locationSuggestion"], "children":"" },
+			{ "name":"testfile.html", "id":"testfile.html_0", "type":"file", "errorTypes":["brokenLink"], "children":"" },
 			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "errorTypes":"", "children":
 				[
 					{ "name":"starlight.tif", "id":"starlight.tif_0", "type":"file", "errorTypes":"", "children":""}
@@ -69,12 +68,14 @@ function getFiles(container) {
 /* */
 
 function getFileErrors(fileId) {
+								//CAN YOU PLEASE DO AN IF STATEMENT SUCH THAT, IF fileErrors.length == 1, THEN RETURN "COULD NOT FIND THE FILE
+								//WITHOUT THE ADDITIONAL 'S' ON THE END. ALSO MAKE IT AS ONE LINE. OPPOSED TO THE LIST LAYOUT BELOW. THANKS.
 	for(var i = 0; i < fileErrors.length; i++) {
 		/* If this is the case, we know what error message to show */
 		if(fileErrors[i].id == fileId) {
-			errorMessage = "";
+			errorMessage = "<p>Hey, we couldn't find the files</p>";
 			for(var j = 0; j < fileErrors[i].errors.length; j++) {
-				errorMessage += "<p>Could not find file " + fileErrors[i].errors[j].brokenLink + "</p>";
+				errorMessage += "<p>" + fileErrors[i].errors[j].brokenLink + "</p>";
 			}
 			return errorMessage;
 		}
@@ -96,6 +97,7 @@ $(document).delegate('.brokenLink', 'mouseover', function(event) {
 		},
 		style: { classes: 'fileStructureHighlight' },
 		hide: {
+			//event:false
 			delay: 0//enter in milliseconds
 		}, 
 		content: {

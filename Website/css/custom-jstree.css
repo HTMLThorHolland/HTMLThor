@@ -2,6 +2,13 @@
 	color: #e3e6ec;
 	font-weight: 300;
 	font-family: "Source Sans Pro","Century Gothic";
+	line-height:25px;
+	height:25px;
+	display:inline-block;
+	white-space:nowrap; 
+	text-decoration:none; 
+	padding:1px 2px; 
+	margin:0;
 }
 
 .jstree li {
@@ -10,19 +17,32 @@
 
 /* Only contains broken links */
 .jstree li.brokenLink > a { 
-	color: red; 
+	color: #f31040; 
 }
 
 /* Only contains location suggestions */
 .jstree li.locationSuggestion > a { 
-	color: blue; 
+	color: #ffd050; 
 }
 
 /* Contains both brokenLink and locationSuggestion*/
 .jstree li.brokenLink.locationSuggestion > a { 
-	color: green; 
+	color: #b24987; 
 }
 
 .fileStructureHighlight {
-	background-color: purple;
+	font-weight: 300;
+	font-family: "Source Sans Pro","Century Gothic";
+	font-size: 0.8em;
+	padding:10px;
+	color:#191D27;
+	background-color:#e3e6ec;
+	border:none;
+	-webkit-box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
+	   -moz-box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
+			box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
+}
+
+.fileStructureHighlight p, .fileStructureHighlight li {
+	color:#191D27;
 }
