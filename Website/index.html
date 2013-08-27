@@ -74,6 +74,10 @@
 	================================================== -->
 	<script type="text/javascript" src="js/main.js"></script>
 	
+	<!-- Reading cookie into JSON object
+	================================================== -->
+	<script type="text/javascript" src="js/readJSONCookie.js"></script>
+	
 	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
 	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
 	<script type="text/javascript" src="scripts/statistics.js"></script>
@@ -188,6 +192,10 @@
 						<!--
 						<form id="singleUploadForm"	action="upload2.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
+
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" value="file"></div>
+							<input type="submit" value="Submit">
+
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input name="file" id="singleUpload" type="file" value="upload" onchange="uploadJSP(this.id)" multiple></div>
 						</form>
 						-->

@@ -41,39 +41,18 @@
 	}
 		
 		
+	// returns 1 if valid comment tag
+	// returns 2 if invalid comment tag (unended)
+	public int isComment(String tag) {
 		
-	public List<String> removeComments(List<String> lines) {
-		// convert string-list to string
-		StringBuilder source = new StringBuilder();
-		for (int i = 0; i < lines.size(); i++) {
-			source.append(lines.get(i));
-			source.append("--lb--"); //placeholder character for linebreak
+		
+		int startIndex = tag.indexOf("<!--");
+		int endIndex = tag.indexOf("-->");
+		
+		if (startIndex == 0) {
+			return 2;
 		}
-		
-		String sourceString = source.toString();
-		
-		int startIndex = sourceString.indexOf("<!--");
-		int endIndex;
-		
-		// will be -1 if there are no comments
-		while (startIndex != -1) {
-			endIndex = sourceString.indexOf("-->", startIndex);
-			
-			sourceString = sourceString.substring(0,startIndex) + sourceString.substring(endIndex+3);
-			
-			startIndex = sourceString.indexOf("<!--");
-			
-		}
-		
-		
-		// convert string to string-list
-		String[] lineArray = sourceString.split("--lb--");
-		lines = new ArrayList<String>();
-		for (String line : lineArray) {
-			lines.add(line);
-		}
-		
-		return lines;
+		return 0;
 	}
 	
 	
@@ -84,6 +63,8 @@
 		JSONObject errors = new JSONObject();
 		json.put("source", sourceCode);
 		
+		String checkedCode = "";
+		
 		
 		
 		// do the error processing here
@@ -93,20 +74,62 @@
 		int tagEndIndex;
 		String tag;
 		while (tagStartIndex != -1) {
-			tagEndIndex = sourceCode.indexOf(">", tagStartIndex);
+		
+			// -------------------------------------------------------------------------------------
+			// --------------- CHECKING COMMENT IN THIS SECTION ------------------------------------
+			// -------------------------------------------------------------------------------------
 			
-			tag = sourceCode.substring(tagStartIndex, tagEndIndex+1);
-			
-			if (errorCount == 0 && tag.indexOf("!DOCTYPE") == -1) {
-				
-				JSONObject sampleError = new JSONObject();
-				sampleError.put("line", 5);
-				sampleError.put("col", 10);
-				sampleError.put("type", "Semantic");
-				sampleError.put("message", "You are missing DOCTYPE!!!!");
-				errors.put(Integer.toString(errorCount), sampleError);
+			if (sourceCode.indexOf("<!--") == tagStartIndex) {
+				// tag is start of a comment
+				// find comment ending tag
+				// ------- This needs to be done -------
 			}
 			
+			// -------------------------------------------------------------------------------------
+			// --------------- COMMENT CHECK FINISHED ----------------------------------------------
+			// -------------------------------------------------------------------------------------
+		
+		
+			tagEndIndex = sourceCode.indexOf(">", tagStartIndex);
+			
+			checkedCode = checkedCode.concat(sourceCode.substring(0, tagStartIndex));
+			
+			tag = sourceCode.substring(tagStartIndex+1, tagEndIndex);
+			String[] tagSplit = tag.split("\\s+");
+			
+			
+			
+			
+			// -------------------------------------------------------------------------------------
+			// --------------- CHECKING DOCTYPE IN THIS SECTION ------------------------------------
+			// -------------------------------------------------------------------------------------
+			
+			if (tagCount == 0) {
+			// first tag should be doctype
+				int errorCheck = checkDoctype(tagSplit);
+				if (errorCheck == 1) {
+					JSONObject error = new JSONObject();
+					error.put("line", 5);
+					error.put("col", 10);
+					error.put("type", tagSplit[0]); // retrieve from DB
+					error.put("message", "First element should be doctype"); // retrieve from DB
+					errors.put(Integer.toString(errorCount), error);
+					errorCount++;
+				}
+				if (errorCheck == 2) {
+					JSONObject error = new JSONObject();
+					error.put("line", 5);
+					error.put("col", 10);
+					error.put("type", tag); // retrieve from DB
+					error.put("message", "Your doctype is not HTML 5"); // retrieve from DB
+					errors.put(Integer.toString(errorCount), error);
+					errorCount++;
+				}
+			}
+			
+			// -------------------------------------------------------------------------------------
+			// --------------- DOCTYPE CHECK FINISHED ----------------------------------------------
+			// -------------------------------------------------------------------------------------
 			
 			
 			
@@ -114,7 +137,6 @@
 			sourceCode = sourceCode.substring(tagEndIndex+1);
 			
 			tagStartIndex = sourceCode.indexOf("<");
-			errorCount++;
 			tagCount++;
 		}
 		
@@ -130,129 +152,67 @@
 		
 		return json;
 	}
+	
+	
+	// checks whether the first tag is a valid HTML5 doctype declaration
+	// returns 0 if no error
+	// returns 1 if not doctype
+	// returns 2 if not HTML5 doctype
+	private int checkDoctype(String[] firstTag) {
+		if (firstTag.length > 0) {
+			if (!firstTag[0].equals("!DOCTYPE")) {
+				
+				return 1;
+			}
+			else {
+				if (firstTag.length != 2) {
+					return 2;
+				}
+				else {
+					if (!firstTag[1].equals("html")) {
+						return 2;
+					}
+				}
+			}
+			return 0;
+		}
+		return 0;
+	}
 		
 	%>
 	
-<%--
-	System.out.println("loaded the page");
-    String saveFile = "";
-    String contentType = request.getContentType();
-	  
-    if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)) {
-        DataInputStream in = new DataInputStream(request.getInputStream());
-        int formDataLength = request.getContentLength();
-        byte dataBytes[] = new byte[formDataLength];
-        int byteRead = 0;
-        int totalBytesRead = 0;
-        while (totalBytesRead < formDataLength) {
-            byteRead = in.read(dataBytes, totalBytesRead, formDataLength);
-            totalBytesRead += byteRead;
-        }
-        String file = new String(dataBytes);
-        saveFile = file.substring(file.indexOf("filename=\"") + 10);
-        saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
-        saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1, saveFile.indexOf("\""));
-        int lastIndex = contentType.lastIndexOf("=");
-        String boundary = contentType.substring(lastIndex + 1, contentType.length());
-        int pos;
-        pos = file.indexOf("filename=\"");
-        pos = file.indexOf("\n", pos) + 1;
-        pos = file.indexOf("\n", pos) + 1;
-        pos = file.indexOf("\n", pos) + 1;
-        int boundaryLocation = file.indexOf(boundary, pos) - 4;
-        int startPos = ((file.substring(0, pos)).getBytes()).length;
-        int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
-        saveFile = "C:/testy/" + saveFile;
-        File ff = new File(saveFile);
-        FileOutputStream fileOut = new FileOutputStream(ff);
-        fileOut.write(dataBytes, startPos, (endPos - startPos));
-        fileOut.flush();
-        fileOut.close();
-			
---%>		
 	
 	
-			
-			<%-- Now that the file has been saved appropriately, open the same file (could just reference an earlier component before flushing and closing but it might be best to copy it over first) 
-			 and read in the file line by line using java.io.BufferedReader: 
-			
-		BufferedReader lineRead = new BufferedReader(new FileReader("/" + saveFile));
-		String singleLine = "";
-		while((singleLine = lineRead.readLine()) != null) {
-			//run function to parse each line for tags (tagParse) 
-			lineParse(singleLine);
-			}
-			
-			
-		public void lineParse(String singleLine) {
-		char carr[] = singleLine.toCharArray(); < !-- convert the string to an array of characters for tag checking --!>
-			BOOLEAN beginTag = FALSE;
-			BOOLEAN endTag = FALSE;
-			int beginIndex = 0;
-			
-			
-			for(int i = 0; (i < carr.length); i++) {
-				if((carr[i] == "<")&&(endTag == FALSE)){
-				beginTag =  TRUE;
-				beginIndex = i+1; 
-			}
-				
-				if((carr[i] == ">")&&(beginTag == TRUE)) {
-					endTag =  TRUE;
-					beginTag = FALSE;
-					List<String> tarr = new ArrayList<String>(); 
-					// (i - beginIndex) will give the length of the tag, then a loop needs to extract every character into a separate array to be checked in another function? --!>
-				for(int j = (i-beginIndex); (j < i); j++) {
-					tarr.add(carr[j]);
-						< !--  note that this is an ArrayList, not an array, may need to use .toArray later --!>
-						tagParse(tarr);
-					}
-					
-					
-				}
-			
-			
-			}
-			
-		
-		public void tagParse(tarr) {
-			<!-- //split by whitespace, grab original tag word, check that for errors, then move on to similar methods for any and all listed attributes of the tag -->
-		
-		}
---%>
-
 	<br />
 	<div>
 	
             <%
-            	// read contents of filename set as parameter "path"
-            	
-            	List<String> fileContents = readUploadedFile(getServletContext().getRealPath("/").concat(request.getParameter("path")));
+            
+            
+   List<String> fileContents = readUploadedFile(request.getParameter("path"));
             	String sourceCode = "";
             	
-            	fileContents = removeComments(fileContents);
             	
             	
             	for (int i = 0; i < fileContents.size(); i++) {
 
             		String tempLine = fileContents.get(i);
-            		/*
-            		// fix tags
-            		tempLine = tempLine.replaceAll("<", "&lt;");
-            		tempLine = tempLine.replaceAll(">", "&gt;");
-            		out.println(tempLine.concat("<br />"));
-            		*/
             		sourceCode = sourceCode.concat(tempLine);
                 }
                 
                 JSONObject jsonFile = findErrors(sourceCode);
                 JSONObject json = new JSONObject();
-                json.put(request.getParameter("path"), jsonFile);
-                
-                out.println("<script>alert('"+json.toString()+"');</script>");               
+                json.put("0", jsonFile);
                 
                 
                 
+                Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
+                response.addCookie(cookie);
+                
+                
+                String redirectURL = "index.html";
+   		 		response.sendRedirect(redirectURL);
+   		 		
             %>
             
             

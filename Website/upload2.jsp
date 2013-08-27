@@ -8,11 +8,14 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
-	out.println( "Upload2 JSP Loaded" );
+   out.println( "Upload2 JSP Loaded" );
    File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
    ServletContext context = pageContext.getServletContext();
+   String filePath = getServletContext().getRealPath("/").concat("temp/");
+   
+        
    String filePath = context.getInitParameter("file-upload");
 
    // Verify the content type
@@ -29,6 +32,12 @@
       ServletFileUpload upload = new ServletFileUpload(factory);
       // maximum file size to be uploaded.
       upload.setSizeMax( maxFileSize );
+      try{
+      	
+         // Parse the request to get file items.
+         List fileItems = upload.parseRequest(request);
+         out.println("List of fileItems: " + fileItems);
+      
       try{ 
          // Parse the request to get file items.
          List fileItems = upload.parseRequest(request);
@@ -41,6 +50,32 @@
             FileItem fi = (FileItem)i.next();
             if ( !fi.isFormField () )	
             {
+                // Get the uploaded file parameters
+            	String fieldName = fi.getFieldName();
+            	String fileName = fi.getName();
+            	boolean isInMemory = fi.isInMemory();
+            	long sizeInBytes = fi.getSize();
+            	// Write the file
+            	if( fileName.lastIndexOf("\\") >= 0 ){
+            	file = new File( filePath + 
+            	fileName.substring( fileName.lastIndexOf("\\"))) ;
+            	}
+            
+            	else{
+            	file = new File( filePath + 
+            	fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+            	}
+            	fi.write( file ) ;
+            	out.println("Uploaded Filename: " + filePath + 
+            	fileName + "<br>");
+            	
+            	// At the very end of the file, after uploads have occurred, run upload.jsp
+   		 		String redirectURL = "upload.jsp?path=".concat(filePath + fileName);
+   		 		response.sendRedirect(redirectURL);
+            }
+         }
+         
+   		
             // Get the uploaded file parameters
             String fieldName = fi.getFieldName();
             String fileName = fi.getName();
@@ -65,6 +100,9 @@
    }else{
 
       out.println("<p>No file uploaded</p>"); 
+   } 
+   
+   
    }
 %>
 
