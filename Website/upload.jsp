@@ -206,11 +206,12 @@
                 
                 
                 
-                out.println("<script>alert('"+json.toString()+"');</script>"); 
-            
+                Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
                 
-                String redirectURL = "index.html?json=".concat(json.toString());
+                /*
+                String redirectURL = "index.html";
    		 		response.sendRedirect(redirectURL);
+   		 		*/
             %>
             
             
