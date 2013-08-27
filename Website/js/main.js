@@ -287,15 +287,6 @@
 			$('#'+id).addClass("noMargin");
 		}
 		
-		function revealSite() {
-			$('.extraOne').fadeIn();
-		}
-		
-		function revealSiteZip() {
-			revealSite();
-			$('.extraTwo').fadeIn();
-		}
-		
 		function resetForms() {
 			$('form[name="singleForm"]').find("input[type=file]").val("");
 			$('form[name="multiForm"]').find("input[type=file]").val("");

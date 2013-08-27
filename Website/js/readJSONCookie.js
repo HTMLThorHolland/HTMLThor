@@ -46,6 +46,7 @@ if ($.cookie("jsonObjectHtml")) {
 	
 	$(document).ready(function() {
 		setPageSource(jsonObject[0].source);
+		revealSite();
 	});
 	
 	// ========== Simon add your code here! ======
