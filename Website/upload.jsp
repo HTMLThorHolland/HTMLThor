@@ -65,6 +65,7 @@
 		JSONObject sourceLines = new JSONObject();
 	
 		String sourceCode = "";
+		sourceLines.put("length", fileContents.size());
         for (int i = 0; i < fileContents.size(); i++) {
             String tempLine = fileContents.get(i);
             sourceLines.put(Integer.toString(i), tempLine);
