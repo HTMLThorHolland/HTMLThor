@@ -246,6 +246,10 @@ a {
 	margin-bottom: 20px;
 }
 
+.colourKey ul {
+	width:580px;
+}
+
 .colourKey ul li {
 	margin-bottom: 20px;
 	height: 50px;
