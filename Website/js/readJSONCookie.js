@@ -18,8 +18,14 @@ if ($.cookie("jsonObjectHtml")) {
 	======= EXAMPLES OF USE ======
 	
 	
-	-- Access first source code of first file (and at this point only file) --
-	jsonObject[0].source; -> returns string
+	-- Access source code of first file (and at this point only file) --
+	jsonObject[0].source; -> returns JSONObject
+	
+	-- Access first line of source code of first file --
+	jsonObject[0].source[0] -> returns string
+	
+	-- Access number of lines in source code of first file --
+	jsonObject[0].source.length -> returns integer
 	
 	-- Access error message of first error of first file --
 	jsonObject[0].errors[0].message; -> returns string
@@ -33,11 +39,8 @@ if ($.cookie("jsonObjectHtml")) {
 	-- Access column number of first error of first file --
 	jsonObject[0].errors[0].col; -> returns integer
 	
-	********* Still to be added to JSON Object **********
-	*****************************************************
 	-- Access error count for first file --
-	jsonObject[0].errorCount; -> returns integer
-	*****************************************************
+	jsonObject[0].errors.count; -> returns integer
 	
 	
 	======= END OF EXAMPLES ======

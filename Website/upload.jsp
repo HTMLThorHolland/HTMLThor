@@ -160,14 +160,7 @@
 			tagCount++;
 		}
 		
-		
-		
-		// THIS NEXT CODE IS JUST SAMPLE CODE TO GENERATE A FEW ERRORS FOR SIMON		
-		
-		
-		
-		// END OF SAMPLE CODE
-		
+		errors.put("count", errorCount);
 		json.put("errors", errors);
 		
 		return json;
