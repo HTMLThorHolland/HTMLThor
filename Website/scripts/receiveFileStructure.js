@@ -5,7 +5,7 @@ $(document).ready(function() {
 	createTree(); // executes JSTree
 });
 
-
+/* Example JSON Object that should be generated when a user uploads a directory via .zip */
 var directory = [
 	{ "name":"images", "id":"images_0", "type":"folder", "errorTypes":"", "children":
 		[
@@ -94,7 +94,7 @@ $(document).delegate('.brokenLink', 'mouseover', function(event) {
 						at: 'top left',
 						target: $(this)
 					},
-					style: { classes: 'qTipHighlight' },
+					style: { classes: 'fileStructureHighlight' },
 					hide: {
 						delay: 0//enter in milliseconds
 					}, 
