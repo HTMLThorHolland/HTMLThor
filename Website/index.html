@@ -183,7 +183,8 @@
 						<p>upload a single file</p>
 						<form action="upload2.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" value="file"></div>
+							<input type="submit" value="Submit">
 						</form>
 				</div>
 					<div onclick="getFile('multi')" class="uploadCat one-third column">
