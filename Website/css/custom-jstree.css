@@ -4,6 +4,25 @@
 	font-family: "Source Sans Pro","Century Gothic";
 }
 
+.jstree li {
+	cursor: pointer;
+}
+
+/* Only contains broken links */
 .jstree li.brokenLink > a { 
 	color: red; 
+}
+
+/* Only contains location suggestions */
+.jstree li.locationSuggestion > a { 
+	color: blue; 
+}
+
+/* Contains both brokenLink and locationSuggestion*/
+.jstree li.brokenLink.locationSuggestion > a { 
+	color: green; 
+}
+
+.fileStructureHighlight {
+	background-color: purple;
 }

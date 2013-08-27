@@ -76,6 +76,10 @@
 	
 	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
 	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
+	<script type="text/javascript" src="scripts/statistics.js"></script>
+	
+	
+	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
 	
 	
 
@@ -181,10 +185,22 @@
 					<div onclick="getFile('single')" class="uploadCat one-third column">
 						<div id="iconSingleUpload" class="thumb"></div>
 						<p>upload a single file</p>
-						<form action="upload2.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
+						<!--
+						<form id="singleUploadForm"	action="upload2.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
+<<<<<<< HEAD
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" value="file"></div>
 							<input type="submit" value="Submit">
+=======
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input name="file" id="singleUpload" type="file" value="upload" onchange="uploadJSP(this.id)" multiple></div>
+						</form>
+						-->
+						<form action="upload2.jsp" method="POST"
+												enctype="multipart/form-data">
+						<input type="file" name="file" size="50" />
+						<br />
+						<input type="submit" value="Upload File" />
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
 						</form>
 				</div>
 					<div onclick="getFile('multi')" class="uploadCat one-third column">
@@ -260,8 +276,8 @@
 					<h2>breakdown</h2>
 				</div>
 				<div class="sectionContent">
-					<div class="statGraph sixteen columns">
-						<div class="fileGraph">
+					<div id="statGraph" class="statGraph sixteen columns">
+						<!--<div class="fileGraph">
 							<p class="fileName">index.php</p>
 							<div class="bar">
 								<div class="syntax graph" style="width:20%;"></div>
@@ -293,7 +309,7 @@
 							</div>
 							<p class="errorNumber">0 errors</p>
 							<div style="clear:both"></div>
-						</div>
+						</div>-->
 					</div>
 					<div class="middleText">
 						<h3>Overall Feedback</h3>

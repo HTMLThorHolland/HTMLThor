@@ -8,14 +8,23 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
+<<<<<<< HEAD
    out.println( "Upload2 JSP Loaded" );
+=======
+	out.println( "Upload2 JSP Loaded" );
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
    File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
    ServletContext context = pageContext.getServletContext();
+<<<<<<< HEAD
    String filePath = getServletContext().getRealPath("/").concat("temp/");
    
         
+=======
+   String filePath = context.getInitParameter("file-upload");
+
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
    // Verify the content type
    String contentType = request.getContentType();
    if ((contentType.indexOf("multipart/form-data") >= 0)) {
@@ -30,12 +39,18 @@
       ServletFileUpload upload = new ServletFileUpload(factory);
       // maximum file size to be uploaded.
       upload.setSizeMax( maxFileSize );
+<<<<<<< HEAD
       try{
       	
          // Parse the request to get file items.
          List fileItems = upload.parseRequest(request);
          out.println("List of fileItems: " + fileItems);
          
+=======
+      try{ 
+         // Parse the request to get file items.
+         List fileItems = upload.parseRequest(request);
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
 
          // Process the uploaded file items
          Iterator i = fileItems.iterator();
@@ -45,6 +60,7 @@
             FileItem fi = (FileItem)i.next();
             if ( !fi.isFormField () )	
             {
+<<<<<<< HEAD
                 // Get the uploaded file parameters
             	String fieldName = fi.getFieldName();
             	String fileName = fi.getName();
@@ -71,15 +87,39 @@
          }
          
    		 
+=======
+            // Get the uploaded file parameters
+            String fieldName = fi.getFieldName();
+            String fileName = fi.getName();
+            boolean isInMemory = fi.isInMemory();
+            long sizeInBytes = fi.getSize();
+            // Write the file
+            if( fileName.lastIndexOf("\\") >= 0 ){
+            file = new File( filePath + 
+            fileName.substring( fileName.lastIndexOf("\\"))) ;
+            }else{
+            file = new File( filePath + 
+            fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+            }
+            fi.write( file ) ;
+            out.println("Uploaded Filename: " + filePath + 
+            fileName + "<br>");
+            }
+         }
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
       }catch(Exception ex) {
          System.out.println(ex);
       }
    }else{
 
       out.println("<p>No file uploaded</p>"); 
+<<<<<<< HEAD
    } 
    
    
+=======
+   }
+>>>>>>> c86c2467c91b48593e237e9b5cae81b0595c3721
 %>
 
 <script>console.log("finished");</script>
