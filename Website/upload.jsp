@@ -58,10 +58,22 @@
 	
 	// Takes the source code as a string and returns a complete JSONObject
 	// with source code as well as all errors found in the code
-	public JSONObject findErrors(String sourceCode) {
+	public JSONObject findErrors(List<String> fileContents) {
+	
 		JSONObject json = new JSONObject();
 		JSONObject errors = new JSONObject();
-		json.put("source", sourceCode);
+		JSONObject sourceLines = new JSONObject();
+	
+		String sourceCode = "";
+        for (int i = 0; i < fileContents.size(); i++) {
+            String tempLine = fileContents.get(i);
+            sourceLines.put(Integer.toString(i), tempLine);
+            sourceCode = sourceCode.concat(tempLine);
+        }
+	
+	
+		
+		json.put("source", sourceLines);
 		
 		String checkedCode = "";
 		
@@ -70,16 +82,19 @@
 		// do the error processing here
 		int errorCount = 0;
 		int tagCount = 0;
-		int tagStartIndex = sourceCode.indexOf("<");
+		int tagStartIndex = sourceCode.indexOf("<"); // finds first tag
 		int tagEndIndex;
 		String tag;
 		while (tagStartIndex != -1) {
+			// keeps looping until no "<" are left
+			
 		
 			// -------------------------------------------------------------------------------------
 			// --------------- CHECKING COMMENT IN THIS SECTION ------------------------------------
 			// -------------------------------------------------------------------------------------
 			
 			if (sourceCode.indexOf("<!--") == tagStartIndex) {
+				// ------- IGNORE THIS FOR NOW ---------
 				// tag is start of a comment
 				// find comment ending tag
 				// ------- This needs to be done -------
@@ -89,13 +104,16 @@
 			// --------------- COMMENT CHECK FINISHED ----------------------------------------------
 			// -------------------------------------------------------------------------------------
 		
-		
+			// first ">" after "<" - not fool proof
 			tagEndIndex = sourceCode.indexOf(">", tagStartIndex);
 			
+			
+			// all code before current tag stored in checkedCode
 			checkedCode = checkedCode.concat(sourceCode.substring(0, tagStartIndex));
 			
+			// basically anything between "<" and ">"
 			tag = sourceCode.substring(tagStartIndex+1, tagEndIndex);
-			String[] tagSplit = tag.split("\\s+");
+			String[] tagSplit = tag.split("\\s+"); // splits by whitespace
 			
 			
 			
@@ -133,9 +151,10 @@
 			
 			
 			
-			
+			// removes anything up to and including the tag we just checked
 			sourceCode = sourceCode.substring(tagEndIndex+1);
 			
+			// searches for start of next tag before looping
 			tagStartIndex = sourceCode.indexOf("<");
 			tagCount++;
 		}
@@ -190,17 +209,9 @@
             
             
    List<String> fileContents = readUploadedFile(request.getParameter("path"));
-            	String sourceCode = "";
             	
-            	
-            	
-            	for (int i = 0; i < fileContents.size(); i++) {
-
-            		String tempLine = fileContents.get(i);
-            		sourceCode = sourceCode.concat(tempLine);
-                }
                 
-                JSONObject jsonFile = findErrors(sourceCode);
+                JSONObject jsonFile = findErrors(fileContents);
                 JSONObject json = new JSONObject();
                 json.put("0", jsonFile);
                 
