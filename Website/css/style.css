@@ -255,6 +255,10 @@ a {
 	line-height: 50px;
 }
 
+.colourKey li p {
+	line-height: 25px;
+}
+
 .colourSquare {
 	margin-top:12px;
 	width: 50px;
