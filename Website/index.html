@@ -69,6 +69,18 @@
 	<link type="text/css" rel="stylesheet" href="css/custom-jstree.css"/>
 	
 	
+	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
+	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
+	<script type="text/javascript" src="scripts/statistics.js"></script>
+	
+	<!-- Populate the Page Source Section
+	================================================== -->
+	<script type="text/javascript" src="scripts/pagesource.js"></script>
+	
+	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
+	
+	
+	
 	
 	<!-- MAIN htmlThor JavaScript (I (Simon) have moved all of the previous js into this file!!!)
 	================================================== -->
@@ -77,14 +89,6 @@
 	<!-- Reading cookie into JSON object
 	================================================== -->
 	<script type="text/javascript" src="js/readJSONCookie.js"></script>
-	
-	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
-	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
-	<script type="text/javascript" src="scripts/statistics.js"></script>
-	
-	
-	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
-	
 	
 
 </head>
@@ -114,17 +118,20 @@
 			<li id="uploadLink">
 				<a href=#>upload</a>
 			</li>
-			<li id="breakdownLink" class="extraOne">
+			<!-- add .extraOne back in structureLink -->
+			<li id="breakdownLink" class="">
 				<a href=#>breakdown</a>
 			</li>
 			<!-- add .extraTwo back in structureLink -->
 			<li id="structureLink" class="">
 				<a href=#>file structure</a>
 			</li>
-			<li id="sourceLink" class="extraOne">
+			<!-- add .extraOne back in structureLink -->
+			<li id="sourceLink" class="">
 				<a href=#>page source</a>
 			</li>
-			<li id="errorsLink" class="extraOne">
+			<!-- add .extraOne back in structureLink -->
+			<li id="errorsLink" class="">
 				<a href=#>errors</a>
 			</li>
 		</ul>
@@ -189,22 +196,19 @@
 					<div onclick="getFile('single')" class="uploadCat one-third column">
 						<div id="iconSingleUpload" class="thumb"></div>
 						<p>upload a single file</p>
-						<!--
+						
 						<form id="singleUploadForm"	action="upload2.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
-
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" value="file"></div>
-							<input type="submit" value="Submit">
-
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input name="file" id="singleUpload" type="file" value="upload" onchange="uploadJSP(this.id)" multiple></div>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
 						</form>
-						-->
+						<!--
 						<form action="upload2.jsp" method="POST"
 												enctype="multipart/form-data">
 						<input type="file" name="file" size="50" />
 						<br />
 						<input type="submit" value="Upload File" />
 						</form>
+						-->
 				</div>
 					<div onclick="getFile('multi')" class="uploadCat one-third column">
 						<div id="iconMultiUpload" class="thumb"></div>
@@ -376,9 +380,7 @@
 						</form>
 						<div style="clear:both"></div>
 						<div id="pageSource" class="pageSource">
-	<pre class="prettyprint linenums" id="pageCode" >
-	
-	</pre>
+	<pre class="prettyprint linenums" id="pageCode" ></pre>
 
 						</div>
 						

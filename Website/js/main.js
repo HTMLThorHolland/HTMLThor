@@ -258,7 +258,7 @@
 			/* Will need to add the ability for multiple files in the future */
 			
 			selectedFile = $('#'+id).val();
-			readTextFile(selectedFile);
+			// old method readTextFile(selectedFile);
 			// readFile(selectedFile);
 		
 			console.log(selectedFile);

@@ -1,6 +1,6 @@
 if ($.cookie("jsonObjectHtml")) {
 
-
+	console.log("cookie detected");
 	
 	var jsonString = $.cookie("jsonObjectHtml");
 	
@@ -11,7 +11,8 @@ if ($.cookie("jsonObjectHtml")) {
 	var jsonObject = $.parseJSON(jsonString);
 	
 	// once cookie is read and parsed, it can be deleted
-	$.removeCookie("jsonObjectHtml");
+	// $.removeCookie("jsonObjectHtml");
+	//alert(jsonObject[0].source);
 	
 	/*
 	======= EXAMPLES OF USE ======
@@ -41,7 +42,11 @@ if ($.cookie("jsonObjectHtml")) {
 	
 	======= END OF EXAMPLES ======
 	*/
+
 	
+	$(document).ready(function() {
+		setPageSource(jsonObject[0].source);
+	});
 	
 	// ========== Simon add your code here! ======
 }
