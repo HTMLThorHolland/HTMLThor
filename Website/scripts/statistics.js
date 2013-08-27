@@ -6,7 +6,7 @@ $(document).ready(function() {
 var statistics = [
 	{"name":"index.html", "id":"index.html_0", "syntaxErrors":2, "semanticErrors":23, "warningErrors":4, "deprecatedErrors":2},
 	{"name":"about.html", "id":"about.html_0", "syntaxErrors":0, "semanticErrors":0, "warningErrors":0, "deprecatedErrors":0},
-	{"name":"contact.html", "id":"contact.html_0", "syntaxErrors":2, "semanticErrors":23, "warningErrors":4, "deprecatedErrors":2},
+	{"name":"contact.html", "id":"contact.html_0", "syntaxErrors":2, "semanticErrors":16, "warningErrors":4, "deprecatedErrors":2},
 	{"name":"images.html", "id":"images.html_0", "syntaxErrors":0, "semanticErrors":50, "warningErrors":1, "deprecatedErrors":25}
 ];
 
@@ -17,13 +17,12 @@ function populateStatistics() {
 }
 
 function generateFileStatistics(file) {
-	statistic = "<div class='fileGraph'>";
+	statistic = "<div id='"+file.id+"_graph' class='fileGraph'>";
 	statistic += "<p class='fileName'>"+file.name+"</p>";
 	statistic += "<div class='bar'>";
 	statistic += calculatePercentages(file);
 	statistic += "<div style='clear:both'></div>";
 	statistic += "</div>";
-	console.log(statistic);
 	$('#statGraph').append(statistic);
 }
 
@@ -56,3 +55,36 @@ function calculatePercentages(file) {
 	return bars;
 	
 }
+
+function visualHighlight(barId) {
+	console.log(barId);
+	for(var i = 0; i < statistics.length; i++) {
+		if(statistics[i].id == barId);
+		return "<p>"+barId+"</p>";
+	}
+}
+
+$(document).delegate('.graph', 'mouseover', function(event) {
+	console.log("hover");
+	$(this).qtip({
+		overwrite: false,
+		show: {
+			event: event.type,
+			ready: true
+		},
+		position: {
+			my: 'bottom left',
+			at: 'top left',
+			target: $(this)
+		},
+		style: { classes: 'barHighlight' },
+		hide: {
+			delay: 0//enter in milliseconds
+		}, 
+		content: {
+			text: visualHighlight($(this).closest(".fileGraph").attr('id'))
+		}
+	});
+	
+	event.preventDefault();
+});

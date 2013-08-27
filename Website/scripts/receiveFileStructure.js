@@ -1,4 +1,4 @@
-
+/* TO DO JAVADOC STYLE COMMENTING */
 
 $(document).ready(function() {
 	$('#structureContainer').html(getFiles(directory));
@@ -37,7 +37,7 @@ var fileErrors = [
 function getFiles(container) {
 	list = "<ul>";
 	for(var i = 0; i < container.length; i++) {
-		console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
+		//console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
 		list += "<li id='"+container[i].id+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
 		/* Check if the item contains errors */
 		if(container[i].errorTypes != null && container[i].errorTypes != "") {
@@ -51,18 +51,18 @@ function getFiles(container) {
 		/* Check if the item is a folder */
 		if(container[i].children != "" && container[i].children != null) {
 			list += "<a href='#'>" + container[i].name + "</a>";
-			console.log(container[i].name + " has children and is a folder");
+			//console.log(container[i].name + " has children and is a folder");
 			list += getFiles(container[i].children);
 		}
 		else {
 			list += "<a href='#'>" + container[i].name + "</a>";
-			console.log(container[i].name + " has no children and is a file");
+			//console.log(container[i].name + " has no children and is a file");
 		}
 		list += "</li>"; // CLOSE LI TAG
 	}
-	console.log("end of loop");
+	//console.log("end of loop");
 	list += "</ul>";
-	console.log(list);
+	//console.log(list);
 	return list;
 }
 
@@ -82,27 +82,27 @@ function getFileErrors(fileId) {
 }
 
 $(document).delegate('.brokenLink', 'mouseover', function(event) {
-				console.log("hover");
-				$(this).qtip({
-					overwrite: false,
-					show: {
-						event: event.type,
-						ready: true
-					},
-					position: {
-						my: 'bottom left',
-						at: 'top left',
-						target: $(this)
-					},
-					style: { classes: 'fileStructureHighlight' },
-					hide: {
-						delay: 0//enter in milliseconds
-					}, 
-					content: {
-						text: getFileErrors($(this).attr('id'))
-					}
-				});
-				
-				event.preventDefault();
-			});
+	console.log("hover");
+	$(this).qtip({
+		overwrite: false,
+		show: {
+			event: event.type,
+			ready: true
+		},
+		position: {
+			my: 'bottom left',
+			at: 'top left',
+			target: $(this)
+		},
+		style: { classes: 'fileStructureHighlight' },
+		hide: {
+			delay: 0//enter in milliseconds
+		}, 
+		content: {
+			text: getFileErrors($(this).attr('id'))
+		}
+	});
+	
+	event.preventDefault();
+});
 

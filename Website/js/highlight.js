@@ -23,7 +23,7 @@ function getContent(errorId) {
 }
 
 function addErrorIcon() {
-	console.log("running");
+	//console.log("running");
 	$("#pageCode").children(".linenums").children("li").children(".errorContainer").each(function () {
 		console.log($(this));
 		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
