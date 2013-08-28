@@ -203,9 +203,12 @@
             
             
    List<String> fileContents = readUploadedFile(request.getParameter("path"));
-            	
+   				String fileparam = request.getParameter("path");
+            	String[] filestring = fileparam.split("/");
+            	String filename = filestring[filestring.length-1];
                 
                 JSONObject jsonFile = findErrors(fileContents);
+                jsonFile.put("filename", filename);
                 JSONObject json = new JSONObject();
                 json.put("0", jsonFile);
                 

@@ -10,6 +10,7 @@ if ($.cookie("jsonObjectHtml")) {
 	
 	var jsonObject = $.parseJSON(jsonString);
 	
+	
 	// once cookie is read and parsed, it can be deleted
 	// $.removeCookie("jsonObjectHtml");
 	//alert(jsonObject[0].source);
@@ -17,6 +18,8 @@ if ($.cookie("jsonObjectHtml")) {
 	/*
 	======= EXAMPLES OF USE ======
 	
+	-- Access file name of first file --
+	jsonObject[0].filename -> returns String
 	
 	-- Access source code of first file (and at this point only file) --
 	jsonObject[0].source; -> returns JSONObject
