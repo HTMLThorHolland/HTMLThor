@@ -1,8 +1,11 @@
 
 
+var oldSource = new Array(); /* Has no error messages */
+var finalSource = new Array();
+
 function setPageSource(source) {
 	
-	var finalSource = new Array();
+
 	
 	for(var i = 0; i < source.length; i++) {
 		var htmlElements = [["<","&lt;"],[">","&gt;"],["\"","&quot;"],["\'","&#39;"]];
@@ -10,6 +13,8 @@ function setPageSource(source) {
 			reg = new RegExp(htmlElements[j][0], "gi");
 			source[i] = source[i].replace(reg,htmlElements[j][1]);
 		}
+		oldSource[i] = source[i];
+		oldSource[i] += "\n";
 		finalSource[i] = source[i];
 		finalSource[i] += "\n";
 	}

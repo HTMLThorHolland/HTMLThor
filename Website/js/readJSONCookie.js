@@ -48,6 +48,8 @@ if ($.cookie("jsonObjectHtml")) {
 	
 	======= END OF EXAMPLES ======
 	*/
+	
+	// ========== Simon add your code here! ======
 
 	
 	$(document).ready(function() {
@@ -63,8 +65,8 @@ if ($.cookie("jsonObjectHtml")) {
 
 
 		setPageSource(jsonObject[0].source);
+		setErrors();
 		revealSite();
 	});
 	
-	// ========== Simon add your code here! ======
 }

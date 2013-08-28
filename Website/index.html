@@ -47,7 +47,7 @@
 
 	<!-- Favicons
 	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="shortcut icon" href="images/favicon.png">
 	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 	<link rel="apple-touch-icon" size="72x72" href="images/apple-touch-icon-72x72.png">
 	<link rel="apple-touch-icon" size="114x114" href="images/apple-touch-icon-114x114.png">
@@ -80,6 +80,10 @@
 	<script type="text/javascript" src="scripts/pagesource.js"></script>
 	
 	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
+	
+	<!-- Populate the Errors Section
+	================================================== -->
+	<script type="text/javascript" src="scripts/errors.js"></script>
 	
 	
 	
@@ -449,36 +453,7 @@
 						</form>
 						<div style="clear:both"></div>
 					
-						<!--
-							IMPORTANT
-							We're going to have to convert html such that it no longer has certain characters.
-							I used this site to do it manually:
-							http://accessify.com/tools-and-wizards/developer-tools/quick-escape/default.php
-							But we're going to have to implement it into our site.
-							
-							When using the <xmp> tag, it wasn't necessary to convert the html string. However 
-							I could not work out how to add a <span> tag inside to highlight parts of the code.
-							And I don't think <xmp> would have validated. But this is something we're going to 
-							have to look into.
-							
-						-->
-					
-						<div class="syntaxError errorListing">
-							<p class="errorLocation">Line 01, Column 22:</p>
-							<p class="errorDescription">Error description goes here.</p>
-							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;Excerpt of the code goes here.<strong>&lt;p&gt;</strong></code></pre>
-						</div>
-					
-						<div class="semanticError errorListing">
-							<p class="errorLocation">Line 05, Column 13:</p>
-							<p class="errorDescription">Error description goes here.</p>
-							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;<strong>Excerpt of the code goes here.&lt;/p&gt;</strong></code></pre>
-						</div>
-					
-						<div class="syntaxError errorListing">
-							<p class="errorLocation">Line 01, Column 22:</p>
-							<p class="errorDescription">Error description goes here.</p>
-							<pre><code>&lt;p class=&quot;errorExcerpt&quot;&gt;Excerpt of the code goes here.<strong>&lt;p&gt;</strong></code></pre>
+						<div id="errorsList">
 						</div>
 						
 					</div>
