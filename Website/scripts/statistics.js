@@ -11,14 +11,16 @@ var statistics = [
 ];
 
 function populateStatistics() {
-	for(var i = 0; i < statistics.length; i++) {
+	/*for(var i = 0; i < statistics.length; i++) {
 		generateFileStatistics(statistics[i]);
-	}
+	} PRE-CODED STATS*/
+	
+		generateFileStatistics(jsonObject[0]);
 }
 
 function generateFileStatistics(file) {
-	statistic = "<div id='"+file.id+"_graph' class='fileGraph'>";
-	statistic += "<p class='fileName'>"+file.name+"</p>";
+	statistic = "<div id='"+file.filename+"_graph' class='fileGraph'>";
+	statistic += "<p class='fileName'>"+file.filename+"</p>";
 	statistic += "<div class='bar'>";
 	statistic += calculatePercentages(file);
 	statistic += "<div style='clear:both'></div>";
@@ -29,9 +31,35 @@ function generateFileStatistics(file) {
 function calculatePercentages(file) {
 	// calculate the percentages
 	// add up the numbers
+	totalErrors = jsonObject[0].errors.count;
+	htmlErrors = 0;
+	syntaxErrors = 0;
+	semanticErrors = 0;
+	warningErrors = 0;
+	deprecatedErrors = 0;
+	
+	for(var i = 0; i < jsonObject[0].errors.count; i++) {
+		switch (jsonObject[0].errors[i].type)
+			{
+			case "html":
+				htmlErrors ++;
+			  break;
+			case "syntax":
+				syntaxErrors ++;
+			  break;
+			case "semantic":
+				semanticErrors ++;
+			  break;
+			case "warning":
+				warningErrors ++;
+			  break;
+			case "deprecated":
+				deprecatedErrors ++;
+			  break;
+			}
+	}
 	
 	bars = "";
-	totalErrors = file.syntaxErrors +  file.semanticErrors +  file.warningErrors +  file.deprecatedErrors;
 	
 	if(totalErrors == 0) {
 		bars += "<div class='zero graph' style='width:100%;'></div>";
@@ -39,10 +67,10 @@ function calculatePercentages(file) {
 	
 	else {
 		bars = "";
-		syntaxPercentage = file.syntaxErrors / totalErrors * 100;
-		semanticPercentage = file.semanticErrors / totalErrors * 100;
-		warningPercentage = file.warningErrors / totalErrors * 100;
-		deprecatedPercentage = file.deprecatedErrors / totalErrors * 100;
+		syntaxPercentage = syntaxErrors / totalErrors * 100;
+		semanticPercentage = semanticErrors / totalErrors * 100;
+		warningPercentage = warningErrors / totalErrors * 100;
+		deprecatedPercentage = htmlErrors / totalErrors * 100;
 		
 		bars += "<div class='syntax graph' style='width:"+syntaxPercentage+"%;'></div>";
 		bars += "<div class='semantic graph' style='width:"+semanticPercentage+"%;'></div>";
