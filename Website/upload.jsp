@@ -128,7 +128,7 @@
 				int errorCheck = checkDoctype(tagSplit);
 				if (errorCheck == 1) {
 					JSONObject error = new JSONObject();
-					error.put("line", 5);
+					error.put("line", 1);
 					error.put("col", 10);
 					error.put("type", tagSplit[0]); // retrieve from DB
 					error.put("message", "First element should be doctype"); // retrieve from DB
@@ -137,7 +137,7 @@
 				}
 				if (errorCheck == 2) {
 					JSONObject error = new JSONObject();
-					error.put("line", 5);
+					error.put("line", 1);
 					error.put("col", 10);
 					error.put("type", tag); // retrieve from DB
 					error.put("message", "Your doctype is not HTML 5"); // retrieve from DB

@@ -1,7 +1,3 @@
-$(document).ready(function() {
-	populateStatistics();
-});
-/* Generates the statistics for the Statistics Page */
 
 var statistics = [
 	{"name":"index.html", "id":"index.html_0", "syntaxErrors":2, "semanticErrors":23, "warningErrors":4, "deprecatedErrors":2},
@@ -15,7 +11,21 @@ function populateStatistics() {
 		generateFileStatistics(statistics[i]);
 	} PRE-CODED STATS*/
 	
-		generateFileStatistics(jsonObject[0]);
+	generateFileStatistics(jsonObject[0]);
+	if(noFileErrors()) {
+		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
+		console.log("no errors found, set feedback id");
+	}
+}
+
+function noFileErrors() {
+	if(jsonObject[0].errors.count == 0) {
+
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 function generateFileStatistics(file) {

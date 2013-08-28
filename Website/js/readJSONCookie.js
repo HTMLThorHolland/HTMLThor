@@ -66,6 +66,7 @@ if ($.cookie("jsonObjectHtml")) {
 
 		setPageSource(jsonObject[0].source);
 		setErrors();
+		populateStatistics();
 		revealSite();
 	});
 	
