@@ -1,6 +1,11 @@
 
-var errors = [["error1","syntaxError","Syntax Error","201","Terrible code from the database."],["error2","semanticError","Semantic Error","98","A terrible code"]];
 
+/**
+ * Returns the error message to be displayed when the user hovers over the error.
+ *
+ * @param  errorId  the id of the error
+ * @return qtip error message
+ */
 function getContent(errorId) {
 		linePos = $('#'+errorId).parent().index() + 1;
 		console.log(linePos + " " + jsonObject[0].errors[0].line);
@@ -15,7 +20,7 @@ function getContent(errorId) {
 					errors[i][3] - error Line (the line the error takes place on)
 					errors[i][4] - error Message (the message that appears)
 				*/
-				return "<p class='errorMessage'><span class='"+errors[i][1]+"'>"+jsonObject[0].errors[i].type+"</span>"+jsonObject[0].errors[i].message+"</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
+				return "<p class='errorMessage'><span class='syntaxError'>"+jsonObject[0].errors[i].type+"</span>"+jsonObject[0].errors[i].message+"</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
 			}
 		}
 		
@@ -23,6 +28,7 @@ function getContent(errorId) {
 		
 }
 
+/* Adds the error icon that is displayed on the source code page. */
 function addErrorIcon() {
 	//console.log("running");
 	$("#pageCode").children(".linenums").children("li").children(".errorContainer").each(function () {
@@ -30,25 +36,4 @@ function addErrorIcon() {
 		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
 	});
 }
-
-
-
-$(document).ready(function() {
-
-
-	/* When a span within #pageCode with the class of .errorHighlight is 
-		hovered over, it gets its id. Soon it will show the error depending 
-		on that id.
-	*/
-	$("#pageCode").on('mouseover', '.errorContainer', function() {
-		errorId = $(this).attr('id');
-		console.log($(this).attr('id'));
-		for(var i = 0; i < errors.length; i++) {
-			/* If this is the case, we know what error message to show */
-			if(errors[i][0] == errorId) {
-				//alert(errors[i][1]);
-			}
-		}
-	});
-	
 });

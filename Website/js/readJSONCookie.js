@@ -67,6 +67,7 @@ if ($.cookie("jsonObjectHtml")) {
 		setPageSource(jsonObject[0].source);
 		setErrors();
 		populateStatistics();
+		hideChangeFile(); // if there's only one page returned, don't provide change page options
 		revealSite();
 	});
 	

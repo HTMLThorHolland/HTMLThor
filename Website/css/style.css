@@ -164,6 +164,7 @@ a {
 		padding-left: 0;
 		padding-right: 0;
 		margin-bottom: 0;
+		cursor: pointer;
 	}
 
 	.sideBarNavigation a {
@@ -174,7 +175,7 @@ a {
 		color: #B9B9B9;
 	}
 
-	.sideBarNavigation a:hover {
+	.sideBarNavigation a:hover, .sideBarNavigation ul li:hover a {
 		color: #4B70A5;
 	}
 	
@@ -186,7 +187,7 @@ a {
 		color: #e3e6ec;
 	}
 	
-	.currentLocation a:hover {
+	.currentLocation a:hover, .sideBarNavigation ul li.currentLocation:hover a {
 		color: #e3e6ec;
 	}
 	
@@ -258,29 +259,49 @@ a {
 
 /* Home / Help Section */
 
+.siteIntro {
+	font-size: .85em;
+}
+
+.introBlurb {
+	width: 45%;
+	float: left;
+	margin-right: 4%;
+}
+
+.colourKey {
+	width: 48%;
+	float: left;
+	border-left: 1px solid #414141;
+	padding-left: 2%;
+}
+
 .colourKey h4 {
 	margin-bottom: 20px;
 }
 
 .colourKey ul {
-	width:580px;
+	width:100%;
 }
 
 .colourKey ul li {
 	margin-bottom: 20px;
-	height: 50px;
+	font-size: .9em;
 }
 
+/*
 .colourKey p {
 	line-height: 50px;
 }
+*/
 
+/*
 .colourKey li p {
 	line-height: 25px;
 }
+*/
 
 .colourSquare {
-	margin-top:12px;
 	width: 50px;
 	height: 25px;
 	float: left;
@@ -351,6 +372,11 @@ button:hover {
 	padding-top:8px;
 }
 
+.alternativeButton {
+	margin-left: 0;
+	margin-bottom: 20px;
+}
+
 .submitButton {
 	text-align:center;
 }
@@ -404,6 +430,16 @@ button:hover {
 }
 
 /* ERROR GRAPHS */
+
+.barHighlight {
+	color: #ffffff !important;
+	background-color: #424242 !important;
+	border:1px solid #191D27 !important;
+	font-size: .9em !important;
+	padding: 5px !important;
+	line-height: 1em !important;
+	max-width: 50% !important;
+}
 
 .bar {
 	height:30px;

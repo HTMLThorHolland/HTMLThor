@@ -65,15 +65,20 @@ function getFiles(container) {
 	return list;
 }
 
-/* */
 
+/* Function to generate the qtip error message */
 function getFileErrors(fileId) {
 								//CAN YOU PLEASE DO AN IF STATEMENT SUCH THAT, IF fileErrors.length == 1, THEN RETURN "COULD NOT FIND THE FILE
 								//WITHOUT THE ADDITIONAL 'S' ON THE END. ALSO MAKE IT AS ONE LINE. OPPOSED TO THE LIST LAYOUT BELOW. THANKS.
 	for(var i = 0; i < fileErrors.length; i++) {
 		/* If this is the case, we know what error message to show */
 		if(fileErrors[i].id == fileId) {
-			errorMessage = "<p>Hey, we couldn't find the files</p>";
+			if(fileErrors.length == 1) {
+				errorMessage = "<p>Hey, we couldn't find the file</p>";
+			}
+			else {
+				errorMessage = "<p>Hey, we couldn't find the files</p>";
+			}
 			for(var j = 0; j < fileErrors[i].errors.length; j++) {
 				errorMessage += "<p>" + fileErrors[i].errors[j].brokenLink + "</p>";
 			}
@@ -82,6 +87,7 @@ function getFileErrors(fileId) {
 	}
 }
 
+/* When the user highlights over a brokenLink a qtip is generated. */
 $(document).delegate('.brokenLink', 'mouseover', function(event) {
 	console.log("hover");
 	$(this).qtip({

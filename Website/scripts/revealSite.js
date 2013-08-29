@@ -1,3 +1,14 @@
+/*
+ * Extra One:
+ *				breakdown
+ *				page source
+ *				errors
+ *
+ * Extra Two:
+ *				file structure
+ */
+
+/* Function to reveal .extraOne sections of the site */
 function revealSite() {
 	$('.extraOne').fadeIn();
 	hideSections();
@@ -6,6 +17,7 @@ function revealSite() {
 	openOthers("breakdown");
 }
 
+/* Function to reveal .extraOne and .extraTwo sections of the site */
 function revealSiteZip() {
 	revealSite();
 	$('.extraTwo').fadeIn();

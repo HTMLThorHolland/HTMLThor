@@ -74,6 +74,7 @@
 	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
 	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
 	<script type="text/javascript" src="scripts/statistics.js"></script>
+	<script type="text/javascript" src="scripts/singleFile.js"></script>
 	
 	<!-- Populate the Page Source Section
 	================================================== -->
@@ -156,23 +157,25 @@
 			<div style="clear:both"></div>
 			
 			
-					<div id="home" class="siteIntro section sixteen columns">
-					
-						<p>
-							If you've faced jargon-filled error messages from current HTML validators...
-							<blockquote><em>The frameborder attribute on the iframe element is obsolete. Use CSS instead.</em></blockquote>
-							... then we feel your pain! But why should anyone have to put up with it?! That's why we're bringing you the latest
-							most sophisticated HTML	 validator that exists to date... </p>
-						<p> 
-							Sounds too good to be true? Check it out for yourself, by uploading one (or many) HTML files, entering a URL or simply
-							by copying in your source code!
-						</p>
-						<p> 
-							Website too big? Broken images, weird links? We've got you covered! Upload a .zip file and check out all the broken links
-							you have as well as any important misplaced files!
-						</p>
-					
-					<div class="colourKey">
+			<div id="home" class="siteIntro section sixteen columns">
+				
+				<div class="introBlurb">
+					<p>
+						If you've faced jargon-filled error messages from current HTML validators...
+						<blockquote><em>The frameborder attribute on the iframe element is obsolete. Use CSS instead.</em></blockquote>
+						... then we feel your pain! But why should anyone have to put up with it?! That's why we're bringing you the latest
+						most sophisticated HTML	 validator that exists to date... </p>
+					<p> 
+						Sounds too good to be true? Check it out for yourself, by uploading one (or many) HTML files, entering a URL or simply
+						by copying in your source code!
+					</p>
+					<p> 
+						Website too big? Broken images, weird links? We've got you covered! Upload a .zip file and check out all the broken links
+						you have as well as any important misplaced files!
+					</p>
+				</div>
+			
+				<div class="colourKey">
 					<h4>Colour Key</h4>
 					<p>
 						Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
@@ -211,6 +214,7 @@
 						<div style="clear: both"></div>
 					</ul>
 				</div>
+				<div style="clear:both"></div>
 			</div>
 			<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 			<!-- END HEADER -->
@@ -259,11 +263,12 @@
 							<h3>or</h3>
 							<form>
 							<label for="input-url">enter a url</label><input type="text" name="input-url">
+							<button class="alternativeButton" id="urlButton" type="button">VALIDATE</button>
+							<div style="clear:both"></div>
 							<label for="input-direct">direct input</label>
 							<textarea rows="4" cols="50"></textarea>
-							<div class="submitButton">
-								<button id="alternativeButton" type="button">UPLOAD</button>
-							</div>
+							<button class="alternativeButton" id="alternativeButton" type="button">VALIDATE</button>
+							<div style="clear:both"></div>
 							</form>
 						</div>
 					</div>
@@ -398,7 +403,7 @@
 							
 				<div id="source" class="section code source">
 					<div class="sectionContent sixteen columns">
-						<form id="pageSourceSelect" class=" selectFile">
+						<form id="pageSourceSelect" class="selectFile">
 							<label for="selectSourceFile">Select a page to view </label>
 							<select name="selectSourceFile">
 								<option>index.php</option>
@@ -443,7 +448,7 @@
 							
 				<div id="errors" class="section code errors">
 					<div class="sectionContent sixteen columns">
-						<form id="pageSourceSelect" class=" selectFile">
+						<form id="pageSourceSelect" class="selectFile">
 							<label for="selectSourceFile">Select a page to view </label>
 							<select name="selectSourceFile">
 								<option>index.php</option>

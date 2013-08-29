@@ -1,5 +1,9 @@
 
-
+/*
+ * Iterates through the file's list of errors and populates the error tab with them.
+ * Currently only works for the first file returned. Will be updated to iterate through all
+ * files and display them under separate "sections" accessible through the file select dropdown.
+ */
 function setErrors() {
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		errorDiv = "<div class='syntaxError errorListing'>";

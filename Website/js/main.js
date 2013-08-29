@@ -1,19 +1,6 @@
 
-	
-		var selectedFile;
-	
-	
-		function hideInnerContent() {
-			$('#structure > .sectionContent').slideUp();
-			$('#structure').addClass("noMargin");		
-			$('#sourceContainer').hide();
-			$('#errorsContainer').hide();
-			$('#errorsTitle').addClass("bottomBorder");	
-			$('#errorsTitle').addClass("extraMargin");
-			$('#sourceTitle').addClass("bottomBorder");
-			$('#sourceTitle').addClass("extraMargin");
-		}
-		
+
+		/* Opens the Page Source tab */
 		function openSource() {
 			$('#sourceTitle').removeClass("bottomBorder");
 			$('#sourceTitle').removeClass("extraMargin");
@@ -21,13 +8,17 @@
 			$('#sourceContainer').show();
 		}
 		
+		/* Opens the Errors List tab */		
 		function openErrors() {
 			$('#errorsTitle').removeClass("bottomBorder");
 			$('#errorsTitle').removeClass("extraMargin");
 			$('#errorsTitle').show();
 			$('#errorsContainer').show();
 		}
-		
+
+		/* Opens the the tab of the provided ID
+		 * @param  id  the id of the page section
+		 */		
 		function openOthers(id) {
 			$('#'+id).show();
 			$('#'+id+' > .sectionContent').show();
@@ -35,15 +26,11 @@
 		}
 	
 		$(document).ready(function() {
-				
-		
-		
-		
-		
 		
 			/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
 				from http://craigsworks.com/projects/forums/showthread.php?tid=3253 
 				http://qtip2.com/options
+				When the user hovers over an error in the source code, the qtip plugin is called.
 				*/
 			 $(document).delegate('.errorContainer', 'mouseover', function(event) {
 				$(this).qtip({
@@ -111,7 +98,7 @@
 				}
 			});
 		
-			/* Hide sections of the site */
+			/* Hide sections of the site that should not be shown initially*/
 			$('.extraOne').hide();
 			$('.extraTwo').hide();
 			$('.hidden').hide();
@@ -170,55 +157,14 @@
 			
 			/* END PAGE NAVIGATION */
 			
-			/* FOLDER SELECTION */
-			
-			/* 
-				When a folder class is clicked, it searches through all of the other folders within that 
-				ul and then removes the .selectedFolder class from them. This is where you'll detect 
-				which folder a user has selected.
-			*/
-			$(".folder").click(function(e) {
-				var id = new Array();
-				id = $(this).attr('class');
-				id = id.split(' ');
-				var parentId = $(this).closest(".structureSide").attr('id');
-				changeList(id[0], parentId);
-				$(this).closest("ul").children("li").children(".folder").removeClass("selectedFolder");
-				$(this).addClass("selectedFolder");
-			});
-			
-			function changeList(id, parentId) {
-				console.log(id);
-				console.log(parentId);
-				$('#'+parentId).children('.filesList').children("ul").addClass("hiddenList");
-				$('#'+parentId).children('.filesList').children('.'+id+'List').removeClass("hiddenList");
-			}
-			
-			function hideLists() {
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			/* END FOLDER SELECTION */
-			
-			
-			$("#alternativeButton").click(function(e) {
-				e.preventDefault();
-				uploadFile("coop.html");
-			});
-					
-			
 		});
 		
 		
-		/* Updating site section */
-			 
+		/* Updating site section 
+		 * When the user visits a new section of the site the sidebar links need to be updated.
+		 * This plugin removes the .currentLocation class from all of the sidebar links.
+		 */
+		
 		 function removeLocation() {
 				$("#homeLink").removeClass('currentLocation');
 				$("#uploadLink").removeClass('currentLocation');
@@ -228,6 +174,9 @@
 				$("#errorsLink").removeClass('currentLocation');
 		 }
 		 
+		 /* 
+		  * Hides all of the site's sections.
+		  */
 		 function hideSections() {
 		 
 			$('#home').hide();
@@ -245,48 +194,19 @@
 		
 		/* UPLOAD CODE */
 		
-		function getFile(id) {
-			console.log(id);
-			var stringId = id + "Upload";
-			console.log(stringId);
-			document.getElementById(stringId).click();
-		}
-		
-		
-		function uploadFile(id) {
-		
-			/* Will need to add the ability for multiple files in the future */
-			
-			selectedFile = $('#'+id).val();
-			// old method readTextFile(selectedFile);
-			// readFile(selectedFile);
-		
-			console.log(selectedFile);
-			 $('html, body').animate({
-				 scrollTop: $("html").offset().top
-			 }, 600);
-			if(id=="zipUpload"){
-				revealSiteZip();
-			}
-			else {
-				$('.extraTwo').hide();
-				revealSite();
-			}
-			resetForms();
-			
-			hideSections();
-			removeLocation();
-			$('#breakdownLink').addClass('currentLocation');
-			openOthers("breakdown");
-			
-		}
-		
+		/*
+		 * Hides the section of the site specified by the id.
+		 * @param	id	The id of the section of the site to be hidden.
+		 */
 		function hide(id) {
 			$('#'+id+' > .sectionContent').fadeOut();
 			$('#'+id+' > .sectionContent').slideUp();
 			$('#'+id).addClass("noMargin");
 		}
 		
+		/*
+		 *	Resets the upload forms.
+		 */
 		function resetForms() {
 			$('form[name="singleForm"]').find("input[type=file]").val("");
 			$('form[name="multiForm"]').find("input[type=file]").val("");
