@@ -218,7 +218,7 @@
                 response.addCookie(cookie);
                 
                 
-                String redirectURL = "http://www.google.com";
+                String redirectURL = "http://www.htmlthor.com";
    		 		response.sendRedirect(redirectURL);
    		 		
             %>
