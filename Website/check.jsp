@@ -218,7 +218,7 @@
                 response.addCookie(cookie);
                 
                 
-                String redirectURL = "index.html";
+                String redirectURL = "http://www.google.com";
    		 		response.sendRedirect(redirectURL);
    		 		
             %>
