@@ -160,7 +160,8 @@ $(document).delegate('.graph', 'mouseover', function(event) {
 		},
 		style: { classes: 'barHighlight' },
 		hide: {
-			delay: 0//enter in milliseconds
+			delay: 0
+			//event: false
 		}, 
 		content: {
 			text: visualHighlight($(this))

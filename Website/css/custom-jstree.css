@@ -21,12 +21,12 @@
 }
 
 /* Only contains location suggestions */
-.jstree li.locationSuggestion > a { 
+.jstree li.linkSuggestion > a { 
 	color: #ffd050; 
 }
 
-/* Contains both brokenLink and locationSuggestion*/
-.jstree li.brokenLink.locationSuggestion > a { 
+/* Contains both brokenLink and linkSuggestion*/
+.jstree li.brokenLink.linkSuggestion > a { 
 	color: #b24987; 
 }
 

@@ -10,8 +10,8 @@ var directory = [
 	{ "name":"images", "id":"images_0", "type":"folder", "errorTypes":"", "children":
 		[
 			{ "name":"index.html", "id":"index.html_0", "type":"file", "errorTypes":
-				["brokenLink","locationSuggestion"], "children":""},
-			{ "name":"webloop.html", "id":"testfile.html_0", "type":"file", "errorTypes":["locationSuggestion"], "children":"" },
+				["brokenLink","linkSuggestion"], "children":""},
+			{ "name":"webloop.html", "id":"testfile.html_0", "type":"file", "errorTypes":["linkSuggestion"], "children":"" },
 			{ "name":"testfile.html", "id":"testfile.html_0", "type":"file", "errorTypes":["brokenLink"], "children":"" },
 			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "errorTypes":"", "children":
 				[
@@ -26,8 +26,21 @@ var directory = [
 var fileErrors = [
 	{"id":"index.html_0", "errors":
 		[
-			{ "brokenLink":"starlight.tfi", "locationSuggestion":"testLocation" },
-			{ "brokenLink":"image.jpg", "locationSuggestion":"" }
+			{ "incorrectLocation":"/images", "linkSuggestion":"root"},
+			{ "brokenLink":"starlight.tfi", "linkSuggestion":"images/starlight.tfi" },
+			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
+		]
+	},
+	{"id":"webloop.html_0", "errors":
+		[
+			{ "brokenLink":"starlight.tfi", "linkSuggestion":"testLocation" },
+			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
+		]
+	},
+	{"id":"testfile.html_0", "errors":
+		[
+			{ "brokenLink":"starlight.tfi", "linkSuggestion":"testLocation" },
+			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
 		]
 	}
 ];
@@ -68,20 +81,37 @@ function getFiles(container) {
 
 /* Function to generate the qtip error message */
 function getFileErrors(fileId) {
-								//CAN YOU PLEASE DO AN IF STATEMENT SUCH THAT, IF fileErrors.length == 1, THEN RETURN "COULD NOT FIND THE FILE
-								//WITHOUT THE ADDITIONAL 'S' ON THE END. ALSO MAKE IT AS ONE LINE. OPPOSED TO THE LIST LAYOUT BELOW. THANKS.
 	for(var i = 0; i < fileErrors.length; i++) {
 		/* If this is the case, we know what error message to show */
 		if(fileErrors[i].id == fileId) {
+			errorMessage = "";
+			incorrectLocation = "";
+			brokenLinksMessage = "";
+			brokenLinks = 0;
+			for(var j = 0; j < fileErrors[i].errors.length; j++) {
+				if(fileErrors[i].errors[j]['incorrectLocation']){
+					console.log("there is an incorrectLocation");
+					incorrectLocation += "<p class='incorrectLocation'>This file should probably be located here: <span class='fileLocation'>" + 
+					fileErrors[i].errors[j].incorrectLocation + "</span></p>";
+				}
+				if(fileErrors[i].errors[j]['brokenLink']){
+					brokenLinks ++;
+					console.log("there is a brokenLink");
+					brokenLinksMessage += "<p class='brokenLink'>This link is broken:  <span class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</span";
+					if(fileErrors[i].errors[j]['linkSuggestion']){
+						console.log("there is an incorrectLocation");
+						brokenLinksMessage += " perhaps it's located here: <span class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</span";
+					}
+					brokenLinksMessage += "</p>";
+				}
+			}
 			if(fileErrors.length == 1) {
-				errorMessage = "<p>Hey, we couldn't find the file</p>";
+				brokenLinksMessage = "<p>Hey, we couldn't find the file</p>" + brokenLinksMessage;
 			}
 			else {
-				errorMessage = "<p>Hey, we couldn't find the files</p>";
+				brokenLinksMessage = "<p>Hey, we couldn't find these files</p>" + brokenLinksMessage;
 			}
-			for(var j = 0; j < fileErrors[i].errors.length; j++) {
-				errorMessage += "<p>" + fileErrors[i].errors[j].brokenLink + "</p>";
-			}
+			errorMessage = incorrectLocation + brokenLinksMessage;
 			return errorMessage;
 		}
 	}

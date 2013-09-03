@@ -442,6 +442,10 @@ button:hover {
 	max-width: 50% !important;
 }
 
+	.barHighlight p {
+		margin-bottom: 0;
+	}
+
 .bar {
 	height:30px;
 	width:60%;
