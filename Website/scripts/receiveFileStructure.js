@@ -91,16 +91,16 @@ function getFileErrors(fileId) {
 			for(var j = 0; j < fileErrors[i].errors.length; j++) {
 				if(fileErrors[i].errors[j]['incorrectLocation']){
 					console.log("there is an incorrectLocation");
-					incorrectLocation += "<p class='incorrectLocation'>This file should probably be located here: <span class='fileLocation'>" + 
-					fileErrors[i].errors[j].incorrectLocation + "</span></p>";
+					incorrectLocation += "<p class='incorrectLocation'>Hey this file should probably be in your <span class='fileLocation'>" + 
+					fileErrors[i].errors[j].incorrectLocation + "</span> folder.</p>";
 				}
 				if(fileErrors[i].errors[j]['brokenLink']){
 					brokenLinks ++;
 					console.log("there is a brokenLink");
-					brokenLinksMessage += "<p class='brokenLink'>This link is broken:  <span class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</span";
+					brokenLinksMessage += "<p class='brokenLink'>Oops! This link is broken...  <span class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</span>";
 					if(fileErrors[i].errors[j]['linkSuggestion']){
 						console.log("there is an incorrectLocation");
-						brokenLinksMessage += " perhaps it's located here: <span class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</span";
+						brokenLinksMessage += " perhaps you're meant to link to <span class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</span>";
 					}
 					brokenLinksMessage += "</p>";
 				}
@@ -133,7 +133,7 @@ $(document).delegate('.brokenLink', 'mouseover', function(event) {
 		},
 		style: { classes: 'fileStructureHighlight' },
 		hide: {
-			delay: 0
+			event:"false"
 		}, 
 		content: {
 			text: getFileErrors($(this).attr('id'))

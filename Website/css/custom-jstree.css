@@ -21,12 +21,12 @@
 }
 
 /* Only contains location suggestions */
-.jstree li.linkSuggestion > a { 
+.jstree li.incorrectLocation > a { 
 	color: #ffd050; 
 }
 
 /* Contains both brokenLink and linkSuggestion*/
-.jstree li.brokenLink.linkSuggestion > a { 
+.jstree li.brokenLink.incorrectLocation > a { 
 	color: #b24987; 
 }
 
@@ -42,6 +42,26 @@
 	   -moz-box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
 			box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
 }
+
+	.fileStructureHighlight p {
+		line-height:1.2em;
+	}
+	.fileStructureHighlight p.incorrectLocation {
+		
+		padding:5px;
+	}
+
+	.fileStructureHighlight p.brokenLink {
+		
+	}
+
+	.fileStructureHighlight span.fileName {
+		font-weight: 600;
+	}
+
+	.fileStructureHighlight span.fileLocation {
+		font-weight: 600;
+	}
 
 .fileStructureHighlight p, .fileStructureHighlight li {
 	color:#191D27;
