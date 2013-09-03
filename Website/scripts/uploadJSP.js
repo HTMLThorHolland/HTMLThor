@@ -1,6 +1,7 @@
 
 /* Important function that submits the singleUploadForm when the user selects a file. */
-function uploadJSP() {
-	console.log("uploadingFile");
-	document.getElementById("singleUploadForm").submit();
+function uploadJSP(id) {
+	form = id+"Form";
+	/* the id + "Form" must result in the container FORM id */
+	document.getElementById(form).submit();
 }

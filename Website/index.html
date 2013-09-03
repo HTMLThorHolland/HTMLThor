@@ -229,7 +229,7 @@
 						<div id="iconSingleUpload" class="thumb"></div>
 						<p>upload a single file</p>
 						
-						<form id="singleUploadForm"	action="upload.jsp" method="POST" enctype="multipart/form-data" name="singleForm">
+						<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
 						</form>
@@ -245,7 +245,7 @@
 					<div onclick="getFile('multi')" class="uploadCat one-third column">
 						<div id="iconMultiUpload" class="thumb"></div>
 						<p>upload multiple files</p>
-						<form action="#" method="POST" enctype="multipart/form-data" name="multiForm">
+						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 							<button id="multi" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
 						</form>
@@ -253,7 +253,7 @@
 					<div onclick="getFile('zip')" class="uploadCat one-third column">
 						<div id="iconZipUpload" class="thumb"></div>
 						<p>upload a .zip directory</p>
-						<form action="#" method="POST" enctype="multipart/form-data" name="zipForm">
+						<form id="zipUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="zipForm">
 							<button id="zip" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" value="upload" onchange="uploadFile(this.id)"></div>
 						</form>

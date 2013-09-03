@@ -336,6 +336,7 @@ input, input[type="text"], textarea {
 	border-color:#929292;
 	border-radius:2px;
 	color:#929292;
+	margin-bottom: 10px;
 }
 
 input:focus, input[type="text"]:focus, textarea:focus {

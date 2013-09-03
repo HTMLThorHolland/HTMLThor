@@ -67,18 +67,21 @@ function calculatePercentages(file) {
 	// calculate the percentages
 	// add up the numbers
 	totalErrors = jsonObject[0].errors.count;
-	htmlErrors = 0;
 	syntaxErrors = 0;
 	semanticErrors = 0;
 	warningErrors = 0;
 	deprecatedErrors = 0;
 	
+	totalErrors += 3;// TESTING REMOVE THIS!
+	semanticErrors ++;// TESTING REMOVE THIS!
+	deprecatedErrors += 2;// TESTING REMOVE THIS!
+	
 	/* Counts the number of errors for each type. */
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		switch (jsonObject[0].errors[i].type)
 			{
-			case "html":
-				htmlErrors ++;
+			case "html": // html should not be a case...
+				syntaxErrors ++;
 			  break;
 			case "syntax":
 				syntaxErrors ++;
@@ -108,10 +111,11 @@ function calculatePercentages(file) {
 		warningPercentage = warningErrors / totalErrors * 100;
 		deprecatedPercentage = deprecatedErrors / totalErrors * 100;
 		
-		bars += "<div class='syntax graph' style='width:"+syntaxPercentage+"%;'></div>";
-		bars += "<div class='semantic graph' style='width:"+semanticPercentage+"%;'></div>";
-		bars += "<div class='warning graph' style='width:"+warningPercentage+"%;'></div>";
-		bars += "<div class='deprecated graph' style='width:"+deprecatedPercentage+"%;'></div>";
+		/* Adding attribute errorNumber to allow the hover highlight to easily retrieve the number of errors. */
+		bars += "<div class='syntax graph' style='width:"+syntaxPercentage+"%;' errorNumber='"+syntaxErrors+"'></div>";
+		bars += "<div class='semantic graph' style='width:"+semanticPercentage+"%;' errorNumber='"+semanticErrors+"'></div>";
+		bars += "<div class='warning graph' style='width:"+warningPercentage+"%;' errorNumber='"+warningErrors+"'></div>";
+		bars += "<div class='deprecated graph' style='width:"+deprecatedPercentage+"%;' errorNumber='"+deprecatedErrors+"'></div>";
 		
 	}
 	bars += "</div>";
@@ -122,8 +126,15 @@ function calculatePercentages(file) {
 
 /* In the future this function will generate the highlight message to be displayed. */
 function visualHighlight(barId) {
-	console.log(barId);
-	return "<p>There are 1 syntax errors</p>";
+	errorNumber = barId.attr('errorNumber');
+	errorType = barId.attr('class').split(' ')[0];
+	if(errorNumber == 1){
+		return "<p>There is "+barId.attr('errorNumber')+" "+errorType+" error.</p>";	
+	}
+	else {
+		return "<p>There are "+barId.attr('errorNumber')+" "+errorType+" errors.</p>";		
+	}
+
 	/* WILL NEED THIS LOOP FOR DYNAMIC
 	for(var i = 0; i < statistics.length; i++) {
 		if(statistics[i].id == barId){
@@ -152,7 +163,7 @@ $(document).delegate('.graph', 'mouseover', function(event) {
 			delay: 0//enter in milliseconds
 		}, 
 		content: {
-			text: visualHighlight($(this).closest(".fileGraph").attr('id'))
+			text: visualHighlight($(this))
 		}
 	});
 	

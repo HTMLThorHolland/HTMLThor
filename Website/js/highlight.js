@@ -36,4 +36,3 @@ function addErrorIcon() {
 		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
 	});
 }
-});
