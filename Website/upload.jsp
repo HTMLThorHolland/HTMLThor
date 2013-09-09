@@ -112,7 +112,7 @@
             			
             	
             			// At the very end of the file, after uploads have occurred, run upload.jsp
-   		 				String redirectURL = "check.jsp?type=zip&path=".concat(filePath + fileName);
+   		 				String redirectURL = "check.jsp?type=zip&dirid=".concat(directoryID).concat("&path=").concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
    		 				/*
    		 				ZipInputStream zipInput = new ZipInputStream(new FileInputStream(filePath+fileName));
@@ -206,7 +206,7 @@
             			fileName + "<br>");
             	
             			// At the very end of the file, after uploads have occurred, run upload.jsp
-   		 				String redirectURL = "check.jsp?type=single&path=".concat(filePath + fileName);
+   		 				String redirectURL = "check.jsp?type=single&dirid=".concat(directoryID).concat("&path=").concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
             		}
          		}

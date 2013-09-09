@@ -201,8 +201,9 @@
 	
             <%
             
-            	String type = request.getParameter("type");
-            	if (type.equals("single")) {
+            	String uploadType = request.getParameter("type");
+            	String dirid = request.getParameter("dirid");
+            	if (uploadType.equals("single")) {
    					List<String> fileContents = readUploadedFile(request.getParameter("path"));
    					String fileparam = request.getParameter("path");
             		String[] filestring = fileparam.split("/");
@@ -222,7 +223,7 @@
                 	String redirectURL = "http://www.htmlthor.com";
    		 			response.sendRedirect(redirectURL);
    		 		}
-   		 		else if (type.equals("zip")) {
+   		 		else if (uploadType.equals("zip")) {
    		 			//not much here yet
    		 		}
    		 		
