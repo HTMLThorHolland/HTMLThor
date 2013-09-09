@@ -202,7 +202,7 @@
             <%
             
             	String uploadType = request.getParameter("type");
-            	String dirid = request.getParameter("dirid");
+            	String directoryID = request.getParameter("dirid");
             	if (uploadType.equals("single")) {
    					List<String> fileContents = readUploadedFile(request.getParameter("path"));
    					String fileparam = request.getParameter("path");
@@ -215,8 +215,23 @@
                 	json.put("0", jsonFile);
                 
                 
+ 					String directoryPath = getServletContext().getRealPath("/").concat("temp/")
+						.concat(directoryID).concat("/");
+ 					String outFilePath = directoryPath.concat("errors.json");
                 
-                	Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
+                	try {
+ 					
+						FileWriter file = new FileWriter(outFilePath);
+						file.write(json.toJSONString());
+						file.flush();
+						file.close();
+ 
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+                	
+                
+                	Cookie cookie = new Cookie("dirPath", directoryPath);
                 	response.addCookie(cookie);
                 
                 

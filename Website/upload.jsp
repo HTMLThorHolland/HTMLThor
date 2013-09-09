@@ -37,6 +37,13 @@
 	System.out.println(uploadType);
 	
     String directoryID = generateID();
+    
+    ServletContext context = pageContext.getServletContext();
+	String filePath = getServletContext().getRealPath("/").concat("temp/")
+			.concat(directoryID).concat("/");
+			
+	File directories = new File(filePath);
+	directories.mkdirs();
 	
 	
 	/* =============== ZIP FILE UPLOAD START ====================
@@ -52,12 +59,7 @@
 		File file ;
 		int maxFileSize = 5000 * 1024;
 		int maxMemSize = 5000 * 1024;
-		ServletContext context = pageContext.getServletContext();
-		String filePath = getServletContext().getRealPath("/").concat("temp/")
-			.concat(directoryID).concat("/");
-			
-		File directories = new File(filePath);
-		directories.mkdirs();
+		
 		
 		
    
@@ -156,8 +158,6 @@
 		File file ;
 		int maxFileSize = 5000 * 1024;
 		int maxMemSize = 5000 * 1024;
-		ServletContext context = pageContext.getServletContext();
-		String filePath = getServletContext().getRealPath("/").concat("temp/");
    
         
 		// Verify the content type

@@ -1,7 +1,12 @@
-if ($.cookie("jsonObjectHtml")) {
+
+var jsonObject;
+
+if ($.cookie("dirPath")) {
 
 	console.log("cookie detected");
 	
+	
+	/*
 	var jsonString = $.cookie("jsonObjectHtml");
 	
 	// fix quotations before attempting to parse
@@ -9,11 +14,19 @@ if ($.cookie("jsonObjectHtml")) {
 	jsonString = jsonString.substring(1, jsonString.length-1);
 	
 	var jsonObject = $.parseJSON(jsonString);
+	*/
 	
+	var JSONpath = $.cookie("dirPath");
+	JSONpath = JSONpath.substring(28, JSONpath.length-1);
+	JSONpath += "errors.json";
+	$.getJSON(JSONpath, function(response){
+       jsonObject = response;
+ 	})
+ 	.success(function() {
 	
 	// once cookie is read and parsed, it can be deleted
 	// $.removeCookie("jsonObjectHtml");
-	//alert(jsonObject[0].source);
+	
 	
 	/*
 	======= EXAMPLES OF USE ======
@@ -56,11 +69,11 @@ if ($.cookie("jsonObjectHtml")) {
 		if(jsonObject[0].errors[0]) {
 			console.log("error location "+jsonObject[0].errors[0].line);		
 		}
-		else {
-			console.log("no errors");		
-		}
 		if(jsonObject[0].errors.count != 0) {
 			console.log("there are "+jsonObject[0].errors.count+" errors");		
+		}
+		else {
+			console.log("no errors");		
 		}
 
 
@@ -71,4 +84,5 @@ if ($.cookie("jsonObjectHtml")) {
 		revealSite();
 	});
 	
+	}); // this is only ending the success() function. May want to rewrite this to make it more clear.
 }
