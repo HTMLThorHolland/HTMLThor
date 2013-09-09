@@ -8,6 +8,28 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 
+<%!
+
+	// Generates an ID for the upload in the form of:
+	// #####UUUUUlllll
+	// where # is an integer, U is an uppercase letter, l is a lowercase letter
+	public String generateID() {
+		String newID = "";
+		for (int i = 0; i < 5; i++) {
+			newID = newID.concat(Integer.toString((int)(Math.random()*10)));
+		}
+		for (int i = 0; i < 5; i++) {
+			newID = newID.concat(Character.toString((char)(65+((int)(Math.random()*25)))));
+		}
+		for (int i = 0; i < 5; i++) {
+			newID = newID.concat(Character.toString((char)(97+((int)(Math.random()*25)))));
+		}
+		return newID;
+	}
+
+%>
+
+
 <%
 
 	String uploadType = request.getParameter("uploadType");
@@ -22,11 +44,21 @@
 	
 		out.println("Zip file upload started.");
 		
+		
+    	String directoryID = generateID();
+    	
+		
 		File file ;
 		int maxFileSize = 5000 * 1024;
 		int maxMemSize = 5000 * 1024;
 		ServletContext context = pageContext.getServletContext();
-		String filePath = getServletContext().getRealPath("/").concat("temp/");
+		String filePath = getServletContext().getRealPath("/").concat("temp/")
+			.concat(directoryID).concat("/");
+			
+		File directories = new File(filePath);
+		directories.mkdirs();
+		
+		
    
         
 		// Verify the content type
@@ -36,8 +68,11 @@
 			DiskFileItemFactory factory = new DiskFileItemFactory();
     		// maximum size that will be stored in memory
     		factory.setSizeThreshold(maxMemSize);
+    		
+    		
     		// Location to save data that is larger than maxMemSize.
-      		factory.setRepository(new File(getServletContext().getRealPath("/").concat("temp")));
+      		factory.setRepository(new File(getServletContext().getRealPath("/").concat("temp")
+      			.concat("/").concat(directoryID)));
 
       		// Create a new file upload handler
       		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -48,7 +83,7 @@
          		// Parse the request to get file items.
          		List fileItems = upload.parseRequest(request);
          		out.println("List of fileItems: " + fileItems);
-         
+            	out.println("Generated ID: " + directoryID);
 
          		// Process the uploaded file items
          		Iterator i = fileItems.iterator();
@@ -74,11 +109,12 @@
             			fi.write( file ) ;
             			out.println("Uploaded Filename: " + filePath + 
             			fileName + "<br>");
+            			
             	
             			// At the very end of the file, after uploads have occurred, run upload.jsp
-   		 				//String redirectURL = "check.jsp?path=".concat(filePath + fileName);
-   		 				//response.sendRedirect(redirectURL);
-   		 				
+   		 				String redirectURL = "check.jsp?type=zip&path=".concat(filePath + fileName);
+   		 				response.sendRedirect(redirectURL);
+   		 				/*
    		 				ZipInputStream zipInput = new ZipInputStream(new FileInputStream(filePath+fileName));
       					try	{
             				ZipEntry temp = null;
@@ -89,6 +125,7 @@
        					} catch(Exception ex) {
        						out.println("Failed reading zip"); 
        					}
+       					*/
             		}
          		}
          
@@ -169,7 +206,7 @@
             			fileName + "<br>");
             	
             			// At the very end of the file, after uploads have occurred, run upload.jsp
-   		 				String redirectURL = "check.jsp?path=".concat(filePath + fileName);
+   		 				String redirectURL = "check.jsp?type=single&path=".concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
             		}
          		}

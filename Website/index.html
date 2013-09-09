@@ -255,7 +255,7 @@
 						<p>upload a .zip directory</p>
 						<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
 							<button id="zip" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" value="upload" onchange="uploadJSP(this.id)"></div>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
 						</form>
 					</div>
 					<div class="sixteen columns">

@@ -201,25 +201,30 @@
 	
             <%
             
-            
-   List<String> fileContents = readUploadedFile(request.getParameter("path"));
-   				String fileparam = request.getParameter("path");
-            	String[] filestring = fileparam.split("/");
-            	String filename = filestring[filestring.length-1];
+            	String type = request.getParameter("type");
+            	if (type.equals("single")) {
+   					List<String> fileContents = readUploadedFile(request.getParameter("path"));
+   					String fileparam = request.getParameter("path");
+            		String[] filestring = fileparam.split("/");
+            		String filename = filestring[filestring.length-1];
                 
-                JSONObject jsonFile = findErrors(fileContents);
-                jsonFile.put("filename", filename);
-                JSONObject json = new JSONObject();
-                json.put("0", jsonFile);
-                
-                
-                
-                Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
-                response.addCookie(cookie);
+               		JSONObject jsonFile = findErrors(fileContents);
+                	jsonFile.put("filename", filename);
+                	JSONObject json = new JSONObject();
+                	json.put("0", jsonFile);
                 
                 
-                String redirectURL = "http://www.htmlthor.com";
-   		 		response.sendRedirect(redirectURL);
+                
+                	Cookie cookie = new Cookie("jsonObjectHtml", json.toString());
+                	response.addCookie(cookie);
+                
+                
+                	String redirectURL = "http://www.htmlthor.com";
+   		 			response.sendRedirect(redirectURL);
+   		 		}
+   		 		else if (type.equals("zip")) {
+   		 			//not much here yet
+   		 		}
    		 		
             %>
             
