@@ -256,6 +256,8 @@
 				** ========================================================== */
    		 		
    		 		else if (uploadType.equals("zip")) {
+   		 		
+   		 			JSONObject dirJSON = new JSONObject;
    		 				
    		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
       				try	{
@@ -271,32 +273,38 @@
              				while ((read = zipInput.read(buffer, 0, 1024)) >= 0) {
            						s.append(new String(buffer, 0, read));
       						}
+      						if (!temp.isDirectory()) {
+      							String[] tempSourceArr = s.toString().split("\n");
+      							List<String> fileContents = new ArrayList<String>();
+      							for (int i = 0; i < tempSourceArr.length; i++) {
+     								fileContents.add(tempSourceArr[i]);
+      							}
       						
-      						String[] tempSourceArr = s.toString().split("\n");
-      						List<String> fileContents = new ArrayList<String>();
-      						for (int i = 0; i < tempSourceArr.length; i++) {
-     							fileContents.add(tempSourceArr[i]);
-      						}
+      							JSONObject jsonTemp = findErrors(fileContents);
+                				jsonTemp.put("filename", temp.getName());
       						
-      						JSONObject jsonTemp = findErrors(fileContents);
-                			jsonTemp.put("filename", temp.getName());
-      						
-                			json.put(Integer.toString(fileCount), jsonTemp);
-                			fileCount++;
-      						
+                				json.put(Integer.toString(fileCount), jsonTemp);
+                				fileCount++;
+                			}      						
             			}
             			
             			
             			String directoryPath = getServletContext().getRealPath("/").concat("temp/")
 						.concat(directoryID).concat("/");
- 						String outFilePath = directoryPath.concat("errors.json");
+ 						String errFilePath = directoryPath.concat("errors.json");
+ 						String dirFilePath = directoryPath.concat("directory.json");
                 
                 		try {
  					
-							FileWriter file = new FileWriter(outFilePath);
-							file.write(json.toJSONString());
-							file.flush();
-							file.close();
+							FileWriter errFile = new FileWriter(errFilePath);
+							errFile.write(json.toJSONString());
+							errFile.flush();
+							errFile.close();
+							
+							FileWriter dirFile = new FileWriter(dirFilePath);
+							dirFile.write(dirJSON.toJSONString());
+							dirFile.flush();
+							dirFile.close();
  
 						} catch (IOException e) {
 							e.printStackTrace();
