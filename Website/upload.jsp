@@ -36,6 +36,8 @@
 	
 	System.out.println(uploadType);
 	
+    String directoryID = generateID();
+	
 	
 	/* =============== ZIP FILE UPLOAD START ====================
 	** ========================================================== */
@@ -45,7 +47,6 @@
 		out.println("Zip file upload started.");
 		
 		
-    	String directoryID = generateID();
     	
 		
 		File file ;
