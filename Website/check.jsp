@@ -2,9 +2,13 @@
 	import="java.*" errorPage=""%>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.util.zip.*" %>
+<%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import="org.apache.commons.fileupload.disk.*" %>
+<%@ page import="org.apache.commons.fileupload.servlet.*" %>
+<%@ page import="org.apache.commons.io.output.*" %>
 <%@ page import="org.json.simple.JSONObject;" %>
-<%-- This is the base jsp file that runs the file upload method.
-	 It requires the HTML form section to have ENCTYPE="multipart/form-data" ACTION="upload.jsp" METHOD=POST --%>
+
 	 
 <html>
 <head>
@@ -203,6 +207,10 @@
             
             	String uploadType = request.getParameter("type");
             	String directoryID = request.getParameter("dirid");
+            	
+            	/* ================ SINGLE FILE CHECKING START ==============
+				** ========================================================== */
+            	
             	if (uploadType.equals("single")) {
    					List<String> fileContents = readUploadedFile(request.getParameter("path"));
    					String fileparam = request.getParameter("path");
@@ -238,9 +246,77 @@
                 	String redirectURL = "http://www.htmlthor.com";
    		 			response.sendRedirect(redirectURL);
    		 		}
+   		 		
+   		 		
+   		 		/* ================ SINGLE FILE CHECKING END ================
+				** ========================================================== */
+   		 		
+   		 		
+   		 		/* ================ ZIP FILE CHECKING START =================
+				** ========================================================== */
+   		 		
    		 		else if (uploadType.equals("zip")) {
-   		 			//not much here yet
+   		 				
+   		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
+      				try	{
+            			ZipEntry temp = null;
+            			StringBuilder s = new StringBuilder();
+						byte[] buffer = new byte[1024];
+						int read = 0;
+						int fileCount = 0;
+						JSONObject json = new JSONObject();
+            			while ((temp = zipInput.getNextEntry()) != null ) 
+            			{
+             				
+             				while ((read = zipInput.read(buffer, 0, 1024)) >= 0) {
+           						s.append(new String(buffer, 0, read));
+      						}
+      						
+      						String[] tempSourceArr = s.toString().split("\n");
+      						List<String> fileContents = new ArrayList<String>();
+      						for (int i = 0; i < tempSourceArr.length; i++) {
+     							fileContents.add(tempSourceArr[i]);
+      						}
+      						
+      						JSONObject jsonTemp = findErrors(fileContents);
+                			jsonTemp.put("filename", temp.getName());
+      						
+                			json.put(Integer.toString(fileCount), jsonTemp);
+                			fileCount++;
+      						
+            			}
+            			
+            			
+            			String directoryPath = getServletContext().getRealPath("/").concat("temp/")
+						.concat(directoryID).concat("/");
+ 						String outFilePath = directoryPath.concat("errors.json");
+                
+                		try {
+ 					
+							FileWriter file = new FileWriter(outFilePath);
+							file.write(json.toJSONString());
+							file.flush();
+							file.close();
+ 
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+                	
+                
+                		Cookie cookie = new Cookie("dirPath", directoryPath);
+                		response.addCookie(cookie);
+                
+                
+                		String redirectURL = "http://www.htmlthor.com";
+   		 				response.sendRedirect(redirectURL);
+       				} catch(Exception ex) {
+       					out.println(ex.getMessage()); 
+       				}
+       				
    		 		}
+   		 		
+   		 		/* ================ ZIP FILE CHECKING END ===================
+				** ========================================================== */
    		 		
             %>
             

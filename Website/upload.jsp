@@ -117,18 +117,7 @@
             			// At the very end of the file, after uploads have occurred, run upload.jsp
    		 				String redirectURL = "check.jsp?type=zip&dirid=".concat(directoryID).concat("&path=").concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
-   		 				/*
-   		 				ZipInputStream zipInput = new ZipInputStream(new FileInputStream(filePath+fileName));
-      					try	{
-            				ZipEntry temp = null;
-            				while ((temp = zipInput.getNextEntry()) != null ) 
-            				{
-             					out.println(temp.getName());
-            				}
-       					} catch(Exception ex) {
-       						out.println("Failed reading zip"); 
-       					}
-       					*/
+   		 				
             		}
          		}
          
