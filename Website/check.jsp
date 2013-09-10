@@ -379,6 +379,7 @@
 			boolean closeTag =  false;
 			boolean startComment = false;
 			boolean whiteSpaceFlag = false;
+			boolean selfClosing = false;
 			int tagStart = 0;
 			int tagEnd = 0;
 
@@ -399,15 +400,6 @@
 						}
 					}
 			
-					if(charArray.getChar(i)=='>') {
-						closeTag = true;
-						openTag = false;
-						// Check if comment tag closed
-						if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
-							startComment = false;
-						}
-					}	
-					
 					// As long as a comment tag is not open, another tag is open and 
 					// whitespace has not been reached to signal the end of the tag name:
 					if ((startComment==false)&&(openTag==true)&&(whiteSpaceFlag==false)) {
@@ -415,9 +407,28 @@
 							whiteSpaceFlag = true;
 							tagEnd = i-1;
 							String tagName = charArray.getTag(tagStart, tagEnd);
-							checkTag(tagName);
+							checkValidTag(tagName);
+							if(isSelfClosing(tagName)) {
+								selfClosing = true;
+							}
 						}
 					}
+			
+					if(charArray.getChar(i)=='>') {
+						closeTag = true;
+						openTag = false;
+						// Check if comment tag closed
+						if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
+							startComment = false;
+						}
+						else if(selfClosingTag) { 						
+							if(charArray.getChar(i-1) != '/') {
+								//return notSelfClosedError;
+							}
+							selfClosing = false;
+						}
+						
+					}	
 					
 				}
 			}	
@@ -431,7 +442,7 @@
 			 * @return <code>true</code> if the tag exists; <code>false</code>
 			 * otherwise
 			 */
-			public boolean tagExists(String tag) {
+			public boolean existingTag(String tag) {
 				ArrayList<String> tagList = getTags();
 				if(tagList.contains(tag)) {
 					return true;
@@ -448,33 +459,40 @@
 			 * @return <code>true</code> if the tag is deprecated; 
 			 * <code>false</code> otherwise
 			 */
-			public boolean tagDeprecated(String tag) {
+			public boolean deprecatedTag(String tag) {
 				return isDeprecated(tag);
 			}
 			
-			//public String checkTag(String tagName) {
-				// Check to see if string tagName is in the array of tag strings
-				// (that we got earlier from the database)
+			/**
+			 * Checks if the given tag is singular, and if so, if it has already
+			 * been entered.
+			 *
+			 * @param tag the tag being checked
+			 * @return <code>true</code> if the tag is singular and has already been added; 
+			 * <code>false</code> otherwise
+			 */
+			public boolean singularTagExists(String tag) {
+				//if the given tag is a singular tag and has already been entered
+				//return true;
 				
-				// If it is valid:
-				//if (!tagExists(tagName)) {
+				//else return false;
+			}
+			
+			/**
+			 * Checks the tag given against a number of validity checks.
+			 * @param tag the name of the tag given
+			 */
+			public void checkValidTag(String tag) {
+				if (!existingTag(tag)) {
 				//	return NonExistentError;
-				//}
-				//else if(tagDeprecated(tagName)) {
+				}
+				else if(deprecatedTag(tag)) {
 				//	return DeprecatedError;
-				//}
-				
-				//if(requiresAttr(tagName)) {
-					//AttrList = getAttr(tagName);
-					//checkAttributes(ArrayList); 
-				//}
-				
-				
-				// If it isn't valid:
-				//return sexyerror;
-				
-	
-			//}
+				}
+				else if(singularTagExists(tag) {
+				// return SingularTagError;
+				}
+			}
 				
 			
 				
