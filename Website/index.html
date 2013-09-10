@@ -86,6 +86,10 @@
 	================================================== -->
 	<script type="text/javascript" src="scripts/errors.js"></script>
 	
+	<!-- Add Breakdown to Page Source
+	================================================== -->
+	<script type="text/javascript" src="scripts/globalBreakdown.js"></script>
+	
 	
 	
 	
@@ -135,7 +139,7 @@
 				<a href=#>file structure</a>
 			</li>
 			<!-- add .extraOne back in structureLink -->
-			<li id="sourceLink" class="extraOne">
+			<li id="sourceLink" class="">
 				<a href=#>page source</a>
 			</li>
 			<!-- add .extraOne back in extraOnestructureLink -->
@@ -247,7 +251,7 @@
 						<p>upload multiple files</p>
 						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 							<button id="multi" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" value="upload" onchange="uploadJSP(this.id)"></div>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
 						</form>
 					</div>
 					<div onclick="getFile('zip')" class="uploadCat one-third column">
@@ -403,6 +407,10 @@
 							
 				<div id="source" class="section code source">
 					<div class="sectionContent sixteen columns">
+						<div id="sourceBreakdown">
+						
+						</div>
+						<div style="clear:both"></div>
 						<form id="pageSourceSelect" class="selectFile">
 							<label for="selectSourceFile">Select a page to view </label>
 							<select name="selectSourceFile">
@@ -413,8 +421,7 @@
 						</form>
 						<div style="clear:both"></div>
 						<div id="pageSource" class="pageSource">
-	<pre class="prettyprint linenums" id="pageCode" ></pre>
-
+							<pre class="prettyprint linenums" id="pageCode" ></pre>
 						</div>
 						
 					</div>

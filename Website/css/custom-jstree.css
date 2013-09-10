@@ -34,7 +34,7 @@
 	font-weight: 300;
 	font-family: "Source Sans Pro","Century Gothic";
 	font-size: 0.8em;
-	padding:10px;
+	padding:0;
 	color:#191D27;
 	background-color:#e3e6ec;
 	border:none;
@@ -43,26 +43,100 @@
 			box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
 }
 
+	.fileStructureHighlight .qtip-content {
+		padding: 0;
+	}
+
 	.fileStructureHighlight p {
 		line-height:1.2em;
+		margin-bottom: 5px;
 	}
-	.fileStructureHighlight p.incorrectLocation {
-		
-		padding:5px;
+	.fileStructureHighlight .incorrectLocation {
+		width: 100%;
+		min-width: 280px;
+		background-color: #FFD050;
+		padding: 6px;
+		box-sizing: border-box;
+		-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+		-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	}
+	
+		.fileStructureHighlight .incorrectLocation p {
+			width: 100%;
+			color: #191D27;
+			font-size: .9em;
+			font-weight: 200;
+			text-align: center;
+			margin-bottom: 0;
+		}
+	
+			.fileStructureHighlight .incorrectLocation p.fileLocation {
+				font-weight: 600;
+			}
 
 	.fileStructureHighlight p.brokenLink {
 		
 	}
 
-	.fileStructureHighlight span.fileName {
-		font-weight: 600;
+	.fileStructureHighlight p.fileName {
 	}
 
-	.fileStructureHighlight span.fileLocation {
-		font-weight: 600;
+	.fileStructureHighlight p.fileLocation {
 	}
 
 .fileStructureHighlight p, .fileStructureHighlight li {
 	color:#191D27;
+}
+
+.brokenLinksContainer {
+	width: 90%;
+	margin: 0 auto;
+	padding-bottom: 10px;
+}
+
+	.brokenLinksContainer .brokenLinksTop {
+		padding-top: 8px;
+		border-bottom: 1px solid #D8D8D8;
+		margin-bottom: 8px;
+	}
+
+	.brokenLinksContainer p {
+		font-size: .9em;
+	}
+
+	.brokenLinksContainer p.fileName {
+		color: #F31040;
+	}
+
+	.brokenLinksContainer p.fileLocation {
+		color: #9C9C9C;
+	}
+
+.brokenTitle {
+	width: 50%;
+	float: left;
+}
+
+	.brokenTitle h3, .linkTitle h3 {
+		font-size:1em;
+		color: #191D27;
+		font-weight: 500;
+		line-height: 20px;
+		font-family: "Source sans pro";
+		margin-bottom: 1px;
+	}
+
+.linkTitle {
+	width: 50%;
+	float: left;
+}
+
+.brokenLinkHalf {
+	width: 50%;
+	float: left;
+}
+
+.linkSuggestionHalf {
+	width: 50%;
+	float: left;
 }
