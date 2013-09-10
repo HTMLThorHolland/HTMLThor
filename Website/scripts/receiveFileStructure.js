@@ -10,8 +10,8 @@ var directory = [
 	{ "name":"images", "id":"images_0", "type":"folder", "errorTypes":"", "children":
 		[
 			{ "name":"index.html", "id":"index.html_0", "type":"file", "errorTypes":
-				["brokenLink","linkSuggestion"], "children":""},
-			{ "name":"webloop.html", "id":"testfile.html_0", "type":"file", "errorTypes":["linkSuggestion"], "children":"" },
+				["brokenLink","incorrectLocation"], "children":""},
+			{ "name":"webloop.html", "id":"webloop.html_0", "type":"file", "errorTypes":["incorrectLocation"], "children":"" },
 			{ "name":"testfile.html", "id":"testfile.html_0", "type":"file", "errorTypes":["brokenLink"], "children":"" },
 			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "errorTypes":"", "children":
 				[
@@ -33,8 +33,7 @@ var fileErrors = [
 	},
 	{"id":"webloop.html_0", "errors":
 		[
-			{ "brokenLink":"starlight.tfi", "linkSuggestion":"testLocation" },
-			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
+			{ "incorrectLocation":"/images", "linkSuggestion":"root"}
 		]
 	},
 	{"id":"testfile.html_0", "errors":
@@ -91,25 +90,24 @@ function getFileErrors(fileId) {
 			for(var j = 0; j < fileErrors[i].errors.length; j++) {
 				if(fileErrors[i].errors[j]['incorrectLocation']){
 					console.log("there is an incorrectLocation");
-					incorrectLocation += "<p class='incorrectLocation'>Hey this file should probably be in your <span class='fileLocation'>" + 
-					fileErrors[i].errors[j].incorrectLocation + "</span> folder.</p>";
+					incorrectLocation += "<div class='incorrectLocation'><p>Hey this file should probably be in</p> <p class='fileLocation'>" + 
+					fileErrors[i].errors[j].linkSuggestion + "</p></div>";
 				}
 				if(fileErrors[i].errors[j]['brokenLink']){
 					brokenLinks ++;
 					console.log("there is a brokenLink");
-					brokenLinksMessage += "<p class='brokenLink'>Oops! This link is broken...  <span class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</span>";
+					brokenLinksMessage += "<div class='brokenLinkHalf'><p class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</p></div>";
 					if(fileErrors[i].errors[j]['linkSuggestion']){
 						console.log("there is an incorrectLocation");
-						brokenLinksMessage += " perhaps you're meant to link to <span class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</span>";
+						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</p></div>";
 					}
-					brokenLinksMessage += "</p>";
+					else {
+						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>no suggestion</p></div>";
+					}
 				}
 			}
-			if(fileErrors.length == 1) {
-				brokenLinksMessage = "<p>Hey, we couldn't find the file</p>" + brokenLinksMessage;
-			}
-			else {
-				brokenLinksMessage = "<p>Hey, we couldn't find these files</p>" + brokenLinksMessage;
+			if(brokenLinks > 0) {
+				brokenLinksMessage = "<div class='brokenLinksContainer'><div class='brokenLinksTop'><div class='brokenTitle'><h3>Broken Link</h3></div><div class='linkTitle'><h3>Link Suggestion</h3></div><div style='clear:both'></div></div>" + brokenLinksMessage +"<div style='clear:both'></div></div>";
 			}
 			errorMessage = incorrectLocation + brokenLinksMessage;
 			return errorMessage;
@@ -118,22 +116,33 @@ function getFileErrors(fileId) {
 }
 
 /* When the user highlights over a brokenLink a qtip is generated. */
-$(document).delegate('.brokenLink', 'mouseover', function(event) {
+$(document).delegate('.brokenLink, .incorrectLocation', 'mouseover', function(event) {
 	console.log("hover");
 	$(this).qtip({
-		overwrite: false,
+		overwrite: true,
 		show: {
 			event: event.type,
 			ready: true
 		},
 		position: {
+			adjust: {
+               screen: true // Keep the tooltip on-screen at all times
+            },
 			my: 'bottom left',
 			at: 'top left',
 			target: $(this)
 		},
-		style: { classes: 'fileStructureHighlight' },
+		style: { 
+			classes: 'fileStructureHighlight',
+			tip: true,
+			border: {
+				width: 3, 
+				radius: 8, 
+				color: '#646358'
+			}
+		},
 		hide: {
-			event:"false"
+			/*event:"false"*/
 		}, 
 		content: {
 			text: getFileErrors($(this).attr('id'))

@@ -724,6 +724,16 @@ button:hover {
 	width: 100%;
 }
 
+#sourceBreakdown {
+	width: 100%;
+	border-bottom: 1px solid #A5A5A5;
+	margin-bottom: 8px;
+}
+
+	#sourceBreakdown .fileGraph {
+		margin-bottom: 8px;
+	}
+
 .selectFile {
 	margin-left: 50px;
 	border-bottom: 2px solid #A2A7AC;
