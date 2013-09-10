@@ -267,6 +267,7 @@
 						int read = 0;
 						int fileCount = 0;
 						JSONObject json = new JSONObject();
+						// process each entry in the zip file
             			while ((temp = zipInput.getNextEntry()) != null ) 
             			{
              				
@@ -274,6 +275,8 @@
            						s.append(new String(buffer, 0, read));
       						}
       						if (!temp.isDirectory()) {
+      						// process the file if it's not a directory
+      						// NEED TO CHECK FOR FILE TYPE HERE TO MAKE SURE ONLY HTML IS PROCESSED
       							String[] tempSourceArr = s.toString().split("\n");
       							List<String> fileContents = new ArrayList<String>();
       							for (int i = 0; i < tempSourceArr.length; i++) {
@@ -294,21 +297,16 @@
  						String errFilePath = directoryPath.concat("errors.json");
  						String dirFilePath = directoryPath.concat("directory.json");
                 
-                		try {
- 					
-							FileWriter errFile = new FileWriter(errFilePath);
-							errFile.write(json.toJSONString());
-							errFile.flush();
-							errFile.close();
+                	
+						FileWriter errFile = new FileWriter(errFilePath);
+						errFile.write(json.toJSONString());
+						errFile.flush();
+						errFile.close();
 							
-							FileWriter dirFile = new FileWriter(dirFilePath);
-							dirFile.write(dirJSON.toJSONString());
-							dirFile.flush();
-							dirFile.close();
- 
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						FileWriter dirFile = new FileWriter(dirFilePath);
+						dirFile.write(dirJSON.toJSONString());
+						dirFile.flush();
+						dirFile.close();
                 	
                 
                 		Cookie cookie = new Cookie("dirPath", directoryPath);
