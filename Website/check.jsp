@@ -414,7 +414,8 @@
 						if(charArray.getChar(i)==' ') {
 							whiteSpaceFlag = true;
 							tagEnd = i-1;
-							//checkTag(tagStart, tagEnd);
+							String tagName = charArray.getTag(tagStart, tagEnd);
+							checkTag(tagName);
 						}
 					}
 				
@@ -423,18 +424,33 @@
 			}	
 			%>
 			
-			<%!			
-			//public String checkTag(int tagStart, int tagEnd) {
-				
-				//String tagName = charArray.getTag(tagStart, tagEnd);
-				
+			<%!
+			public boolean tagExists(String tag) {
+				ArrayList<String> tagList = getTags();
+				if(tagList.contains(tag)) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			
+			public boolean tagDeprecated(String tag) {
+				return isDeprecated(tag);
+			}
+			
+			//public String checkTag(String tagName) {
 				// Check to see if string tagName is in the array of tag strings
 				// (that we got earlier from the database)
 				
 				// If it is valid:
-				//if(isDeprecated(tagName)) {
-					//return DeprecatedError
+				//if (!tagExists(tagName)) {
+				//	return NonExistentError;
 				//}
+				//else if(tagDeprecated(tagName)) {
+				//	return DeprecatedError;
+				//}
+				
 				//if(requiresAttr(tagName)) {
 					//AttrList = getAttr(tagName);
 					//checkAttributes(ArrayList); 
