@@ -418,13 +418,19 @@
 							checkTag(tagName);
 						}
 					}
-				
-				
+					
 				}
 			}	
 			%>
 			
 			<%!
+			/**
+			 * Checks if the given tag exists and returns a boolean value.
+			 *
+			 * @param tag the tag being checked
+			 * @return <code>true</code> if the tag exists; <code>false</code>
+			 * otherwise
+			 */
 			public boolean tagExists(String tag) {
 				ArrayList<String> tagList = getTags();
 				if(tagList.contains(tag)) {
@@ -435,6 +441,13 @@
 				}
 			}
 			
+			/**
+			 * Checks if the given tag is deprecated and returns a boolean value.
+			 *
+			 * @param tag the tag being checked
+			 * @return <code>true</code> if the tag is deprecated; 
+			 * <code>false</code> otherwise
+			 */
 			public boolean tagDeprecated(String tag) {
 				return isDeprecated(tag);
 			}
