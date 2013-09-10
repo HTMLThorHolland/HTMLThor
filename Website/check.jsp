@@ -48,8 +48,6 @@
 	// returns 1 if valid comment tag
 	// returns 2 if invalid comment tag (unended)
 	public int isComment(String tag) {
-		
-		
 		int startIndex = tag.indexOf("<!--");
 		int endIndex = tag.indexOf("-->");
 		
@@ -132,13 +130,9 @@
             sourceCode = sourceCode.concat(tempLine);
         }
 	
-	
-		
 		json.put("source", sourceLines);
 		
 		String checkedCode = "";
-		
-		
 		
 		// do the error processing here
 		int errorCount = 0;
@@ -234,7 +228,6 @@
 	private int checkDoctype(String[] firstTag) {
 		if (firstTag.length > 0) {
 			if (!firstTag[0].equals("!DOCTYPE")) {
-				
 				return 1;
 			}
 			else {
@@ -260,7 +253,6 @@
 	<div>
 	
             <%
-            
             	String uploadType = request.getParameter("type");
             	String directoryID = request.getParameter("dirid");
             	
@@ -383,9 +375,6 @@
             %>
             
             <%
-		
-		
-
 			boolean openTag = false;
 			boolean closeTag =  false;
 			boolean startComment = false;
@@ -396,42 +385,41 @@
 			for (int i = 0; i < fileContents.size(); i++) {
             	String nextLine = fileContents.get(i);
 						
-			CharArray charArray = new CharArray(nextLine.toCharArray());
-			// char[] charArray = nextLine.toCharArray();
+				CharArray charArray = new CharArray(nextLine.toCharArray());
 			
-			// Import database list of valid tags
+				// Import database list of valid tags
 			
-			for(i=0; i<charArray.getLength(); i++) {
-				if(charArray.getChar(i)=='<') {
-					openTag = true;
-					tagStart = i+1;
-					// Check if opened a comment tag
-					if((charArray.getChar(i+1)=='!')&&(charArray.getChar(i+2)=='-')&&(charArray.getChar(i+3)=='-')) {
-						startComment = true;
+				for(i=0; i<charArray.getLength(); i++) {
+					if(charArray.getChar(i)=='<') {
+						openTag = true;
+						tagStart = i+1;
+						// Check if opened a comment tag
+						if((charArray.getChar(i+1)=='!')&&(charArray.getChar(i+2)=='-')&&(charArray.getChar(i+3)=='-')) {
+							startComment = true;
+						}
 					}
-				}
 			
-				if(charArray.getChar(i)=='>') {
-					closeTag = true;
-					openTag = false;
-					// Check if comment tag closed
-					if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
-						startComment = false;
-					}
-				}	
+					if(charArray.getChar(i)=='>') {
+						closeTag = true;
+						openTag = false;
+						// Check if comment tag closed
+						if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
+							startComment = false;
+						}
+					}	
 					
-				// As long as a comment tag is not open, another tag is open and 
-				// whitespace has not been reached to signal the end of the tag name:
-				if ((startComment==false)&&(openTag==true)&&(whiteSpaceFlag==false)) {
-					if(charArray.getChar(i)==' ') {
-						whiteSpaceFlag = true;
-						tagEnd = i-1;
-						//checkTag(tagStart, tagEnd);
+					// As long as a comment tag is not open, another tag is open and 
+					// whitespace has not been reached to signal the end of the tag name:
+					if ((startComment==false)&&(openTag==true)&&(whiteSpaceFlag==false)) {
+						if(charArray.getChar(i)==' ') {
+							whiteSpaceFlag = true;
+							tagEnd = i-1;
+							//checkTag(tagStart, tagEnd);
+						}
 					}
+				
+				
 				}
-				
-				
-			}
 			}	
 			%>
 			
