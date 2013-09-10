@@ -59,6 +59,33 @@
 		return 0;
 	}
 	
+	public class CharArray {
+			
+				private char[] charArray;
+			
+				public CharArray(char[] charArray) {
+					this.charArray = charArray;				
+				}
+				
+				public char getChar(int i) {
+					return charArray[i];
+				}
+				
+				public int getLength() {
+					return charArray.length;
+				}
+				
+				public String getTag(int tagStart, int tagEnd) {
+				
+					StringBuilder tagName = new StringBuilder();
+				
+					for(int j=tagStart; j < (tagEnd + 1); j++) {
+						tagName.append(this.getChar(j));
+					}
+					
+					return tagName.toString();
+				}			
+	}	
 	
 	// Takes the source code as a string and returns a complete JSONObject
 	// with source code as well as all errors found in the code
@@ -328,7 +355,86 @@
    		 		
             %>
             
-            
+            <%
+		
+		
+
+			boolean openTag = false;
+			boolean closeTag =  false;
+			boolean startComment = false;
+			boolean whiteSpaceFlag = false;
+			int tagStart = 0;
+			int tagEnd = 0;
+
+			for (int i = 0; i < fileContents.size(); i++) {
+            	String nextLine = fileContents.get(i);
+						
+			CharArray charArray = new CharArray(nextLine.toCharArray());
+			// char[] charArray = nextLine.toCharArray();
+			
+			// Import database list of valid tags
+			
+			for(i=0; i<charArray.getLength(); i++) {
+				if(charArray.getChar(i)=='<') {
+					openTag = true;
+					tagStart = i+1;
+					// Check if opened a comment tag
+					if((charArray.getChar(i+1)=='!')&&(charArray.getChar(i+2)=='-')&&(charArray.getChar(i+3)=='-')) {
+						startComment = true;
+					}
+				}
+			
+				if(charArray.getChar(i)=='>') {
+					closeTag = true;
+					openTag = false;
+					// Check if comment tag closed
+					if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
+						startComment = false;
+					}
+				}	
+					
+				// As long as a comment tag is not open, another tag is open and 
+				// whitespace has not been reached to signal the end of the tag name:
+				if ((startComment==false)&&(openTag==true)&&(whiteSpaceFlag==false)) {
+					if(charArray.getChar(i)==' ') {
+						whiteSpaceFlag = true;
+						tagEnd = i-1;
+						//checkTag(tagStart, tagEnd);
+					}
+				}
+				
+				
+			}
+			}	
+			%>
+			
+			<%!			
+			//public String checkTag(int tagStart, int tagEnd) {
+				
+				//String tagName = charArray.getTag(tagStart, tagEnd);
+				
+				// Check to see if string tagName is in the array of tag strings
+				// (that we got earlier from the database)
+				
+				// If it is valid:
+				//if(isDeprecated(tagName)) {
+					//return DeprecatedError
+				//}
+				//if(requiresAttr(tagName)) {
+					//AttrList = getAttr(tagName);
+					//checkAttributes(ArrayList); 
+				//}
+				
+				
+				// If it isn't valid:
+				//return sexyerror;
+				
+	
+			}
+				
+			
+				
+			%>
             </div>
 </body>
 </html>
