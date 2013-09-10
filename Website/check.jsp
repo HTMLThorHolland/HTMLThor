@@ -59,26 +59,55 @@
 		return 0;
 	}
 	
+	/**
+	 * Class for accessing the character array of the line of the HTML file
+	 * being parsed. 
+	 */
 	public class CharArray {
 			
 				private char[] charArray;
 			
+				/**
+				 * Constructor for the CharArray.
+				 */
 				public CharArray(char[] charArray) {
 					this.charArray = charArray;				
 				}
 				
+				/**
+				 * Returns the character at the index given.
+				 *
+				 * @param i the index of the character in the array.
+				 * @return the character at the specified index.
+				 */
 				public char getChar(int i) {
 					return charArray[i];
 				}
 				
+				/**
+				 * Returns the length of the CharArray.
+				 *
+				 * @return the length of the CharArray
+				 */
 				public int getLength() {
 					return charArray.length;
 				}
 				
+				/**
+				 * Returns a String that returns the tag given between the tag
+				 * start and end index given.
+				 *
+				 * @param tagStart the start index of the tag
+				 * @param tagEnd the end index of the tag
+				 * @return the tag specified by the tag's start and end index. 
+				 */
 				public String getTag(int tagStart, int tagEnd) {
 				
 					StringBuilder tagName = new StringBuilder();
-				
+					
+					/* Iterates through the array between the indices
+					 * and adds each character to the tag string. 
+					 */
 					for(int j=tagStart; j < (tagEnd + 1); j++) {
 						tagName.append(this.getChar(j));
 					}
