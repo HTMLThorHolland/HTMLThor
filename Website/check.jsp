@@ -47,6 +47,7 @@
 		
 	// returns 1 if valid comment tag
 	// returns 2 if invalid comment tag (unended)
+	// Why is this code up here?
 	public int isComment(String tag) {
 		int startIndex = tag.indexOf("<!--");
 		int endIndex = tag.indexOf("-->");
@@ -57,61 +58,84 @@
 		return 0;
 	}
 	
+	/** 
+	 * Class for storing string representations of various errors and
+	 * final variables for easy reference.
+	 *
+	 * Add any error here that we should be checking for.
+	 *
+	 * Not sure what form they should be (Strings, ints, some custom Object...)
+	 *
+	 * @author Ameer Sabri
+	 */
+	public class Error {
+		public static final String DEPRECATED_TAG;
+		public static final String NON_EXISTENT_TAG;
+		public static final String DUPLICATE_SINGULAR_TAG;
+		public static final String FORM_TAG_OUT_OF_FORM;
+		public static final String TABLE_TAG_OUT_OF_TABLE;
+		
+		public static final String NON_EXISTENT_ATTR;
+		public static final String BAD_ATTR_VALUE;
+	}
+	
 	/**
 	 * Class for accessing the character array of the line of the HTML file
 	 * being parsed. 
+	 *
+	 * @author Ameer Sabri
 	 */
 	public class CharArray {
 			
-				private char[] charArray;
+		private char[] charArray;
 			
-				/**
-				 * Constructor for the CharArray.
-				 */
-				public CharArray(char[] charArray) {
-					this.charArray = charArray;				
-				}
+		/**
+		 * Constructor for the CharArray.
+		 */
+		public CharArray(char[] charArray) {
+			this.charArray = charArray;				
+		}
 				
-				/**
-				 * Returns the character at the index given.
-				 *
-				 * @param i the index of the character in the array.
-				 * @return the character at the specified index.
-				 */
-				public char getChar(int i) {
-					return charArray[i];
-				}
+		/**
+		 * Returns the character at the index given.
+		 *
+		 * @param i the index of the character in the array.
+		 * @return the character at the specified index.
+		 */
+		public char getChar(int i) {
+			return charArray[i];
+		}
 				
-				/**
-				 * Returns the length of the CharArray.
-				 *
-				 * @return the length of the CharArray
-				 */
-				public int getLength() {
-					return charArray.length;
-				}
+		/**
+		 * Returns the length of the CharArray.
+		 *
+		 * @return the length of the CharArray
+		 */
+		public int getLength() {
+			return charArray.length;
+		}
 				
-				/**
-				 * Returns a String that returns the tag given between the tag
-				 * start and end index given.
-				 *
-				 * @param tagStart the start index of the tag
-				 * @param tagEnd the end index of the tag
-				 * @return the tag specified by the tag's start and end index. 
-				 */
-				public String getTag(int tagStart, int tagEnd) {
+		/**
+		 * Returns a String that returns the tag given between the string
+		 * start and end index given in the array.
+		 *
+		 * @param tagStart the start index of the string
+		 * @param tagEnd the end index of the string
+		 * @return the string specified by the string's start and end index. 
+		 */
+		public String getString(int strStart, int strEnd) {
 				
-					StringBuilder tagName = new StringBuilder();
-					
-					/* Iterates through the array between the indices
-					 * and adds each character to the tag string. 
-					 */
-					for(int j=tagStart; j < (tagEnd + 1); j++) {
-						tagName.append(this.getChar(j));
-					}
-					
-					return tagName.toString();
-				}			
+			StringBuilder str = new StringBuilder();
+			
+			/* Iterates through the array between the indices
+			 * and adds each character to the tag string. 
+			 */
+			for(int j=strStart; j < (strEnd + 1); j++) {
+				str.append(this.getChar(j));
+			}
+				
+			return str.toString();
+		}			
 	}	
 	
 	// Takes the source code as a string and returns a complete JSONObject
@@ -380,49 +404,78 @@
 			boolean startComment = false;
 			boolean whiteSpaceFlag = false;
 			boolean selfClosing = false;
+			boolean openAttr = false;
 			int tagStart = 0;
-			int tagEnd = 0;
-
-			for (int i = 0; i < fileContents.size(); i++) {
+			int attrStart = 0;
+			String tag = '';
+			
+			/* Iterates over the lines of the given file. */
+			for (int i=0; i<fileContents.size(); i++) {
             	String nextLine = fileContents.get(i);
-						
+				
+				/* Initialise the character array on the new line. */
 				CharArray charArray = new CharArray(nextLine.toCharArray());
 			
 				// Import database list of valid tags
 			
-				for(i=0; i<charArray.getLength(); i++) {
-					if(charArray.getChar(i)=='<') {
+				for(j=0; j<charArray.getLength(); j++) {
+					if(charArray.getChar(j)=='<') {
 						openTag = true;
-						tagStart = i+1;
+						tagStart = j+1;
 						// Check if opened a comment tag
-						if((charArray.getChar(i+1)=='!')&&(charArray.getChar(i+2)=='-')&&(charArray.getChar(i+3)=='-')) {
+						if((charArray.getChar(j+1)=='!') && (charArray.getChar(j+2)=='-') && (charArray.getChar(j+3)=='-')) {
 							startComment = true;
 						}
 					}
 			
 					// As long as a comment tag is not open, another tag is open and 
 					// whitespace has not been reached to signal the end of the tag name:
-					if ((startComment==false)&&(openTag==true)&&(whiteSpaceFlag==false)) {
-						if(charArray.getChar(i)==' ') {
-							whiteSpaceFlag = true;
-							tagEnd = i-1;
-							String tagName = charArray.getTag(tagStart, tagEnd);
-							checkValidTag(tagName);
-							if(isSelfClosing(tagName)) {
-								selfClosing = true;
+					if ((startComment==false) && (openTag==true)) {
+						if(whiteSpaceFlag==false) {
+							if(charArray.getChar(j)==' ') {
+								whiteSpaceFlag = true;
+								tag = charArray.getString(tagStart, j-1);
+								checkValidTag(tag);
+								if(isSelfClosing(tag)) {
+									selfClosing = true;
+								}
+							}
+						}
+						else {
+							if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ')) {
+								if(Character.isLetter(charArray.getChar(j) == true) {
+									attrStart = j;
+									openAttr = true;
+								}
 							}
 						}
 					}
-			
-					if(charArray.getChar(i)=='>') {
+					
+					/* Will need to be moved into the startComment==false if loop */
+					/* Checks if attribute has been detected, need to check if
+					 * having code such as <img src = "... (space between
+					 * attribute and '=' validates). If so, will need to strip
+					 * out whitespace after attribute name before throwing it
+					 * into check. */
+					if(charArray.getChar(j) == '=') {
+						if(openAttr == true) {
+							String attr = charArray.getString(attrStart, j-1);
+							checkValidAttr(attr, tag);
+						}
+					}
+					
+					/* Will need to be moved into the startComment==false if loop */
+					if(charArray.getChar(j)=='>') {
+						/* Resets flag values and tag string */
 						closeTag = true;
 						openTag = false;
+						tag = '';
 						// Check if comment tag closed
-						if((charArray.getChar(i-1)=='-')&&(charArray.getChar(i-2)=='-')&&(startComment==true)) {
+						if((charArray.getChar(j-1)=='-') && (charArray.getChar(j-2)=='-') && (startComment==true)) {
 							startComment = false;
 						}
 						else if(selfClosingTag) { 						
-							if(charArray.getChar(i-1) != '/') {
+							if(charArray.getChar(j-1) != '/') {
 								//return notSelfClosedError;
 							}
 							selfClosing = false;
@@ -480,22 +533,44 @@
 			
 			/**
 			 * Checks the tag given against a number of validity checks.
-			 * @param tag the name of the tag given
+			 * @param tag the name of the tag to be checked
 			 */
 			public void checkValidTag(String tag) {
 				if (!existingTag(tag)) {
-				//	return NonExistentError;
+				//	return NonExistentTagError;
 				}
 				else if(deprecatedTag(tag)) {
-				//	return DeprecatedError;
+				//	return DeprecatedTagError;
 				}
 				else if(singularTagExists(tag) {
-				// return SingularTagError;
+				// return DuplicateSingularTagError;
 				}
 			}
-				
 			
+			/**
+			 * Takes the attribute given and checks whether it is valid.
+			 * @param attr the name of the attribute to be checked
+			 * @param tag the name of the tag the attribute is part of
+			 */
+			public void checkValidAttr(String attr, String tag) {
+				//fetch list of valid attributes for the given tag
+				//if attribute not in list of valid attributes
+				// return NonExistentAttrError;
+			}
+			/**
+			 * Takes the value given, and checks whether the value entered
+			 * is correct for the attribute associated with the value.
+			 * DATABASE NEEDS ATTRIBUTE TABLE, WILL GET CREATED SOON - Ameer
+			 * 
+			 * Cannot be done until we have an attribute table, and functions
+			 * to fetch the variables needed.
+			 *
+			 * @param attr the name of the attribute associated with the value
+			 * @param value the value to be checked
+			 */
+			public void validAttrValue(String attr, String value) {
 				
+			}
 			%>
             </div>
 </body>
