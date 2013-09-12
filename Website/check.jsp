@@ -62,21 +62,95 @@
 	 * Class for storing string representations of various errors and
 	 * final variables for easy reference.
 	 *
-	 * Add any error here that we should be checking for.
+	 * Only HTML code validation errors; other errors should be in other places.
 	 *
 	 * Not sure what form they should be (Strings, ints, some custom Object...)
 	 *
 	 * @author Ameer Sabri
 	 */
 	public class Error {
-		public static final String DEPRECATED_TAG;
-		public static final String NON_EXISTENT_TAG;
-		public static final String DUPLICATE_SINGULAR_TAG;
-		public static final String FORM_TAG_OUT_OF_FORM;
-		public static final String TABLE_TAG_OUT_OF_TABLE;
+		public static final int DEPRECATED_TAG;
+		public static final int NON_EXISTENT_TAG;
+		public static final int DUPLICATE_SINGULAR_TAG;
+		public static final int FORM_TAG_OUT_OF_FORM;
+		public static final int TABLE_TAG_OUT_OF_TABLE;
+		public static final int MISSING_REQUIRED_TAG;
+		public static final int NOT_CLOSED_TAG;
+		public static final int FRAME_USED;
+		public static final int TABLE_USED_FOR_LAYOUT;
+		public static final int MISSING_DOCTYPE;
 		
-		public static final String NON_EXISTENT_ATTR;
-		public static final String BAD_ATTR_VALUE;
+		public static final int NON_EXISTENT_ATTR;
+		public static final int BAD_ATTR_VALUE;
+		public static final int DUPLICATE_ATTR;
+		public static final int MISSING_ATTR;
+		
+		int errorCode;
+		String errorMsg;
+		
+		/**
+		 * Constructor for Errors that are not associated with a particular
+		 * tag or attribute.
+		 * @param errorCode the error code
+		 */
+		public Error(int errorCode) {
+			this.errorCode = errorCode;
+			errorMsg = createErrorMsg(errorCode);
+		}
+		
+		/**
+		 * Constructor for Errors that are associated with a particular tag or
+		 * attribute.
+		 * @param errorCode the error code
+		 * @param tagOrAttr the name of the tag or attribute
+		 */
+		public Error(int errorCode, String tagOrAttr) {
+			this.errorCode = errorCode;
+			errorMsg = createErrorMsg(errorCode, tagOrAttr);
+		}
+		
+		/**
+		 * Getter for the error message of the Error.
+		 * @return the error message
+		 */
+		public String getErrorMsg() {
+			return errorMsg;
+		}
+		
+		/**
+		 * Getter for the error code of the Error.
+		 * @return the error code
+		 */
+		public int getErrorCode() {
+			return errorCode;
+		}
+		
+		/**
+		 * Constructs an appropriate error message for the error code given,
+		 * using the tag or attribute given, and adding it with the error
+		 * message template.
+		 *
+		 * @param errorCode the error code
+		 * @param tagOrAttr the name of the tag or attribute
+		 * @return an appropriate error message utilising the name of the
+		 * tag or attribute
+		 */
+		private String createErrorMsg(int errorCode, String tagOrAttr) {
+			switch {
+				/* will contain all the various error messages */
+			}
+			
+			return ""; //placeholder
+		}
+		
+		/**
+		 * Overloaded method for construction of error messages that are not
+		 * associated with a particular tag or attribute.
+		 * @return an appropriate error message
+		 */
+		private String createErrorMsg(int errorCode) {
+			createErrorMsg(errorCode, "");
+		}
 	}
 	
 	/**
