@@ -69,6 +69,7 @@
 	 * @author Ameer Sabri
 	 */
 	public class Error {
+		/* Declarations of static error variables used by the class. */
 		public static final int DEPRECATED_TAG;
 		public static final int NON_EXISTENT_TAG;
 		public static final int DUPLICATE_SINGULAR_TAG;
@@ -91,6 +92,7 @@
 		/**
 		 * Constructor for Errors that are not associated with a particular
 		 * tag or attribute.
+		 *
 		 * @param errorCode the error code
 		 */
 		public Error(int errorCode) {
@@ -101,6 +103,7 @@
 		/**
 		 * Constructor for Errors that are associated with a particular tag or
 		 * attribute.
+		 *
 		 * @param errorCode the error code
 		 * @param tagOrAttr the name of the tag or attribute
 		 */
@@ -111,6 +114,7 @@
 		
 		/**
 		 * Getter for the error message of the Error.
+		 *
 		 * @return the error message
 		 */
 		public String getErrorMsg() {
@@ -119,6 +123,7 @@
 		
 		/**
 		 * Getter for the error code of the Error.
+		 *
 		 * @return the error code
 		 */
 		public int getErrorCode() {
@@ -146,6 +151,7 @@
 		/**
 		 * Overloaded method for construction of error messages that are not
 		 * associated with a particular tag or attribute.
+		 *
 		 * @return an appropriate error message
 		 */
 		private String createErrorMsg(int errorCode) {
