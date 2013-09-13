@@ -1,3 +1,5 @@
+import net.sourceforge.jwebunit.junit.WebTester;
+
 import org.junit.*;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*; 
@@ -15,22 +17,27 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 // This class includes all tag checks, is missing the checks on attribute particulars
 public class baseBackEnd_Functional_Tests {
 
-	@Before
-    public void prepare() {
-        setBaseUrl("http://www.htmlthor.com/"); // set the base server location (do we want to run this ON the server as local?
-    }
+	
+	
 
     
 	// Nested classes of required, singular and self-closing elements
 	
 	// for each of the functions in this class check that code with multiple of them correctly displays the isSingular error
-	public class singularTags {
+	public static class singularTags {
+		
+		public String eol;
+		
+		
+		@Before
+	    public void prepare() {
+	        setBaseUrl("http://www.htmlthor.com/"); // set the base server location (do we want to run this ON the server as local?
+	        eol = System.getProperty("line.separator");
+	    }
+		
 		@Test
 		public void Check_Singular_Doctype() {
-			beginAt("index.html"); //Open the browser on http://Whatever we put above.index.html
-			// Begin testing methods
 			
-
 		}
 		
 		public void Check_Singular_html() {
@@ -116,11 +123,58 @@ public class baseBackEnd_Functional_Tests {
 		
 	}
 	
-	public class isRequired {
+	public static class isRequired {
+		
+		public String eol;
+		
+		@Before
+	    public void prepare() {
+	        setBaseUrl("http://www.htmlthor.com/"); // set the base server location (do we want to run this ON the server as local?
+	        eol = System.getProperty("line.separator");
+	    }
 	
 		// Check that a doctype error is both returned and not returned (i.e when a file with this error and without this error are uploaded)
+		@Test
 		public void Check_Exists_Doctype() {
-		
+			beginAt("index.html"); //Open the browser on index
+			
+			// Begin testing methods
+			
+			setWorkingForm("directInputForm"); //highlight direct input form
+			
+			//create html input to error check
+			setTextField("input-direct", "<html>"+eol+"<head>"+eol+"</head>"+eol+"<body>"+eol+"</body>"+eol+"</html>");
+			
+			//submit form
+			clickButton("alternativeButton");
+			
+			//wait for all javascript to finish executing
+			
+			try {
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				Assert.fail("Threw an exception:"+e.toString());
+			}
+			
+			
+			//assert cookie is present, otherwise source code won't display
+			assertCookiePresent("dirPath");
+			
+			//assert error number 1 is present
+			assertElementPresentByXPath("//*[@id='error1']");
+			//assert error number 2 does not exist
+			assertElementNotPresentByXPath("//*[@id='error2']");
+			
+
+			assertTextInElement("error1","html"); //this fails for some reason
+			
+			
+			assertElementPresentByXPath("//*[@class='errorLocation']"); //this fails for some reason
+
+			//assert error is on the expected location
+			Assert.assertEquals(getElementTextByXPath("//*[@class='errorLocation'][1]"),"Line 1, Column 1:"); //this fails for some reason
+			//assert error has the expected message
+			Assert.assertEquals(getElementTextByXPath("//*[@class='errorDescription'][1]"),"<html>"); //this fails for some reason
 		}
 	
 		// Check that there is an error for not having any html tags

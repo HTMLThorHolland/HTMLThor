@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="baseBackEnd_Functional_Tests" project="testing" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="baseBackEnd_Functional_Tests.isRequired" time="31.441">
+    <testcase name="Check_Exists_Doctype" classname="baseBackEnd_Functional_Tests.isRequired" time="31.441"/>
+  </testsuite>
+  <testsuite name="baseBackEnd_Functional_Tests.singularTags" time="0.0">
+    <testcase name="Check_Singular_Doctype" classname="baseBackEnd_Functional_Tests.singularTags" time="0.0"/>
+  </testsuite>
+</testrun>
