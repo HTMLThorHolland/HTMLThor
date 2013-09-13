@@ -153,6 +153,11 @@
 					 scrollTop: $("html").offset().top
 				 }, 600);
 			 });
+			 
+			 
+			$("#alternativeButton").click(function(e) {
+				$('#directInputForm').submit();
+			});
 			
 			
 			/* END PAGE NAVIGATION */

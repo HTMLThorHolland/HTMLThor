@@ -58,6 +58,8 @@
 		return 0;
 	}
 	
+	
+	
 	/** 
 	 * Class for storing string representations of various errors and
 	 * final variables for easy reference.
@@ -70,6 +72,12 @@
 	 */
 	public class Error {
 		/* Declarations of static error variables used by the class. */
+		
+		/*
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+		
 		public static final int DEPRECATED_TAG;
 		public static final int NON_EXISTENT_TAG;
 		public static final int DUPLICATE_SINGULAR_TAG;
@@ -85,6 +93,12 @@
 		public static final int BAD_ATTR_VALUE;
 		public static final int DUPLICATE_ATTR;
 		public static final int MISSING_ATTR;
+		
+		
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+		*/
 		
 		int errorCode;
 		String errorMsg;
@@ -140,13 +154,24 @@
 		 * @return an appropriate error message utilising the name of the
 		 * tag or attribute
 		 */
+		
 		private String createErrorMsg(int errorCode, String tagOrAttr) {
+		/*
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
 			switch {
+			
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+		*/
 				/* will contain all the various error messages */
-			}
+			/* } */
 			
 			return ""; //placeholder
 		}
+		
 		
 		/**
 		 * Overloaded method for construction of error messages that are not
@@ -155,7 +180,17 @@
 		 * @return an appropriate error message
 		 */
 		private String createErrorMsg(int errorCode) {
+		/*
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
 			createErrorMsg(errorCode, "");
+		
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+		*/
+			return "";
 		}
 	}
 	
@@ -217,6 +252,8 @@
 			return str.toString();
 		}			
 	}	
+	
+	
 	
 	// Takes the source code as a string and returns a complete JSONObject
 	// with source code as well as all errors found in the code
@@ -409,7 +446,7 @@
    		 		
    		 		else if (uploadType.equals("zip")) {
    		 		
-   		 			JSONObject dirJSON = new JSONObject;
+   		 			JSONObject dirJSON = new JSONObject();
    		 				
    		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
       				try	{
@@ -478,7 +515,10 @@
    		 		
             %>
             
-            <%
+            <%--
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
 			boolean openTag = false;
 			boolean closeTag =  false;
 			boolean startComment = false;
@@ -564,10 +604,17 @@
 					}	
 					
 				}
-			}	
-			%>
+			}
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+			--%>
 			
-			<%!
+			
+			<%--
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
 			/**
 			 * Checks if the given tag exists and returns a boolean value.
 			 *
@@ -606,7 +653,7 @@
 			 */
 			public boolean singularTagExists(String tag) {
 				//if the given tag is a singular tag and has already been entered
-				//return true;
+				return true;
 				
 				//else return false;
 			}
@@ -651,7 +698,10 @@
 			public void validAttrValue(String attr, String value) {
 				
 			}
-			%>
+		========================================================================
+		============== This section causes errors. Commented out. ==============
+		========================================================================
+			--%>
             </div>
 </body>
 </html>

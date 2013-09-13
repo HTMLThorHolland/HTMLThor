@@ -214,6 +214,30 @@
 	/* ============== SINGLE FILE UPLOAD END ====================
 	** ========================================================== */
 	
+	
+	
+	/* ================ DIRECT INPUT START ======================
+	** ========================================================== */
+	if (uploadType.equals("direct")) {
+		String fileName = filePath.concat("direct.html");
+		
+		
+		String sourceCode = request.getParameter("input-direct");
+		out.println(sourceCode);
+	
+		FileWriter directFile = new FileWriter(fileName);
+		directFile.write(sourceCode);
+		directFile.flush();
+		directFile.close();
+		
+		String redirectURL = "check.jsp?type=single&dirid=".concat(directoryID).concat("&path=").concat(fileName);
+   		response.sendRedirect(redirectURL);
+	
+	}
+	
+	/* ================ DIRECT INPUT END ========================
+	** ========================================================== */
+	
 %>
 
 <script>console.log("finished");</script>
