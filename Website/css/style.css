@@ -137,6 +137,66 @@ a {
 /* END General */
 
 
+/* TOP HELP BAR */
+
+.topHelpBar {
+	position: fixed;
+	top: 0;
+	right: 10%;
+	width: 260px;
+	z-index: 9999;
+	font-size: .9em;
+}
+
+	.topHelpBar .topHelpButt {
+		float: right;
+		background-color: rgba(55, 83, 124, 0.9);
+		padding: 4px 8px;
+		cursor: pointer;
+	}
+
+		.topHelpBar .topHelpButt:hover{
+			background-color: rgba(55, 83, 124, 1);
+		}
+
+		.topHelpBar .topHelpButt a {
+			color: #f1f1f1;
+			font-size: .9em;
+		}
+
+	.topHelpBar .topHelpKey {
+		width: 100%;
+		display: none;
+		background-color: #2E2E2E;
+		padding: 4px;
+		-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+		-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+		box-sizing: border-box;
+	}
+
+	.topHelpBar .colourSquare {
+		width: 24px;
+		height: 24px;
+		margin-right: 10px;
+	}
+
+	.topHelpBar ul {
+		margin-bottom: 0;
+	}
+
+		.topHelpBar ul li {
+			margin: 6px;
+		}
+
+		.topHelpBar ul li p {
+			margin-bottom: 0;
+			line-height: 25px;
+		}
+
+
+/* END Top Help Bar */
+
+
 /* SIDE BAR */
 
 #siteContainer {
