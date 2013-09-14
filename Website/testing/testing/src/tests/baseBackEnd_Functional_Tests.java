@@ -1,5 +1,10 @@
+package tests;
+
+import java.util.*;
+
 import net.sourceforge.jwebunit.junit.WebTester;
 
+import org.json.simple.JSONObject;
 import org.junit.*;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*; 
@@ -26,13 +31,9 @@ public class baseBackEnd_Functional_Tests {
 	// for each of the functions in this class check that code with multiple of them correctly displays the isSingular error
 	public static class singularTags {
 		
-		public String eol;
-		
-		
 		@Before
 	    public void prepare() {
-	        setBaseUrl("http://www.htmlthor.com/"); // set the base server location (do we want to run this ON the server as local?
-	        eol = System.getProperty("line.separator");
+	        
 	    }
 		
 		@Test
@@ -125,73 +126,66 @@ public class baseBackEnd_Functional_Tests {
 	
 	public static class isRequired {
 		
-		public String eol;
-		
 		@Before
 	    public void prepare() {
-	        setBaseUrl("http://www.htmlthor.com/"); // set the base server location (do we want to run this ON the server as local?
-	        eol = System.getProperty("line.separator");
+			
 	    }
 	
 		// Check that a doctype error is both returned and not returned (i.e when a file with this error and without this error are uploaded)
 		@Test
 		public void Check_Exists_Doctype() {
-			beginAt("index.html"); //Open the browser on index
 			
-			// Begin testing methods
-			
-			setWorkingForm("directInputForm"); //highlight direct input form
+			List<String> existsDoctypeSource = new ArrayList<String>();
 			
 			//create html input to error check
-			setTextField("input-direct", "<html>"+eol+"<head>"+eol+"</head>"+eol+"<body>lolololol"+eol+"</body>"+eol+"</html>");
+			existsDoctypeSource.add("<html>");
+			existsDoctypeSource.add("<head>");
+			existsDoctypeSource.add("</head>");
+			existsDoctypeSource.add("<body>");
+			existsDoctypeSource.add("</body>");
+			existsDoctypeSource.add("</html>");
 			
-			//submit form
-			clickButton("alternativeButton");
+			JSONObject existsDoctypeResult = Check.findErrors(existsDoctypeSource);
 			
-			//wait for all javascript to finish executing
+			//assert correct number of lines are stored
+			Assert.assertEquals(6, ((JSONObject) existsDoctypeResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) existsDoctypeResult.get("errors")).get("count"));
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("First element should be doctype", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(1, ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("line"));
 			
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				Assert.fail("Threw an exception:"+e.toString());
-			}
-			
-			
-			//assert cookie is present, otherwise source code won't display
-			assertCookiePresent("dirPath");
-			
-			//assert error number 1 is present
-			assertElementPresentByXPath("//*[@id='error1']");
-			//assert error number 2 does not exist
-			assertElementNotPresentByXPath("//*[@id='error2']");
-			
-			dumpCookies();
-
-			//assertTextInElement("error1","html"); //this fails for some reason
-			
-			
-			assertElementPresentByXPath("//*[@id='errorLocation0']"); //this fails for some reason
-
-			//assert error is on the expected location
-			//Assert.assertEquals(getElementTextByXPath("//*[@class='errorLocation'][1]"),"Line 1, Column 1:"); //this fails for some reason
-			//assert error has the expected message
-			//Assert.assertEquals(getElementTextByXPath("//*[@class='errorDescription'][1]"),"<html>"); //this fails for some reason
-			
-			
-			System.out.print("Time to sleep a bit.");
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				Assert.fail("Threw an exception:"+e.toString());
-			}
-
-			System.out.print(getPageSource());
-		
 		}
 	
 		// Check that there is an error for not having any html tags
+		@Test
 		public void Check_Exists_html() {
 		
+			List<String> existsDoctypeSource = new ArrayList<String>();
+			
+			//create html input to error check
+			existsDoctypeSource.add("<!DOCTYPE html>");
+			existsDoctypeSource.add("<head>");
+			existsDoctypeSource.add("</head>");
+			existsDoctypeSource.add("<body>");
+			existsDoctypeSource.add("</body>");
+			
+			JSONObject existsDoctypeResult = Check.findErrors(existsDoctypeSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(5, ((JSONObject) existsDoctypeResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) existsDoctypeResult.get("errors")).get("count"));
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("You are missing HTML tag", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(2, ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("line"));
+			
 		}
 		
 		// Check that there is an error for not having any head tags

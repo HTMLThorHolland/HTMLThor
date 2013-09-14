@@ -1,1 +1,6 @@
 .metadata/
+
+Website/testing/.metadata/*
+
+Website/testing/testing/bin/*
+Website/testing/testing/.classpath
