@@ -1,5 +1,4 @@
 
-
 		/* Opens the Page Source tab */
 		function openSource() {
 			$('#sourceTitle').removeClass("bottomBorder");

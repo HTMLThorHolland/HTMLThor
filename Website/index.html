@@ -21,7 +21,7 @@
 	
 	<!-- JavaScript / JQuery
 	================================================== -->
-	<script language="javascript" type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	
 	<!-- Scroll / Custom js
 	================================================== -->
@@ -76,15 +76,15 @@
 	<script type="text/javascript" src="scripts/statistics.js"></script>
 	<script type="text/javascript" src="scripts/singleFile.js"></script>
 	
+	<!-- Populate the Errors Section
+	================================================== -->
+	<script type="text/javascript" src="scripts/errors.js"></script>
+	
 	<!-- Populate the Page Source Section
 	================================================== -->
 	<script type="text/javascript" src="scripts/pagesource.js"></script>
 	
 	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
-	
-	<!-- Populate the Errors Section
-	================================================== -->
-	<script type="text/javascript" src="scripts/errors.js"></script>
 	
 	<!-- Add Breakdown to Page Source
 	================================================== -->
@@ -135,15 +135,15 @@
 				<a href=#>breakdown</a>
 			</li>
 			<!-- add .extraTwo back in structureLink -->
-			<li id="structureLink" class="">
+			<li id="structureLink" class="extraOne">
 				<a href=#>file structure</a>
 			</li>
 			<!-- add .extraOne back in structureLink -->
-			<li id="sourceLink" class="">
+			<li id="sourceLink" class="extraOne">
 				<a href=#>page source</a>
 			</li>
 			<!-- add .extraOne back in extraOnestructureLink -->
-			<li id="errorsLink" class="">
+			<li id="errorsLink" class="extraOne">
 				<a href=#>errors</a>
 			</li>
 		</ul>
@@ -229,7 +229,7 @@
 					<h2>upload</h2>
 				</div>
 				<div class="sectionContent">
-					<div onclick="getFile('single')" class="uploadCat one-third column">
+					<div onclick="getFile('singleUpload')" class="uploadCat one-third column">
 						<div id="iconSingleUpload" class="thumb"></div>
 						<p>upload a single file</p>
 						
@@ -246,7 +246,7 @@
 						</form>
 						-->
 				</div>
-					<div onclick="getFile('multi')" class="uploadCat one-third column">
+					<div onclick="getFile('multiUpload')" class="uploadCat one-third column">
 						<div id="iconMultiUpload" class="thumb"></div>
 						<p>upload multiple files</p>
 						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
@@ -254,7 +254,7 @@
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
 						</form>
 					</div>
-					<div onclick="getFile('zip')" class="uploadCat one-third column">
+					<div onclick="getFile('zipUpload')" class="uploadCat one-third column">
 						<div id="iconZipUpload" class="thumb"></div>
 						<p>upload a .zip directory</p>
 						<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
