@@ -24,6 +24,7 @@ function populateStatistics() {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
 		console.log("no errors found, set feedback id");
 	}
+	console.log("finished generating statistics");
 }
 
 /*
@@ -41,6 +42,11 @@ function noFileErrors() {
 		return false;
 	}
 }
+
+/* When the filename is clicked, navigate to page source. */
+$(document).delegate('.fileGraph .fileName', 'click', function(event) {
+	$('#sourceLink').click();
+});
 
 /*
  * Function to generate the html for the bar statistic.

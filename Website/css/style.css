@@ -423,7 +423,12 @@ button:hover {
 
 .fileName {
 	min-width:200px;
+	cursor: pointer;
 }
+
+	.fileName:hover {
+		text-decoration: underline;
+	}
 
 .errorNumber {
 	float:left;

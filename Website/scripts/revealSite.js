@@ -15,6 +15,7 @@ function revealSite() {
 	removeLocation();
 	$('#breakdownLink').addClass('currentLocation');
 	openOthers("breakdown");
+	console.log("site has been revealed");
 }
 
 /* Function to reveal .extraOne and .extraTwo sections of the site */
