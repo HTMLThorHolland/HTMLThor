@@ -117,32 +117,39 @@
 			 });
 			
 			$("#breakdownLink").click(function(e) {
-				hideSections();
+				e.preventDefault();
+				 $('html, body').animate({
+					 scrollTop: $("#breakdown").offset().top
+				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
-				openOthers("breakdown");
 			 });
 			
 			$("#structureLink").click(function(e) {
-				hideSections();
+				e.preventDefault();
+				 $('html, body').animate({
+					 scrollTop: $("#structureTitle").offset().top
+				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
-				openOthers("structure");
 			 });
 			
 			$("#sourceLink").click(function(e) {
-				hideSections();
+				e.preventDefault();
+				 $('html, body').animate({
+					 scrollTop: $("#sourceTitle").offset().top
+				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
-				openSource();
-				setScrollWidth();
 			 });
 			
 			$("#errorsLink").click(function(e) {
-				hideSections();
+				e.preventDefault();
+				 $('html, body').animate({
+					 scrollTop: $("#errorsTitle").offset().top
+				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
-				openErrors();
 			 });
 			
 			$("#topLink").click(function(e) {

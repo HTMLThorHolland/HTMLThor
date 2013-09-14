@@ -14,7 +14,8 @@ function revealSite() {
 	hideSections();
 	removeLocation();
 	$('#breakdownLink').addClass('currentLocation');
-	openOthers("breakdown");
+	setScrollWidth(); // for page source scrollbar
+	singlePageView();
 	console.log("site has been revealed");
 }
 
@@ -22,4 +23,8 @@ function revealSite() {
 function revealSiteZip() {
 	revealSite();
 	$('.extraTwo').fadeIn();
+}
+
+function singlePageView() {
+	$('.singleTab').fadeIn();
 }

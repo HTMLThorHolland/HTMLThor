@@ -78,10 +78,6 @@ function calculatePercentages(file) {
 	warningErrors = 0;
 	deprecatedErrors = 0;
 	
-	totalErrors += 3;// TESTING REMOVE THIS!
-	semanticErrors ++;// TESTING REMOVE THIS!
-	deprecatedErrors += 2;// TESTING REMOVE THIS!
-	
 	/* Counts the number of errors for each type. */
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		switch (jsonObject[0].errors[i].type)

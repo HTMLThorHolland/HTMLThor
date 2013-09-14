@@ -131,19 +131,19 @@
 			<li id="uploadLink">
 				<a href=#>upload</a>
 			</li>
-			<!-- add .extraOne back in structureLink -->
+			<!-- add .extraOne back in breakdownLink -->
 			<li id="breakdownLink" class="extraOne">
 				<a href=#>breakdown</a>
 			</li>
 			<!-- add .extraTwo back in structureLink -->
-			<li id="structureLink" class="extraOne">
+			<li id="structureLink" class="extraTwo">
 				<a href=#>file structure</a>
 			</li>
-			<!-- add .extraOne back in structureLink -->
+			<!-- add .extraOne back in sourceLink -->
 			<li id="sourceLink" class="extraOne">
 				<a href=#>page source</a>
 			</li>
-			<!-- add .extraOne back in extraOnestructureLink -->
+			<!-- add .extraOne back in errorsLink -->
 			<li id="errorsLink" class="extraOne">
 				<a href=#>errors</a>
 			</li>
@@ -193,7 +193,6 @@
 				<h1><strong>HTML</strong> THOR</h1>
 				<div class="siteLogo"></div>
 				<div style="clear:both"></div>
-				<h4>Validate your <strong>HTML5</strong></h4>
 			</div>
 			<div style="clear:both"></div>
 			
@@ -220,7 +219,7 @@
 					<h4>Colour Key</h4>
 					<p>
 						Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
-						Flesh these out first before delving into the utpoic world of clean HTML...
+						Flesh these out first before delving into the utopian world of clean HTML...
 					</p>
 					<ul>
 						<li>
@@ -237,14 +236,13 @@
 						<div style="clear: both"></div>
 						<li>
 							<div class="yellow colourSquare"></div>
-							<p>Yellow are any 'best practice' errors. This is us reminding you
-							to </p>
+							<p>Yellow are any 'best practice' errors. This is us reminding you that there are more efficient and proper techniques.</p>
 						</li>
 						<div style="clear: both"></div>
 						<li>
 							<div class="purple colourSquare"></div>
-							<p>Purple are deprecated tags: tags that were once
-							validly used in HTML but have since been 'deleted. So don't use them!</p>
+							<p>Purple are deprecated tags that were once
+							validly used in HTML but have since been 'deleted'. So don't use them!</p>
 						</li>
 						<div style="clear: both"></div>
 						<li>
@@ -352,7 +350,7 @@
 
 			-->
 			
-			<div id="breakdown" class="hidden section breakdown">
+			<div id="breakdown" class="singleTab hidden section breakdown">
 				<div class="sectionTitle sixteen columns">
 					<h2>breakdown</h2>
 				</div>
@@ -427,7 +425,7 @@
 			
 			
 			
-			<div id="sourceTitle" class="hidden codeTitle sectionTitle sixteen columns">
+			<div id="sourceTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
 				<h2>view page source</h2>
 			</div>
 		</div>
@@ -435,7 +433,7 @@
 				Don't delete the above or below tags.
 				They allow me to change the background colour.
 			-->
-		<div id="sourceContainer" class="hidden codeBackground">
+		<div id="sourceContainer" class="singleTab hidden codeBackground">
 			<div class="codeSection container">
 			
 				<div id="scrollParent">
@@ -479,7 +477,7 @@
 		<div class="noMargin site container"> <!-- NEW CONTAINER -->
 		
 		
-			<div id="errorsTitle" class="hidden codeTitle sectionTitle sixteen columns">
+			<div id="errorsTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
 				<h2>errors and warnings</h2>
 			</div>
 		</div>
@@ -487,7 +485,7 @@
 				Don't delete the above or below tags.
 				They allow me to change the background colour.
 			-->
-		<div id="errorsContainer" class="hidden codeBackground">
+		<div id="errorsContainer" class="singleTab hidden codeBackground">
 			<div class="codeSection container">
 							
 				<div id="errors" class="section code errors">
