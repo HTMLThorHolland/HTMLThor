@@ -20,9 +20,28 @@ function populateStatistics() {
 	} PRE-CODED STATS*/
 	
 	generateFileStatistics(jsonObject[0]);
+	totalErrors = jsonObject[0].errors.count;
 	if(noFileErrors()) {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
 		console.log("no errors found, set feedback id");
+	}
+	if(totalErrors == 1) {
+		$('#feedback').html("<p>We found the needle in the haystack, but what a clean site!</p>");	
+	}
+	if(totalErrors > 2 && totalErrors < 4) {
+		$('#feedback').html("<p>Near perfect code - just a few errors to deal with.</p>");	
+	}
+	if(totalErrors > 4 && totalErrors < 7) {
+		$('#feedback').html("<p>Oops! You’ve got a few critters in here you’ll have to clean up!</p>");	
+	}
+	if(totalErrors > 7 && totalErrors < 15) {
+		$('#feedback').html("<p>Gee, this site needs a clean up - get to work!</p>");	
+	}
+	if(totalErrors > 15 && totalErrors < 50) {
+		$('#feedback').html("<p>Gosh, your site’s looking downtrodden with errors!</p>");	
+	}
+	if(totalErrors > 50) {
+		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	
 	}
 	console.log("finished generating statistics");
 }
@@ -46,6 +65,16 @@ function noFileErrors() {
 /* When the filename is clicked, navigate to page source. */
 $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	$('#sourceLink').click();
+});
+
+/* When the filename is clicked, navigate to page source. */
+$(document).delegate('.bar .graph', 'click', function(event) {
+	graphType = $(this).attr('class').split(' ')[0];
+	if(graphType != "zero") {
+		$('html, body').animate({
+			scrollTop: $("#errorsList .errorCategory."+graphType).offset().top
+		}, 600);
+	}
 });
 
 /*

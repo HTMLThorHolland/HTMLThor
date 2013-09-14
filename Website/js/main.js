@@ -1,4 +1,7 @@
 
+		
+	var resultsOpen = false;
+		
 		/* Opens the Page Source tab */
 		function openSource() {
 			$('#sourceTitle').removeClass("bottomBorder");
@@ -19,8 +22,8 @@
 		 * @param  id  the id of the page section
 		 */		
 		function openOthers(id) {
-			$('#'+id).show();
-			$('#'+id+' > .sectionContent').show();
+			$('#'+id).fadeIn();
+			$('#'+id+' > .sectionContent').fadeIn();
 			$('#'+id).removeClass("noMargin");	
 		}
 	
@@ -106,7 +109,8 @@
 				hideSections();
 				removeLocation();
 				$(this).addClass('currentLocation');
-				$('#home').show();
+				$('#home').fadeIn();
+				resultsOpen = false;
 			 });
 			
 			$("#uploadLink").click(function(e) {
@@ -114,12 +118,16 @@
 				removeLocation();
 				$(this).addClass('currentLocation');
 				openOthers("upload");
+				resultsOpen = false;
 			 });
 			
 			$("#breakdownLink").click(function(e) {
 				e.preventDefault();
+				if(!resultsOpen) {
+					revealSite();
+				}
 				 $('html, body').animate({
-					 scrollTop: $("#breakdown").offset().top
+					 scrollTop: $("html").offset().top
 				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
@@ -127,6 +135,9 @@
 			
 			$("#structureLink").click(function(e) {
 				e.preventDefault();
+				if(!resultsOpen) {
+					revealSite();
+				}
 				 $('html, body').animate({
 					 scrollTop: $("#structureTitle").offset().top
 				 }, 600);
@@ -136,6 +147,9 @@
 			
 			$("#sourceLink").click(function(e) {
 				e.preventDefault();
+				if(!resultsOpen) {
+					revealSite();
+				}
 				 $('html, body').animate({
 					 scrollTop: $("#sourceTitle").offset().top
 				 }, 600);
@@ -145,6 +159,9 @@
 			
 			$("#errorsLink").click(function(e) {
 				e.preventDefault();
+				if(!resultsOpen) {
+					revealSite();
+				}
 				 $('html, body').animate({
 					 scrollTop: $("#errorsTitle").offset().top
 				 }, 600);
@@ -153,7 +170,6 @@
 			 });
 			
 			$("#topLink").click(function(e) {
-				linkFiles(); // remove this
 				e.preventDefault();
 				 $('html, body').animate({
 					 scrollTop: $("html").offset().top

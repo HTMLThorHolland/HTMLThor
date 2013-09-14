@@ -27,4 +27,5 @@ function revealSiteZip() {
 
 function singlePageView() {
 	$('.singleTab').fadeIn();
+	resultsOpen = true;
 }

@@ -212,6 +212,7 @@ a {
 	top: 0;
 	left: 0;
 	float: left;
+	z-index: 9999;
 }
 
 	.sideBarNavigation ul {
@@ -520,6 +521,7 @@ button:hover {
 .graph {
 	height:100%;
 	float:left;
+	cursor: pointer;
 }
 
 	.graph.syntax {
@@ -774,6 +776,25 @@ button:hover {
 	.deprecatedError pre strong {
 		color:#b24987;
 	}
+	
+.errorCategory {}
+	
+	.errorCategory h3 {
+		color: #212121;
+		margin-bottom: 5px;
+		font-size: 1.2em;
+	}
+	
+	.errorCategory  .errorListing p {
+		color: #303030;
+	}
+	
+	.errorCategory  .testError{
+		float: left;
+		margin-right: 5px;
+		margin-top: 5px;
+	}
+	
 
 /* END Error Listing */
 

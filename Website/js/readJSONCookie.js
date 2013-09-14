@@ -76,7 +76,7 @@ if ($.cookie("dirPath")) {
 			console.log("no errors");		
 		}
 
-
+		/* This order is important, setPageSource must be before setErrors! */
 		setPageSource(jsonObject[0].source);
 		setErrors();
 		populateStatistics();
