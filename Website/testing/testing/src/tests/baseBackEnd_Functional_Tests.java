@@ -152,6 +152,7 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -181,6 +182,7 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -211,6 +213,7 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -240,6 +243,7 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -269,6 +273,7 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
 			//assert correct error type is stored
 			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -299,6 +304,42 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(8, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		// A file with all required tags to ensure no unexpected errors are present.
+		@Test
+		public void Check_multiple_missing_required() {
+
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type for first error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message for first error is stored
+			Assert.assertEquals("First element should be doctype", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert first error is on correct line
+			Assert.assertEquals(1, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
+			
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("You are missing title tag", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(3, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
 	}
 	
