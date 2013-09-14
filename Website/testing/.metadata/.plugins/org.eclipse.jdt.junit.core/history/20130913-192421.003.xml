@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testrun name="baseBackEnd_Functional_Tests" project="testing" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="baseBackEnd_Functional_Tests" time="30.772">
-    <testcase name="Check_Singular_Doctype" classname="baseBackEnd_Functional_Tests" time="30.771"/>
-  </testsuite>
-</testrun>
