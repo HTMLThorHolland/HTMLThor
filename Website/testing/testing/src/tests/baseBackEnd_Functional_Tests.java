@@ -135,28 +135,29 @@ public class baseBackEnd_Functional_Tests {
 		@Test
 		public void Check_Exists_Doctype() {
 			
-			List<String> existsDoctypeSource = new ArrayList<String>();
+			List<String> testingSource = new ArrayList<String>();
 			
 			//create html input to error check
-			existsDoctypeSource.add("<html>");
-			existsDoctypeSource.add("<head>");
-			existsDoctypeSource.add("</head>");
-			existsDoctypeSource.add("<body>");
-			existsDoctypeSource.add("</body>");
-			existsDoctypeSource.add("</html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
 			
-			JSONObject existsDoctypeResult = Check.findErrors(existsDoctypeSource);
+			JSONObject testingResult = Check.findErrors(testingSource);
 			
 			//assert correct number of lines are stored
-			Assert.assertEquals(6, ((JSONObject) existsDoctypeResult.get("source")).get("length"));
+			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
-			Assert.assertEquals(1, ((JSONObject) existsDoctypeResult.get("errors")).get("count"));
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 			//assert correct error type is stored
-			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("type"));
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
-			Assert.assertEquals("First element should be doctype", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("message"));
+			Assert.assertEquals("First element should be doctype", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
-			Assert.assertEquals(1, ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("line"));
+			Assert.assertEquals(1, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 			
 		}
 	
@@ -164,46 +165,141 @@ public class baseBackEnd_Functional_Tests {
 		@Test
 		public void Check_Exists_html() {
 		
-			List<String> existsDoctypeSource = new ArrayList<String>();
+			List<String> testingSource = new ArrayList<String>();
 			
 			//create html input to error check
-			existsDoctypeSource.add("<!DOCTYPE html>");
-			existsDoctypeSource.add("<head>");
-			existsDoctypeSource.add("</head>");
-			existsDoctypeSource.add("<body>");
-			existsDoctypeSource.add("</body>");
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
 			
-			JSONObject existsDoctypeResult = Check.findErrors(existsDoctypeSource);
+			JSONObject testingResult = Check.findErrors(testingSource);
 			
 			//assert correct number of lines are stored
-			Assert.assertEquals(5, ((JSONObject) existsDoctypeResult.get("source")).get("length"));
+			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
-			Assert.assertEquals(1, ((JSONObject) existsDoctypeResult.get("errors")).get("count"));
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 			//assert correct error type is stored
-			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("type"));
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
-			Assert.assertEquals("You are missing HTML tag", ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("message"));
+			Assert.assertEquals("You are missing html tag", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
-			Assert.assertEquals(2, ((JSONObject) ((JSONObject) existsDoctypeResult.get("errors")).get("0")).get("line"));
+			Assert.assertEquals(2, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 			
 		}
 		
 		// Check that there is an error for not having any head tags
+		@Test
 		public void Check_Exists_head() {
-		
+			
+
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("You are missing head tag", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(3, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
+			
 		}
 		
 		// Check that there is an error for not having any body tags
+		@Test
 		public void Check_Exists_body() {
-		
+
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("You are missing body tag", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(6, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
 		
 		// Check that there is a warning for not having any title tags
+		@Test
 		public void Check_Exists_title() {
-		
+
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			//assert correct error type is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("You are missing title tag", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(4, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
 	
-	
+		// A file with all required tags to ensure no unexpected errors are present.
+		@Test
+		public void Check_Control_required_tags() {
+			
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(8, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
 	}
 	
 	// Test the error associated with using nonexistent tags
