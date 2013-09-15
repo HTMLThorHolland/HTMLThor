@@ -67,7 +67,7 @@ public class baseBackEnd_Functional_Tests {
 	}
 
 	// All of the functions in the following class should check whether ? (self closing is done or not done? Recommend which one?)
-	public static class selfClosingTags {
+	public static class Self_Closing_Tags {
 
 		@Test
 		public void Check_Closing_base() {
@@ -785,12 +785,7 @@ public class baseBackEnd_Functional_Tests {
 		}
 	}
 
-	public static class isRequired {
-
-		@Before
-		public void prepare() {
-
-		}
+	public static class Required_Tags {
 
 		// Check that a doctype error is both returned and not returned (i.e when a file with this error and without this error are uploaded)
 		@Test
@@ -1592,7 +1587,724 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
+		
+		@Test
+		public void Check_Singular_inComments() {
+			List<String> testingSource = new ArrayList<String>();
 
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<p>Test</p>");
+			testingSource.add("<!--");
+			testingSource.add("<html> </html>");
+			testingSource.add("-->");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+
+	}
+	
+	public static class Form_Elements {
+		
+		@Test
+		public void Check_button_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<button type=\"button\">test</button>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<button> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_button_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<button type=\"button\">test</button>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+
+		@Test
+		public void Check_datalist_option_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<datalist>");
+			testingSource.add("<option value=\"test\">test</option>");
+			testingSource.add("</datalist>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<datalist> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<option> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+		}
+
+		@Test
+		public void Check_datalist_option_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<datalist>");
+			testingSource.add("<option value=\"test\">test</option>");
+			testingSource.add("</datalist>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_fieldset_legend_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<fieldset>");
+			testingSource.add("<legend>Test</legend>");
+			testingSource.add("</fieldset>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<fieldset> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<legend> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+		}
+		
+		@Test
+		public void Check_fieldset_legend_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<fieldset>");
+			testingSource.add("<legend>Test</legend>");
+			testingSource.add("</fieldset>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_label_input_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<label for=\"test\">Test:</label>");
+			testingSource.add("<input type=\"text\" id=\"test\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<label> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<input> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+		}
+		
+		@Test
+		public void Check_label_input_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<label for=\"test\">Test:</label>");
+			testingSource.add("<input type=\"text\" id=\"test\" />");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_keygen_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<keygen name=\"test\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<keygen> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_keygen_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<keygen name=\"test\" />");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_meter_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<meter value=\"1\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<meter> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_meter_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<meter value=\"1\" />");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_optgroup_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<optgroup label=\"test\" />");
+			testingSource.add("<option value=\"testval\">test</option>");
+			testingSource.add("</optgroup>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<optgroup> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<option> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+		}
+		
+		@Test
+		public void Check_optgroup_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<optgroup label=\"test\" />");
+			testingSource.add("<option value=\"testval\">test</option>");
+			testingSource.add("</optgroup>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_output_input_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<input type=\"range\" id=\"a\" value=\"50\" />100");
+			testingSource.add("+<input type=\"number\" id=\"b\" value=\"50\" />");
+			testingSource.add("=<output name=\"x\" for=\"a b\"></output>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(3, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<input> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<input> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<output> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("line"));
+		}
+		
+		@Test
+		public void Check_output_input_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<input type=\"range\" id=\"a\" value=\"50\" />100");
+			testingSource.add("+<input type=\"number\" id=\"b\" value=\"50\" />");
+			testingSource.add("=<output name=\"x\" for=\"a b\"></output>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_progress_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<progress value=\"1\" max=\"20\"></progress>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<progress> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_progress_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<progress value=\"1\" max=\"20\"></progress>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+
+		@Test
+		public void Check_select_option_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<select>");
+			testingSource.add("<option value=\"test\">test</option>");
+			testingSource.add("</select>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<select> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<option> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+		}
+
+		@Test
+		public void Check_select_option_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<select>");
+			testingSource.add("<option value=\"test\">test</option>");
+			testingSource.add("</select>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+
+		@Test
+		public void Check_textarea_in_Form() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<textarea rows=\"4\" cols=\"10\">");
+			testingSource.add("Some testing text");
+			testingSource.add("</textarea>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<textarea> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+
+		@Test
+		public void Check_textarea_in_Form_control() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form>");
+			testingSource.add("<textarea rows=\"4\" cols=\"10\">");
+			testingSource.add("Some testing text");
+			testingSource.add("</textarea>");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<textarea> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+	
 	}
 
 	// Check a couple of elements that are not self closing (i.e. upload file that does not close an element properly, check error is returned)
