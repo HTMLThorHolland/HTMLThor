@@ -29,12 +29,12 @@ public class baseBackEnd_Functional_Tests {
 	// Nested classes of required, singular and self-closing elements
 
 	// for each of the functions in this class check that code with multiple of them correctly displays the isSingular error
-		public static class singularTags {
-		
+	public static class singularTags {
+
 		@Test
 		public void Check_Singular_Doctype() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<!DOCTYPE html>");
@@ -45,14 +45,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -60,11 +60,11 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(2, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_Singular_html() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
@@ -76,14 +76,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -91,11 +91,11 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(3, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_Singular_head() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
@@ -107,14 +107,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -122,11 +122,11 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(6, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));			
 		}
-		
+
 		@Test
 		public void Check_Singular_body() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
@@ -138,14 +138,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -153,11 +153,11 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_Singular_title() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
@@ -168,14 +168,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -183,30 +183,30 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(5, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_Singular_base() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
 			testingSource.add("<head>");
 			testingSource.add("<title>Test</title>");
-			testingSource.add("<base href=\"http://www.test.com/\" \\>");
-			testingSource.add("<base href=\"http://www.test2.com/\" \\>");
+			testingSource.add("<base href=\"http://www.test.com/\" />");
+			testingSource.add("<base href=\"http://www.test2.com/\" />");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -214,11 +214,11 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(6, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
 		}
-		
+
 		@Test
 		public void Check_Singular_main() {
 			List<String> testingSource = new ArrayList<String>();
-			
+
 			//create html input to error check
 			testingSource.add("<!DOCTYPE html>");
 			testingSource.add("<html>");
@@ -232,14 +232,14 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("</main>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
-			
+
 			JSONObject testingResult = Check.findErrors(testingSource);
-			
+
 			//assert correct number of lines are stored
 			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-			
+
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
@@ -247,7 +247,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert error is on correct line
 			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
 		}
-		
+
 	}
 
 	// All of the functions in the following class should check whether ? (self closing is done or not done? Recommend which one?)
@@ -1737,7 +1737,7 @@ public class baseBackEnd_Functional_Tests {
 
 	// Check that statements in comments are not checked for errors (by passing in errors within comment tags)
 	public static class Check_Comments {
-		
+
 
 		@Test
 		public void Check_Deprecated_inComments() {
@@ -1771,7 +1771,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_Singular_inComments() {
 			List<String> testingSource = new ArrayList<String>();
@@ -1798,10 +1798,12 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
 
+		//TODO
+
 	}
-	
+
 	public static class Form_Elements {
-		
+
 		@Test
 		public void Check_button_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -1831,7 +1833,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_button_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -1922,7 +1924,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_fieldset_legend_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -1961,7 +1963,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_fieldset_legend_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -1988,7 +1990,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_label_input_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2026,7 +2028,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_label_input_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2052,7 +2054,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_keygen_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2082,7 +2084,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_keygen_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2107,7 +2109,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_meter_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2137,7 +2139,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_meter_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2162,7 +2164,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_optgroup_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2201,7 +2203,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_optgroup_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2228,7 +2230,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_output_input_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2274,7 +2276,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_output_input_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2301,7 +2303,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
-		
+
 		@Test
 		public void Check_progress_in_Form() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2331,7 +2333,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+
 		@Test
 		public void Check_progress_in_Form_control() {
 			List<String> testingSource = new ArrayList<String>();
@@ -2488,16 +2490,16 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-	
+
 	}
 
 	// Check a couple of elements that are not self closing (i.e. upload file that does not close an element properly, check error is returned)
 	public void Check_Not_Self_Closing() {
-
+		//TODO
 	}
 
 	// Check that a warning is returned for the use of tables (i.e. DO NOT use tables for layout, bad practice)
 	public void Check_Use_of_Tables() {
-
+		//TODO
 	}
 }
