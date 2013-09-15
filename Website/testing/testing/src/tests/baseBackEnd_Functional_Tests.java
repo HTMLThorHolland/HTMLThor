@@ -63,6 +63,11 @@ public class baseBackEnd_Functional_Tests {
 		public void Check_Singular_main() {
 
 		}
+		
+		// a test that uses all singular tags but without any errors
+		public void Check_Singular_control() {
+
+		}
 
 	}
 
