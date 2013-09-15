@@ -967,6 +967,56 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
+		
+
+		// Check a couple of elements that are not self closing (i.e. upload file that does not close an element properly, check error is returned)
+		@Test
+		public void Check_Not_Self_Closing() {
+
+
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<p />");
+			testingSource.add("<span />");
+			testingSource.add("<table />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(3, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<p> is not allowed to self close", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<span> is not allowed to self close", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("2")).get("line"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<table> is not allowed to self close", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("3")).get("line"));
+		}
 	}
 
 	public static class Required_Tags {
@@ -1187,7 +1237,7 @@ public class baseBackEnd_Functional_Tests {
 
 		// Test the error associated with using nonexistent tags
 		@Test
-		public void Non_Existing_Tags1() {
+		public void Check_Non_Existing_Tags1() {
 			List<String> testingSource = new ArrayList<String>();
 
 			//create html input to error check
@@ -1218,7 +1268,7 @@ public class baseBackEnd_Functional_Tests {
 
 		// Test the error associated with using nonexistent tags
 		@Test
-		public void Non_Existing_Tags2() {
+		public void Check_Non_Existing_Tags2() {
 			List<String> testingSource = new ArrayList<String>();
 
 			//create html input to error check
@@ -1249,7 +1299,7 @@ public class baseBackEnd_Functional_Tests {
 
 		// Test the error associated with using nonexistent tags
 		@Test
-		public void Non_Existing_Tags3() {
+		public void Check_Non_Existing_Tags3() {
 			List<String> testingSource = new ArrayList<String>();
 
 			//create html input to error check
@@ -1797,8 +1847,68 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
+		
 
-		//TODO
+
+		@Test
+		public void Check_Self_Closing_inComments() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<p>Test</p>");
+			testingSource.add("<!--");
+			testingSource.add("<br>");
+			testingSource.add("-->");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+
+
+		@Test
+		public void Check_Closing_inComments() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<p>Test</p>");
+			testingSource.add("<!--");
+			testingSource.add("</body>");
+			testingSource.add("-->");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<body> is not closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(11, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
 
 	}
 
@@ -2486,13 +2596,4 @@ public class baseBackEnd_Functional_Tests {
 
 	}
 
-	// Check a couple of elements that are not self closing (i.e. upload file that does not close an element properly, check error is returned)
-	public void Check_Not_Self_Closing() {
-		//TODO
-	}
-
-	// Check that a warning is returned for the use of tables (i.e. DO NOT use tables for layout, bad practice)
-	public void Check_Use_of_Tables() {
-		//TODO
-	}
 }
