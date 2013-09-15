@@ -2479,16 +2479,9 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
-			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
-
-			//assert correct error type for second error is stored
-			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
-			//assert correct error message for second error is stored
-			Assert.assertEquals("<textarea> should be inside a <form>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
-			//assert second error is on correct line
-			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
 
 	}
