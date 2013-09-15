@@ -29,46 +29,225 @@ public class baseBackEnd_Functional_Tests {
 	// Nested classes of required, singular and self-closing elements
 
 	// for each of the functions in this class check that code with multiple of them correctly displays the isSingular error
-	public static class singularTags {
-
-		@Before
-		public void prepare() {
-
-		}
-
+		public static class singularTags {
+		
+		@Test
 		public void Check_Singular_Doctype() {
-
-		}
-
-		public void Check_Singular_html() {
-
-		}
-
-		public void Check_Singular_head() {
-
-		}
-
-		public void Check_Singular_body() {
-
-		}
-
-		public void Check_Singular_title() {
-
-		}
-
-		public void Check_Singular_base() {
-
-		}
-
-		public void Check_Singular_main() {
-
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one doctype declaration in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(2, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
 		
-		// a test that uses all singular tags but without any errors
-		public void Check_Singular_control() {
-
+		@Test
+		public void Check_Singular_html() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one html element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(3, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
 		}
-
+		
+		@Test
+		public void Check_Singular_head() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<head>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one head element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(6, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));			
+		}
+		
+		@Test
+		public void Check_Singular_body() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one body element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_title() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("<title>Test 2</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one title element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(5, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_base() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("<base href=\"http://www.test.com/\" \\>");
+			testingSource.add("<base href=\"http://www.test2.com/\" \\>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one base element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(6, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+		}
+		
+		@Test
+		public void Check_Singular_main() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<main>");
+			testingSource.add("</main>");
+			testingSource.add("<main>");
+			testingSource.add("</main>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+			//assert correct error type is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
+			//assert correct error message is stored
+			Assert.assertEquals("There should only be one main element in the document", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			//assert error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+		}
+		
 	}
 
 	// All of the functions in the following class should check whether ? (self closing is done or not done? Recommend which one?)
