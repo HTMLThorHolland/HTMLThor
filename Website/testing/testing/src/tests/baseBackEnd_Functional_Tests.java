@@ -101,6 +101,30 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_base_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<base href=\"http://www.test.com\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+			
+		}
+		
+		@Test
 		public void Check_Closing_link() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -131,7 +155,7 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
-		public void Check_Closing_meta() {
+		public void Check_Closing_link_control() {
 			List<String> testingSource = new ArrayList<String>();
 			
 			//create html input to error check
@@ -141,7 +165,30 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
+			testingSource.add("<link href=\"test.css\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
+		public void Check_Closing_meta() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
 			testingSource.add("<meta charset=\"utf-8\">");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 			
@@ -157,7 +204,30 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct error message is stored
 			Assert.assertEquals("meta tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
-			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+			Assert.assertEquals(5, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+		}
+		
+		@Test
+		public void Check_Closing_meta_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("<meta charset=\"utf-8\" />");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
 		
 		@Test
@@ -191,6 +261,29 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_hr_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<hr />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
 		public void Check_Closing_br() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -218,6 +311,29 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("br tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+		}
+
+		@Test
+		public void Check_Closing_br_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<br />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
 		
 		@Test
@@ -251,6 +367,29 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_wbr_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<wbr />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
+		}
+		
+		@Test
 		public void Check_Closing_img() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -261,7 +400,7 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
-			testingSource.add("<img src=\"test.jpg\">");
+			testingSource.add("<img src=\"test.jpg\" alt=\"test\">");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 			
@@ -275,9 +414,32 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct error type is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("type"));
 			//assert correct error message is stored
-			Assert.assertEquals("hr tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
+			Assert.assertEquals("img tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
 			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));		
+		}
+		
+		@Test
+		public void Check_Closing_img_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<img src=\"test.jpg\" alt=\"test\" />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));	
 		}
 		
 		@Test
@@ -313,6 +475,31 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_param_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<object data=\"test.swf\" type=\"application/x-shockwave-flash\">");
+			testingSource.add("<param name=\"test\" />");
+			testingSource.add("</object>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
+		
+		@Test
 		public void Check_Closing_source() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -342,6 +529,31 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("source tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));				
+		}
+		
+		@Test
+		public void Check_Closing_source_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<video>");
+			testingSource.add("<source src=\"test.mov\" />");
+			testingSource.add("</video>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));				
 		}
 		
 		@Test
@@ -377,6 +589,31 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_track_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<video>");
+			testingSource.add("<track src=\"test.srt\" />");
+			testingSource.add("</video>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
+		}
+		
+		@Test
 		public void Check_Closing_input() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -406,6 +643,31 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("input tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));			
+		}
+		
+		@Test
+		public void Check_Closing_input_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form action=\"test.php\">");
+			testingSource.add("<input type=\"text\" />");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));			
 		}
 		
 		@Test
@@ -441,6 +703,31 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		@Test
+		public void Check_Closing_keygen_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<form action=\"test.php\">");
+			testingSource.add("<keygen name=\"test\" />");
+			testingSource.add("</form>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
+		}
+		
+		@Test
 		public void Check_Closing_menuitem() {
 			List<String> testingSource = new ArrayList<String>();
 			
@@ -470,6 +757,31 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("menuitem tags should be self-closed", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("message"));
 			//assert error is on correct line
 			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("0")).get("line"));			
+		}
+		
+		@Test
+		public void Check_Closing_menuitem_control() {
+			List<String> testingSource = new ArrayList<String>();
+			
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<menu label=\"test\">");
+			testingSource.add("<menuitem type=\"command\" />");
+			testingSource.add("</menu>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+			
+			JSONObject testingResult = Check.findErrors(testingSource);
+			
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
 	}
 	
