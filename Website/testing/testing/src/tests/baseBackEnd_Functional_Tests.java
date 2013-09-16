@@ -29,7 +29,7 @@ public class baseBackEnd_Functional_Tests {
 	// Nested classes of required, singular and self-closing elements
 
 	// for each of the functions in this class check that code with multiple of them correctly displays the isSingular error
-	public static class singularTags {
+	public static class Singular_Tags {
 
 		@Test
 		public void Check_Singular_Doctype() {
@@ -2596,4 +2596,638 @@ public class baseBackEnd_Functional_Tests {
 
 	}
 
+	// Check various properties of table elements
+	public static class Table_Elements {
+		
+		@Test
+		public void Check_Caption_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<caption>Test caption</caption>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<caption> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Colgroup_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<colgroup> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Col_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<col />");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("warning", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<col> should be inside a <colgroup> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tbody_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tbody></tbody>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tbody> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Thead_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<thead></thead>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<thead> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tfoot_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tfoot></tfoot>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tfoot> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tr_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tr></tr>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tr> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Td_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<td></td>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<td> should be inside a <tr> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Th_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<th></th>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<th> should be inside a <tr> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+
+		@Test
+		public void Check_Col_In_Colgroup() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<col />");
+			testingSource.add("<table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<col> should be inside a <colgroup> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Td_In_Tr() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<td></td>");
+			testingSource.add("<table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<td> should be inside a <tr> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}		
+		
+		@Test
+		public void Check_Th_In_Tr() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<th></th>");
+			testingSource.add("<table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<th> should be inside a <tr> element, within a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(8, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}	
+		
+		@Test
+		public void Check_Colgroup_With_Content_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<colgroup>");
+			testingSource.add("<col />");
+			testingSource.add("</colgroup>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<colgroup> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tbody_With_Content_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tbody>");
+			testingSource.add("<tr></tr>");
+			testingSource.add("</tbody>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tbody> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Thead_With_Content_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<thead>");
+			testingSource.add("<tr></tr>");
+			testingSource.add("</thead>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<thead> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tfoot_With_Content_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tbody>");
+			testingSource.add("<tr></tr>");
+			testingSource.add("</tbody>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tfoot> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Tr_With_Content_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<tr>");
+			testingSource.add("<th></th>");
+			testingSource.add("</tr>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<tr> should be inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Caption_Position_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<thead>");
+			testingSource.add("</thead>");
+			testingSource.add("<caption>Test caption</caption>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<caption> should be the first element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Colgroup_Position_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<thead>");
+			testingSource.add("</thead>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<colgroup> should be before any <thead>, <tbody>, <tfoot>, <tr> or <th> element inside a <table>", 
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Thead_Position_In_Table() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<tbody>");
+			testingSource.add("</tbody>");
+			testingSource.add("<thead>");
+			testingSource.add("</thead>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<thead> should be before any <tbody>, <tfoot>, <tr> or <th> element inside a <table>", 
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+	}
 }
