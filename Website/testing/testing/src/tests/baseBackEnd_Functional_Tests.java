@@ -3230,4 +3230,180 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
 	}
+	
+	// This class includes all tag checks, is missing the checks on attribute particulars
+	public class Nested_SubElements {
+		@Test
+		public void Check_Option_In_Select() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<select>");
+			testingSource.add("<option>");
+			testingSource.add("</option>");
+			testingSource.add("</select>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<option> should be nested inside <select> element", 
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		public void Check_Li_In_Ul() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<ul>");
+			testingSource.add("<li>");
+			testingSource.add("</li>");
+			testingSource.add("</ul>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<li> should be nested inside <ul> element", 
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		public void Check_Li_in_Ol() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<ol>");
+			testingSource.add("<li>");
+			testingSource.add("</li>");
+			testingSource.add("</ol>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<li> should be nested inside <ol> element",  
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		//Descriptor Tags
+		public void Check_Dt_in_Dl() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<dl>");
+			testingSource.add("<dt>Coffee</dt>");
+			testingSource.add("<dd>Black hot drink</dd>");
+			testingSource.add("<dt>Milk</dt>");
+			testingSource.add("<dd>White cold drink</dd>");
+			testingSource.add("</dl>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<dt> should be nested inside <dl> element",  
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		//Descriptor tag check
+		public void Check_Dd_in_Dt() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<dl>");
+			testingSource.add("<dt>Coffee</dt>");
+			testingSource.add("<dd>Black hot drink</dd>");
+			testingSource.add("<dt>Milk</dt>");
+			testingSource.add("<dd>White cold drink</dd>");
+			testingSource.add("</dl>");
+			testingSource.add("</body>");
+			testingSource.add("</html>")
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("<dd> should be nested inside <dt> sub - element",  
+					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+	}
 }
