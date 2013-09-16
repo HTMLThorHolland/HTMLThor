@@ -49,7 +49,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -80,7 +80,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -111,7 +111,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -142,7 +142,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -172,7 +172,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -203,7 +203,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -236,7 +236,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -271,7 +271,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -302,7 +302,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -326,7 +326,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -356,7 +356,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -379,7 +379,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -409,7 +409,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
@@ -432,7 +432,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -462,7 +462,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -485,7 +485,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -515,7 +515,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -538,7 +538,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -568,7 +568,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
@@ -591,7 +591,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -621,7 +621,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));	
 		}
@@ -646,7 +646,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -678,7 +678,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -703,7 +703,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -735,7 +735,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));				
 		}
@@ -760,7 +760,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -792,7 +792,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
@@ -817,7 +817,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -849,7 +849,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));			
 		}
@@ -874,7 +874,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -906,7 +906,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
@@ -931,7 +931,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -963,7 +963,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));		
 		}
@@ -992,7 +992,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(3, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1039,7 +1039,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1069,7 +1069,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1100,7 +1100,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1130,7 +1130,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1160,7 +1160,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(7, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1191,7 +1191,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(8, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -1213,7 +1213,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(6, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1254,7 +1254,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1285,7 +1285,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1316,7 +1316,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1351,7 +1351,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1381,7 +1381,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1411,7 +1411,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1441,7 +1441,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1471,7 +1471,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1501,7 +1501,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1531,7 +1531,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1561,7 +1561,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1591,7 +1591,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1621,7 +1621,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1651,7 +1651,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1681,7 +1681,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1711,7 +1711,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1741,7 +1741,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1771,7 +1771,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1810,7 +1810,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1843,7 +1843,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -1871,7 +1871,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -1898,7 +1898,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1932,7 +1932,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -1964,7 +1964,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -1989,7 +1989,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2030,7 +2030,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2055,7 +2055,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2096,7 +2096,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2120,7 +2120,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2160,7 +2160,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2183,7 +2183,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2215,7 +2215,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2238,7 +2238,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2270,7 +2270,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2295,7 +2295,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2336,7 +2336,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2361,7 +2361,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(3, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2409,7 +2409,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2432,7 +2432,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2464,7 +2464,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2489,7 +2489,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(2, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2530,7 +2530,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2555,7 +2555,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2589,7 +2589,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
 		}
@@ -2617,7 +2617,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2647,7 +2647,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2677,7 +2677,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2707,7 +2707,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2737,7 +2737,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2767,7 +2767,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2797,7 +2797,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2827,7 +2827,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2857,7 +2857,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(9, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2889,7 +2889,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2921,7 +2921,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2953,7 +2953,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -2985,7 +2985,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3017,7 +3017,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3049,7 +3049,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3081,7 +3081,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3113,7 +3113,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(11, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3147,7 +3147,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3181,7 +3181,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(13, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3217,7 +3217,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3251,7 +3251,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3284,7 +3284,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3317,7 +3317,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3350,7 +3350,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3383,7 +3383,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3421,7 +3421,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3452,7 +3452,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(10, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3484,7 +3484,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3519,7 +3519,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
@@ -3554,7 +3554,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
