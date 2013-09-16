@@ -3231,8 +3231,9 @@ public class baseBackEnd_Functional_Tests {
 		}
 	}
 	
-	// This class includes all tag checks, is missing the checks on attribute particulars
-	public class Nested_SubElements {
+	// This class includes all sub-element tag checks
+	public static class Nested_SubElements {
+		
 		@Test
 		public void Check_Option_In_Select() {
 			List<String> testingSource = new ArrayList<String>();
@@ -3244,10 +3245,8 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Just a test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
-			testingSource.add("<select>");
 			testingSource.add("<option>");
 			testingSource.add("</option>");
-			testingSource.add("</select>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 
@@ -3264,9 +3263,9 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("<option> should be nested inside <select> element", 
 					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
 			//assert second error is on correct line
-			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
-		
+		@Test
 		public void Check_Li_In_Ul() {
 			List<String> testingSource = new ArrayList<String>();
 
@@ -3277,10 +3276,8 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Just a test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
-			testingSource.add("<ul>");
 			testingSource.add("<li>");
 			testingSource.add("</li>");
-			testingSource.add("</ul>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 
@@ -3297,9 +3294,10 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("<li> should be nested inside <ul> element", 
 					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
 			//assert second error is on correct line
-			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
 		
+		@Test
 		public void Check_Li_in_Ol() {
 			List<String> testingSource = new ArrayList<String>();
 
@@ -3310,10 +3308,8 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Just a test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
-			testingSource.add("<ol>");
 			testingSource.add("<li>");
 			testingSource.add("</li>");
-			testingSource.add("</ol>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 
@@ -3330,10 +3326,11 @@ public class baseBackEnd_Functional_Tests {
 			Assert.assertEquals("<li> should be nested inside <ol> element",  
 					((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
 			//assert second error is on correct line
-			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+			Assert.assertEquals(7, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
 		
 		//Descriptor Tags
+		@Test
 		public void Check_Dt_in_Dl() {
 			List<String> testingSource = new ArrayList<String>();
 
@@ -3344,12 +3341,10 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<title>Just a test</title>");
 			testingSource.add("</head>");
 			testingSource.add("<body>");
-			testingSource.add("<dl>");
 			testingSource.add("<dt>Coffee</dt>");
 			testingSource.add("<dd>Black hot drink</dd>");
 			testingSource.add("<dt>Milk</dt>");
 			testingSource.add("<dd>White cold drink</dd>");
-			testingSource.add("</dl>");
 			testingSource.add("</body>");
 			testingSource.add("</html>");
 
@@ -3358,7 +3353,7 @@ public class baseBackEnd_Functional_Tests {
 			//assert correct number of lines are stored
 			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
-			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+			Assert.assertEquals(7, ((JSONObject) testingResult.get("errors")).get("count"));
 
 			//assert correct error type for second error is stored
 			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
@@ -3370,6 +3365,7 @@ public class baseBackEnd_Functional_Tests {
 		}
 		
 		//Descriptor tag check
+		@Test
 		public void Check_Dd_in_Dt() {
 			List<String> testingSource = new ArrayList<String>();
 
@@ -3381,9 +3377,7 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("</head>");
 			testingSource.add("<body>");
 			testingSource.add("<dl>");
-			testingSource.add("<dt>Coffee</dt>");
 			testingSource.add("<dd>Black hot drink</dd>");
-			testingSource.add("<dt>Milk</dt>");
 			testingSource.add("<dd>White cold drink</dd>");
 			testingSource.add("</dl>");
 			testingSource.add("</body>");
@@ -3392,7 +3386,7 @@ public class baseBackEnd_Functional_Tests {
 			JSONObject testingResult = Check.findErrors(testingSource);
 
 			//assert correct number of lines are stored
-			Assert.assertEquals(14, ((JSONObject) testingResult.get("source")).get("length"));
+			Assert.assertEquals(8, ((JSONObject) testingResult.get("source")).get("length"));
 			//assert correct number of errors are stored
 			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
 
