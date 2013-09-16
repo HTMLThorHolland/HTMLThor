@@ -25,7 +25,7 @@ public class baseFrontEnd_Functional_Tests {
     
 	// Always begin at index.html (Everything is on this one page)
     @Test
-    public void Upload_Single_File() {
+    public void Check_Single_File() {
         beginAt("index.html"); 
         
         
@@ -49,7 +49,7 @@ public class baseFrontEnd_Functional_Tests {
 	
     @Test
 	// Check that the form allows submission of multiple files (how? assert that an error isn't returned? that the form object contains something afterwards?
-	public void Upload_Multiple_Files() {
+	public void Check_Multiple_Files() {
     	beginAt("index.html"); 
         
         
@@ -73,7 +73,7 @@ public class baseFrontEnd_Functional_Tests {
 	
     @Test
 	// Check that the form allows submission of a ZIP
-	public void Upload_Zip_File() {
+	public void Check_Zip_File() {
     	beginAt("index.html"); 
         
         
@@ -97,11 +97,11 @@ public class baseFrontEnd_Functional_Tests {
 	
     @Test
 	// Check that the form allows submission of a URL
-	public void Upload_Url() {
+	public void Check_Url() {
     	beginAt("index.html"); 
         
         assertFormPresent("directInputForm");
-        assertElementPresentByXPath("//*[@id='directInputForm']/input"); // need the text box to have an id?
+        assertElementPresentByXPath("//*[@id='directInputForm']/input");
         assertButtonPresent("urlButton");
         
         // Note that the below checks are also elements of direct input upload and do not need to be rechecked
@@ -117,7 +117,7 @@ public class baseFrontEnd_Functional_Tests {
 	
     @Test
 	// Check that the form allows direct input source 
-	public void Upload_Direct_Input() {
+	public void Check_Direct_Input() {
     	beginAt("index.html"); 
         
         assertElementPresent("input-direct");
