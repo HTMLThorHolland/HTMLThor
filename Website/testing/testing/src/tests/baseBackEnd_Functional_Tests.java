@@ -3397,6 +3397,39 @@ public class baseBackEnd_Functional_Tests {
 		
 		@Test
 		public void Check_Multiple_Tables_With_Singular_Tags() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<caption>Test Table 1</caption>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("<thead></thead>");
+			testingSource.add("<tbody></tbody>");
+			testingSource.add("<tfoot></tfoot>");
+			testingSource.add("</table>");
+			testingSource.add("<table>");
+			testingSource.add("<caption>Test Table 2</caption>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("<thead></thead>");
+			testingSource.add("<tbody></tbody>");
+			testingSource.add("<tfoot></tfoot>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(testingSource.size(), ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(0, ((JSONObject) testingResult.get("errors")).get("count"));
+		}
 	}
 	
 	// This class includes all sub-element tag checks
