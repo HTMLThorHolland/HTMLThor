@@ -3229,6 +3229,174 @@ public class baseBackEnd_Functional_Tests {
 			//assert second error is on correct line
 			Assert.assertEquals(10, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
 		}
+		
+		@Test
+		public void Check_Singular_Caption() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<caption>Test caption 1</caption>");
+			testingSource.add("<caption>Test caption 2</caption>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("There should only be one <caption> element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_Colgroup() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("<colgroup></colgroup>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("There should only be one <colgroup> element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_Tbody() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<tbody></tbody>");
+			testingSource.add("<tbody></tbody>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("There should only be one <tbody> element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_Thead() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<thead></thead>");
+			testingSource.add("<thead></thead>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("There should only be one <thead> element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Singular_Tfoot() {
+			List<String> testingSource = new ArrayList<String>();
+
+			//create html input to error check
+			testingSource.add("<!DOCTYPE html>");
+			testingSource.add("<html>");
+			testingSource.add("<head>");
+			testingSource.add("<title>Just a test</title>");
+			testingSource.add("</head>");
+			testingSource.add("<body>");
+			testingSource.add("<table>");
+			testingSource.add("<tfoot></tfoot>");
+			testingSource.add("<tfoot></tfoot>");
+			testingSource.add("</table>");
+			testingSource.add("</body>");
+			testingSource.add("</html>");
+
+			JSONObject testingResult = Check.findErrors(testingSource);
+
+			//assert correct number of lines are stored
+			Assert.assertEquals(12, ((JSONObject) testingResult.get("source")).get("length"));
+			//assert correct number of errors are stored
+			Assert.assertEquals(1, ((JSONObject) testingResult.get("errors")).get("count"));
+
+			//assert correct error type for second error is stored
+			Assert.assertEquals("syntax", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("type"));
+			//assert correct error message for second error is stored
+			Assert.assertEquals("There should only be one <tfoot> element inside a <table>", ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("message"));
+			//assert second error is on correct line
+			Assert.assertEquals(9, ((JSONObject) ((JSONObject) testingResult.get("errors")).get("1")).get("line"));
+		}
+		
+		@Test
+		public void Check_Multiple_Tables_With_Singular_Tags() {
 	}
 	
 	// This class includes all sub-element tag checks
