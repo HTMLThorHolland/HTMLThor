@@ -3582,7 +3582,7 @@ public class baseBackEnd_Functional_Tests {
 			testingSource.add("<dd>White cold drink</dd>");
 			testingSource.add("</dl>");
 			testingSource.add("</body>");
-			testingSource.add("</html>")
+			testingSource.add("</html>");
 
 			JSONObject testingResult = Check.findErrors(testingSource);
 
