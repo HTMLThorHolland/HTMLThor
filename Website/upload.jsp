@@ -220,11 +220,30 @@
 	** ========================================================== */
 	if (uploadType.equals("direct")) {
 		String fileName = filePath.concat("direct.html");
-		
-		
-		String sourceCode = request.getParameter("input-direct");
-		out.println(sourceCode);
-	
+		String sourceCode = "";
+		String inputURL = request.getParameter("input-url");
+		if (!(inputURL.length() < 4)) {
+			if (inputURL.indexOf("http://www.") != 0 && inputURL.indexof("www.") != 0) {
+				inputURL = "http://www".concat(inputURL);
+			}
+			else if (inputURL.indexOf("http://") != 0) {
+				inputURL = "http://".concat(inputURL);
+			}
+			else if (inputURL.indexOf("www.") != 7) {
+				inputURL = "http://www".concat(inputURL.substring(7));
+			}
+			URL url = new URL(inputURL);
+			InputStream is = url.openStream();
+			int ptr = 0;
+			StringBuffer buffer = new StringBuffer();
+			while ((ptr = is.read()) != -1) {
+   				buffer.append((char)ptr);
+			}
+			sourceCode = buffer.toString();
+		} else {
+			sourceCode = request.getParameter("input-direct");
+			out.println(sourceCode);
+		}
 		FileWriter directFile = new FileWriter(fileName);
 		directFile.write(sourceCode);
 		directFile.flush();
