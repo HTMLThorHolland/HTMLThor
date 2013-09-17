@@ -58,139 +58,23 @@
 		return 0;
 	}
 	
-	
-	
-	/** 
-	 * Class for storing string representations of various errors and
-	 * final variables for easy reference.
-	 *
-	 * Only HTML code validation errors; other errors should be in other places.
-	 *
-	 * Not sure what form they should be (Strings, ints, some custom Object...)
+	/**
+	 * Constructs a JSONObject with the error details given.
 	 *
 	 * @author Ameer Sabri
 	 */
 	public class Error {
-		/* Declarations of static error variables used by the class. */
-		
-		/*
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-		
-		public static final int DEPRECATED_TAG;
-		public static final int NON_EXISTENT_TAG;
-		public static final int DUPLICATE_SINGULAR_TAG;
-		public static final int FORM_TAG_OUT_OF_FORM;
-		public static final int TABLE_TAG_OUT_OF_TABLE;
-		public static final int MISSING_REQUIRED_TAG;
-		public static final int NOT_CLOSED_TAG;
-		public static final int FRAME_USED;
-		public static final int TABLE_USED_FOR_LAYOUT;
-		public static final int MISSING_DOCTYPE;
-		
-		public static final int NON_EXISTENT_ATTR;
-		public static final int BAD_ATTR_VALUE;
-		public static final int DUPLICATE_ATTR;
-		public static final int MISSING_ATTR;
-		
-		
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-		*/
-		
-		int errorCode;
-		String errorMsg;
-		
-		/**
-		 * Constructor for Errors that are not associated with a particular
-		 * tag or attribute.
-		 *
-		 * @param errorCode the error code
-		 */
-		public Error(int errorCode) {
-			this.errorCode = errorCode;
-			errorMsg = createErrorMsg(errorCode);
+		private JSONObject error = new JSONObject();
+	
+		public Error(int line, int col, String type, String message) {
+			error.put("line", line);
+			error.put("col", col);
+			error.put("type", type);
+			error.put("message", message);
 		}
 		
-		/**
-		 * Constructor for Errors that are associated with a particular tag or
-		 * attribute.
-		 *
-		 * @param errorCode the error code
-		 * @param tagOrAttr the name of the tag or attribute
-		 */
-		public Error(int errorCode, String tagOrAttr) {
-			this.errorCode = errorCode;
-			errorMsg = createErrorMsg(errorCode, tagOrAttr);
-		}
-		
-		/**
-		 * Getter for the error message of the Error.
-		 *
-		 * @return the error message
-		 */
-		public String getErrorMsg() {
-			return errorMsg;
-		}
-		
-		/**
-		 * Getter for the error code of the Error.
-		 *
-		 * @return the error code
-		 */
-		public int getErrorCode() {
-			return errorCode;
-		}
-		
-		/**
-		 * Constructs an appropriate error message for the error code given,
-		 * using the tag or attribute given, and adding it with the error
-		 * message template.
-		 *
-		 * @param errorCode the error code
-		 * @param tagOrAttr the name of the tag or attribute
-		 * @return an appropriate error message utilising the name of the
-		 * tag or attribute
-		 */
-		
-		private String createErrorMsg(int errorCode, String tagOrAttr) {
-		/*
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-			switch {
-			
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-		*/
-				/* will contain all the various error messages */
-			/* } */
-			
-			return ""; //placeholder
-		}
-		
-		
-		/**
-		 * Overloaded method for construction of error messages that are not
-		 * associated with a particular tag or attribute.
-		 *
-		 * @return an appropriate error message
-		 */
-		private String createErrorMsg(int errorCode) {
-		/*
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-			createErrorMsg(errorCode, "");
-		
-		========================================================================
-		============== This section causes errors. Commented out. ==============
-		========================================================================
-		*/
-			return "";
+		public JSONObject getErrorObject() {
+			return error;
 		}
 	}
 	
@@ -322,21 +206,31 @@
 			// first tag should be doctype
 				int errorCheck = checkDoctype(tagSplit);
 				if (errorCheck == 1) {
+					/*
 					JSONObject error = new JSONObject();
 					error.put("line", 1);
 					error.put("col", 1);
 					error.put("type", "syntax"); // retrieve from DB
 					error.put("message", "First element should be doctype"); // retrieve from DB
-					errors.put(Integer.toString(errorCount), error);
+					*/
+					
+					Error error = new Error(1, 1, "syntax", "First element should be doctype");
+					errors.put(Integer.toString(errorCount), error.getErrorObject());
+					//errors.put(Integer.toString(errorCount), error);
 					errorCount++;
 				}
 				if (errorCheck == 2) {
+					/*
 					JSONObject error = new JSONObject();
 					error.put("line", 1);
 					error.put("col", 1);
 					error.put("type", "syntax"); // retrieve from DB
 					error.put("message", "Your doctype is not HTML 5"); // retrieve from DB
-					errors.put(Integer.toString(errorCount), error);
+					*/
+					
+					Error error = new Error(1, 1, "syntax", "Your doctype is not HTML5");
+					errors.put(Integer.toString(errorCount), error.getErrorObject());
+					//errors.put(Integer.toString(errorCount), error);
 					errorCount++;
 				}
 			}
