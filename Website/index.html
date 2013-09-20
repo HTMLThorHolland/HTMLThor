@@ -94,7 +94,7 @@
 	
 	
 	
-	<!-- MAIN htmlThor JavaScript (I (Simon) have moved all of the previous js into this file!!!)
+	<!-- MAIN htmlThor JavaScript (I (Simon) have moved all of the previous js into this main.js file!!!)
 	================================================== -->
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="scripts/revealSite.js"></script>
@@ -122,35 +122,93 @@
 	================================================== -->
 	
 	<div class="sideBarNavigation">
-		<ul>
-			<li id="topLink" class="smallLink">
-				<a href=#>top</a>
+		<ul id="siteLinks" class="sideBarLinks">
+			<li class="smallLink">
+				<a id="topLink" href=#>top</a>
 			</li>
-			<li id="homeLink" class="currentLocation">
-				<a href=#>home</a>
+			<li>
+				<a id="homeLink" href=#>home</a>
 			</li>
-			<li id="uploadLink">
-				<a href=#>upload</a>
+			<li>
+				<a id="uploadLink" class="currentLocation" href=#>upload</a>
 			</li>
 			<!-- add .extraOne back in breakdownLink -->
-			<li id="breakdownLink" class="extraOne">
-				<a href=#>breakdown</a>
+		</ul>
+		<ul class="sideBarLinks">
+			<li>
+				<a id="breakdownLink" href=#>results</a>
+				<ul>
+					<!-- add .extraOne back in sourceLink -->
+					<li class="">
+						<a id="sourceLink" href=#>page source</a>
+					</li>
+					<!-- add .extraOne back in errorsLink -->
+					<li class="">
+						<a id="errorsLink" href=#>errors</a>
+					</li>
+				</ul>
 			</li>
 			<!-- add .extraTwo back in structureLink -->
-			<li id="structureLink" class="extraTwo">
-				<a href=#>file structure</a>
-			</li>
-			<!-- add .extraOne back in sourceLink -->
-			<li id="sourceLink" class="extraOne">
-				<a href=#>page source</a>
-			</li>
-			<!-- add .extraOne back in errorsLink -->
-			<li id="errorsLink" class="extraOne">
-				<a href=#>errors</a>
+			<li class="extraTwo">
+				<a id="structureLink" href=#>file structure</a>
 			</li>
 		</ul>
+		<div class="helpKey">
+			<h3>HELP</h3>
+			<div class="key">
+				<div class="keyTop">
+					<div class="red colourSquare"></div>
+					<p>Syntax</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This will drop down. Longer sentence that gets long.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop">
+					<div class="blue colourSquare"></div>
+					<p>Semantic</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This will drop down. Longer sentence that gets long.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop">
+					<div class="yellow colourSquare"></div>
+					<p>Best Practice</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This will drop down. Longer sentence that gets long.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop">
+					<div class="purple colourSquare"></div>
+					<p>Deprecated Tag</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This will drop down. Longer sentence that gets long.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop">
+					<div class="green colourSquare"></div>
+					<p>No errors</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This will drop down. Longer sentence that gets long.</p>
+				</div>
+			</div>
+		</div>
 	</div>
 	
+	<!-- to be deleted
 	<div class="topHelpBar">
 		<div class="topHelpButt">
 			<a href=#>help</a>
@@ -189,6 +247,7 @@
 			</ul>
 		</div>
 	</div>
+	-->
 	
 	<div id="siteContainer">
 		<div class="site container">

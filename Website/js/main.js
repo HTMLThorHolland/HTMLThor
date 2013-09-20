@@ -80,6 +80,7 @@
 			 });
 			
 			$("#breakdownLink").click(function(e) {
+				console.log("breakdown clicked");
 				e.preventDefault();
 				if(!resultsOpen) {
 					revealSite();
@@ -141,6 +142,19 @@
 			
 			
 			/* END PAGE NAVIGATION */
+			
+			$(".key").click(function() {
+				console.log("key top clicked");
+				$(this).children('.keyInfo').slideToggle();
+			});
+			
+			/* HELP KEY */
+			
+			
+			
+			
+			/* END HELP KEY */
+			
 			
 		});
 		

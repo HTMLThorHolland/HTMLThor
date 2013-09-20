@@ -21,6 +21,9 @@
 /* Hiding Site Elements */
 
 
+/* MAKE SIDE BAR TEXT BIGGER */
+
+
 .extraOne, .extraTwo {
 	display: none;
 }
@@ -203,6 +206,10 @@ a {
 	margin-left: 10%;
 }
 
+#siteLinks {
+	margin-top: 50px;
+}
+
 .sideBarNavigation {
 	width: 10%;
 	min-width: 122px;
@@ -216,7 +223,7 @@ a {
 }
 
 	.sideBarNavigation ul {
-		margin-top: 50px;
+
 	}
 
 	.sideBarNavigation ul li {
@@ -228,34 +235,91 @@ a {
 		cursor: pointer;
 	}
 
+		.sideBarNavigation ul li ul {
+			margin: 0;
+		}
+
+			.sideBarNavigation ul li ul a {
+				padding-left: 32px;
+			}
+
 	.sideBarNavigation a {
-		font-size:.7em;
+		font-size:.9em;
 		padding: 2px;
-		padding-left: 20px;
-		padding-right: 20px;
+		padding-left: 14px;
 		color: #B9B9B9;
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+		-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	}
 
-	.sideBarNavigation a:hover, .sideBarNavigation ul li:hover a {
+	.sideBarNavigation a:hover {
 		color: #4B70A5;
 	}
 	
-	.currentLocation {
+	a.currentLocation {
 		background-color: #37537C;
+		color: #E3E6EC;
 	}
 	
-	.currentLocation a {
-		color: #e3e6ec;
-	}
-	
-	.currentLocation a:hover, .sideBarNavigation ul li.currentLocation:hover a {
-		color: #e3e6ec;
+	a.currentLocation:hover, .sideBarNavigation ul li a.currentLocation:hover {
+		color: #E3E6EC;
 	}
 	
 	.smallLink a {
-		font-size: .65em;
+		font-size: .7em;
 		color: #636770;
 	}
+	
+.emptyLink {
+	height: 10px;
+}
+	
+.sideBarLinks {
+	padding-bottom: 20px;
+	border-bottom: 1px solid rgba(55, 83, 124, 0.5);
+}
+	
+.helpKey {
+}
+
+	.helpKey h3 {
+		font-size: .8em;
+		cursor: default;
+		padding-left: 14px;
+	}
+	
+	.key {
+		padding-left: 14px;
+		cursor: pointer;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	
+		.key:hover {
+			background-color: rgba(55, 83, 124, 0.25);
+		}
+	
+		.key p {
+			font-size: .7em;
+			line-height: 21px;
+			margin-bottom: 0;
+			margin-right: 3px;
+		}
+		
+		.key .colourSquare {
+			margin-right: 6px;
+			width: 20px;
+			height: 20px;
+			margin-bottom: 0;
+		}
+		
+		.keyInfo {
+			margin-left: 26px;
+			display: none;
+		}
 
 
 
@@ -267,8 +331,8 @@ a {
 .siteHeader {
 }
 
-.siteHeader h1:hover, .siteHeader h4:hover, .siteLogo {
-	cursor:pointer;
+.siteHeader h1, .siteHeader h4, .siteLogo {
+	cursor:default;
 }
 
 .siteHeader h1 {
@@ -362,7 +426,7 @@ a {
 */
 
 .colourSquare {
-	width: 50px;
+	width: 25px;
 	height: 25px;
 	float: left;
 	margin-right: 20px;
