@@ -22,10 +22,15 @@ function setPageSource(source, filename) {
 		oldSource[i] += "\n";
 		finalSource[i] = source[i];
 		finalSource[i] += "\n";
+		console.log("source is "+finalSource[i]);
 	}
 	finalSource = generateErrors(finalSource);
-	finalSource = "<pre class='prettyprint linenums' id='"+filename+"'>"+finalSource+"</pre>";
-	$("#pageSource").append(finalSource);
+	testSource = ["line 1","line 2","line 3"];
+	finalSourcePre = "<pre class='prettyprint linenums' id='"+filename+".Pre'>"+finalSource.join("")+"</pre>";
+	$('#pageSource').append(finalSourcePre);
+	//$("#"+filename+".Pre").html(finalSource);
+	//console.log($("#"+filename+".Pre").html());
+	console.log("final source is " + finalSource);
 	prettyPrint();
 	addErrorIcon();
 	//console.log("page source updated");
