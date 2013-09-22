@@ -64,7 +64,9 @@ function noFileErrors() {
 
 /* When the filename is clicked, navigate to page source. */
 $(document).delegate('.fileGraph .fileName', 'click', function(event) {
-	$('#sourceLink').click();
+	// need to open to the correct file, through a function
+	console.log("click");
+	openSourceFile("this"); // in the pagesource.js file
 });
 
 /* When the filename is clicked, navigate to page source. */

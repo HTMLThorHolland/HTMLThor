@@ -11,7 +11,7 @@ var finalSource = new Array();
  *
  * @param	source	An array containing the source code.
  */
-function setPageSource(source) {
+function setPageSource(source, filename) {
 	for(var i = 0; i < source.length; i++) {
 		var htmlElements = [["<","&lt;"],[">","&gt;"],["\"","&quot;"],["\'","&#39;"]];
 		for(var j=0; j<htmlElements.length; j++) {
@@ -24,7 +24,8 @@ function setPageSource(source) {
 		finalSource[i] += "\n";
 	}
 	finalSource = generateErrors(finalSource);
-	$("#pageCode").html(finalSource);
+	finalSource = "<pre class='prettyprint linenums' id='"+filename+"'>"+finalSource+"</pre>";
+	$("#pageSource").append(finalSource);
 	prettyPrint();
 	addErrorIcon();
 	//console.log("page source updated");
@@ -48,4 +49,10 @@ function generateErrors(source) {
 	}
 	console.log("finish finding errors");
 	return source;
+}
+
+function openSourceFile(fileName) {
+	$('#sourceLink').click();
+	// when there are multiple files, there should be multiple page sources generated
+	// so this should hide all of them and then show the one with the correct id
 }

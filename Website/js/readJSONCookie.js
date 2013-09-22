@@ -77,7 +77,7 @@ if ($.cookie("dirPath")) {
 		}
 
 		/* This order is important, setPageSource must be before setErrors! */
-		setPageSource(jsonObject[0].source);
+		setPageSource(jsonObject[0].source, jsonObject[0].filename);
 		setErrors();
 		populateStatistics();
 		hideChangeFile(); // if there's only one page returned, don't provide change page options

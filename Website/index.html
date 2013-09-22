@@ -130,7 +130,7 @@
 				<a id="homeLink" class="currentLocation" href=#>home</a>
 			</li>
 			<li>
-				<a id="uploadLink" href=#>upload</a>
+				<a id="uploadLink" href=#>validate</a>
 			</li>
 			<!-- add .extraOne back in breakdownLink -->
 		</ul>
@@ -156,8 +156,8 @@
 		<div class="helpKey">
 			<h3>KEY</h3>
 			<div class="key">
-				<div class="keyTop">
-					<div class="red colourSquare"></div>
+				<div class="keyTop syntax">
+					<div class="testError"></div>
 					<p>Syntax</p>
 					<div style="clear: both"></div>
 				</div>
@@ -166,8 +166,8 @@
 				</div>
 			</div>
 			<div class="key">
-				<div class="keyTop">
-					<div class="blue colourSquare"></div>
+				<div class="keyTop semantic">
+					<div class="testError"></div>
 					<p>Semantic</p>
 					<div style="clear: both"></div>
 				</div>
@@ -176,8 +176,8 @@
 				</div>
 			</div>
 			<div class="key">
-				<div class="keyTop">
-					<div class="yellow colourSquare"></div>
+				<div class="keyTop warning">
+					<div class="testError"></div>
 					<p>Best practice</p>
 					<div style="clear: both"></div>
 				</div>
@@ -186,8 +186,8 @@
 				</div>
 			</div>
 			<div class="key">
-				<div class="keyTop">
-					<div class="purple colourSquare"></div>
+				<div class="keyTop deprecated">
+					<div class="testError"></div>
 					<p>Deprecated tag</p>
 					<div style="clear: both"></div>
 				</div>
@@ -202,7 +202,7 @@
 					<div style="clear: both"></div>
 				</div>
 				<div class="keyInfo">
-					<p>This will drop down. Longer sentence that gets long.</p>
+					<p>Pretty self explanatory.</p>
 				</div>
 			</div>
 			<div class="developers">SECRET DEVELOPER VIEW</div>
@@ -407,10 +407,6 @@
 				So it is not suitable to have syntax with a width of 20% and 
 				the remaining width of the graph being green.
 				
-				
-				TO BE FIXED:
-				There is a 1px sliver of green visible despite the values adding 
-				up to 100%
 
 			-->
 			
@@ -419,6 +415,9 @@
 					<h2>breakdown</h2>
 				</div>
 				<div class="sectionContent">
+					<div class="sectionTip">
+						<p>Hover over the bars below to find out more.</p>
+					</div>
 					<div id="statGraph" class="statGraph sixteen columns">
 						<!-- This section is dynamically generated through the statistics.js file 
 							It displays the bar graphs for each uploaded file.
@@ -484,7 +483,7 @@
 			
 			
 			
-			<!-- ERRORS SECTION -->
+			<!-- SOURCE CODE SECTION -->
 			
 			
 			
@@ -520,7 +519,6 @@
 						</form>
 						<div style="clear:both"></div>
 						<div id="pageSource" class="pageSource">
-							<pre class="prettyprint linenums" id="pageCode" ></pre>
 						</div>
 						
 					</div>
@@ -532,10 +530,10 @@
 		</div><!-- container -->
 		
 		
-		<!-- END ERRORS SECTION -->
+		<!-- END SOURCE CODE SECTION -->
 			
 		
-		<!-- SOURCE CODE SECTION -->
+		<!-- ERRORS SECTION -->
 		
 		
 		<div class="noMargin site container"> <!-- NEW CONTAINER -->

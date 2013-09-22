@@ -315,6 +315,11 @@ a {
 		transition: all 0.1s ease;
 	}
 	
+		.helpKey .testError {
+			float: left;
+			margin-right: 6px;
+		}
+	
 		.key:hover {
 			background-color: rgba(55, 83, 124, 0.25);
 		}
@@ -336,10 +341,13 @@ a {
 		}
 		
 		.key .colourSquare {
-			margin-right: 6px;
-			width: 20px;
-			height: 20px;
+			margin-right: 11px;
+			margin-top: 6px;
+			width: 10px;
+			margin-left: 5px;
+			height: 10px;
 			margin-bottom: 0;
+			border-radius: 22px;
 		}
 		
 		.keyInfo {
@@ -589,6 +597,16 @@ button:hover {
 	float:left;
 	color: #e3e6ec;
 }
+
+.sectionTip {
+	margin-left: 10px;
+}
+
+	.sectionTip p {
+		font-size: .8em;
+		margin-bottom: 8px;
+		color: #6F6F6F;
+	}
 
 /* ERROR GRAPHS */
 
