@@ -143,18 +143,41 @@
 			
 			/* END PAGE NAVIGATION */
 			
-			$(".key").click(function() {
-				console.log("key top clicked");
-				$(this).children('.keyInfo').slideToggle();
-			});
-			
 			/* HELP KEY */
 			
 			
+			$(".key").click(function() {
+				$('.key').not(this).each(function(){
+					$(this).children('.keyInfo').slideUp();
+					$(this).removeClass('active');
+				 });
+				$(this).children('.keyInfo').slideToggle();
+				$(this).toggleClass('active');
+			});
+			
+			$(document).mouseup(function (e)
+			{
+				var container = $(".key");
+
+				if (!container.is(e.target)
+					&& container.has(e.target).length === 0)
+				{
+					$(".keyInfo").slideUp(function(){
+						$(".key").removeClass('active');			
+					});
+				}
+			});
 			
 			
 			/* END HELP KEY */
 			
+			
+			/* Developer Testing */
+			
+			$(".developers").click(function() {
+				revealSiteZip();
+			});
+
 			
 		});
 		

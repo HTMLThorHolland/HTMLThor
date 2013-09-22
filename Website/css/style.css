@@ -18,6 +18,20 @@
 ================================================== */
 
 
+/* TEMP CSS */
+
+.developers {
+	font-size: .55em;
+	margin-left: 14px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+	.developers:hover {
+		text-decoration: underline;
+	}
+
+
 /* Hiding Site Elements */
 
 
@@ -295,11 +309,23 @@ a {
 		padding-left: 14px;
 		cursor: pointer;
 		padding-top: 5px;
-		padding-bottom: 5px;
+		-webkit-transition: all 0.1s ease;
+		-moz-transition: all 0.1s ease;
+		-o-transition: all 0.1s ease;
+		transition: all 0.1s ease;
 	}
 	
 		.key:hover {
 			background-color: rgba(55, 83, 124, 0.25);
+		}
+		
+		.key.active {
+			background-color: #1f293c;
+			/*width: 281px;*/
+		}
+		
+		.key .keyTop {
+			padding-bottom: 5px;
 		}
 	
 		.key p {
@@ -319,6 +345,11 @@ a {
 		.keyInfo {
 			margin-left: 26px;
 			display: none;
+			width: 250px;
+			background-color: #1f293c;
+			padding-top: 5px;
+			padding-right: 5px;
+			padding-bottom: 5px;
 		}
 
 
