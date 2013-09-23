@@ -44,20 +44,13 @@
 		return lines;
 	}
 		
-		
-	// returns 1 if valid comment tag
-	// returns 2 if invalid comment tag (unended)
-	// Why is this code up here?
-	public int isComment(String tag) {
-		int startIndex = tag.indexOf("<!--");
-		int endIndex = tag.indexOf("-->");
-		
-		if (startIndex == 0) {
-			return 2;
-		}
-		return 0;
-	}
+	// Removed incomplete and non-functional comment check sudo-code function 
+	// that thor wrote at the very first instance of this file
 	
+	
+	
+	
+	// Is this not obsolete given thors method of combining the error details with the source code in one JSON object?
 	/**
 	 * Constructs a JSONObject with the error details given.
 	 *
@@ -66,6 +59,7 @@
 	public class Error {
 		private JSONObject error = new JSONObject();
 	
+	// 'type' as a variable might be unwise
 		public Error(int line, int col, String type, String message) {
 			error.put("line", line);
 			error.put("col", col);
