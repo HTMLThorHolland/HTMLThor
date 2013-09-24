@@ -230,6 +230,23 @@ List<String> list = new ArrayList<String>();
 }
 
 
+//If a tag exists
+public static Boolean checkValidTag(String tagName) {
+
+
+	List<String> list = new ArrayList<String>();
+	list = getTags();
+	
+	for (int i=0;i<list.size();i++) {
+		if (list.get(i).equals(tagName)) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+
 
 
 %>
