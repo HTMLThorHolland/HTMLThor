@@ -82,14 +82,8 @@ if ($.cookie("dirPath")) {
 		*/
 
 		/* This order is important, setPageSource must be before setErrors! */
-		for(var i = 0; i < jsonObject.filecount; i++) {
-			console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
-		}
-		setPageSource(jsonObject[0].source, jsonObject[0].filename);
-		setErrors();
-		populateStatistics();
-		hideChangeFile(); // if there's only one page returned, don't provide change page options
-		revealSite();
+		rockAndRoll(); // THIS FUNCTION CONTROLS THE SITE AND CONTAINS THE CALLS THAT USED TO BE BELOW
+		// IT'S DEFINED IN revealSite.js
 	});
 	
 	}); // this is only ending the success() function. May want to rewrite this to make it more clear.

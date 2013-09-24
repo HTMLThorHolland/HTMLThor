@@ -937,6 +937,10 @@ button:hover {
 	#sourceBreakdown .fileGraph {
 		margin-bottom: 8px;
 	}
+	
+pre.sourceCodeContainer {
+	display: none;
+}
 
 .selectFile {
 	margin-left: 50px;
