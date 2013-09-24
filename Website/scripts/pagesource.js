@@ -24,7 +24,7 @@ function setPageSource(source, filename) {
 		finalSource[i] += "\n";
 		console.log("source is "+finalSource[i]);
 	}
-	finalSource = generateErrors(finalSource);
+	finalSource = generateErrors(finalSource, filename);
 	testSource = ["line 1","line 2","line 3"];
 	// remove '.' from filename replace with '_'
 	filename = filename.replace(/\./g,"_");
@@ -58,13 +58,13 @@ function addErrorIcon() {
  * @param	source	An array containing the HTML source code.
  * @return	source	The same HTML source array but with all of the errors inserted.
  */
-function generateErrors(source) {
+function generateErrors(source, filename) {
 	console.log("begin finding errors: " + jsonObject[0].errors.count);
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		lineNumber = jsonObject[0].errors[i].line - 1;
 		var actualLineNumber = jsonObject[0].errors[i].line;
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[0].errors[i].line + jsonObject[0].errors[i].message);
-		source[lineNumber] = "<div id='error1' class='errorContainer syntax'><span id='hoverNumber_"+actualLineNumber+"' class='errorHighlight syntaxError'>"+source[lineNumber]+"</span></div><div style='clear:both'></div>"
+		source[lineNumber] = "<div fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer syntax'><span class='errorHighlight syntaxError'>"+source[lineNumber]+"</span></div><div style='clear:both'></div>"
 	}
 	console.log("finish finding errors");
 	return source;
@@ -143,9 +143,9 @@ $(document).ready(function() {
 	
 	
 	$(document).delegate('.errorContainer', 'click', function(event) {
-		var errorId = $(this).children('errorHighlight').attr('id');
-		errorId.replace('hoverNumber_','');
-		openErrorId(errorId); // this function is defined in errors.js
+		var fileowner = $(this).attr('fileowner');
+		var errorId = $(this).attr('errorId');
+		openErrorId(fileowner, errorId); // this function is defined in errors.js
 		event.preventDefault();
 	});
 			

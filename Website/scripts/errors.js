@@ -12,7 +12,7 @@ function setErrors() {
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		var actualLineNumber = jsonObject[0].errors[i].line;
 		errorType = jsonObject[0].errors[i].type;
-		errorDiv = "<div id='errorNumber_"+actualLineNumber+"' class='"+errorType+" errorListing'>";
+		errorDiv = "<div fileowner='"+jsonObject[0].filename+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing'>";
 		errorDiv += "<p class='errorLocation'>Line "+jsonObject[0].errors[i].line+", Column "+jsonObject[0].errors[i].col+":</p>";
 		errorDiv += "<p class='errorDescription'>"+jsonObject[0].errors[i].message+"</p>";
 		errorDiv += "<pre>"+oldSource[jsonObject[0].errors[i].line - 1]+"</pre></div>";
@@ -63,8 +63,12 @@ function setErrors() {
 
 
 /* This function will navigate the user to the error they've clicked on from the page source section */
-function openErrorId(errorId) {
+function openErrorId(fileowner, errorId) {
+	console.log("fileowner is: "+fileowner + "errorId is: "+errorId);
 	$('html, body').animate({
-		 scrollTop: $('#errorNumber_'+errorId).offset().top
+		// scroll to the element with the correct fileowner and errorId
+		scrollTop: $(".errorListing[fileowner='"+fileowner+"'][errorId='"+errorId+"']").offset().top
 	}, 600);
+	removeLocation();
+	$('#errorsLink').addClass('currentLocation');
 }
