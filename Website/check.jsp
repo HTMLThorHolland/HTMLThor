@@ -314,14 +314,15 @@
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					
+            		json.put("filecount", 1);
                 	
-                
+                	request.getSession(true);
                 	Cookie cookie = new Cookie("dirPath", directoryPath);
                 	response.addCookie(cookie);
                 
-                
                 	String redirectURL = "http://www.htmlthor.com";
-   		 			response.sendRedirect(redirectURL);
+                	response.sendRedirect(response.encodeRedirectURL(redirectURL));
    		 		}
    		 		
    		 		
@@ -367,6 +368,8 @@
                 				fileCount++;
                 			}      						
             			}
+            			
+            			json.put("filecount", fileCount);
             			
             			
             			String directoryPath = getServletContext().getRealPath("/").concat("temp/")

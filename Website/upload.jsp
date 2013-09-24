@@ -2,6 +2,7 @@
 
 <%@ page import="java.io.*,java.util.*, javax.servlet.*, java.util.zip.*" %>
 <%@ page import="javax.servlet.http.*" %>
+<%@ page import="java.net.*" %>
 <%@ page import="org.apache.commons.fileupload.*" %>
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
@@ -221,29 +222,10 @@
 	if (uploadType.equals("direct")) {
 		String fileName = filePath.concat("direct.html");
 		String sourceCode = "";
-		String inputURL = request.getParameter("input-url");
-		if (!(inputURL.length() < 4)) {
-			if (inputURL.indexOf("http://www.") != 0 && inputURL.indexof("www.") != 0) {
-				inputURL = "http://www".concat(inputURL);
-			}
-			else if (inputURL.indexOf("http://") != 0) {
-				inputURL = "http://".concat(inputURL);
-			}
-			else if (inputURL.indexOf("www.") != 7) {
-				inputURL = "http://www".concat(inputURL.substring(7));
-			}
-			URL url = new URL(inputURL);
-			InputStream is = url.openStream();
-			int ptr = 0;
-			StringBuffer buffer = new StringBuffer();
-			while ((ptr = is.read()) != -1) {
-   				buffer.append((char)ptr);
-			}
-			sourceCode = buffer.toString();
-		} else {
-			sourceCode = request.getParameter("input-direct");
-			out.println(sourceCode);
-		}
+		
+		sourceCode = request.getParameter("input-direct");
+		out.println(sourceCode);
+		
 		FileWriter directFile = new FileWriter(fileName);
 		directFile.write(sourceCode);
 		directFile.flush();
@@ -255,6 +237,44 @@
 	}
 	
 	/* ================ DIRECT INPUT END ========================
+	** ========================================================== */
+	
+	
+	/* ================== URL INPUT START =======================
+	** ========================================================== */
+	if (uploadType.equals("url")) {
+		String sourceCode = "";
+		String inputURL = request.getParameter("input-url");
+		String fileName = filePath.concat(inputURL);
+		if (inputURL.indexOf("http://www.") != 0 && inputURL.indexOf("www.") != 0) {
+			inputURL = "http://www.".concat(inputURL);
+		}
+		else if (inputURL.indexOf("http://") != 0) {
+			inputURL = "http://".concat(inputURL);
+		}
+		else if (inputURL.indexOf("www.") != 7) {
+			inputURL = "http://www.".concat(inputURL.substring(7));
+		}
+		URL url = new URL(inputURL);
+		InputStream is = url.openStream();
+		int ptr = 0;
+		StringBuffer buffer = new StringBuffer();
+		while ((ptr = is.read()) != -1) {
+   			buffer.append((char)ptr);
+		}
+		sourceCode = buffer.toString();
+		
+		FileWriter directFile = new FileWriter(fileName);
+		directFile.write(sourceCode);
+		directFile.flush();
+		directFile.close();
+		
+		String redirectURL = "check.jsp?type=single&dirid=".concat(directoryID).concat("&path=").concat(fileName);
+   		response.sendRedirect(redirectURL);
+	
+	}
+	
+	/* ================== URL INPUT END =========================
 	** ========================================================== */
 	
 %>
