@@ -366,7 +366,8 @@
       						
                 				json.put(Integer.toString(fileCount), jsonTemp);
                 				fileCount++;
-                			}      						
+                			}
+                			s = new StringBuilder();
             			}
             			
             			json.put("filecount", fileCount);
