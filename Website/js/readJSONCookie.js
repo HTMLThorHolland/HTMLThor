@@ -32,6 +32,9 @@ if ($.cookie("dirPath")) {
 	======= EXAMPLES OF USE ======
 	
 	-- Access file name of first file --
+	jsonObject.filecount -> returns number of files
+	
+	-- Access file name of first file --
 	jsonObject[0].filename -> returns String
 	
 	-- Access source code of first file (and at this point only file) --
@@ -66,6 +69,7 @@ if ($.cookie("dirPath")) {
 
 	
 	$(document).ready(function() {
+		/*
 		if(jsonObject[0].errors[0]) {
 			console.log("error location "+jsonObject[0].errors[0].line);		
 		}
@@ -75,8 +79,12 @@ if ($.cookie("dirPath")) {
 		else {
 			console.log("no errors");		
 		}
+		*/
 
 		/* This order is important, setPageSource must be before setErrors! */
+		for(var i = 0; i < jsonObject.filecount; i++) {
+			console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
+		}
 		setPageSource(jsonObject[0].source, jsonObject[0].filename);
 		setErrors();
 		populateStatistics();
