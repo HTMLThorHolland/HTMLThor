@@ -65,11 +65,12 @@ function noFileErrors() {
 /* When the filename is clicked, navigate to page source. */
 $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	// need to open to the correct file, through a function
-	console.log("click");
-	openSourceFile("this"); // in the pagesource.js file
+	id = $(this).parent('.fileGraph').attr('id');
+	console.log(id+".Pre is the passed id");
+	openSourceFile(id+"_Pre"); // in the pagesource.js file
 });
 
-/* When the filename is clicked, navigate to page source. */
+/* When the the colour bar is clicked, navigate to page source's error section. */
 $(document).delegate('.bar .graph', 'click', function(event) {
 	graphType = $(this).attr('class').split(' ')[0];
 	if(graphType != "zero") {
@@ -85,7 +86,9 @@ $(document).delegate('.bar .graph', 'click', function(event) {
  * The function calculatePercentages() is called from here.
  */
 function generateFileStatistics(file) {
-	statistic = "<div id='"+file.filename+"' class='fileGraph'>";
+	var fileName = file.filename;
+	var underscoreFileName = fileName.replace(/\./g,"_");
+	statistic = "<div id='"+underscoreFileName+"' class='fileGraph'>";
 	statistic += "<p class='fileName'>"+file.filename+"</p>";
 	statistic += "<div class='bar'>";
 	statistic += calculatePercentages(file);

@@ -121,7 +121,7 @@
 	<!-- Primary Page Layout
 	================================================== -->
 	
-	<div class="sideBarNavigation">
+	<div id="test.test" class="sideBarNavigation">
 		<ul id="siteLinks" class="sideBarLinks">
 			<li class="smallLink">
 				<a id="topLink" href=#>top</a>
@@ -364,14 +364,16 @@
 					<div class="sixteen columns">
 						<div class="alternativeUploads">
 							<h3>or</h3>
+							<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
+								<label for="input-url">enter a url</label><input type="text" name="input-url">
+								<button class="alternativeButton" id="urlButton" type="button">VALIDATE</button>
+								<div style="clear:both"></div>
+							</form>
 							<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
-							<label for="input-url">enter a url</label><input type="text" name="input-url">
-							<button class="alternativeButton" id="urlButton" type="button">VALIDATE</button>
-							<div style="clear:both"></div>
-							<label for="input-direct">direct input</label>
-							<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
-							<button class="alternativeButton" id="alternativeButton" type="button">VALIDATE</button>
-							<div style="clear:both"></div>
+								<label for="input-direct">direct input</label>
+								<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
+								<button class="alternativeButton" id="alternativeButton" type="button">VALIDATE</button>
+								<div style="clear:both"></div>
 							</form>
 						</div>
 					</div>

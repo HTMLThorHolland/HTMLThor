@@ -29,35 +29,7 @@
 	
 		$(document).ready(function() {
 		
-			/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
-				from http://craigsworks.com/projects/forums/showthread.php?tid=3253 
-				http://qtip2.com/options
-				When the user hovers over an error in the source code, the qtip plugin is called.
-				*/
-			 $(document).delegate('.errorContainer', 'mouseover', function(event) {
-				$(this).qtip({
-					overwrite: false,
-					show: {
-						event: event.type,
-						ready: true
-					},
-					position: {
-						my: 'bottom left',
-						at: 'top left',
-						target: $(this)
-					},
-					style: { classes: 'qTipHighlight' },
-					hide: {
-						delay: 0//enter in milliseconds
-					}, 
-					content: {
-						text: getContent($(this).attr('id'))
-					}
-				});
-				
-				event.preventDefault();
-			});
-		
+			
 			/* Hide sections of the site that should not be shown initially*/
 			$('.extraOne').hide();
 			$('.extraTwo').hide();
@@ -138,6 +110,10 @@
 			 
 			$("#alternativeButton").click(function(e) {
 				$('#directInputForm').submit();
+			});
+			 
+			$("#urlButton").click(function(e) {
+				$('#urlInputForm').submit();
 			});
 			
 			
