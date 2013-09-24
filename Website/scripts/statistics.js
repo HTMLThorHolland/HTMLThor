@@ -23,7 +23,7 @@ function populateStatistics() {
 		
 	for(var i = 0; i < jsonObject.filecount; i++) {
 	
-		generateFileStatistics(jsonObject[i]);
+		generateFileStatistics(jsonObject[i], jsonObject[i].errors.count);
 		overallErrors += jsonObject[i].errors.count;
 		console.log(i+" iteration: errors: "+jsonObject[i].errors.count+ " and total errors are: "+overallErrors);
 		
@@ -56,6 +56,8 @@ function populateStatistics() {
 		console.log("should not have reached else for the totalErrors");
 	}
 	
+	// set the heading containing the total errors
+	$('#totalErrors').html(overallErrors);
 	
 	console.log("finished generating statistics with total errors: "+overallErrors);
 }
@@ -91,9 +93,9 @@ $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 $(document).delegate('.bar .graph', 'click', function(event) {
 	graphType = $(this).attr('class').split(' ')[0];
 	changeFile($(this).closest('.fileGraph').attr('id'));
-	removeLocation();
-	$('#errorsLink').addClass('currentLocation');
 	if(graphType != "zero") {
+		removeLocation();
+		$('#errorsLink').addClass('currentLocation');
 		$('html, body').animate({
 			scrollTop: $("#errorsList .errorCategory."+graphType).offset().top
 		}, 600);
@@ -105,13 +107,13 @@ $(document).delegate('.bar .graph', 'click', function(event) {
  * The html is then added into the #statGraph div.
  * The function calculatePercentages() is called from here.
  */
-function generateFileStatistics(file) {
+function generateFileStatistics(file, totalErrors) {
 	var fileName = file.filename;
 	var underscoreFileName = fileName.replace(/\./g,"_");
 	statistic = "<div id='"+underscoreFileName+"' class='fileGraph'>";
 	statistic += "<p class='fileName'>"+file.filename+"</p>";
 	statistic += "<div class='bar'>";
-	statistic += calculatePercentages(file);
+	statistic += calculatePercentages(file, totalErrors);
 	statistic += "<div style='clear:both'></div>";
 	statistic += "</div>";
 	$('#statGraph').append(statistic);
@@ -123,10 +125,10 @@ function generateFileStatistics(file) {
  * @param	file	the file from the jsonObject which contains error details.
  * @return	bars	the html containing the error bar
  */
-function calculatePercentages(file) {
+function calculatePercentages(file, totalErrors) {
 	// calculate the percentages
 	// add up the numbers
-	totalErrors = jsonObject[0].errors.count;
+	//totalErrors = jsonObject[0].errors.count;
 	syntaxErrors = 0;
 	semanticErrors = 0;
 	warningErrors = 0;
@@ -175,7 +177,7 @@ function calculatePercentages(file) {
 		
 	}
 	bars += "</div>";
-	if(totalErrors <= 1) {
+	if(totalErrors == 1) {
 		bars += "<p class='errorNumber'>"+totalErrors+" error</p>";
 	}
 	else {
@@ -208,26 +210,27 @@ function visualHighlight(barId) {
 /* When a .graph is hovered over, a qtip is created. */
 $(document).delegate('.graph', 'mouseover', function(event) {
 	console.log("hover");
-	$(this).qtip({
-		overwrite: false,
-		show: {
-			event: event.type,
-			ready: true
-		},
-		position: {
-			my: 'bottom left',
-			at: 'top left',
-			target: $(this)
-		},
-		style: { classes: 'barHighlight' },
-		hide: {
-			delay: 0
-			//event: false
-		}, 
-		content: {
-			text: visualHighlight($(this))
-		}
-	});
-	
+	if(!$(this).hasClass('zero')) {
+		$(this).qtip({
+			overwrite: false,
+			show: {
+				event: event.type,
+				ready: true
+			},
+			position: {
+				my: 'bottom left',
+				at: 'top left',
+				target: $(this)
+			},
+			style: { classes: 'barHighlight' },
+			hide: {
+				delay: 0
+				//event: false
+			}, 
+			content: {
+				text: visualHighlight($(this))
+			}
+		});
+	}
 	event.preventDefault();
 });

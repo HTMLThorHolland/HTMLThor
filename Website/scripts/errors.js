@@ -43,7 +43,7 @@ function setErrors() {
 				}
 		}
 		if(jsonObject[j].errors.count == 0) {
-			$('#errorsList').html("<p>There are no errors!</p>");
+			$('#errorsList').append("<div class='errorListing "+underScoreName+"'><p>There are no errors!</p></div>");
 		}
 		if(syntaxErrors != "") {
 			$('#syntaxErrorsContainer').addClass(underScoreName).append(syntaxErrors);		

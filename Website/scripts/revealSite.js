@@ -5,7 +5,7 @@ function rockAndRoll() {
 	console.log("number of files upload "+jsonObject.filecount);
 	for(var i = 0; i < jsonObject.filecount; i++) {
 		console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
-		setPageSource(jsonObject[i].source, jsonObject[i].filename);
+		setPageSource(jsonObject[i].source, jsonObject[i].filename, i);
 	}
 	revealPageSource(jsonObject[0].filename);
 	setErrors();

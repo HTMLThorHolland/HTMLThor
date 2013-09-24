@@ -604,6 +604,8 @@ button:hover {
 
 	#breakdown .sectionTip p {
 		margin-left: 199px;
+		float: left;
+		margin-top: 14px;
 	}
 
 	.sectionTip p {
@@ -613,6 +615,17 @@ button:hover {
 	}
 
 /* ERROR GRAPHS */
+
+h3.totalErrorsHeading {
+	font-weight: 900;
+	margin-right: 98px;
+	float: right;
+}
+
+	h3.totalErrorsHeading span#totalErrors {
+		font-weight: 600;
+		color: #F1F1F1;
+	}
 
 .barHighlight {
 	color: #ffffff !important;
@@ -639,7 +652,14 @@ button:hover {
 	height:100%;
 	float:left;
 	cursor: pointer;
+	-webkit-transition: all 0.1s ease;
+	-moz-transition: all 0.1s ease;
+	-o-transition: all 0.1s ease;
+	transition: all 0.1s ease;
 }
+
+	.graph:hover {
+	}
 
 	.graph.syntax {
 		background-color:#f31040;
@@ -663,7 +683,12 @@ button:hover {
 
 	.graph.zero {
 		background-color:#2aeb8a;
+		cursor: default;
 	}
+
+		.graph.zero:hover {
+			border: 0;
+		}
 
 /* END Error Graphs */
 
@@ -916,7 +941,7 @@ button:hover {
 	.errorCategory  .testError{
 		float: left;
 		margin-right: 5px;
-		margin-top: 5px;
+		margin-top: 6px;
 	}
 	
 
@@ -962,6 +987,10 @@ pre.sourceCodeContainer {
 	padding-bottom: 10px;
 	margin-top: 10px;
 }
+
+	.selectFile select {
+		width: 240px;
+	}
 
 	.selectFile label {
 		font-weight: bold;
@@ -1022,11 +1051,21 @@ pre.sourceCodeContainer {
 	
 	/* Error Icons */
 	
+	.sourceCodeContainer li {
+		position: relative;
+	}
+	
 	.testError {
 		width: 20px;
 		height: 20px;
 		float: right;
 	}
+	
+		#pageSource .testError {
+			position: absolute;
+			left: -50px;
+			top: -2px;
+		}
 	
 		.syntax .testError {
 			background-image: url("../images/warnings.png");
@@ -1115,6 +1154,14 @@ pre {
 			margin-left: 0;
 		}
 	}
+	
+	
+	@media only screen and (max-width: 1190px) {
+			h3.totalErrorsHeading {
+				margin-right: 22px;
+			}
+	}
+
 	
 	@media only screen and (min-width: 1300px) {
 		#siteContainer {

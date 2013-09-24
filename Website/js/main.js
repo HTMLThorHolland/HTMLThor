@@ -117,6 +117,22 @@
 			});
 			
 			
+			$(document).delegate('#structure', 'mouseover', function(event) {
+				removeLocation();
+				$('#structureLink').addClass('currentLocation');
+			});
+			
+			
+			$(document).delegate('#sourceContainer', 'mouseover', function(event) {
+				removeLocation();
+				$('#sourceLink').addClass('currentLocation');
+			});
+			
+			$(document).delegate('#errorsContainer', 'mouseover', function(event) {
+				removeLocation();
+				$('#errorsLink').addClass('currentLocation');
+			});
+			
 			/* END PAGE NAVIGATION */
 			
 			/* HELP KEY */
