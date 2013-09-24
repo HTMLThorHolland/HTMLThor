@@ -37,11 +37,43 @@ function updateSelectBoxes(box) {
 	$('.selectFileObject').each(function() { // For each other list
 		$(this).val($('option:eq(' + index + ')', this).val()); // Find the matching item
 	});
-	var value = $('.selectFileObject').val();
+	var filename = $('.selectFileObject').val();
+	
+	changeFile(filename);
+	
+	var container = $(box).closest('.singleTab');
+	
+	switch (container.attr('id'))
+		{
+		case "errorsContainer":
+			$('html, body').animate({
+				scrollTop: $("#errorsTitle").offset().top
+			}, 0);
+			removeLocation();
+			$('#errorsLink').addClass('currentLocation');
+		  break;
+		}
+}
+
+function setSelectBoxes(filename) {
+	if($(".selectFileObject option[value='"+filename+"']").length > 0) {
+		$('.selectFileObject').each(function() { // For each other list
+			$(this).val(filename);
+		});
+		console.log("set the new value to: "+filename);
+	}
+	else {
+		console.log(filename+" is not an option from the select boxes");
+	}
+}
+
+function changeFile(filename) {
+	filename = filename.replace(/\./g,"_");
+	setSelectBoxes(filename);
 	// update page source
-	revealPageSource(value);
+	revealPageSource(filename);
 	// update errors
-	revealErrors(value);
+	revealErrors(filename);
 }
 
 

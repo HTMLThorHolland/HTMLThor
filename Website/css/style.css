@@ -858,6 +858,10 @@ button:hover {
 	display: none;
 }
 
+	.errorListing p {
+		margin-bottom: 10px;
+	}
+
 	.errorLocation {
 		float:left;
 		margin-right:10px;
@@ -956,6 +960,7 @@ pre.sourceCodeContainer {
 	height:20px;	
 	margin-bottom: 30px;
 	padding-bottom: 10px;
+	margin-top: 10px;
 }
 
 	.selectFile label {
@@ -1052,6 +1057,7 @@ pre.sourceCodeContainer {
 		width: 100%;
 		cursor: pointer;
 		margin-top: -18px;
+		font-weight: 900;
 	}
 	
 	.clearfix:after {

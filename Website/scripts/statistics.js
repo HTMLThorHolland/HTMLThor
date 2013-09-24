@@ -19,35 +19,36 @@ function populateStatistics() {
 		generateFileStatistics(statistics[i]);
 	} PRE-CODED STATS*/
 	
-	totalErrors = 0;
+	overallErrors = 0;
 		
 	for(var i = 0; i < jsonObject.filecount; i++) {
 	
 		generateFileStatistics(jsonObject[i]);
-		totalErrors += jsonObject[i].errors.count;
+		overallErrors += jsonObject[i].errors.count;
+		console.log(i+" iteration: errors: "+jsonObject[i].errors.count+ " and total errors are: "+overallErrors);
 		
 	}
 	
-	if(totalErrors == 0) {
+	if(overallErrors == 0) {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
 		console.log("no errors found, set feedback id");
 	}
-	if(totalErrors <= 2) {
+	if(overallErrors <= 2) {
 		$('#feedback').html("<p>We found the needle in the haystack, but what a clean site!</p>");	
 	}
-	if(totalErrors > 2 && totalErrors < 4) {
+	if(overallErrors > 2 && overallErrors < 4) {
 		$('#feedback').html("<p>Near perfect code - just a few errors to deal with.</p>");	
 	}
-	if(totalErrors > 4 && totalErrors < 7) {
+	if(overallErrors > 4 && overallErrors < 7) {
 		$('#feedback').html("<p>Oops! You’ve got a few critters in here you’ll have to clean up!</p>");	
 	}
-	if(totalErrors > 7 && totalErrors < 15) {
+	if(overallErrors > 7 && overallErrors < 15) {
 		$('#feedback').html("<p>Gee, this site needs a clean up - get to work!</p>");	
 	}
-	if(totalErrors > 15 && totalErrors < 50) {
+	if(overallErrors > 15 && overallErrors < 50) {
 		$('#feedback').html("<p>Gosh, your site’s looking downtrodden with errors!</p>");	
 	}
-	if(totalErrors > 50) {
+	if(overallErrors > 50) {
 		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	
 	}
 	
@@ -56,7 +57,7 @@ function populateStatistics() {
 	}
 	
 	
-	console.log("finished generating statistics with total errors: "+totalErrors);
+	console.log("finished generating statistics with total errors: "+overallErrors);
 }
 
 /*
@@ -81,13 +82,15 @@ $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	id = $(this).parent('.fileGraph').attr('id');
 	console.log(id+".Pre is the passed id");
 	openSourceFile(id+"_Pre"); // in the pagesource.js file
-	revealErrors(id);
+	changeFile(id);
+	removeLocation();
+	$('#sourceLink').addClass('currentLocation');
 });
 
 /* When the the colour bar is clicked, navigate to page source's error section. */
 $(document).delegate('.bar .graph', 'click', function(event) {
 	graphType = $(this).attr('class').split(' ')[0];
-	revealErrors($(this).closest('.fileGraph').attr('id'));
+	changeFile($(this).closest('.fileGraph').attr('id'));
 	removeLocation();
 	$('#errorsLink').addClass('currentLocation');
 	if(graphType != "zero") {
