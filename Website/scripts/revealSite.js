@@ -2,13 +2,15 @@
 
 function rockAndRoll() {
 
-
+	console.log("number of files upload "+jsonObject.filecount);
 	for(var i = 0; i < jsonObject.filecount; i++) {
 		console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
 		setPageSource(jsonObject[i].source, jsonObject[i].filename);
 	}
-	setPageSource(jsonObject[0].source, jsonObject[0].filename);
+	revealPageSource(jsonObject[0].filename);
 	setErrors();
+	revealErrors(jsonObject[0].filename);
+	// hide errors, and then show the relevant one. Hide by class and then show by whether they belong to the right filename.
 	populateStatistics();
 	hideChangeFile(); // if there's only one page returned, don't provide change page options
 	revealSite();

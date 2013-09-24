@@ -602,6 +602,10 @@ button:hover {
 	margin-left: 10px;
 }
 
+	#breakdown .sectionTip p {
+		margin-left: 199px;
+	}
+
 	.sectionTip p {
 		font-size: .8em;
 		margin-bottom: 8px;
@@ -851,6 +855,7 @@ button:hover {
 	padding-bottom:20px;
 	margin-bottom:30px;
 	border-bottom:1px solid #979797;
+	display: none;
 }
 
 	.errorLocation {

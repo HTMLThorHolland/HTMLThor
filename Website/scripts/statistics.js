@@ -19,13 +19,20 @@ function populateStatistics() {
 		generateFileStatistics(statistics[i]);
 	} PRE-CODED STATS*/
 	
-	generateFileStatistics(jsonObject[0]);
-	totalErrors = jsonObject[0].errors.count;
-	if(noFileErrors()) {
+	totalErrors = 0;
+		
+	for(var i = 0; i < jsonObject.filecount; i++) {
+	
+		generateFileStatistics(jsonObject[i]);
+		totalErrors += jsonObject[i].errors.count;
+		
+	}
+	
+	if(totalErrors == 0) {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
 		console.log("no errors found, set feedback id");
 	}
-	if(totalErrors == 1) {
+	if(totalErrors <= 2) {
 		$('#feedback').html("<p>We found the needle in the haystack, but what a clean site!</p>");	
 	}
 	if(totalErrors > 2 && totalErrors < 4) {
@@ -43,7 +50,13 @@ function populateStatistics() {
 	if(totalErrors > 50) {
 		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	
 	}
-	console.log("finished generating statistics");
+	
+	else {
+		console.log("should not have reached else for the totalErrors");
+	}
+	
+	
+	console.log("finished generating statistics with total errors: "+totalErrors);
 }
 
 /*
@@ -68,6 +81,7 @@ $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	id = $(this).parent('.fileGraph').attr('id');
 	console.log(id+".Pre is the passed id");
 	openSourceFile(id+"_Pre"); // in the pagesource.js file
+	revealErrors(id);
 });
 
 /* When the the colour bar is clicked, navigate to page source's error section. */
@@ -111,13 +125,6 @@ function calculatePercentages(file) {
 	semanticErrors = 0;
 	warningErrors = 0;
 	deprecatedErrors = 0;
-	
-	/* TESTING ONLY REMOVE! */
-	if(totalErrors != 0) {
-		semanticErrors ++;
-		warningErrors ++;
-		totalErrors += 2;
-	}
 	
 	/* Counts the number of errors for each type. */
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {

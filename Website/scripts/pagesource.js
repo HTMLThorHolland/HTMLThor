@@ -12,38 +12,64 @@ var finalSource = new Array();
  * @param	source	An array containing the source code.
  */
 function setPageSource(source, filename) {
+	// will contain the source code (oldSourceSubCode) and will be added to oldSource
+	var oldSourceSub = new Array();
+	var oldSourceSubCode = new Array();
+	// will contain the source code (finalSourceSubCode) and will be added to finalSource
+	var finalSourceSub = new Array();
+	var finalSourceSubCode = new Array();
+	console.log("this is the oldSource "+oldSource);
+	console.log("this is the oldSourceSubCode "+oldSourceSubCode);
+	
 	for(var i = 0; i < source.length; i++) {
 		var htmlElements = [["<","&lt;"],[">","&gt;"],["\"","&quot;"],["\'","&#39;"]];
 		for(var j=0; j<htmlElements.length; j++) {
 			reg = new RegExp(htmlElements[j][0], "gi");
 			source[i] = source[i].replace(reg,htmlElements[j][1]);
 		}
-		oldSource[i] = source[i];
-		oldSource[i] += "\n";
-		finalSource[i] = source[i];
-		finalSource[i] += "\n";
-		console.log("source is "+finalSource[i]);
+		oldSourceSubCode[i] = source[i];
+		oldSourceSubCode[i] += "\n";
+		finalSourceSubCode[i] = source[i];
+		finalSourceSubCode[i] += "\n";
+		//console.log("source is "+finalSourceSubCode[i]);
 	}
-	finalSource = generateErrors(finalSource, filename);
+	finalSourceSubCode = generateErrors(finalSourceSubCode, filename);
 	testSource = ["line 1","line 2","line 3"];
 	// remove '.' from filename replace with '_'
 	filename = filename.replace(/\./g,"_");
-	finalSourcePre = "<pre class='sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSource.join("")+"</pre>";
+	finalSourcePre = "<pre class='sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSourceSubCode.join("")+"</pre>";
 	$('#pageSource').append(finalSourcePre);
-	//$("#"+filename+".Pre").html(finalSource);
+	//$("#"+filename+".Pre").html(finalSourceSubCode);
 	//console.log($("#"+filename+".Pre").html());
-	console.log("final source is " + finalSource);
+	//console.log("final source is " + finalSourceSubCode);
 	prettyPrint();
-	addErrorIcon();
-	//console.log("page source updated");
+	addErrorIcon(filename);
+	
+	//oldSourceSub add filename and oldSourceSubCode;
+	oldSourceSub.push(filename);
+	oldSourceSub.push(oldSourceSubCode);
+	//finalSourceSub add filename and finalSourceSubCode;
+	finalSourceSub.push(filename);
+	finalSourceSub.push(finalSourceSubCode);
+	
+	// PUSHES THESE INTO THE GLOBAL ARRAYS
+	oldSource.push(oldSourceSub);
+	finalSource.push(finalSourceSub);
+	
+	// WIPE ARRAYS
+	oldSourceSub = [];
+	oldSourceSubCode = [];
+	finalSourceSub = [];
+	finalSourceSubCode = [];
+	console.log("page source updated");
 }
 
 
 
 /* Adds the error icon that is displayed on the source code page. */
-function addErrorIcon() {
+function addErrorIcon(filename) {
 	//console.log("running");
-	$(".prettyprint").children(".linenums").children("li").children(".errorContainer").each(function () {
+	$("#"+filename+"_Pre").children(".linenums").children("li").children(".errorContainer").each(function () {
 		console.log($(this));
 		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
 	});
@@ -70,13 +96,18 @@ function generateErrors(source, filename) {
 	return source;
 }
 
-function openSourceFile(fileName) {
+function openSourceFile(filename) {
 	$('#sourceLink').click();
-	$('.sourceCodeContainer').not('#'+fileName).hide();
-	$('#'+fileName).show();
-	console.log('#'+fileName + " should be shown");
+	$('.sourceCodeContainer').not('#'+filename).hide();
+	$('#'+filename).show();
+	console.log('#'+filename + " should be shown");
 	// when there are multiple files, there should be multiple page sources generated
 	// so this should hide all of them and then show the one with the correct id
+}
+
+function revealPageSource(filename) {
+	filename = filename.replace(/\./g,"_");
+	$('#'+filename+"_Pre").show();
 }
 
 
@@ -87,8 +118,8 @@ function openSourceFile(fileName) {
  * @param  errorId  the id of the error
  * @return qtip error message
  */
-function getContent(errorId) {
-	linePos = $('#'+errorId).parent().index() + 1;
+function getContent(error) {
+	linePos = error.attr('errorId');
 	console.log(linePos + " " + jsonObject[0].errors[0].line);
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		/* If this is the case, we know what error message to show */
@@ -134,7 +165,7 @@ $(document).ready(function() {
 				delay: 0//enter in milliseconds
 			}, 
 			content: {
-				text: getContent($(this).attr('id'))
+				text: getContent($(this))
 			}
 		});
 		
