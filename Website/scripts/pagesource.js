@@ -107,6 +107,7 @@ function openSourceFile(filename) {
 
 function revealPageSource(filename) {
 	filename = filename.replace(/\./g,"_");
+	$('.sourceCodeContainer').not('#'+filename+"_Pre").hide();
 	$('#'+filename+"_Pre").show();
 }
 

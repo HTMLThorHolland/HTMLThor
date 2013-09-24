@@ -22,7 +22,7 @@
 
 .developers {
 	font-size: .55em;
-	margin-left: 14px;
+	margin-left: 12px;
 	cursor: pointer;
 	margin-top: 20px;
 }
@@ -254,13 +254,13 @@ a {
 		}
 
 			.sideBarNavigation ul li ul a {
-				padding-left: 32px;
+				padding-left: 28px;
 			}
 
 	.sideBarNavigation a {
 		font-size:.9em;
 		padding: 2px;
-		padding-left: 14px;
+		padding-left: 12px;
 		color: #B9B9B9;
 		display: block;
 		width: 100%;
@@ -302,11 +302,11 @@ a {
 	.helpKey h3 {
 		font-size: .8em;
 		cursor: default;
-		padding-left: 14px;
+		padding-left: 12px;
 	}
 	
 	.key {
-		padding-left: 14px;
+		padding-left: 12px;
 		cursor: pointer;
 		padding-top: 5px;
 		-webkit-transition: all 0.1s ease;
@@ -895,7 +895,9 @@ button:hover {
 		color:#b24987;
 	}
 	
-.errorCategory {}
+.errorCategory {
+	display: none;
+}
 	
 	.errorCategory h3 {
 		color: #212121;

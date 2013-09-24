@@ -516,10 +516,7 @@
 						<div style="clear:both"></div>
 						<form id="pageSourceSelect" class="selectFile">
 							<label for="selectSourceFile">Select a page to view </label>
-							<select name="selectSourceFile">
-								<option>index.php</option>
-								<option>about.php</option>
-								<option>batman.php</option>
+							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
 							</select>
 						</form>
 						<div style="clear:both"></div>
@@ -559,15 +556,32 @@
 					<div class="sectionContent sixteen columns">
 						<form id="pageSourceSelect" class="selectFile">
 							<label for="selectSourceFile">Select a page to view </label>
-							<select name="selectSourceFile">
-								<option>index.php</option>
-								<option>about.php</option>
-								<option>batman.php</option>
+							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
 							</select>
 						</form>
 						<div style="clear:both"></div>
 					
 						<div id="errorsList">
+							<div id="syntaxErrorsContainer" class="errorCategory syntax">
+								<div class="testError"></div>
+								<h3>Syntax Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="semanticErrorsContainer" class="errorCategory semantic">
+								<div class="testError"></div>
+								<h3>Semantic Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="warningErrorsContainer" class="errorCategory warning">
+								<div class="testError"></div>
+								<h3>Best Practice Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="deprecatedErrorsContainer" class="errorCategory deprecated">
+								<div class="testError"></div>
+								<h3>Deprecated Errors</h3>
+								<div style="clear:both"></div>
+							</div>
 						</div>
 						
 					</div>

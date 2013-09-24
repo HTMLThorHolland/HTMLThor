@@ -87,6 +87,9 @@ $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 /* When the the colour bar is clicked, navigate to page source's error section. */
 $(document).delegate('.bar .graph', 'click', function(event) {
 	graphType = $(this).attr('class').split(' ')[0];
+	revealErrors($(this).closest('.fileGraph').attr('id'));
+	removeLocation();
+	$('#errorsLink').addClass('currentLocation');
 	if(graphType != "zero") {
 		$('html, body').animate({
 			scrollTop: $("#errorsList .errorCategory."+graphType).offset().top
@@ -169,7 +172,12 @@ function calculatePercentages(file) {
 		
 	}
 	bars += "</div>";
-	bars += "<p class='errorNumber'>"+totalErrors+" errors</p>";
+	if(totalErrors <= 1) {
+		bars += "<p class='errorNumber'>"+totalErrors+" error</p>";
+	}
+	else {
+		bars += "<p class='errorNumber'>"+totalErrors+" errors</p>";
+	}
 	return bars;
 	
 }

@@ -10,10 +10,10 @@ function setErrors() {
 		semanticErrors = "";
 		warningErrors = "";
 		deprecatedErrors = "";
+		underScoreName = jsonObject[j].filename.replace(/\./g,"_");
 		for(var i = 0; i < jsonObject[j].errors.count; i++) {
 			var actualLineNumber = jsonObject[j].errors[i].line;
 			errorType = jsonObject[j].errors[i].type;
-			underScoreName = jsonObject[j].filename.replace(/\./g,"_");
 			errorDiv = "<div fileowner='"+jsonObject[j].filename+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
 			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
 			errorDiv += "<p class='errorDescription'>"+jsonObject[j].errors[i].message+"</p>";
@@ -46,20 +46,16 @@ function setErrors() {
 			$('#errorsList').html("<p>There are no errors!</p>");
 		}
 		if(syntaxErrors != "") {
-			syntaxErrors = "<div class='errorCategory syntax'><div class='testError'></div><h3>Syntax Errors</h3><div style='clear:both'></div>" + syntaxErrors + "</div>";
-			$('#errorsList').append(syntaxErrors);		
+			$('#syntaxErrorsContainer').addClass(underScoreName).append(syntaxErrors);		
 		}
 		if(semanticErrors != "") {
-			semanticErrors = "<div class='errorCategory semantic'><h3>Syntax Errors</h3><div style='clear:both'></div>" + semanticErrors + "</div>";
-			$('#errorsList').append(semanticErrors);		
+			$('#semanticErrorsContainer').addClass(underScoreName).append(semanticErrors);		
 		}
 		if(warningErrors != "") {
-			warningErrors = "<div class='errorCategory warning'><h3>Syntax Errors</h3><div style='clear:both'></div>" + warningErrors + "</div>";
-			$('#errorsList').append(warningErrors);		
+			$('#warningErrorsContainer').addClass(underScoreName).append(warningErrors);		
 		}
 		if(deprecatedErrors != "") {
-			deprecatedErrors = "<div class='errorCategory deprecated'><h3>Syntax Errors</h3><div style='clear:both'></div>" + deprecatedErrors + "</div>";
-			$('#errorsList').append(deprecatedErrors);		
+			$('#deprecatedErrorsContainer').addClass(underScoreName).append(deprecatedErrors);		
 		}
 	}
 }
@@ -74,8 +70,6 @@ function openErrorId(fileowner, errorId) {
 		// scroll to the element with the correct fileowner and errorId
 		scrollTop: $(".errorListing[fileowner='"+fileowner+"'][errorId='"+errorId+"']").offset().top
 	}, 600);
-	removeLocation();
-	$('#errorsLink').addClass('currentLocation');
 }
 
 
@@ -83,5 +77,7 @@ function revealErrors(filename) {
 	underScoreName = filename.replace(/\./g,"_");
 	$('.errorListing').not('.errorListing.'+underScoreName).hide();
 	$('.errorListing.'+underScoreName).show();
+	$('.errorCategory').not('.errorCategory.'+underScoreName).hide();
+	$('.errorCategory.'+underScoreName).show();
 	console.log("errors revealed for: "+filename);
 }
