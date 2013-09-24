@@ -158,7 +158,7 @@ public static ArrayList<String> getTags() {
 }
 
 //Return true or false for deprecated or not
-public static Boolean isDeprecated(String tagName) {
+public static boolean isDeprecated(String tagName) {
 	
 	Boolean msg = false;
 	
@@ -181,9 +181,9 @@ public static Boolean isDeprecated(String tagName) {
 }
 
 //Returns true if tag requires an Attribute
-public static Boolean requiresAttr(String tagName) {
+public static boolean requiresAttr(String tagName) {
 
-Boolean msg = false;
+	boolean msg = false;
 	
 	String query = new StringBuilder("SELECT * FROM Error WHERE EName =  ").append(tagName).toString();
 	ResultSet result = ConnectDB(query);
@@ -208,7 +208,7 @@ Boolean msg = false;
 //Returns a list of all Attribtes for a tagName
 public static ArrayList<String> getAttr(String tagName) {
 
-List<String> list = new ArrayList<String>();
+	List<String> list = new ArrayList<String>();
 	
 	String query = new StringBuilder("SELECT * FROM RequiredAttributes where EName = ").append(tagName).toString();
 	ResultSet result = ConnectDB(query);
@@ -231,7 +231,7 @@ List<String> list = new ArrayList<String>();
 
 
 //If a tag exists
-public static Boolean checkValidTag(String tagName) {
+public static boolean checkValidTag(String tagName) {
 
 
 	List<String> list = new ArrayList<String>();
@@ -247,15 +247,33 @@ public static Boolean checkValidTag(String tagName) {
 }
 
 
+public static boolean isSelfClosing(String tagName) {
+	
+	boolean msg = false;
+	
+	String query = new StringBuilder("SELECT * FROM Element WHERE EName = ").append(tagName).toString();
+	ResultSet result = ConnectDB(query);
+	
+	try {
+		if (result.next()) {
+			if (result.getString("canSelfClose").equals("1")) {
+				msg = true;
+			}
+		}
+	} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+	}
 
+   return msg;
+}
 
 %>
 
 <%
-ArrayList<String> tagList = getTags();
-String errormsg = getErrMsg(1);
-out.println(tagList);
-out.println(errormsg);
+
+
 %>
 </body>
 </html>
