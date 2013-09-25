@@ -17,7 +17,8 @@ function setErrors() {
 			errorDiv = "<div fileowner='"+jsonObject[j].filename+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
 			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
 			errorDiv += "<p class='errorDescription'>"+jsonObject[j].errors[i].message+"</p>";
-			errorDiv += "<pre>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
+			errorDiv += "<p class='correctTag'>&lt;!DOCTYPE HTML&gt;</p>";
+			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
 			switch (errorType)
 				{
 				case "html": // html should not be a case...

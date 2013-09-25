@@ -62,7 +62,7 @@
 }
 
 .green {
-		background-color:#2aeb8a;
+		background-color:#1BEC77;
 }
 
 
@@ -98,11 +98,11 @@
 /* General */
 
 #siteContainer {
-	padding-bottom: 50px;
 }
 
 body {
-	background-image:url("../images/tile_dark.png");
+	/*background-image:url("../images/tile_dark.png");*/
+	background-color: #14191f;
 	background-attachment:fixed;
 	font-family:"Source Sans Pro",Arial,sans-serif;
 	color:#c7c7c7;
@@ -359,6 +359,29 @@ a {
 			padding-right: 5px;
 			padding-bottom: 5px;
 		}
+		
+		.qtip.keyTip {
+			border: 0;
+			background-color: black;
+			width: 250px;
+			background-color: #1F293C;
+			padding-top: 4px;
+			padding-right: 10px;
+			padding-bottom: 8px;
+			padding-left: 16px;
+		}
+		
+			.qtip.keyTip .qtip-content {
+				padding: 0;
+			}
+		
+			.qtip.keyTip p {
+				font-size: 1.4em;
+				line-height: 1.5em;
+				margin: 0;
+			}
+		
+	/* KEY QTIP */
 
 
 
@@ -682,7 +705,7 @@ h3.totalErrorsHeading {
 	}
 
 	.graph.zero {
-		background-color:#2aeb8a;
+		background-color:#1BEC77;
 		cursor: default;
 	}
 
@@ -850,7 +873,8 @@ h3.totalErrorsHeading {
 }
 
 .codeBackground {
-	background-image:url("../images/tile_light.png");
+	/*background-image:url("../images/tile_light.png");*/
+	background-color: #dcdcdc;
 	background-attachment:fixed;
 	width:100%;
 	margin-top:0;
@@ -876,15 +900,24 @@ h3.totalErrorsHeading {
 
 /* Error Listing */
 
+#errorsContainer.codeBackground {
+	margin-bottom: 0;
+}
+
 .errorListing {
 	padding-bottom:20px;
 	margin-bottom:30px;
 	border-bottom:1px solid #979797;
 	display: none;
+	margin-left: 25px;
 }
 
 	.errorListing p {
 		margin-bottom: 10px;
+	}
+	
+	.errorListing p.correctTag {
+		font-weight: 600;
 	}
 
 	.errorLocation {
@@ -908,6 +941,18 @@ h3.totalErrorsHeading {
 		margin-bottom:20px;
 	}
 	
+	.errorListing pre {
+		margin-left: 40px;
+		color: #6B6B6B;
+	}
+	
+		.errorListing pre span {
+			display: inline-block;
+			min-width: 25px;
+			margin-right: 10px;
+			color: #6B6B6B;
+		}
+	
 	.syntaxError pre strong {
 		color:#f31040;
 	}
@@ -929,9 +974,14 @@ h3.totalErrorsHeading {
 }
 	
 	.errorCategory h3 {
-		color: #212121;
-		margin-bottom: 5px;
+		color: #424242;
+		margin-bottom: 20px;
 		font-size: 1.2em;
+		border-bottom: 1px solid #979797;
+		font-family: "Source Sans Pro";
+		font-weight: 600;
+		line-height: 30px;
+		padding-bottom: 1px;
 	}
 	
 	.errorCategory  .errorListing p {
@@ -941,7 +991,7 @@ h3.totalErrorsHeading {
 	.errorCategory  .testError{
 		float: left;
 		margin-right: 5px;
-		margin-top: 6px;
+		margin-top: 5px;
 	}
 	
 
@@ -952,6 +1002,10 @@ h3.totalErrorsHeading {
 
 
 /* PAGE SOURCE SECTION */
+
+#source.section {
+	margin-bottom: 10px;
+}
 
 .pageSource {
 	margin-bottom:50px;
@@ -1006,8 +1060,74 @@ pre.sourceCodeContainer {
 	
 	/* Page Source Errors */
 	
+	
+	.qtip.qTipHighlight {
+		color: #ffffff;
+		background-color: #424242;
+		border:1px solid #191D27;
+		font-size: .9em;
+		padding: 0;
+		line-height: 1em;
+		max-width: 50%;
+	}
+	
+	.qTipHighlight .qtip-content {
+		padding: 0;
+	}
+	
+	.leftMessage {
+		width: 100px;
+		float: left;
+		height: 40px;
+		border-left: 6px solid #191D27;
+		padding-left: 8px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	
+		.leftMessage.syntax {
+			border-color: #f31040;
+		}
+	
+		.leftMessage.semantic {
+			border-color: #2d90ff;		
+		}
+	
+		.leftMessage.warning {
+			border-color: #ffd050;		
+		}
+	
+		.leftMessage.deprecated {
+			border-color: #b24987;		
+		}
+	
+	.rightMessage {
+		float: left;
+		height: 40px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		padding-right: 10px;
+	}
+	
 	.errorMessage {
 		margin-bottom: 0;
+	}
+	
+		.qTipHighlight .errorMessage span {
+			display: block;
+			min-width: 100px;
+			float: left;
+			margin-bottom: 5px;
+			text-transform: capitalize;
+		}
+	
+	.correctTag {
+		margin-bottom: 0;
+	}
+	
+	.qTipHighlight .correctTag {
+		margin-top: 5px;
+		font-weight: 600;
 	}
 	
 	.errorLine {
@@ -1018,30 +1138,28 @@ pre.sourceCodeContainer {
 		margin-right: 10px;
 	}
 	
-	.syntaxError, .syntaxError span {
-		color: #f31040 !important;
+	.syntaxError, .syntaxError span, 
+	.syntax span,
+	.qTipHighlight .syntax {
+		color: #f31040;
 	}
 	
-	.semanticError, .semanticError span {
-		color: #2d90ff !important;
+	.semanticError, .semanticError span, 
+	.semantic span,
+	.qTipHighlight .semantic  {
+		color: #2d90ff;
 	}
 	
-	.warningError , .warningError span {
-		color: #ffd050 !important; /* best practice */
+	.warningError , .warningError span, 
+	.warning span,
+	.qTipHighlight .warning {
+		color: #ffd050; /* best practice */
 	}
 	
-	.deprecatedError , .deprecatedError span {
-		color: #b24987 !important; /* best practice */
-	}
-	
-	.qTipHighlight {
-		color: #ffffff !important;
-		background-color: #424242 !important;
-		border:1px solid #191D27 !important;
-		font-size: .9em !important;
-		padding: 5px !important;
-		line-height: 1em !important;
-		max-width: 50% !important;
+	.deprecatedError , .deprecatedError span, 
+	.deprecated span,
+	.qTipHighlight .deprecated {
+		color: #b24987;
 	}
 	
 	.errorHighlight {
@@ -1117,9 +1235,6 @@ pre.sourceCodeContainer {
 
 
 /* JQuery Elements */
-
-#errorsContainer {
-}
 
 .bottomBorder {
 	border-bottom:2px solid #3f7cd7;

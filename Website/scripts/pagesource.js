@@ -133,7 +133,7 @@ function getContent(error) {
 				errors[i][3] - error Line (the line the error takes place on)
 				errors[i][4] - error Message (the message that appears)
 			*/
-			return "<p class='errorMessage'><span class='syntaxError'>"+jsonObject[0].errors[i].type+"</span>"+jsonObject[0].errors[i].message+"</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
+			return "<div class='leftMessage "+jsonObject[0].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[0].errors[i].type+"'>"+jsonObject[0].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[0].errors[i].message+"</p><p class='correctTag'>&lt;!DOCTYPE HTML&gt;</p></div>";
 		}
 	}
 	
@@ -162,9 +162,6 @@ $(document).ready(function() {
 				target: $(this)
 			},
 			style: { classes: 'qTipHighlight' },
-			hide: {
-				delay: 0//enter in milliseconds
-			}, 
 			content: {
 				text: getContent($(this))
 			}

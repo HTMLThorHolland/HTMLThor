@@ -28,7 +28,8 @@ function initSelectBoxes() {
 	for(var i = 0; i < jsonObject.filecount; i++) {
 		var underScoreName = jsonObject[i].filename;
 		underScoreName = underScoreName.replace(/\./g,"_");
-		$('.selectFileObject').append(new Option(jsonObject[i].filename, underScoreName));
+		nameErrors = jsonObject[i].filename + " ("+jsonObject[i].errors.count+")";
+		$('.selectFileObject').append(new Option(nameErrors, underScoreName));
 	}
 }
 

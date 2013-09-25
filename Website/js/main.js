@@ -137,7 +137,26 @@
 			
 			/* HELP KEY */
 			
+			$('.key').hover(function() {
+				$(this).qtip({
+					overwrite: false,
+					show: {
+						event: event.type,
+						ready: true
+					},
+					position: {
+						my: 'top left',
+						at: 'top right',
+						target: $(this)
+					},
+					style: { classes: 'keyTip' },
+					content: {
+						text: $(this).children(".keyInfo").html()
+					}
+				});
+			});
 			
+			/* TO BE DELETED
 			$(".key").click(function() {
 				$('.key').not(this).each(function(){
 					$(this).children('.keyInfo').slideUp();
@@ -159,6 +178,7 @@
 					});
 				}
 			});
+			*/
 			
 			
 			/* END HELP KEY */
