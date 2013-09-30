@@ -338,13 +338,13 @@
 			<!-- UPLOAD SECTION -->
 			<div id="upload" class="hidden section upload">
 				<div class="sectionTitle">
-					<h2>upload</h2>
+					<h2>validate</h2>
 				</div>
 				<div class="sectionContent">
-					<div onclick="getFile('singleUpload')" class="uploadCat one-third column">
+					<h3>upload</h3>
+					<div onclick="getFile('singleUpload')" class="uploadCat">
+						<div class="uploadTitle"><p>single file</p></div>
 						<div id="iconSingleUpload" class="thumb"></div>
-						<p>upload a single file</p>
-						
 						<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
 							<button id="single" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
@@ -358,34 +358,35 @@
 						</form>
 						-->
 					</div>
-					<div onclick="getFile('multiUpload')" class="uploadCat one-third column">
+					<div onclick="getFile('multiUpload')" class="uploadCat">
+						<div class="uploadTitle"><p>multiple files</p></div>
 						<div id="iconMultiUpload" class="thumb"></div>
-						<p>upload multiple files</p>
 						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 							<button id="multi" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
 						</form>
 					</div>
-					<div onclick="getFile('zipUpload')" class="uploadCat one-third column">
+					<div onclick="getFile('zipUpload')" class="uploadCat">
+						<div class="uploadTitle"><p>zip directory</p></div>
 						<div id="iconZipUpload" class="thumb"></div>
-						<p>upload a .zip directory</p>
 						<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
 							<button id="zip" type="button">browse</button>
 							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
 						</form>
 					</div>
+					<div style="clear:both"></div>
 					<div class="sixteen columns">
 						<div class="alternativeUploads">
 							<h3>or</h3>
 							<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
-								<label for="input-url">enter a url</label><input type="text" name="input-url">
-								<button class="alternativeButton" id="urlButton" type="button">VALIDATE</button>
+								<label for="input-url">enter a url</label><input type="text" name="input-url" placeholder="example.com">
+								<button class="alternativeButton" id="urlButton" type="button">validate</button>
 								<div style="clear:both"></div>
 							</form>
 							<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
 								<label for="input-direct">direct input</label>
 								<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
-								<button class="alternativeButton" id="alternativeButton" type="button">VALIDATE</button>
+								<button class="alternativeButton" id="alternativeButton" type="button">validate</button>
 								<div style="clear:both"></div>
 							</form>
 						</div>
