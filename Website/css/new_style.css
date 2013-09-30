@@ -25,6 +25,7 @@
 	margin-left: 12px;
 	cursor: pointer;
 	margin-top: 20px;
+	color: #C1C1C1;
 }
 
 	.developers:hover {
@@ -102,25 +103,25 @@
 
 body {
 	/*background-image:url("../images/tile_dark.png");*/
-	background-color: #14191f;
+	background-color: #F7F7F7;
 	background-attachment:fixed;
 	font-family:"Source Sans Pro",Arial,sans-serif;
-	color:#c7c7c7;
+	color: #858585;
 	font-size:14pt;
 }
 
 h1,h2,h3,h4,h5,h6 {
 	font-family:"Century Gothic",Arial,sans-serif;
-	color:#c7c7c7;
+	color: #616161;
 }
 
 p {
 	font-family:"Source Sans Pro",Arial,sans-serif;
-	color:#c7c7c7;
+	color: #858585;
 }
 
 h1, h2 {
-	color:#e3e6ec;
+	color: #E4E4E4;
 }
 
 h1 {
@@ -135,7 +136,7 @@ h2  {
 }
 
 h4 {
-	color:#b7b7b7;
+	color: #A0A0A0;
 	font-size:1.3em;
 }
 
@@ -216,24 +217,58 @@ a {
 
 /* SIDE BAR */
 
-#siteContainer {
-	margin-left: 10%;
+
+
+
+/* SITE HEADER */
+
+.siteHeader {
+	padding-top: 7px;
+	padding-left: 12px;
+	padding-bottom: 7px;
+	background-color: #3C3C3C;
 }
 
-#siteLinks {
-	margin-top: 50px;
+.siteHeader h1, .siteHeader h4, .siteLogo {
+	cursor:default;
+	color: #DDDDDD;
+}
+
+.siteHeader h1 {
+	margin-top: 4px;
+	font-size: .8em;
+	float: left;
+	line-height: 25px;
+}
+
+.siteLogo {
+	width: 30px;
+	height: 30px;
+	background-image: url("../images/logo_30.png");
+	background-size: cover;
+	float: left;
+}
+
+/* END Site Header */
+
+
+#siteContainer {
+	margin-left: 140px;
 }
 
 .sideBarNavigation {
-	width: 10%;
-	min-width: 122px;
+	width: 140px;
+	min-width: 140px;
 	position: fixed;
-	background-color: #191D27;
+	background-color: #F0F0F0;
 	height: 100%;
 	top: 0;
 	left: 0;
 	float: left;
 	z-index: 9999;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 	.sideBarNavigation ul {
@@ -241,7 +276,7 @@ a {
 	}
 
 	.sideBarNavigation ul li {
-		padding: 2px;
+		/*padding: 2px;*/
 		margin-left: 0;
 		padding-left: 0;
 		padding-right: 0;
@@ -261,7 +296,7 @@ a {
 		font-size:.9em;
 		padding: 2px;
 		padding-left: 12px;
-		color: #B9B9B9;
+		color: #838383;
 		display: block;
 		width: 100%;
 		box-sizing: border-box;
@@ -270,40 +305,65 @@ a {
 	}
 
 	.sideBarNavigation a:hover {
-		color: #4B70A5;
+		background-color: #D8D8D8;
 	}
 	
 	a.currentLocation {
-		background-color: #37537C;
-		color: #E3E6EC;
+		background-color: #A2A2A2;
+		color: #FFFFFF;
 	}
 	
 	a.currentLocation:hover, .sideBarNavigation ul li a.currentLocation:hover {
-		color: #E3E6EC;
+		color: #FFFFFF;
+		background-color: #A2A2A2;
 	}
 	
 	.smallLink a {
 		font-size: .7em;
-		color: #636770;
+		color: #838383;
 	}
 	
 .emptyLink {
 	height: 10px;
 }
+
+.sideLinksWrapper {
+}
+
+	.sideLinksWrapper ul {
+		margin-bottom: 0;
+	}
 	
-.sideBarLinks {
+.sideBarLinks.extraOne {
+	margin-top: 7px;
+	padding-top: 7px;
+	border-top: 1px solid #DDD;
+/*
 	padding-bottom: 20px;
-	border-bottom: 1px solid rgba(55, 83, 124, 0.5);
+	border-bottom: 1px solid rgba(175, 175, 175, 0.5);
+	*/
 }
 	
 .helpKey {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #5E5E5E;
 }
 
+	.helpKey p {
+		color: #D1D1D1;
+	}
+
 	.helpKey h3 {
+		color: #D1D1D1;
 		font-size: .8em;
 		cursor: default;
 		padding-left: 12px;
-	}
+	
+		margin-bottom: 0;
+}
 	
 	.key {
 		padding-left: 12px;
@@ -321,7 +381,7 @@ a {
 		}
 	
 		.key:hover {
-			background-color: rgba(55, 83, 124, 0.25);
+			background-color: rgba(17, 17, 17, 0.25);
 		}
 		
 		.key.active {
@@ -364,7 +424,7 @@ a {
 			border: 0;
 			background-color: black;
 			width: 250px;
-			background-color: #1F293C;
+			background-color: #4a4a4a;
 			padding-top: 4px;
 			padding-right: 10px;
 			padding-bottom: 8px;
@@ -379,6 +439,7 @@ a {
 				font-size: 1.4em;
 				line-height: 1.5em;
 				margin: 0;
+				color: #C1C1C1;
 			}
 		
 	/* KEY QTIP */
@@ -387,38 +448,16 @@ a {
 
 /* END Side Bar */
 
-
-/* SITE HEADER */
-
-.siteHeader {
-}
-
-.siteHeader h1, .siteHeader h4, .siteLogo {
-	cursor:default;
-}
-
-.siteHeader h1 {
-	margin-top: 27px;
-	float: left;
-}
-
-.siteLogo {
-	width: 100px;
-	height: 100px;
-	background-image: url("../images/logo_100.png");
-	background-size: cover;
-	float: left;
-}
-
-/* END Site Header */
-
-
 .site {
-	margin-top:10px;
+}
+
+.container.site {
+	margin-left: 0;
+	margin-right: 0;
+	width: 960px;
 }
 
 #home {
-	margin-top: 35px;
 }
 
 
@@ -432,16 +471,25 @@ a {
 	*/
 
 .sectionTitle {
-	border-bottom:2px solid #3f7cd7;
-	margin-bottom:30px;
-	margin-top:20px;
+	height: 45px;
+	background-color: #313131;
+	margin-bottom: 20px;
+	margin-left: 0;
+	width: 100%;
 }
 
 .sectionTitle h2 {
-	margin-left:50px;
+	margin-left: 22px;
 	margin-bottom:2px;
+	font-size: 1em;
+	padding-top: 2px;
 }
-/* index.php_left cool.jpg_right */
+
+.sectionContent {
+	width: 100%;
+	max-width: 960px;
+	padding-left: 20px;
+}
 
 /* Home / Help Section */
 
@@ -503,11 +551,16 @@ a {
 .uploadCat {
 	text-align:center;
 	cursor: pointer;
+	width: 220px;
+	float: left;
+	display: inline;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .alternativeUploads {
-	width:40%;
-	margin:0 auto;
+	width: 50%;
+	/* margin:0 auto; */
 	margin-top:10px;
 }
 
@@ -518,10 +571,10 @@ a {
 
 input, input[type="text"], textarea {
 	width:100%;
-	background-color:#535353;
-	border-color:#929292;
+	background-color: #D3D3D3;
+	border-color: #B9B9B9;
 	border-radius:2px;
-	color:#929292;
+	color: #6D6D6D;
 	margin-bottom: 10px;
 }
 
@@ -1321,7 +1374,7 @@ pre {
 	
 	@media only screen and (min-width: 1400px) {
 		#siteContainer {
-			margin-left: 0;
+			margin-left: 140px;
 		}
 	}
 	
@@ -1335,7 +1388,7 @@ pre {
 	
 	@media only screen and (min-width: 1300px) {
 		#siteContainer {
-			margin-left: 5%;
+			margin-left: 140px;
 		}
 	}
 
@@ -1361,14 +1414,3 @@ pre {
 		Just create a "fonts" folder at the root,
 		copy your FontName into code below and remove
 		comment brackets */
-
-/*	@font-face {
-	    font-family: 'FontName';
-	    src: url('../fonts/FontName.eot');
-	    src: url('../fonts/FontName.eot?iefix') format('eot'),
-	         url('../fonts/FontName.woff') format('woff'),
-	         url('../fonts/FontName.ttf') format('truetype'),
-	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
-	    font-weight: normal;
-	    font-style: normal; }
-*/

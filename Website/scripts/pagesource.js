@@ -133,7 +133,7 @@ function getContent(error) {
 				errors[i][3] - error Line (the line the error takes place on)
 				errors[i][4] - error Message (the message that appears)
 			*/
-			return "<div class='leftMessage "+jsonObject[0].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[0].errors[i].type+"'>"+jsonObject[0].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[0].errors[i].message+"</p><p class='correctTag'>&lt;!DOCTYPE HTML&gt;</p></div>";
+			return "<div class='leftMessage "+jsonObject[0].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[0].errors[i].type+"'>"+jsonObject[0].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[0].errors[i].message+"</p></div>";
 		}
 	}
 	
@@ -150,6 +150,9 @@ $(document).ready(function() {
 		When the user hovers over an error in the source code, the qtip plugin is called.
 	*/
 	 $(document).delegate('.errorContainer', 'mouseover', function(event) {
+	 
+		var errorClass = $(this).attr('class').split(' ')[1];
+	 
 		$(this).qtip({
 			overwrite: false,
 			show: {
@@ -161,7 +164,7 @@ $(document).ready(function() {
 				at: 'top left',
 				target: $(this)
 			},
-			style: { classes: 'qTipHighlight' },
+			style: { classes: 'qTipHighlight ' + errorClass },
 			content: {
 				text: getContent($(this))
 			}

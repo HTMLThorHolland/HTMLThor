@@ -205,10 +205,10 @@
 					error.put("line", 1);
 					error.put("col", 1);
 					error.put("type", "syntax"); // retrieve from DB
-					error.put("message", "First element should be doctype"); // retrieve from DB
+					error.put("message", "Oops! It looks like something's wrong with your doctype. Make sure you've written it like this &lt;!DOCTYPE HTML&gt;"); // retrieve from DB
 					*/
 					
-					Error error = new Error(1, 1, "syntax", "First element should be doctype");
+					Error error = new Error(1, 1, "syntax", "Oops! It looks like something's wrong with your doctype. Make sure you've written it like this &lt;!DOCTYPE HTML&gt;");
 					errors.put(Integer.toString(errorCount), error.getErrorObject());
 					//errors.put(Integer.toString(errorCount), error);
 					errorCount++;

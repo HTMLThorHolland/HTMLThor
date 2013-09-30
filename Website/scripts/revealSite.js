@@ -2,6 +2,10 @@
 
 function rockAndRoll() {
 
+	if(!jsonObject.filecount) {
+		jsonObject.filecount = 1;
+	}
+
 	console.log("number of files upload "+jsonObject.filecount);
 	for(var i = 0; i < jsonObject.filecount; i++) {
 		console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);

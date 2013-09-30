@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
@@ -39,7 +38,7 @@
 	<link href="css/prettify.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" href="css/base.css">
 	<link rel="stylesheet" href="css/skeleton.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/new_style.css">
 	
 	<link type="text/css" rel="stylesheet" href="css/jquery.qtip.min.css" />
 
@@ -122,40 +121,47 @@
 	<!-- Primary Page Layout
 	================================================== -->
 	
-	<div id="test.test" class="sideBarNavigation">
-		<ul id="siteLinks" class="sideBarLinks">
-			<li class="smallLink">
-				<a id="topLink" href=#>top</a>
-			</li>
-			<li>
-				<a id="homeLink" class="currentLocation" href=#>home</a>
-			</li>
-			<li>
-				<a id="uploadLink" href=#>validate</a>
-			</li>
-			<!-- add .extraOne back in breakdownLink -->
-		</ul>
-		<ul class="sideBarLinks extraOne">
-			<li>
-				<a id="breakdownLink" href=#>results</a>
-				<ul>
-					<!-- add .extraTwo back in structureLink -->
-					<li class="extraTwo">
-						<a id="structureLink" href=#>file structure</a>
-					</li>
-					<!-- add .extraOne back in sourceLink -->
-					<li class="extraOne">
-						<a id="sourceLink" href=#>page source</a>
-					</li>
-					<!-- add .extraOne back in errorsLink -->
-					<li class="extraOne">
-						<a id="errorsLink" href=#>errors</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
+	<div class="sideBarNavigation">
+		<div class="siteHeader">
+			<h1><strong>HTML</strong> THOR</h1>
+			<div class="siteLogo"></div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="sideLinksWrapper">
+			<ul id="siteLinks" class="sideBarLinks">
+				<li class="smallLink">
+					<a id="topLink" href=#>top</a>
+				</li>
+				<li>
+					<a id="homeLink" class="currentLocation" href=#>home</a>
+				</li>
+				<li>
+					<a id="uploadLink" href=#>validate</a>
+				</li>
+				<!-- add .extraOne back in breakdownLink -->
+			</ul>
+			<ul class="sideBarLinks extraOne">
+				<li>
+					<a id="breakdownLink" href=#>results</a>
+					<ul>
+						<!-- add .extraTwo back in structureLink -->
+						<li class="extraTwo">
+							<a id="structureLink" href=#>file structure</a>
+						</li>
+						<!-- add .extraOne back in sourceLink -->
+						<li class="extraOne">
+							<a id="sourceLink" href=#>page source</a>
+						</li>
+						<!-- add .extraOne back in errorsLink -->
+						<li class="extraOne">
+							<a id="errorsLink" href=#>errors</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
 		<div class="helpKey">
-			<h3>KEY</h3>
+			<h3>HELP <strong>KEY</strong></h3>
 			<div class="key">
 				<div class="keyTop syntax">
 					<div class="testError"></div>
@@ -252,80 +258,86 @@
 	-->
 	
 	<div id="siteContainer">
-		<div class="site container">
+		<div class="">
 			<!-- HEADER SECTION -->
+			<!--
 			<div class="siteHeader sixteen columns">
 				<h1><strong>HTML</strong> THOR</h1>
 				<div class="siteLogo"></div>
 				<div style="clear:both"></div>
 			</div>
 			<div style="clear:both"></div>
-			
+			-->
 			
 			<div id="home" class="siteIntro section sixteen columns">
+				<div class="sectionTitle">
+					<h2>welcome</h2>
+				</div>
+				<div class="sectionContent">
 				
-				<div class="introBlurb">
-					<p>
-						If you've faced jargon-filled error messages from current HTML validators...
-						<blockquote><em>The frameborder attribute on the iframe element is obsolete. Use CSS instead.</em></blockquote>
-						... then we feel your pain! But why should anyone have to put up with it?! That's why we're bringing you the latest
-						most sophisticated HTML	 validator that exists to date... </p>
-					<p> 
-						Sounds too good to be true? Check it out for yourself, by uploading one (or many) HTML files, entering a URL or simply
-						by copying in your source code!
-					</p>
-					<p> 
-						Website too big? Broken images, weird links? We've got you covered! Upload a .zip file and check out all the broken links
-						you have as well as any important misplaced files!
-					</p>
+					<div class="introBlurb">
+						<p>
+							If you've faced jargon-filled error messages from current HTML validators...
+							<blockquote><em>The frameborder attribute on the iframe element is obsolete. Use CSS instead.</em></blockquote>
+							... then we feel your pain! But why should anyone have to put up with it?! That's why we're bringing you the latest
+							most sophisticated HTML	 validator that exists to date... </p>
+						<p> 
+							Sounds too good to be true? Check it out for yourself, by uploading one (or many) HTML files, entering a URL or simply
+							by copying in your source code!
+						</p>
+						<p> 
+							Website too big? Broken images, weird links? We've got you covered! Upload a .zip file and check out all the broken links
+							you have as well as any important misplaced files!
+						</p>
+					</div>
+				
+					<div class="colourKey">
+						<h4>Colour Key</h4>
+						<p>
+							Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
+							Flesh these out first before delving into the utopian world of clean HTML...
+						</p>
+						<ul>
+							<li>
+								<div class="red colourSquare"></div>
+								<p>Red is a syntactic error in your code or link.
+								That's like writing a tag with a typo, or leaving out a required attribute.</p>
+							</li>
+							<div style="clear: both"></div>
+							<li>
+								<div class="blue colourSquare"></div>
+								<p>Blue is a semantic error in your code. Semantic errors are like using
+								lots of &lt;br&gt; tags instead of using &lt;li&gt; tags.</p>
+							</li>
+							<div style="clear: both"></div>
+							<li>
+								<div class="yellow colourSquare"></div>
+								<p>Yellow are any 'best practice' errors. This is us reminding you that there are more efficient and proper techniques.</p>
+							</li>
+							<div style="clear: both"></div>
+							<li>
+								<div class="purple colourSquare"></div>
+								<p>Purple are deprecated tags that were once
+								validly used in HTML but have since been 'deleted'. So don't use them!</p>
+							</li>
+							<div style="clear: both"></div>
+							<li>
+								<div class="green colourSquare"></div>
+								<p>Green indicates no errors.
+								<br/>You'd be a HTML Hero!</p>
+							</li>
+							<div style="clear: both"></div>
+						</ul>
+					</div>
+					<div style="clear:both"></div>
 				</div>
-			
-				<div class="colourKey">
-					<h4>Colour Key</h4>
-					<p>
-						Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
-						Flesh these out first before delving into the utopian world of clean HTML...
-					</p>
-					<ul>
-						<li>
-							<div class="red colourSquare"></div>
-							<p>Red is a syntactic error in your code or link.
-							That's like writing a tag with a typo, or leaving out a required attribute.</p>
-						</li>
-						<div style="clear: both"></div>
-						<li>
-							<div class="blue colourSquare"></div>
-							<p>Blue is a semantic error in your code. Semantic errors are like using
-							lots of &lt;br&gt; tags instead of using &lt;li&gt; tags.</p>
-						</li>
-						<div style="clear: both"></div>
-						<li>
-							<div class="yellow colourSquare"></div>
-							<p>Yellow are any 'best practice' errors. This is us reminding you that there are more efficient and proper techniques.</p>
-						</li>
-						<div style="clear: both"></div>
-						<li>
-							<div class="purple colourSquare"></div>
-							<p>Purple are deprecated tags that were once
-							validly used in HTML but have since been 'deleted'. So don't use them!</p>
-						</li>
-						<div style="clear: both"></div>
-						<li>
-							<div class="green colourSquare"></div>
-							<p>Green indicates no errors.
-							<br/>You'd be a HTML Hero!</p>
-						</li>
-						<div style="clear: both"></div>
-					</ul>
-				</div>
-				<div style="clear:both"></div>
 			</div>
 			<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 			<!-- END HEADER -->
 			
 			<!-- UPLOAD SECTION -->
 			<div id="upload" class="hidden section upload">
-				<div class="sectionTitle sixteen columns">
+				<div class="sectionTitle">
 					<h2>upload</h2>
 				</div>
 				<div class="sectionContent">
@@ -345,7 +357,7 @@
 						<input type="submit" value="Upload File" />
 						</form>
 						-->
-				</div>
+					</div>
 					<div onclick="getFile('multiUpload')" class="uploadCat one-third column">
 						<div id="iconMultiUpload" class="thumb"></div>
 						<p>upload multiple files</p>

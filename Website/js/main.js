@@ -29,6 +29,8 @@
 	
 		$(document).ready(function() {
 		
+			console.log("main js is running");
+		
 			
 			/* Hide sections of the site that should not be shown initially*/
 			$('.extraOne').hide();
