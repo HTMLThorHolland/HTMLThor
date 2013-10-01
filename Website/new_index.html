@@ -136,7 +136,7 @@
 					<a id="homeLink" class="currentLocation" href=#>home</a>
 				</li>
 				<li>
-					<a id="uploadLink" href=#>validate</a>
+					<a id="uploadLink" class="" href=#>validate</a>
 				</li>
 				<!-- add .extraOne back in breakdownLink -->
 			</ul>
@@ -273,8 +273,82 @@
 				<div class="sectionTitle">
 					<h2>welcome</h2>
 				</div>
-				<div class="sectionContent">
+				<div class="sectionContent sectionHalf">
 				
+					<div class="information">
+						<h4>What is <strong>HTML THOR?</strong></h4>
+						<p>
+							However, Luke changes his mind when he discovers his aunt and uncle have been killed by Imperial stormtroopers. He and Ben obtain passage with the smugglers Han Solo and Chewbacca on their Millennium Falcon ship, only to find that Alderaan has been destroyed by the Empire's new superweapon known as the Death Star.
+						</p>
+					</div>
+				
+					<div class="information">
+						<h4>What is <strong>HTML5?</strong></h4>
+						<p>
+							Discovering a prophecy in which it was told a Jedi would change the way of life on the land, Luke eventually realizes truly what the Force is for the first time in his life. While there, he destroys most of the Nightsisters (including their powerful leader, Gethzirion, and the galaxy's most powerful remaining warlord, Warlord Zsinj).
+						</p>
+					</div>
+				
+					<div class="information">
+						<h4>HTML5 <strong>Resources</strong></h4>
+						<p>
+							Discovering a prophecy in which it was told a Jedi would change the way of life on the land, Luke eventually realizes truly what the Force is for the first time in his life. While there, he destroys most of the Nightsisters (including their powerful leader, Gethzirion, and the galaxy's most powerful remaining warlord, Warlord Zsinj).
+						</p>
+					</div>
+				
+					<div id="goToUpload">
+						<p>Begin Validating!</p>
+					</div>
+					
+				</div>
+				
+				<div class="sectionContent sectionHalf">
+				
+					<div class="information">
+						<h4>Types of <strong>Errors</strong></h4>
+						<div class="errorKey syntax">
+							<div class="testError"></div>
+							<h5>Syntax Errors</h5>
+							<div style="clear:both"></div>
+							<p>
+								During the fight, Mara Jade destroys the clone and, with Leia's help, destroys C'baoth. This entire time, C'boath has been obsessed with 'molding' Luke and Mara to serve him, perhaps due to.
+							</p>
+						</div>
+						<div class="errorKey semantic">
+							<div class="testError"></div>
+							<h5>Semantic Errors</h5>
+							<div style="clear:both"></div>
+							<p>
+								During the fight, Mara Jade destroys the clone and, with Leia's help, destroys C'baoth. This entire time, C'boath has been obsessed with 'molding' Luke and Mara to serve him, perhaps due to.
+							</p>
+						</div>
+						<div class="errorKey warning">
+							<div class="testError"></div>
+							<h5>Best Practice Errors</h5>
+							<div style="clear:both"></div>
+							<p>
+								During the fight, Mara Jade destroys the clone and, with Leia's help, destroys C'baoth. This entire time, C'boath has been obsessed with 'molding' Luke and Mara to serve him, perhaps due to.
+							</p>
+						</div>
+						<div class="errorKey deprecated">
+							<div class="testError"></div>
+							<h5>Deprecated Tags</h5>
+							<div style="clear:both"></div>
+							<p>
+								During the fight, Mara Jade destroys the clone and, with Leia's help, destroys C'baoth. This entire time, C'boath has been obsessed with 'molding' Luke and Mara to serve him, perhaps due to.
+							</p>
+						</div>
+						<div class="errorKey valid">
+							<div class="green colourSquare"></div>
+							<h5>No Errors</h5>
+							<div style="clear:both"></div>
+							<p>
+								During the fight, Mara Jade destroys the clone and, with Leia's help, destroys C'baoth. This entire time, C'boath has been obsessed with 'molding' Luke and Mara to serve him, perhaps due to.
+							</p>
+						</div>
+					</div>
+				
+					<!--
 					<div class="introBlurb">
 						<p>
 							If you've faced jargon-filled error messages from current HTML validators...
@@ -292,7 +366,7 @@
 					</div>
 				
 					<div class="colourKey">
-						<h4>Colour Key</h4>
+						<h4>Types of Errors</h4>
 						<p>
 							Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
 							Flesh these out first before delving into the utopian world of clean HTML...
@@ -330,7 +404,9 @@
 						</ul>
 					</div>
 					<div style="clear:both"></div>
+					-->
 				</div>
+				<div style="clear:both"></div>
 			</div>
 			<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 			<!-- END HEADER -->
@@ -340,7 +416,7 @@
 				<div class="sectionTitle">
 					<h2>validate</h2>
 				</div>
-				<div class="sectionContent">
+				<div class="sectionContent sectionHalf">
 					<h3>upload</h3>
 					<div onclick="getFile('singleUpload')" class="uploadCat">
 						<div class="uploadTitle"><p>single file</p></div>
@@ -392,6 +468,15 @@
 						</div>
 					</div>
 				</div>
+				<div id="uploadInfo" class="sectionContent sectionHalf">
+				
+					<div class="infoTidbit">
+						<h4>What's a .zip file?</h4>
+						<p>Explanation of a .zip file goes here as a paragraph.</p>
+						<a href=#>find out more</a>
+					</div>
+					
+				</div>
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 			</div>
 			<!-- END UPLOAD -->
@@ -431,21 +516,25 @@
 					<h2>breakdown</h2>
 				</div>
 				<div class="sectionContent">
+					<div class="breakdownResults">
+						<div id="totalErrorsWrapper">
+							<h3 class="totalErrorsHeading">Total Errors</h3>
+							<span id="totalErrors">0</span>
+						</div>
+						<div id="feedback" class="feedback">
+							<p>No errors were found. Good job.</p>
+						</div>
+						<div style="clear:both"></div>
+					</div>
 					<div class="sectionTip">
-						<h3 class="totalErrorsHeading">Total Errors <span id="totalErrors">0</span></h3>
 						<p>Hover over the bars below to find out more.</p>
+						<div style="clear:both"></div>
 					</div>
 					<div style="clear:both"></div>
 					<div id="statGraph" class="statGraph sixteen columns">
 						<!-- This section is dynamically generated through the statistics.js file 
 							It displays the bar graphs for each uploaded file.
 						-->
-					</div>
-					<div class="middleText">
-						<h3>Overall Feedback</h3>
-						<div id="feedback" class="feedback">
-							<p>Holy Batman! Your site sucks!</p>
-						</div>
 					</div>
 				</div>
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
@@ -456,8 +545,8 @@
 			<!-- FILE STRUCTURE -->
 			<!-- add extraTwo back into the below div's class -->
 			<div id="structure" class="extraTwo section structure">
-				<div class="sectionTitle sixteen columns">
-					<h2>file structure</h2>
+				<div class="sectionTitle subSection sixteen columns">
+					<h3>file structure</h3>
 				</div>
 				<div id="structureContainer" class="structureContent sectionContent sixteen columns">
 					
@@ -506,8 +595,8 @@
 			
 			
 			
-			<div id="sourceTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
-				<h2>view page source</h2>
+			<div id="sourceTitle" class="singleTab hidden codeTitle subSection sectionTitle sixteen columns">
+				<h3>view page source</h3>
 			</div>
 		</div>
 			<!-- IMPORTANT
@@ -557,8 +646,8 @@
 		<div class="noMargin site container"> <!-- NEW CONTAINER -->
 		
 		
-			<div id="errorsTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
-				<h2>errors and warnings</h2>
+			<div id="errorsTitle" class="singleTab hidden codeTitle subSection sectionTitle sixteen columns">
+				<h3>errors and warnings</h3>
 			</div>
 		</div>
 			<!-- IMPORTANT

@@ -37,6 +37,10 @@
 			$('.extraTwo').hide();
 			$('.hidden').hide();
 			
+			$('#goToUpload').click(function() {
+				$("#uploadLink").click();
+			});
+			
 			$("#homeLink").click(function(e) {
 				hideSections();
 				removeLocation();

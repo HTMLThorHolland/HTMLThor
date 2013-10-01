@@ -429,7 +429,7 @@ a {
 			border: 0;
 			background-color: black;
 			width: 250px;
-			background-color: #4a4a4a;
+			background-color: #282828;
 			padding-top: 4px;
 			padding-right: 10px;
 			padding-bottom: 8px;
@@ -467,6 +467,12 @@ a {
 
 
 .section {
+}
+
+#breakdown.section,
+#structure.section,
+#sourceContainer.section,
+#errorsContainer.section {
 	margin-bottom:60px;
 }
 
@@ -490,17 +496,99 @@ a {
 	padding-top: 2px;
 }
 
+.subSection.sectionTitle {
+	background: none;
+}
+
 .sectionContent {
 	width: 100%;
 	max-width: 960px;
 	padding-left: 20px;
 }
 
+.sectionContent.sectionHalf {
+	width: 500px;
+	float: left;
+}
+
 /* Home / Help Section */
+
+#goToUpload {
+	cursor: pointer;
+	display: inline-block;
+}
+
+	#goToUpload p {
+		background-color: #3982EE;
+		font-size: 1em;
+		color: #F1F1F1;
+		text-align: center;
+		padding: 6px 12px;
+		display: inline-block;
+		margin: 0;
+	}
+
+	#goToUpload:hover p {
+		background-color: #4890FB;
+		text-decoration: underline;
+	}
+	
+.errorKey {}
+
+	.errorKey .testError {
+		float: left;
+		margin-right: 8px;
+		margin-top: 2px;
+	}
+	
+	.errorKey h5 {
+		font-family: "Source Sans Pro";
+		padding-left: 12px;
+		font-weight: 500;
+		border-bottom: 2px solid #D1D1D1;
+		margin-bottom: 4px;
+	}
+	
+	.errorKey.syntax h5 {
+		border-color: #f31040;	
+	}
+	
+	.errorKey.semantic h5 {
+		border-color: #2d90ff;	
+	}
+	
+	.errorKey.warning h5 {
+		border-color: #ffd050;	
+	}
+	
+	.errorKey.deprecated h5 {
+		border-color: #b24987;	
+	}
+	
+	.errorKey.valid h5 {
+		border-color: #1BEC77;	
+	}
+	
+	.errorKey .colourSquare {
+		margin-right: 12px;
+		border-radius: 12px;
+		width: 12px;
+		height: 12px;
+		margin-top: 6px;
+		margin-left: 4px;
+	}
 
 .siteIntro {
 	font-size: .85em;
 }
+
+	.siteIntro h4 {
+		color: #5C5C5C;
+	}
+	
+	.information p {
+		font-size: .9em;
+	}
 
 .introBlurb {
 	width: 45%;
@@ -610,8 +698,13 @@ button:hover {
 	margin-left: 0;
 }
 
+#upload.section {
+	margin-bottom: 0;
+}
+
 #upload .sectionContent {
 	width: 460px;
+	height: 100%;
 }
 
 #upload .sectionContent h3 {
@@ -619,6 +712,43 @@ button:hover {
 	font-size: 1.2em;
 	color: #6F6F6F;
 }
+
+#uploadInfo {
+	margin-top: 67px;
+}
+
+.infoTidbit {
+	width: 225px;
+	background-color: #f1f1f1;
+	padding: 5px 8px;
+	padding-bottom: 10px;
+	border: 1px solid #E9E9E9;
+}
+
+	.infoTidbit h4 {
+		font-family: "Source Sans Pro";
+		font-size: 1em;
+		font-weight: 400;
+		padding-left: 5px;
+		line-height: 22px;
+	}
+
+	.infoTidbit p {
+		font-size: .9em;
+		margin: 0;
+		font-weight: 300;
+	}
+
+	.infoTidbit a {
+		font-size: .9em;
+		margin: 0;
+		color: #7192DA;
+		text-decoration: underline;
+	}
+
+		.infoTidbit a:hover {
+			color: #345AAD;
+		}
 
 .uploadCat {
 	text-align:center;
@@ -745,11 +875,10 @@ button:hover {
 
 .errorNumber {
 	float:left;
-	color: #e3e6ec;
+	color: #616161;
 }
 
 .sectionTip {
-	margin-left: 10px;
 }
 
 	#breakdown .sectionTip p {
@@ -766,15 +895,62 @@ button:hover {
 
 /* ERROR GRAPHS */
 
+#totalErrorsWrapper {
+    width: 126px;
+    height: 50px;
+    background-color: gray;
+	float: left;
+}
+
 h3.totalErrorsHeading {
-	font-weight: 900;
+	font-weight: 400;
 	margin-right: 98px;
-	float: right;
+	/* float: left; */
+	width: 100%;
+	font-size: .8em;
+	color: #F0F0F0;
+	text-align: center;
+	line-height: 20px;
+	margin: 0;
+	margin-top: 3px;
+	margin-bottom: 2px;
+	text-transform: uppercase;
 }
 
 	h3.totalErrorsHeading span#totalErrors {
 		font-weight: 600;
-		color: #F1F1F1;
+		color: #616161;
+	}
+    
+#totalErrors {
+    text-align: center;
+    display: block;
+    color: #FAFAFA;
+    font-weight: 600;
+	width: 100%;
+    background-color: #1BEC77;
+}
+
+	.feedback {
+		/* border:1px solid #243f66; */
+		padding:14px 18px;
+	
+		/* margin-left: 20px; */
+		background-color: #E7E7E7;
+		height: 50px;
+	
+		/* float: left; */
+		/* width: 100%; */
+		box-sizing: border-box;
+		padding-left: 126px;
+}
+	
+	.feedback p {
+		padding-left: 12px;
+	}
+	
+	.feedback p:last-child {
+		margin-bottom:0;
 	}
 
 .barHighlight {
@@ -852,17 +1028,8 @@ h3.totalErrorsHeading {
 	text-align:center;
 	font-size:1.3em;
 	font-weight:bold;
-	color: #e3e6ec;
+	color: #636363;
 }
-
-	.feedback {
-		border:1px solid #243f66;
-		padding:14px 18px;
-	}
-	
-	.feedback p:last-child {
-		margin-bottom:0;
-	}
 
 
 /* END breakdown Section */
