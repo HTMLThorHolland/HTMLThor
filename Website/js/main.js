@@ -70,6 +70,19 @@
 				$(this).addClass('currentLocation');
 			 });
 			
+			$("#feedbackLink").click(function(e) {
+				console.log("breakdown clicked");
+				e.preventDefault();
+				if(!resultsOpen) {
+					revealSite();
+				}
+				 $('html, body').animate({
+					 scrollTop: $("html").offset().top
+				 }, 600);
+				removeLocation();
+				$(this).addClass('currentLocation');
+			 });
+			
 			$("#structureLink").click(function(e) {
 				e.preventDefault();
 				if(!resultsOpen) {
@@ -120,6 +133,12 @@
 			 
 			$("#urlButton").click(function(e) {
 				$('#urlInputForm').submit();
+			});
+			
+			
+			$(document).delegate('#breakdown', 'mouseover', function(event) {
+				removeLocation();
+				$('#feedbackLink').addClass('currentLocation');
 			});
 			
 			
@@ -216,6 +235,7 @@
 				$("#homeLink").removeClass('currentLocation');
 				$("#uploadLink").removeClass('currentLocation');
 				$("#breakdownLink").removeClass('currentLocation');
+				$("#feedbackLink").removeClass('currentLocation');
 				$("#structureLink").removeClass('currentLocation');
 				$("#sourceLink").removeClass('currentLocation');
 				$("#errorsLink").removeClass('currentLocation');

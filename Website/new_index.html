@@ -31,6 +31,7 @@
 	<!-- CSS
 	================================================== -->
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,300italic,400italic,600italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 	<!-- jsTree -->
 	<link type="text/css" rel="stylesheet" href="_docs/syntax/!style.css"/>
 	<link type="text/css" rel="stylesheet" href="_docs/!style.css"/>
@@ -144,6 +145,10 @@
 				<li>
 					<a id="breakdownLink" href=#>results</a>
 					<ul>
+						<!-- add .extraOne back in structureLink -->
+						<li class="extraOne">
+							<a id="feedbackLink" href=#>breakdown</a>
+						</li>
 						<!-- add .extraTwo back in structureLink -->
 						<li class="extraTwo">
 							<a id="structureLink" href=#>file structure</a>
@@ -200,6 +205,16 @@
 				</div>
 				<div class="keyInfo">
 					<p>An error caused by using a tag or attribute that was once valid in HTML but no longer is. An example of this is the &lt;dir&gt; tag now replaced with &lt;ul&gt;.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop brokenLiink">
+					<div class="testError"></div>
+					<p>Broken Link</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>An error returned when a file you have linked to in your HTML can not be found. Potentially due to a typo, or incorrect folder location.</p>
 				</div>
 			</div>
 			<div class="key">
@@ -304,7 +319,7 @@
 				
 				<div class="sectionContent sectionHalf">
 				
-					<div class="information">
+					<div id="homeKey" class="information">
 						<h4>Types of <strong>Errors</strong></h4>
 						<div class="errorKey syntax">
 							<div class="testError"></div>
@@ -513,7 +528,10 @@
 			
 			<div id="breakdown" class="singleTab hidden section breakdown">
 				<div class="sectionTitle sixteen columns">
-					<h2>breakdown</h2>
+					<h2>results</h2>
+				</div>
+				<div class="sectionTitle subSection">
+					<h3>breakdown</h3>
 				</div>
 				<div class="sectionContent">
 					<div class="breakdownResults">
@@ -526,15 +544,17 @@
 						</div>
 						<div style="clear:both"></div>
 					</div>
-					<div class="sectionTip">
-						<p>Hover over the bars below to find out more.</p>
+					<div class="breakdownBarResults">
+						<div class="sectionTip">
+							<p>Hover over the bars below to find out more.</p>
+							<div style="clear:both"></div>
+						</div>
 						<div style="clear:both"></div>
-					</div>
-					<div style="clear:both"></div>
-					<div id="statGraph" class="statGraph sixteen columns">
-						<!-- This section is dynamically generated through the statistics.js file 
-							It displays the bar graphs for each uploaded file.
-						-->
+						<div id="statGraph" class="statGraph sixteen columns">
+							<!-- This section is dynamically generated through the statistics.js file 
+								It displays the bar graphs for each uploaded file.
+							-->
+						</div>
 					</div>
 				</div>
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
@@ -545,43 +565,49 @@
 			<!-- FILE STRUCTURE -->
 			<!-- add extraTwo back into the below div's class -->
 			<div id="structure" class="extraTwo section structure">
-				<div class="sectionTitle subSection sixteen columns">
+				<div class="sectionTitle subSection">
 					<h3>file structure</h3>
 				</div>
-				<div id="structureContainer" class="structureContent sectionContent sixteen columns">
-					
-					<ul>
-						<!-- This root level is for folders. -->
-						<li rel="folder">
-							<a href="#">images</a>
-							<!-- This sub level is for both files and sub-folders. -->
+				<div class="structureContent sectionContent">
+					<div class="innerContent">
+						<p>Files with broken links</p>
+						<p>Number of broken links</p>
+						<p>htmlthor/<span class="fileName">index.html</span></p>
+						<div id="structureContainer">
 							<ul>
+								<!-- This root level is for folders. -->
 								<li rel="folder">
-									<a href="#">full</a>
+									<a href="#">images</a>
+									<!-- This sub level is for both files and sub-folders. -->
 									<ul>
-										<li>
-											<a href="#">starlight.bmp</a>
+										<li rel="folder">
+											<a href="#">full</a>
+											<ul>
+												<li>
+													<a href="#">starlight.bmp</a>
+												</li>
+												<li>
+													<a href="#">jonrar.lol</a>
+												</li>
+											</ul>
 										</li>
 										<li>
-											<a href="#">jonrar.lol</a>
+											<a href="#">cool.jpg</a>
 										</li>
 									</ul>
 								</li>
+								<li rel="brokenLink">
+									<a href="#">index.html</a>
+								</li>
 								<li>
-									<a href="#">cool.jpg</a>
+									<a href="#">about.html</a>
+								</li>
+								<li>
+									<a href="#">contact.html</a>
 								</li>
 							</ul>
-						</li>
-						<li rel="brokenLink">
-							<a href="#">index.html</a>
-						</li>
-						<li>
-							<a href="#">about.html</a>
-						</li>
-						<li>
-							<a href="#">contact.html</a>
-						</li>
-					</ul>
+						</div>
+					</div>
 					
 				</div>
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
@@ -593,117 +619,93 @@
 			<!-- SOURCE CODE SECTION -->
 			
 			
-			
-			
-			<div id="sourceTitle" class="singleTab hidden codeTitle subSection sectionTitle sixteen columns">
-				<h3>view page source</h3>
-			</div>
-		</div>
-			<!-- IMPORTANT
-				Don't delete the above or below tags.
-				They allow me to change the background colour.
-			-->
-		<div id="sourceContainer" class="singleTab hidden codeBackground">
-			<div class="codeSection container">
-			
-				<div id="scrollParent">
-					<div id="scrollContent"></div>
+			<div id="sourceWrapper" class="extraOne section structure">
+				<div id="sourceTitle" class="singleTab hidden codeTitle subSection sectionTitle">
+					<h3>view page source</h3>
 				</div>
-							
-				<div id="source" class="section code source">
-					<div class="sectionContent sixteen columns">
-						<div class="sectionTip">
-							<p>Hover over the lines with errors below to find out more.</p>
-						</div>
-						<div id="sourceBreakdown">
-						
-						</div>
-						<div style="clear:both"></div>
-						<form id="pageSourceSelect" class="selectFile">
-							<label for="selectSourceFile">Select a page to view </label>
-							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
-							</select>
-						</form>
-						<div style="clear:both"></div>
-						<div id="pageSource" class="pageSource">
-						</div>
-						
-					</div>
-					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
-				</div>
-			
-			</div>		
-				
-		</div><!-- container -->
-		
-		
-		<!-- END SOURCE CODE SECTION -->
-			
-		
-		<!-- ERRORS SECTION -->
-		
-		
-		<div class="noMargin site container"> <!-- NEW CONTAINER -->
-		
-		
-			<div id="errorsTitle" class="singleTab hidden codeTitle subSection sectionTitle sixteen columns">
-				<h3>errors and warnings</h3>
-			</div>
-		</div>
-			<!-- IMPORTANT
-				Don't delete the above or below tags.
-				They allow me to change the background colour.
-			-->
-		<div id="errorsContainer" class="singleTab hidden codeBackground">
-			<div class="codeSection container">
-							
-				<div id="errors" class="section code errors">
-					<div class="sectionContent sixteen columns">
-						<form id="pageSourceSelect" class="selectFile">
-							<label for="selectSourceFile">Select a page to view </label>
-							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
-							</select>
-						</form>
-						<div style="clear:both"></div>
+				<div id="sourceContainer" class="sectionContent singleTab hidden codeBackground">
+					<div class="codeSection">
 					
-						<div id="errorsList">
-							<div id="syntaxErrorsContainer" class="errorCategory syntax">
-								<div class="testError"></div>
-								<h3>Syntax Errors</h3>
-								<div style="clear:both"></div>
-							</div>
-							<div id="semanticErrorsContainer" class="errorCategory semantic">
-								<div class="testError"></div>
-								<h3>Semantic Errors</h3>
-								<div style="clear:both"></div>
-							</div>
-							<div id="warningErrorsContainer" class="errorCategory warning">
-								<div class="testError"></div>
-								<h3>Best Practice Errors</h3>
-								<div style="clear:both"></div>
-							</div>
-							<div id="deprecatedErrorsContainer" class="errorCategory deprecated">
-								<div class="testError"></div>
-								<h3>Deprecated Errors</h3>
-								<div style="clear:both"></div>
-							</div>
+						<div id="scrollParent">
+							<div id="scrollContent"></div>
 						</div>
+									
+						<div id="source" class="section code source">
+							<div class="sectionContent">
+								<!--
+								<div id="sourceBreakdown">
+								
+								</div>
+								-->
+								<div style="clear:both"></div>
+								<form id="pageSourceSelect" class="selectFile">
+									<label for="selectSourceFile">Select a page to view </label>
+									<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
+									</select>
+								</form>
+								<div style="clear:both"></div>
+								<div class="sectionTip">
+									<p>Hover over the lines with errors below to find out more.</p>
+								</div>
+								<div id="pageSource" class="pageSource">
+								</div>
+								
+							</div>
+							<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+						</div>
+					
+					</div>		
 						
-					</div>
-					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 				</div>
-			
-			</div>				
-		</div><!-- container -->
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+		
+			<!-- END SOURCE CODE SECTION -->
 		
 		
-		<!-- END SOURCE CODE SECTION -->
-			
-				
-				
 		
-		
-		<div class="noMargin site container"> <!-- NEW FINAL CONTAINER -->
+			<div id="errorsWrapper" class="extraOne section structure">
+				<div id="errorsTitle" class="singleTab hidden codeTitle subSection sectionTitle">
+					<h3>errors and warnings</h3>
+				</div>
+				<div id="errorsContainer" class="sectionContent singleTab hidden codeBackground">
+					<div class="codeSection">
+						<div id="errors" class="section code errors">
+								<form id="pageErrorsSelect" class="selectFile">
+									<label for="selectSourceFile">Select a page to view </label>
+									<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
+									</select>
+								</form>
+								<div style="clear:both"></div>
+							
+								<div id="errorsList">
+									<div id="syntaxErrorsContainer" class="errorCategory syntax">
+										<div class="testError"></div>
+										<h3>Syntax Errors</h3>
+										<div style="clear:both"></div>
+									</div>
+									<div id="semanticErrorsContainer" class="errorCategory semantic">
+										<div class="testError"></div>
+										<h3>Semantic Errors</h3>
+										<div style="clear:both"></div>
+									</div>
+									<div id="warningErrorsContainer" class="errorCategory warning">
+										<div class="testError"></div>
+										<h3>Best Practice Errors</h3>
+										<div style="clear:both"></div>
+									</div>
+									<div id="deprecatedErrorsContainer" class="errorCategory deprecated">
+										<div class="testError"></div>
+										<h3>Deprecated Errors</h3>
+										<div style="clear:both"></div>
+									</div>
+								</div>
+							<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+						</div>
+					</div>				
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
 		
 			
 		
