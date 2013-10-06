@@ -619,6 +619,19 @@ a {
 	.information p {
 		font-size: .9em;
 	}
+	
+	.information a {
+		color: #1E9AEC;
+	}
+	
+		.information a:hover {
+			color: #0099FF;
+			text-decoration: underline;
+		}
+	
+		.information a:visited {
+			color: #AD3C77;
+		}
 
 #homeKey {
 }
@@ -896,6 +909,7 @@ button:hover {
 	line-height:30px;
 	float:left;
 	color: #6D6D6D;
+	font-size: .85em;
 }
 
 .fileName {
@@ -1111,99 +1125,65 @@ h3.totalErrorsHeading {
 	background-color: #EEE;
 }
 
-.folders {
-	width:13%;
-	max-height: 522px;
-	overflow-y: auto;
-	overflow-x: hidden;
+span.brokenLinkIcon {
+	display: block;
+	background-image: url("../images/warnings.png");
+	background-repeat: no-repeat;
+	background-position: -98px 0px;
+	width: 20px;
+	height: 20px;
+	float: left;
 }
 
-	.folders ul {
-		display: block;
+.structureBrokenFilesList {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 12px;
+}
+
+	.structureBrokenFilesList p.explanation {
+		font-size: .9em;
 	}
 
-	.folderThumb {
-		width:80px;
-		height:58px;
-		background-image:url("../images/folder_80.png");
-	}
-	
-	.folder {
-		width:80px;	
-		cursor: pointer;
-		border:2px solid rgba(0,0,0,0);
-		padding: 2px;
-		padding-bottom: 5px;
-		margin-bottom: 10px;
-	}
-	
-	.folder:hover {
-		border:2px solid #3f7cd7;
-	}
-	
-	.folderName p {
-		font-size:.9em;
-		color:#f1f1f1;
-		text-align:center;
-		margin-bottom: 0;
-	}
-	
-	.selectedFolder {
-		border:2px solid #3f7cd7;
-	}
-
-#topFolders {
-	width:50%;
+.structureBrokenFile {
+	width: 97%;
 	margin: 0 auto;
+	height: 20px;
+	padding: 2px 0;
+	-moz-box-shadow: inset 26px 0 #7A7A7A;
+	-webkit-box-shadow: inset 26px 0 #7A7A7A;
+	box-shadow: inset 26px 0 #7A7A7A;
+	border: 1px solid #7A7A7A;
 }
 
-	#topFolders .folder {
-		float:left;
+	.structureBrokenFile p {
+		margin-left: 8px;
+		float: left;
+		font-size: .85em;
 	}
-
-	#topFolders .folderName {
-		width:90%;
-		margin:0 auto;
-	}
-
 	
-#sideFoldersLeft {
-	float: left;
+	.structureBrokenFile p.fileLocation {
+		width: 250px;
+		color: #949494;
 }
 	
-#sideFoldersRight {
-	float: right;
-}
-
-	#sideFoldersRight ul {
-		float: right;
+	.structureBrokenFile span.brokenLinkIcon {
+		margin-left: 2px;
 	}
 	
+	.structureBrokenFile span.fileName,
+	.structureBrokenFile p.brokenLinksNumber {
+		color: #444;
+	}
 	
+	.structureBrokenFile p.brokenLinksNumber {
+		width: 200px;
+		cursor: pointer;
+	}
 	
-.filesList {
-	max-height: 522px;
-	margin-top: 20px;
-	width: 30%;
-	float: left;
-	overflow-y: auto;
-	margin-left: 5%;
-}
-
-
-	#filesListLeft ul li p {
-		border-right:20px solid #747474;
-	}
-
-	#filesListRight ul li p {
-		border-left:20px solid #747474;
-		text-align: right;
-	}
-
-	.hiddenList {
-		display: none;
-	}
-
+		.structureBrokenFile p.brokenLinksNumber:hover {
+			text-decoration: underline;
+		}
 
 
 /* END File Structure Section */
@@ -1667,7 +1647,7 @@ pre.sourceCodeContainer {
 			background-position: -75px 0px;
 		}
 	
-		.brokenLiink .testError {
+		.brokenLink .testError {
 			background-image: url("../images/warnings.png");
 			background-repeat: no-repeat;
 			background-position: -98px 0px;
