@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+	<title>HTML THOR</title>
+	<meta name="description" content="This is the latest, most sophisticated HTML5 validator on the web!
+	Asides from being user-friendly, jargon-free and super fast, it acts as a great learning tool for HTML beginners!
+	Go on and validate your HTML!">
+	<meta name="author" content="Simon Fatima Jonathan Ameer Christopher &amp; Thor">
+
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	
+	<!-- JavaScript / JQuery
+	================================================== -->
+	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	
+	<!-- Scroll / Custom js
+	================================================== -->
+	
+	<script type="text/javascript" src="js/scroll-simon.js"></script>
+
+	<!-- CSS
+	================================================== -->
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,300italic,400italic,600italic' rel='stylesheet' type='text/css'>
+	<!-- jsTree -->
+	<link type="text/css" rel="stylesheet" href="_docs/syntax/!style.css"/>
+	<link type="text/css" rel="stylesheet" href="_docs/!style.css"/>
+	
+	<link href="css/prettify.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<link type="text/css" rel="stylesheet" href="css/jquery.qtip.min.css" />
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.png">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" size="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" size="114x114" href="images/apple-touch-icon-114x114.png">
+	
+	<!-- Syntax Highlighter Imports
+	================================================== -->
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+	
+	<!-- GOOGLE PRETTIFY Syntax Highlighter Imports USING THIS ONE
+	================================================== -->
+	<script type="text/javascript" src="js/prettify/prettify.js"></script>
+	
+	<!-- JSTREE
+	================================================== -->
+	<script type="text/javascript" src="js/jquery.jstree.js"></script>
+	<script type="text/javascript" src="js/custom-jstree.js"></script>
+	<script type="text/javascript" src="_lib/jquery.cookie.js"></script>
+	<script type="text/javascript" src="_lib/jquery.hotkeys.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/custom-jstree.css"/>
+	
+	
+	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
+	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
+	<script type="text/javascript" src="scripts/statistics.js"></script>
+	<script type="text/javascript" src="scripts/singleFile.js"></script>
+	
+	<!-- Populate the Errors Section
+	================================================== -->
+	<script type="text/javascript" src="scripts/errors.js"></script>
+	
+	<!-- Populate the Page Source Section
+	================================================== -->
+	<script type="text/javascript" src="scripts/pagesource.js"></script>
+	
+	<script type="text/javascript" src="scripts/uploadJSP.js"></script>
+	
+	<!-- Add Breakdown to Page Source
+	================================================== -->
+	<script type="text/javascript" src="scripts/globalBreakdown.js"></script>
+	
+	
+	
+	
+	<!-- MAIN htmlThor JavaScript (I (Simon) have moved all of the previous js into this main.js file!!!)
+	================================================== -->
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="scripts/revealSite.js"></script>
+	<script type="text/javascript" src="scripts/siteNavigation.js"></script>
+	
+	<!-- Reading cookie into JSON object
+	================================================== -->
+	<script type="text/javascript" src="js/readJSONCookie.js"></script>
+	
+
+</head>
+<body>
+
+	<!-- Simon's notes
+
+		a div with clear:both is needed after each section of the site to ensure that 
+		the default "floating" applied by columns is cleared up and does not carry over 
+		to the other divs. You can check to make sure you've cleared it correctly by 
+		checking the height of the div in the browser, if it's 0 then you need to 
+		clear a float somewhere.
+
+	-->
+
+	<!-- Primary Page Layout
+	================================================== -->
+	
+	<div id="test.test" class="sideBarNavigation">
+		<ul id="siteLinks" class="sideBarLinks">
+			<li class="smallLink">
+				<a id="topLink" href=#>top</a>
+			</li>
+			<li>
+				<a id="homeLink" class="currentLocation" href=#>home</a>
+			</li>
+			<li>
+				<a id="uploadLink" href=#>validate</a>
+			</li>
+			<!-- add .extraOne back in breakdownLink -->
+		</ul>
+		<ul class="sideBarLinks extraOne">
+			<li>
+				<a id="breakdownLink" href=#>results</a>
+				<ul>
+					<!-- add .extraTwo back in structureLink -->
+					<li class="extraTwo">
+						<a id="structureLink" href=#>file structure</a>
+					</li>
+					<!-- add .extraOne back in sourceLink -->
+					<li class="extraOne">
+						<a id="sourceLink" href=#>page source</a>
+					</li>
+					<!-- add .extraOne back in errorsLink -->
+					<li class="extraOne">
+						<a id="errorsLink" href=#>errors</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<div class="helpKey">
+			<h3>KEY</h3>
+			<div class="key">
+				<div class="keyTop syntax">
+					<div class="testError"></div>
+					<p>Syntax</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>Any error as a result of writing code incorrectly is deemed a syntax error. For example forgetting a > or ".</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop semantic">
+					<div class="testError"></div>
+					<p>Semantic</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>An error caused by using the tags in the wrong context, or in the wrong way. For example, breaking with &lt;br/&gt; instead of using &lt;li&gt; tags.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop warning">
+					<div class="testError"></div>
+					<p>Best practice</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>This error is caused when you do things in a legal but undesirable way. For example, using a table layout instead of sections for your webpage.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop deprecated">
+					<div class="testError"></div>
+					<p>Deprecated tag</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>An error caused by using a tag or attribute that was once valid in HTML but no longer is. An example of this is the &lt;dir&gt; tag now replaced with &lt;ul&gt;.</p>
+				</div>
+			</div>
+			<div class="key">
+				<div class="keyTop">
+					<div class="green colourSquare"></div>
+					<p>No errors</p>
+					<div style="clear: both"></div>
+				</div>
+				<div class="keyInfo">
+					<p>You're a HTML hero, nothing to worry about here!</p>
+				</div>
+			</div>
+			<div class="developers">SECRET DEVELOPER VIEW</div>
+		</div>
+	</div>
+	
+	<!-- to be deleted
+	<div class="topHelpBar">
+		<div class="topHelpButt">
+			<a href=#>help</a>
+		</div>
+		<div style="clear:both"></div>
+		<div class="topHelpKey">
+			<ul>
+				<li>
+					<div class="red colourSquare"></div>
+					<p>Syntax error</p>
+					<div style="clear: both"></div>
+				</li>
+				<li>
+					<div class="blue colourSquare"></div>
+					<p>Semantic error</p>
+					<div style="clear: both"></div>
+				</li>
+				<li>
+					<div class="yellow colourSquare"></div>
+					<p>Best Practice error</p>
+					<div style="clear: both"></div>
+				</li>
+				<li>
+					<div class="purple colourSquare"></div>
+					<p>Deprecated Tag error</p>
+					<div style="clear: both"></div>
+				</li>
+				<li>
+					<div class="green colourSquare"></div>
+					<p>No errors</p>
+					<div style="clear: both"></div>
+				</li>
+				<li id="devFileStructure">
+					<p>DEVELOPERS: File Structure</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	-->
+	
+	<div id="siteContainer">
+		<div class="site container">
+			<!-- HEADER SECTION -->
+			<div class="siteHeader sixteen columns">
+				<h1><strong>HTML</strong> THOR</h1>
+				<div class="siteLogo"></div>
+				<div style="clear:both"></div>
+			</div>
+			<div style="clear:both"></div>
+			
+			
+			<div id="home" class="siteIntro section sixteen columns">
+				
+				<div class="introBlurb">
+					<p>
+						If you've faced jargon-filled error messages from current HTML validators...
+						<blockquote><em>The frameborder attribute on the iframe element is obsolete. Use CSS instead.</em></blockquote>
+						... then we feel your pain! But why should anyone have to put up with it?! That's why we're bringing you the latest
+						most sophisticated HTML	 validator that exists to date... </p>
+					<p> 
+						Sounds too good to be true? Check it out for yourself, by uploading one (or many) HTML files, entering a URL or simply
+						by copying in your source code!
+					</p>
+					<p> 
+						Website too big? Broken images, weird links? We've got you covered! Upload a .zip file and check out all the broken links
+						you have as well as any important misplaced files!
+					</p>
+				</div>
+			
+				<div class="colourKey">
+					<h4>Colour Key</h4>
+					<p>
+						Hey this is really important. Once you know the what our colours mean, you'll be reading through your errors like a pro.
+						Flesh these out first before delving into the utopian world of clean HTML...
+					</p>
+					<ul>
+						<li>
+							<div class="red colourSquare"></div>
+							<p>Red is a syntactic error in your code or link.
+							That's like writing a tag with a typo, or leaving out a required attribute.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="blue colourSquare"></div>
+							<p>Blue is a semantic error in your code. Semantic errors are like using
+							lots of &lt;br&gt; tags instead of using &lt;li&gt; tags.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="yellow colourSquare"></div>
+							<p>Yellow are any 'best practice' errors. This is us reminding you that there are more efficient and proper techniques.</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="purple colourSquare"></div>
+							<p>Purple are deprecated tags that were once
+							validly used in HTML but have since been 'deleted'. So don't use them!</p>
+						</li>
+						<div style="clear: both"></div>
+						<li>
+							<div class="green colourSquare"></div>
+							<p>Green indicates no errors.
+							<br/>You'd be a HTML Hero!</p>
+						</li>
+						<div style="clear: both"></div>
+					</ul>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+			<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			<!-- END HEADER -->
+			
+			<!-- UPLOAD SECTION -->
+			<div id="upload" class="hidden section upload">
+				<div class="sectionTitle sixteen columns">
+					<h2>upload</h2>
+				</div>
+				<div class="sectionContent">
+					<div onclick="getFile('singleUpload')" class="uploadCat one-third column">
+						<div id="iconSingleUpload" class="thumb"></div>
+						<p>upload a single file</p>
+						
+						<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
+							<button id="single" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
+						</form>
+						<!--
+						<form action="upload2.jsp" method="POST"
+												enctype="multipart/form-data">
+						<input type="file" name="file" size="50" />
+						<br />
+						<input type="submit" value="Upload File" />
+						</form>
+						-->
+				</div>
+					<div onclick="getFile('multiUpload')" class="uploadCat one-third column">
+						<div id="iconMultiUpload" class="thumb"></div>
+						<p>upload multiple files</p>
+						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
+							<button id="multi" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
+						</form>
+					</div>
+					<div onclick="getFile('zipUpload')" class="uploadCat one-third column">
+						<div id="iconZipUpload" class="thumb"></div>
+						<p>upload a .zip directory</p>
+						<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
+							<button id="zip" type="button">browse</button>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
+						</form>
+					</div>
+					<div class="sixteen columns">
+						<div class="alternativeUploads">
+							<h3>or</h3>
+							<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
+								<label for="input-url">enter a url</label><input type="text" name="input-url">
+								<button class="alternativeButton" id="urlButton" type="button">VALIDATE</button>
+								<div style="clear:both"></div>
+							</form>
+							<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
+								<label for="input-direct">direct input</label>
+								<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
+								<button class="alternativeButton" id="alternativeButton" type="button">VALIDATE</button>
+								<div style="clear:both"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END UPLOAD -->
+			
+			<!-- breakdown SECTION -->
+			
+			<!-- Explanation:
+				
+				.bar is given a width and height and a default background colour 
+				of green to indicate that there are no errors.
+				
+				Within .bar are three sub classes referring to the three different 
+				types of errors.
+				.syntax
+				.semantic
+				.warning
+				
+				These three subclasses are assigned a width within the html to 
+				determine how much of the bar they take up. I.e.
+					<div class="syntax graph" style="width:20%;"></div>
+					
+				IMPORTANT: The three subclasses must add up to 100%.
+				So if syntax has a width of 20%, then 80% must be made up 
+				from the other two error classes.
+				
+				IMPORTANT: The default green background should only ever appear 
+				when the three error subclasses have ZERO width. This is because the 
+				green indicates that there are NO errors.
+				So it is not suitable to have syntax with a width of 20% and 
+				the remaining width of the graph being green.
+				
+
+			-->
+			
+			<div id="breakdown" class="singleTab hidden section breakdown">
+				<div class="sectionTitle sixteen columns">
+					<h2>breakdown</h2>
+				</div>
+				<div class="sectionContent">
+					<div class="sectionTip">
+						<h3 class="totalErrorsHeading">Total Errors <span id="totalErrors">0</span></h3>
+						<p>Hover over the bars below to find out more.</p>
+					</div>
+					<div style="clear:both"></div>
+					<div id="statGraph" class="statGraph sixteen columns">
+						<!-- This section is dynamically generated through the statistics.js file 
+							It displays the bar graphs for each uploaded file.
+						-->
+					</div>
+					<div class="middleText">
+						<h3>Overall Feedback</h3>
+						<div id="feedback" class="feedback">
+							<p>Holy Batman! Your site sucks!</p>
+						</div>
+					</div>
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END breakdown -->
+			
+			
+			<!-- FILE STRUCTURE -->
+			<!-- add extraTwo back into the below div's class -->
+			<div id="structure" class="extraTwo section structure">
+				<div class="sectionTitle sixteen columns">
+					<h2>file structure</h2>
+				</div>
+				<div id="structureContainer" class="structureContent sectionContent sixteen columns">
+					
+					<ul>
+						<!-- This root level is for folders. -->
+						<li rel="folder">
+							<a href="#">images</a>
+							<!-- This sub level is for both files and sub-folders. -->
+							<ul>
+								<li rel="folder">
+									<a href="#">full</a>
+									<ul>
+										<li>
+											<a href="#">starlight.bmp</a>
+										</li>
+										<li>
+											<a href="#">jonrar.lol</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">cool.jpg</a>
+								</li>
+							</ul>
+						</li>
+						<li rel="brokenLink">
+							<a href="#">index.html</a>
+						</li>
+						<li>
+							<a href="#">about.html</a>
+						</li>
+						<li>
+							<a href="#">contact.html</a>
+						</li>
+					</ul>
+					
+				</div>
+				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+			</div>
+			<!-- END FILE STRUCTURE -->
+			
+			
+			
+			<!-- SOURCE CODE SECTION -->
+			
+			
+			
+			
+			<div id="sourceTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
+				<h2>view page source</h2>
+			</div>
+		</div>
+			<!-- IMPORTANT
+				Don't delete the above or below tags.
+				They allow me to change the background colour.
+			-->
+		<div id="sourceContainer" class="singleTab hidden codeBackground">
+			<div class="codeSection container">
+			
+				<div id="scrollParent">
+					<div id="scrollContent"></div>
+				</div>
+							
+				<div id="source" class="section code source">
+					<div class="sectionContent sixteen columns">
+						<div class="sectionTip">
+							<p>Hover over the lines with errors below to find out more.</p>
+						</div>
+						<div id="sourceBreakdown">
+						
+						</div>
+						<div style="clear:both"></div>
+						<form id="pageSourceSelect" class="selectFile">
+							<label for="selectSourceFile">Select a page to view </label>
+							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
+							</select>
+						</form>
+						<div style="clear:both"></div>
+						<div id="pageSource" class="pageSource">
+						</div>
+						
+					</div>
+					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+				</div>
+			
+			</div>		
+				
+		</div><!-- container -->
+		
+		
+		<!-- END SOURCE CODE SECTION -->
+			
+		
+		<!-- ERRORS SECTION -->
+		
+		
+		<div class="noMargin site container"> <!-- NEW CONTAINER -->
+		
+		
+			<div id="errorsTitle" class="singleTab hidden codeTitle sectionTitle sixteen columns">
+				<h2>errors and warnings</h2>
+			</div>
+		</div>
+			<!-- IMPORTANT
+				Don't delete the above or below tags.
+				They allow me to change the background colour.
+			-->
+		<div id="errorsContainer" class="singleTab hidden codeBackground">
+			<div class="codeSection container">
+							
+				<div id="errors" class="section code errors">
+					<div class="sectionContent sixteen columns">
+						<form id="pageSourceSelect" class="selectFile">
+							<label for="selectSourceFile">Select a page to view </label>
+							<select class="selectFileObject" name="selectSourceFile" onchange="updateSelectBoxes(this);">
+							</select>
+						</form>
+						<div style="clear:both"></div>
+					
+						<div id="errorsList">
+							<div id="syntaxErrorsContainer" class="errorCategory syntax">
+								<div class="testError"></div>
+								<h3>Syntax Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="semanticErrorsContainer" class="errorCategory semantic">
+								<div class="testError"></div>
+								<h3>Semantic Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="warningErrorsContainer" class="errorCategory warning">
+								<div class="testError"></div>
+								<h3>Best Practice Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+							<div id="deprecatedErrorsContainer" class="errorCategory deprecated">
+								<div class="testError"></div>
+								<h3>Deprecated Errors</h3>
+								<div style="clear:both"></div>
+							</div>
+						</div>
+						
+					</div>
+					<div style="clear:both"></div> <!-- important: this is needed after each major section -->
+				</div>
+			
+			</div>				
+		</div><!-- container -->
+		
+		
+		<!-- END SOURCE CODE SECTION -->
+			
+				
+				
+		
+		
+		<div class="noMargin site container"> <!-- NEW FINAL CONTAINER -->
+		
+			
+		
+		</div><!-- container -->
+	
+	
+	</div><!-- overall content container -->
+
+	
+	
+
+<!-- End Document
+================================================== -->
+
+<!-- 
+	Class and ID explanations
+	
+	.extraOne, .extraTwo
+	
+		These two classes determine what is hidden from the user initially.
+		.extraOne refers to elements of the site that will appear for any type of upload.
+		.extraTwo refers to elements of the site that only appear for .zip uploads.
+
+
+
+-->
+
+
+
+<!-- JS imports -->
+
+
+	<script language="javascript" type="text/javascript" src="js/scroll.js"></script>
+	<script language="javascript" type="text/javascript" src="js/waypoints.js"></script>
+	<script language="javascript" type="text/javascript" src="js/convert.js"></script><!-- Simon's -->
+	<script language="javascript" type="text/javascript" src="js/highlight.js"></script><!-- Simon's -->
+	<script language="javascript" type="text/javascript" type="text/javascript" src="js/jquery.qtip.min.js"></script>
+
+
+</body>
+</html>
