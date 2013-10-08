@@ -1,5 +1,3 @@
-<script>console.log("loaded");</script>
-
 <%@ page import="java.io.*,java.util.*, javax.servlet.*, java.util.zip.*" %>
 <%@ page import="javax.servlet.http.*" %>
 <%@ page import="java.net.*" %>
@@ -33,6 +31,7 @@
 
 <%
 
+    request.getSession(true);
 	String uploadType = request.getParameter("uploadType");
 	
 	System.out.println(uploadType);
@@ -115,7 +114,7 @@
             			fileName + "<br>");
             			
             	
-            			// At the very end of the file, after uploads have occurred, run upload.jsp
+            			// At the very end of the file, after uploads have occurred, run check.jsp
    		 				String redirectURL = "check.jsp?type=zip&dirid=".concat(directoryID).concat("&path=").concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
    		 				
@@ -196,7 +195,7 @@
             			out.println("Uploaded Filename: " + filePath + 
             			fileName + "<br>");
             	
-            			// At the very end of the file, after uploads have occurred, run upload.jsp
+            			// At the very end of the file, after uploads have occurred, run check.jsp
    		 				String redirectURL = "check.jsp?type=single&dirid=".concat(directoryID).concat("&path=").concat(filePath + fileName);
    		 				response.sendRedirect(redirectURL);
             		}
