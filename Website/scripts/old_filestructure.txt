@@ -1,0 +1,22 @@
+			for(var j = 0; j < fileErrors[i].errors.length; j++) {
+				if(fileErrors[i].errors[j]['incorrectLocation']){
+					console.log("there is an incorrectLocation");
+					incorrectLocation += "<div class='incorrectLocation'><p>Hey this file should probably be in</p> <p class='fileLocation'>" + 
+					fileErrors[i].errors[j].linkSuggestion + "</p></div>";
+				}
+				if(fileErrors[i].errors[j]['brokenLink']){
+					brokenLinks ++;
+					console.log("there is a brokenLink");
+					brokenLinksMessage += "<div class='brokenLinkHalf'><p class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</p></div>";
+					if(fileErrors[i].errors[j]['linkSuggestion']){
+						console.log("there is an incorrectLocation");
+						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</p></div>";
+					}
+					else {
+						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>no suggestion</p></div>";
+					}
+				}
+			}
+			if(brokenLinks > 0) {
+				brokenLinksMessage = "<div class='brokenLinksContainer'><div class='brokenLinksTop'><div class='brokenTitle'><h3>Broken Link</h3></div><div class='linkTitle'><h3>Link Suggestion</h3></div><div style='clear:both'></div></div>" + brokenLinksMessage +"<div style='clear:both'></div></div>";
+			}

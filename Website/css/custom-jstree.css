@@ -1,5 +1,5 @@
 .jstree a {
-	color: #7C7C7C;
+	color: #5E5E5E;
 	font-weight: 300;
 	font-family: "Source Sans Pro","Century Gothic";
 	line-height:25px;
@@ -15,20 +15,20 @@
 	cursor: pointer;
 }
 
-/* Only contains broken links */
+/* Only contains broken links
 .jstree li.brokenLink > a { 
 	color: #f31040; 
-}
+} */
 
-/* Only contains location suggestions */
+/* Only contains location suggestions
 .jstree li.incorrectLocation > a { 
 	color: #ffd050; 
-}
+} */
 
-/* Contains both brokenLink and linkSuggestion*/
+/* Contains both brokenLink and linkSuggestion
 .jstree li.brokenLink.incorrectLocation > a { 
 	color: #b24987; 
-}
+}*/
 
 .fileStructureHighlight {
 	font-weight: 300;
@@ -44,12 +44,12 @@
 }
 
 	.fileStructureHighlight .qtip-content {
-		padding: 0;
+		padding: 10px;
 	}
 
 	.fileStructureHighlight p {
 		line-height:1.2em;
-		margin-bottom: 5px;
+		margin-bottom: 0;
 	}
 	.fileStructureHighlight .incorrectLocation {
 		width: 100%;

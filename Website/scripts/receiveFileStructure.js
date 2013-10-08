@@ -7,15 +7,15 @@ $(document).ready(function() {
 
 /* Example JSON Object that should be generated when a user uploads a directory via .zip */
 var directory = [
-	{ "name":"images", "id":"images_0", "type":"folder", "errorTypes":"", "children":
+	{ "name":"images", "id":"images_0", "type":"folder", "totalErrors":"0", "errorTypes":"", "children":
 		[
-			{ "name":"index.html", "id":"index.html_0", "type":"file", "errorTypes":
+			{ "name":"index.html", "id":"index.html_0", "type":"brokenFile", "totalErrors":"2", "errorTypes":
 				["brokenLink","incorrectLocation"], "children":""},
-			{ "name":"webloop.html", "id":"webloop.html_0", "type":"file", "errorTypes":["incorrectLocation"], "children":"" },
-			{ "name":"testfile.html", "id":"testfile.html_0", "type":"file", "errorTypes":["brokenLink"], "children":"" },
-			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "errorTypes":"", "children":
+			{ "name":"webloop.html", "id":"webloop.html_0", "type":"file", "totalErrors":"0", "errorTypes":["incorrectLocation"], "children":"" },
+			{ "name":"testfile.html", "id":"testfile.html_0", "type":"brokenFile", "totalErrors":"2", "errorTypes":["brokenLink"], "children":"" },
+			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "totalErrors":"0", "errorTypes":"", "children":
 				[
-					{ "name":"starlight.tif", "id":"starlight.tif_0", "type":"file", "errorTypes":"", "children":""}
+					{ "name":"starlight.tif", "id":"starlight.tif_0", "type":"file", "totalErrors":"0", "errorTypes":"", "children":""}
 				]
 			}
 		]
@@ -57,8 +57,10 @@ function getFiles(container) {
 				list += container[i].errorTypes[j] + " ";
 			}
 			list += "'";
+			// call function to generate a broken file in the overall broken files list
+			generateBrokenFile(container[i].name, container[i].totalErrors);
 		}
-		list += ">"; // CLOSE FIRST LI TAG
+		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
 		if(container[i].children != "" && container[i].children != null) {
 			list += "<a href='#'>" + container[i].name + "</a>";
@@ -69,12 +71,25 @@ function getFiles(container) {
 			list += "<a href='#'>" + container[i].name + "</a>";
 			//console.log(container[i].name + " has no children and is a file");
 		}
-		list += "</li>"; // CLOSE LI TAG
+		list += "</li>"; // CLOSE OVERALL LI TAG
 	}
 	//console.log("end of loop");
 	list += "</ul>";
 	//console.log(list);
 	return list;
+}
+
+function generateBrokenFile(name, total, location) {
+	brokenFile = "<div class='structureBrokenFile'>";
+	brokenFile += "<span class='brokenLinkIcon'></span>";
+	brokenFile += "<p class='fileLocation'><span class='fileName'>"+name+"</span></p>";
+	brokenFile += "<p class='brokenLinksNumber'>Broken Links: "+total+"</p>";
+	if(location) {
+		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in the <span class='highlight link'>/html folder</span>.</p>"
+	}
+	brokenFile += "<div style='clear: both'></div>";
+	brokenFile += "</div>";
+	$('.structureBrokenFilesList').append(brokenFile);
 }
 
 
@@ -84,39 +99,25 @@ function getFileErrors(fileId) {
 		/* If this is the case, we know what error message to show */
 		if(fileErrors[i].id == fileId) {
 			errorMessage = "";
-			incorrectLocation = "";
-			brokenLinksMessage = "";
 			brokenLinks = 0;
 			for(var j = 0; j < fileErrors[i].errors.length; j++) {
-				if(fileErrors[i].errors[j]['incorrectLocation']){
-					console.log("there is an incorrectLocation");
-					incorrectLocation += "<div class='incorrectLocation'><p>Hey this file should probably be in</p> <p class='fileLocation'>" + 
-					fileErrors[i].errors[j].linkSuggestion + "</p></div>";
-				}
 				if(fileErrors[i].errors[j]['brokenLink']){
 					brokenLinks ++;
-					console.log("there is a brokenLink");
-					brokenLinksMessage += "<div class='brokenLinkHalf'><p class='fileName'>" + fileErrors[i].errors[j].brokenLink + "</p></div>";
-					if(fileErrors[i].errors[j]['linkSuggestion']){
-						console.log("there is an incorrectLocation");
-						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>" + fileErrors[i].errors[j].linkSuggestion + "</p></div>";
-					}
-					else {
-						brokenLinksMessage += "<div class='linkSuggestionHalf'><p class='fileLocation'>no suggestion</p></div>";
-					}
 				}
 			}
-			if(brokenLinks > 0) {
-				brokenLinksMessage = "<div class='brokenLinksContainer'><div class='brokenLinksTop'><div class='brokenTitle'><h3>Broken Link</h3></div><div class='linkTitle'><h3>Link Suggestion</h3></div><div style='clear:both'></div></div>" + brokenLinksMessage +"<div style='clear:both'></div></div>";
+			if(brokenLinks == 1) {
+				errorMessage = "<p>This file contains "+brokenLinks+" broken link.</p>";
 			}
-			errorMessage = incorrectLocation + brokenLinksMessage;
+			else {
+				errorMessage = "<p>This file contains "+brokenLinks+" broken links.</p>";
+			}
 			return errorMessage;
 		}
 	}
 }
 
 /* When the user highlights over a brokenLink a qtip is generated. */
-$(document).delegate('.brokenLink, .incorrectLocation', 'mouseover', function(event) {
+$(document).delegate('.brokenLink', 'mouseover', function(event) {
 	console.log("hover");
 	$(this).qtip({
 		overwrite: true,

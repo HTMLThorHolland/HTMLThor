@@ -24,9 +24,16 @@ function createTree() {
 				},
 				// The `folder` type
 				"file" : {
-					"valid_children" : [ "default", "folder" ],
+					"valid_children" : "none",
 					"icon" : {
 						"image" : "images/file.png"
+					}
+				},
+				// The `folder` type
+				"brokenFile" : {
+					"valid_children" : "none",
+					"icon" : {
+						"image" : "images/brokenFile.png"
 					}
 				},
 			}
