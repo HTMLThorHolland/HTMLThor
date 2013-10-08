@@ -454,7 +454,7 @@
 						<div id="iconMultiUpload" class="thumb"></div>
 						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 							<button id="multi" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
+							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" value="upload" onchange="uploadJSP(this.id)" multiple></div>
 						</form>
 					</div>
 					<div onclick="getFile('zipUpload')" class="uploadCat">
@@ -489,6 +489,11 @@
 						<h4>What's a .zip file?</h4>
 						<p>Explanation of a .zip file goes here as a paragraph.</p>
 						<a href=#>find out more</a>
+					</div>
+				
+					<div class="infoTidbit">
+						<h4>How to select multiple files</h4>
+						<p>When uploading multiple files, hold down CTRL (or CMD for Mac) to select more than one file.</p>
 					</div>
 					
 				</div>
@@ -535,9 +540,9 @@
 				</div>
 				<div class="sectionContent">
 					<div class="breakdownResults">
-						<div id="totalErrorsWrapper">
+						<div class="totalResultWrapper" id="totalErrorsWrapper">
 							<h3 class="totalErrorsHeading">Total Errors</h3>
-							<span id="totalErrors">0</span>
+							<span class="totalResult" id="totalErrors">0</span>
 						</div>
 						<div id="feedback" class="feedback">
 							<p>No errors were found. Good job.</p>
@@ -570,13 +575,31 @@
 				</div>
 				<div class="structureContent sectionContent">
 					<div class="innerContent">
+						<div class="breakdownResults">
+							<div class="totalResultWrapper" id="totalBrokenWrapper">
+								<h3 class="totalErrorsHeading">Broken Links</h3>
+								<span class="totalResult" id="totalBroken">0</span>
+							</div>
+							<div id="brokenFeedback" class="feedback">
+								<p>We've detected that some of your files have broken links. Broken links are caused when the file you're linking to can't be found.</p>
+									<!--  This can be as a result of a typo, a deleted file or a file being in the incorrect location. -->
+							</div>
+							<div style="clear:both"></div>
+						</div>
 						<div class="structureBrokenFilesList">
-							<p class="explanation">We've detected that some of your files have broken links. Broken links are caused when the file you're linking to can't be found. This can be as a result of a typo, a deleted file or a file being in the incorrect location.</p>
 							<div class="structureBrokenFile">
 								<span class="brokenLinkIcon"></span>
 								<p class="fileLocation">htmlthor/<span class="fileName">index.html</span></p>
 								<p class="brokenLinksNumber">Broken Links: 2</p>
-								<p class="fileLocationWarning">New Location: This file should be placed in the /html folder.</p>
+								<p class="fileLocationWarning">New Location: This file should be placed in the <span class="highlight link">/html folder</span>.</p>
+								<div style="clear: both"></div>
+							</div>
+							<div style="clear: both"></div> <!-- MUST BE GENERATED AFTER EACH FILE -->
+							<div class="structureBrokenFile">
+								<span class="brokenLinkIcon"></span>
+								<p class="fileLocation">htmlthor/<span class="fileName">secondfile.html</span></p>
+								<p class="brokenLinksNumber">Broken Links: 2</p>
+								<p class="fileLocationWarning">New Location: This file should be placed in the <span class="highlight link">/html folder</span>.</p>
 								<div style="clear: both"></div>
 							</div>
 							<div style="clear: both"></div>

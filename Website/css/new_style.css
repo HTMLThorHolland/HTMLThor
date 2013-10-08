@@ -769,6 +769,7 @@ button:hover {
 	padding: 5px 8px;
 	padding-bottom: 10px;
 	border: 1px solid #E9E9E9;
+	margin-bottom: 8px;
 }
 
 	.infoTidbit h4 {
@@ -912,6 +913,14 @@ button:hover {
 	font-size: .85em;
 }
 
+	.fileGraph p.errorNumber {
+		cursor: pointer;
+	}
+
+	.fileGraph p.errorNumber:hover {
+		text-decoration: underline;
+	}
+
 .fileName {
 	min-width:200px;
 	width: 17%;
@@ -967,9 +976,10 @@ button:hover {
 
 /* ERROR GRAPHS */
 
-#totalErrorsWrapper {
+.totalResultWrapper {
     width: 126px;
     height: 50px;
+    height: 100%;
     background-color: gray;
 	float: left;
 }
@@ -989,18 +999,22 @@ h3.totalErrorsHeading {
 	text-transform: uppercase;
 }
 
-	h3.totalErrorsHeading span#totalErrors {
+	h3.totalErrorsHeading span.totalResult {
 		font-weight: 600;
 		color: #616161;
 	}
+	
+	#totalBrokenWrapper h3.totalErrorsHeading {
+	}
     
-#totalErrors {
+.totalResult {
     text-align: center;
     display: block;
     color: #FAFAFA;
     font-weight: 600;
 	width: 100%;
     background-color: #1BEC77;
+    margin-bottom: 4px;
 }
 
 	.feedback {
@@ -1015,18 +1029,26 @@ h3.totalErrorsHeading {
 		/* width: 100%; */
 		box-sizing: border-box;
 		padding-left: 126px;
-}
+	}
+	
+		#brokenFeedback.feedback {
+			height: auto;
+			min-height: 50px;
+		}
 	
 	.feedback p {
 		padding-left: 12px;
-	
 		color: #6F6F6F;
 		font-weight: 400;
-}
+	}
 	
 	.feedback p:last-child {
 		margin-bottom:0;
 	}
+	
+		#brokenFeedback.feedback p {
+			font-size: .8em;
+		}
 
 .qtip.barHighlight {
 	color: #ffffff;
@@ -1120,7 +1142,6 @@ h3.totalErrorsHeading {
 }
 	
 .innerContent {
-	padding-top: 10px;
 	border: 1px solid #DDD;
 	background-color: #EEE;
 }
@@ -1136,6 +1157,7 @@ span.brokenLinkIcon {
 }
 
 .structureBrokenFilesList {
+	margin-top: 15px;
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0 12px;
@@ -1154,12 +1176,14 @@ span.brokenLinkIcon {
 	-webkit-box-shadow: inset 26px 0 #7A7A7A;
 	box-shadow: inset 26px 0 #7A7A7A;
 	border: 1px solid #7A7A7A;
+	margin-bottom: 4px;
 }
 
 	.structureBrokenFile p {
 		margin-left: 8px;
 		float: left;
 		font-size: .85em;
+		margin-bottom: 0;
 	}
 	
 	.structureBrokenFile p.fileLocation {
@@ -1172,8 +1196,13 @@ span.brokenLinkIcon {
 	}
 	
 	.structureBrokenFile span.fileName,
-	.structureBrokenFile p.brokenLinksNumber {
+	.structureBrokenFile p.brokenLinksNumber,
+	.structureBrokenFile span.highlight {
 		color: #444;
+	}
+	
+	.structureBrokenFile span.link {
+		cursor: pointer;
 	}
 	
 	.structureBrokenFile p.brokenLinksNumber {
@@ -1181,11 +1210,27 @@ span.brokenLinkIcon {
 		cursor: pointer;
 	}
 	
-		.structureBrokenFile p.brokenLinksNumber:hover {
+		.structureBrokenFile p.brokenLinksNumber:hover,
+		.structureBrokenFile span.link:hover {
 			text-decoration: underline;
 		}
 
+#structureContainer {
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-bottom: 30px;
+}
 
+#structureContainer.jstree a {
+	display: inline-block;
+	line-height: 16px;
+	height: 16px;
+	white-space: nowrap;
+	text-decoration: none;
+	padding: 1px 2px;
+	margin: 0;
+}
+		
 /* END File Structure Section */
 
 
