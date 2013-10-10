@@ -7,72 +7,13 @@ import org.json.simple.JSONObject;
 
 
 public class SectionCheck {
-	/**
-	 * Class for accessing the character array of the line of the HTML file
-	 * being parsed. 
-	 *
-	 * @author Ameer Sabri
-	 */
-	public class CharArray {
-			
-		private char[] charArray;
-			
-		/**
-		 * Constructor for the CharArray.
-		 */
-		public CharArray(char[] charArray) {
-			this.charArray = charArray;				
-		}
-				
-		/**
-		 * Returns the character at the index given.
-		 *
-		 * @param i the index of the character in the array.
-		 * @return the character at the specified index.
-		 */
-		public char getChar(int i) {
-			return charArray[i];
-		}
-				
-		/**
-		 * Returns the length of the CharArray.
-		 *
-		 * @return the length of the CharArray
-		 */
-		public int getLength() {
-			return charArray.length;
-		}
-				
-		/**
-		 * Returns a String that returns the tag given between the string
-		 * start and end index given in the array.
-		 *
-		 * @param tagStart the start index of the string
-		 * @param tagEnd the end index of the string
-		 * @return the string specified by the string's start and end index. 
-		 */
-		public String getString(int strStart, int strEnd) {
-				
-			StringBuilder str = new StringBuilder();
-			
-			/* Iterates through the array between the indices
-			 * and adds each character to the tag string. 
-			 */
-			for(int j=strStart; j < (strEnd + 1); j++) {
-				str.append(this.getChar(j));
-			}
-				
-			return str.toString();
-		}			
-	}
-
+	
 	/* Just an empty constructor */
 	public SectionCheck() {
 	
 	}
 
-		/* This is the coding for the NEW error checking. Was commented out ---
-		---- for the user testing as it contained errors and would not run. ---*/
+		/* This is the coding for the NEW error checking */
 		public JSONObject findErrors(List<String> fileContents) {
 		
 		
@@ -98,8 +39,7 @@ public class SectionCheck {
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
 			
-				// Import database list of valid tags
-			
+				
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
 					if(charArray.getChar(j)=='<') {
@@ -118,8 +58,23 @@ public class SectionCheck {
 							if(charArray.getChar(j)==' ') {
 								whiteSpaceFlag = true;
 								tag = charArray.getString(tagStart, j-1);
-								//checkValidTag(tag);
-								//selfClosing = isSelfClosing(tag);
+						
+								// If it is not a valid tag
+								if(!MysqlFunctions.checkValidTag(tag)) {
+									
+									// Note that some of these additions should use database references in future
+									JSONObject error = new JSONObject();
+									error.put("message", "This tag is not a valid HTML tag");
+									error.put("type", "syntax");
+									error.put("line", i);
+									error.put("column", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
+									
+								}	
+									
+								// Check if self closing
+								selfClosing = MysqlFunctions.isSelfClosing(tag);
 							}
 						}
 						else {
@@ -143,7 +98,21 @@ public class SectionCheck {
 					if(charArray.getChar(j) == '=') {
 						if(openAttr == true) {
 							String attr = charArray.getString(attrStart, j-1);
-							//checkValidAttr(attr, tag);
+							List<String> attrList = new ArrayList<String>();
+							
+							attrList = MysqlFunctions.getAttr(tag);
+							if(!(attrList.contains(attr))) {
+								
+								JSONObject error = new JSONObject();
+								error.put("message", "This is not a valid attribute for that tag");
+								error.put("type", "syntax");
+								error.put("line", i);
+								error.put("column", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+							
+							}
+					
 						}
 					}
 					
@@ -159,7 +128,14 @@ public class SectionCheck {
 						}
 						else if (selfClosing) { 						
 							if(charArray.getChar(j-1) != '/') {
-								//return notSelfClosedError;
+								
+								JSONObject error = new JSONObject();
+								error.put("message", "This tag is self-closing but is not self closed");
+								error.put("type", "semantic");
+								error.put("line", i);
+								error.put("column", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
 							}
 							selfClosing = false;
 						}
@@ -171,4 +147,68 @@ public class SectionCheck {
 			errors.put("count", errorCount);
 			return errors;
 		}			
+		
+		
+		
+		
+		
+		/**
+		 * Class for accessing the character array of the line of the HTML file
+		 * being parsed. 
+		 *
+		 * @author Ameer Sabri
+		 */
+		public class CharArray {
+				
+			private char[] charArray;
+				
+			/**
+			 * Constructor for the CharArray.
+			 */
+			public CharArray(char[] charArray) {
+				this.charArray = charArray;				
+			}
+					
+			/**
+			 * Returns the character at the index given.
+			 *
+			 * @param i the index of the character in the array.
+			 * @return the character at the specified index.
+			 */
+			public char getChar(int i) {
+				return charArray[i];
+			}
+					
+			/**
+			 * Returns the length of the CharArray.
+			 *
+			 * @return the length of the CharArray
+			 */
+			public int getLength() {
+				return charArray.length;
+			}
+					
+			/**
+			 * Returns a String that returns the tag given between the string
+			 * start and end index given in the array.
+			 *
+			 * @param tagStart the start index of the string
+			 * @param tagEnd the end index of the string
+			 * @return the string specified by the string's start and end index. 
+			 */
+			public String getString(int strStart, int strEnd) {
+					
+				StringBuilder str = new StringBuilder();
+				
+				/* Iterates through the array between the indices
+				 * and adds each character to the tag string. 
+				 */
+				for(int j=strStart; j < (strEnd + 1); j++) {
+					str.append(this.getChar(j));
+				}
+					
+				return str.toString();
+			}			
+		}
+
 }

@@ -146,7 +146,7 @@ public class MysqlFunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
-	   return (ArrayList)list;
+	   return (ArrayList<String>) list;
 	}
 
 	//Return true or false for deprecated or not
@@ -217,7 +217,7 @@ public class MysqlFunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
-	   return (ArrayList)list;
+	   return (ArrayList<String>) list;
 
 	}
 
