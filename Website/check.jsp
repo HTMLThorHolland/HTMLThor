@@ -70,8 +70,10 @@
    					String fileparam = request.getParameter("path");
             		String[] filestring = fileparam.split("/");
             		String filename = filestring[filestring.length-1];
+            		
+   		 			SectionCheck sc = new SectionCheck();
                 
-               		JSONObject jsonFile = findErrors(fileContents);
+               		JSONObject jsonFile = sc.findErrors(fileContents);
                 	jsonFile.put("filename", filename);
                 	JSONObject json = new JSONObject();
                 	json.put("0", jsonFile);
@@ -113,7 +115,7 @@
    		 		else if (uploadType.equals("zip")) {
    		 		
    		 			JSONObject dirJSON = new JSONObject();
-   		 				
+   		 			SectionCheck sc = new SectionCheck();
    		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
       				try	{
             			ZipEntry temp = null;
@@ -138,7 +140,7 @@
      								fileContents.add(tempSourceArr[i]);
       							}
       						
-      							JSONObject jsonTemp = findErrors(fileContents);
+      							JSONObject jsonTemp = sc.findErrors(fileContents);
                 				jsonTemp.put("filename", temp.getName());
       						
                 				json.put(Integer.toString(fileCount), jsonTemp);

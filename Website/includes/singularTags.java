@@ -1,4 +1,4 @@
-
+package com.htmlthor;import java.util.*;
 		/*
 		 *	input(tag) = each singular tag in the file
 		 *	output(string) = the error message 
@@ -8,19 +8,19 @@
 		 *
 		 */
 
-public void class singularTags {
-	List<String> singularList;
+public class SingularTags {
+	private List<String> singularList;
 	
-		public initSingularList() {
-			List<String> singularList = new ArrayList<String>();
+		public SingularList() {
+			singularList = new ArrayList<String>();
 		}
 	
 		
 		 
-		public String checkSingular(tag) {
+		public String checkSingular(String tag) {
 			
-			for(i=0; i<singularList.length; i++) {
-				if(singularList[i] == tag) {
+			for(int i=0; i<singularList.size(); i++) {
+				if(singularList.get(i) == tag) {
 					return "This is a singular tag and you've used it more than once! ";
 				}
 				

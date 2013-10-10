@@ -1,4 +1,4 @@
-
+package com.htmlthor;import java.util.*;
 		/*
 		 *	input(tagID) = each id used for tags in the file
 		 *	output(string) = the error message
@@ -8,26 +8,26 @@
 		 *
 		 */
 		 
-public void class SingularID {
-	List<String> singularIDList;
+public class SingularID {
+	private List<String> singularIDList;
 	
 	
-		public void initSingularIDList() {
-			List<String> singularIDList = new ArrayList<String>();
+		public SingularID() {
+			singularIDList = new ArrayList<String>();
 		}
 	
 	
 		 
-		public String checkIDSingular(tagID) {
+		public String checkIDSingular(String tagID) {
 			
-			for(i=0; i<singularIDList.length; i++) {
-				if(singularIDList[i] == tagID) {
+			for(int i=0; i<singularIDList.size(); i++) {
+				if(singularIDList.get(i) == tagID) {
 					return "This id has already been used in the file. To fix this, use unique ids! ";
 				}
 				
 			
 			}
-			singularIDList.add(tag);
+			singularIDList.add(tagID);
 			return "";
 		 
 		 

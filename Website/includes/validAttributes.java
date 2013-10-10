@@ -1,4 +1,4 @@
-
+package htmlthor.com;import java.util.*;
 		/*
 		 *	input(tag, attribute) = each attribute is checked (as it comes so as to make identifying
 		 *							location easier) to see that it is a valid attribute for the 
@@ -11,22 +11,21 @@
 		 */
 		 
 		 
-public void class validAtrributes {
-	List<String> validAttrList;
+public class ValidAtrributes {
+	private List<String> validAttrList;
 	
 	
-		public void initValidAttrList() {
-			List<String> validAttrList = new ArrayList<String>();
+		public ValidAttributes() {
+			validAttrList = new ArrayList<String>();
 		}
 	
-	
 		 
-		public String checkAttrValid(tag, attribute) {
+		public String checkAttrValid(String tag, String attribute) {
 			// Fill validAttrList with valid attributes for particular tag from database
 			
-			for(i=0; i<validAttrList.length; i++) {
-				if(validAttrList[i] == attribute) {
-					return ""
+			for(int i=0; i<validAttrList.size(); i++) {
+				if(validAttrList.get(i) == attribute) {
+					return "";
 				}
 			}
 			return "This is not a valid attribute for this tag";

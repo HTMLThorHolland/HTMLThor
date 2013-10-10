@@ -1,4 +1,4 @@
-		
+package com.htmlthor;import java.util.*;
 		/*
 		 *	input(tag) = each tag in the file
 		 *	output(string, typeoferror, lineno, colstart, colend) = the error message and
@@ -15,22 +15,21 @@
 		 *
 		 */
 		 
-public void class requiredTags {
+public class RequiredTags {
 	// An array of length (each element that is required) in Boolean format
-	Boolean[] presenttags = new Boolean[5];
-	// Order - Doctype, html, head, body, title
+	private Boolean[] presenttags;
+	// Order - Doctype, html, head, body, title
 	
-	
-		public void initrequiredList() {
+		public RequiredTags() {			presenttags = new Boolean[5];
 			// set presenttags to all false
-			for(i=0; i<5; i++) {
+			for(int i=0; i<5; i++) {
 				presenttags[i] = false;
 			}
 		}
 	
 	
 		 
-		public void addRequired(tag) {
+		public void addRequired(String tag) {
 			if(tag == "!DOCTYPE") {
 			
 				presenttags[0] = true;
@@ -69,7 +68,7 @@ public void class requiredTags {
 			List<List<String>> errorMessages = new ArrayList<List<String>>();
 			List<String> errorString = new ArrayList<String>();
 			
-			for(i=0; i<5; i++) {
+			for(int i=0; i<5; i++) {
 				errorString.clear();
 				if(presenttags[i] == false) {
 				// Following highlighting needs to be done and referenced in main code after
