@@ -6,8 +6,8 @@
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
+<%@ page import="com.htmlthor.*" %>
 <%@ page import="org.json.simple.JSONObject;" %>
-<%@ include file="includes/sectionCheck.jsp;" %>
 	 
 <html>
 
@@ -72,9 +72,16 @@
             		String filename = filestring[filestring.length-1];
             		
    		 			SectionCheck sc = new SectionCheck();
-                
-               		JSONObject jsonFile = sc.findErrors(fileContents);
+                	JSONObject jsonFile = new JSONObject();
+               		JSONObject jsonErrors = sc.findErrors(fileContents);
+               		JSONObject jsonSource = new JSONObject();
+               		for (int i = 0; i < fileContents.size(); i++) {
+               			jsonSource.put(i, fileContents.get(i));
+               		}
+               		jsonSource.put("length", fileContents.size());
                 	jsonFile.put("filename", filename);
+                	jsonFile.put("source", jsonSource);
+                	jsonFile.put("errors", jsonErrors);
                 	JSONObject json = new JSONObject();
                 	json.put("0", jsonFile);
                 

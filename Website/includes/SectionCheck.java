@@ -86,6 +86,7 @@ public class SectionCheck {
 			int tagStart = 0;
 			int attrStart = 0;
 			String tag = null;
+			int errorCount = 0;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -122,10 +123,12 @@ public class SectionCheck {
 							}
 						}
 						else {
-							if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ')) {
-								if( (Character.isLetter(charArray.getChar(j))) == true) {
-									attrStart = j;
-									openAttr = true;
+							if (j != 0) {
+								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ')) {
+									if( (Character.isLetter(charArray.getChar(j))) == true) {
+										attrStart = j;
+										openAttr = true;
+									}
 								}
 							}
 						}
@@ -165,6 +168,7 @@ public class SectionCheck {
 					
 				}
 			}
+			errors.put("count", errorCount);
 			return errors;
 		}			
 }
