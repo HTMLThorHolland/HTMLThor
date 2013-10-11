@@ -72,7 +72,17 @@ public class SectionCheck {
 									errorCount += 1;
 									
 								}	
+								// If it a deprecated tag
+								if(!Mysqlfunctions.isDeprecated(tag)) {
+									JSONObject error = new JSONObject();
+									error.put("message", "This HTML tag is a deprecated tag");
+									error.put("type", "semantic");
+									error.put("line", i);
+									error.put("column", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
 									
+								}
 								// Check if self closing
 								selfClosing = Mysqlfunctions.isSelfClosing(tag);
 							}
