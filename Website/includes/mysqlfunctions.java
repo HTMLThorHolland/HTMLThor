@@ -11,7 +11,7 @@ import java.sql.Statement;
 /*
 
 */
-public class MysqlFunctions {
+public class Mysqlfunctions {
 
 	private static ResultSet ConnectDB(String Q) {
 
