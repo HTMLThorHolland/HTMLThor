@@ -60,7 +60,7 @@ public class SectionCheck {
 								tag = charArray.getString(tagStart, j-1);
 						
 								// If it is not a valid tag
-								if(!MysqlFunctions.checkValidTag(tag)) {
+								if(!Mysqlfunctions.checkValidTag(tag)) {
 									
 									// Note that some of these additions should use database references in future
 									JSONObject error = new JSONObject();
@@ -74,7 +74,7 @@ public class SectionCheck {
 								}	
 									
 								// Check if self closing
-								selfClosing = MysqlFunctions.isSelfClosing(tag);
+								selfClosing = Mysqlfunctions.isSelfClosing(tag);
 							}
 						}
 						else {
@@ -100,7 +100,7 @@ public class SectionCheck {
 							String attr = charArray.getString(attrStart, j-1);
 							List<String> attrList = new ArrayList<String>();
 							
-							attrList = MysqlFunctions.getAttr(tag);
+							attrList = Mysqlfunctions.getAttr(tag);
 							if(!(attrList.contains(attr))) {
 								
 								JSONObject error = new JSONObject();
