@@ -117,10 +117,8 @@ public class SectionCheck {
 								
 								
 									// Check if comment tag closed
-									if((charArray.getChar(j-1)=='-') && (charArray.getChar(j-2)=='-') && (startComment==true)) {
-										startComment = false;
-									}
-									else if (selfClosing) { 						
+									
+									if (selfClosing) { 						
 										if(charArray.getChar(j-1) != '/') {
 										
 											JSONObject error = new JSONObject();
@@ -167,6 +165,13 @@ public class SectionCheck {
 								}
 								
 							}
+						}
+						
+						
+					}
+					if (startComment == true && j >= 2) {
+						if((charArray.getChar(j-2)=='-') && (charArray.getChar(j-1)=='-') && (charArray.getChar(j)=='>')) {
+							startComment = false;
 						}
 					}
 					
