@@ -61,6 +61,9 @@ public class SectionCheck {
 								}
 								
 								tag = charArray.getString(tagStart, j-1);
+								if (tag.substring(0,1).equals("/")) {
+									tag = tag.substring(1);
+								}
 								
 								// If it is not a valid tag
 								if(!Mysqlfunctions.checkValidTag(tag)) {
