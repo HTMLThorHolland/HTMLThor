@@ -165,7 +165,6 @@ public class SectionCheck {
 										openAttr = true;
 									}
 								}
-								
 							}
 						}
 						
@@ -187,12 +186,11 @@ public class SectionCheck {
 						if(openAttr == true) {
 							String attr = charArray.getString(attrStart, j-1);
 							List<String> attrList = new ArrayList<String>();
-							
 							attrList = Mysqlfunctions.getAttr(tag);
 							boolean validAttr = false;
 							for (int a = 0; a < attrList.size(); a++) {
-								if(attrList.get(a) == tag) {
-									//validAttr = true;	
+								if(attrList.get(a).equals(attr)) {
+									validAttr = true;	
 								}
 							
 							}

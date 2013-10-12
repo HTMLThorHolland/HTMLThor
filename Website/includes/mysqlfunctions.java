@@ -204,13 +204,13 @@ public class Mysqlfunctions {
 
 		List<String> list = new ArrayList<String>();
 		
-		String query = "SELECT * FROM RequiredAttributes where EName = "+tagName;
+		String query = "SELECT * FROM Attribute";
 		ResultSet result = ConnectDB(query);
 		
 		try {
 		
 			while (result.next()) {
-				list.add(result.getString("AttributeName"));
+				list.add(result.getString("Name"));
 			}
 		
 		}catch (SQLException ex) {
