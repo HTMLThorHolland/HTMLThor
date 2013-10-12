@@ -151,6 +151,8 @@ public class SectionCheck {
 									openTag = false;
 									tag = null;
 									endTagName = false;
+									tagChecked = false;
+									faultyTag = false;
 								}	
 							}
 						}
