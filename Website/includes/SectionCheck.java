@@ -60,7 +60,7 @@ public class SectionCheck {
 						if(whiteSpaceFlag==false) {
 							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>')) {
 								if(charArray.getChar(j)==' ') {
-									//whiteSpaceFlag = true;
+									whiteSpaceFlag = true;
 								}
 								if (openAttr == true) {
 									openAttr = false;
@@ -154,10 +154,11 @@ public class SectionCheck {
 									faultyTag = false;
 								}	
 							}
+						
 						}
 						else {
 							if (j != 0) {
-								
+									
 								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ') && (charArray.getChar(j) != '>')) {
 									if( (Character.isLetter(charArray.getChar(j))) == true) {
 										attrStart = j;
@@ -188,16 +189,21 @@ public class SectionCheck {
 							List<String> attrList = new ArrayList<String>();
 							
 							attrList = Mysqlfunctions.getAttr(tag);
-							if(!(attrList.contains(attr))) {
-								
+							boolean validAttr = false;
+							for (int a = 0; a < attrList.size(); a++) {
+								if(attrList.get(a) == tag) {
+									//validAttr = true;	
+								}
+							
+							}
+							if (!validAttr) {
 								JSONObject error = new JSONObject();
-								error.put("message", "This is not a valid attribute for that tag");
+								error.put("message", attr + " is not a valid attribute for " + tag);
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
 								errors.put(errorCount, error);
 								errorCount += 1;
-							
 							}
 					
 						}

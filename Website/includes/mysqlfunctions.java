@@ -204,7 +204,7 @@ public class Mysqlfunctions {
 
 		List<String> list = new ArrayList<String>();
 		
-		String query = new StringBuilder("SELECT * FROM RequiredAttributes where EName = ").append(tagName).toString();
+		String query = "SELECT * FROM RequiredAttributes where EName = "+tagName;
 		ResultSet result = ConnectDB(query);
 		
 		try {
