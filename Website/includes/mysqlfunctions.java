@@ -266,4 +266,32 @@ public class Mysqlfunctions {
 	   return msg;
 	}
 	
+	/*
+	 * Checks whether an element is a metadata/script element.
+	 * Needs data to be added to database tables before it can be coded.
+	 * 
+	 * UNIMPLEMENTED
+	 */
+	public static boolean isMeta(String tagName) {
+		return false;
+	}
+	
+	/*
+	 * Checks whether an element is a table element.
+	 * 
+	 * UNIMPLEMENTED
+	 */
+	public static boolean isTableElement(String tagName) {
+		return false;
+	}
+	
+	/*
+	 * Checks whether an element is a form element.
+	 * 
+	 * UNIMPLEMENTED
+	 */
+	public static boolean isFormElement(String tagName) {
+		return false;
+	}
+	
 }

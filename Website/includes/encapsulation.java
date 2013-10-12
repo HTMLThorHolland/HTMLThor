@@ -1,2 +1,189 @@
 package com.htmlthor;
-/* Encapsulation class. Tag is fed to the encapsulation function within the * instantiated encapsulation class, and is added to an ArrayDeque. The  * encapsulation function is a void function. If errors are desired, the * returnErrors function returns the name of the tag, and various positional * data separated by whitespace as a String. * * Work in progress - need to work out best way to return errors */ import java.util.ArrayDeque;import java.util.ArrayList;import java.util.Arrays;import java.util.Iterator;public class Encapsulation {		class Element {		String name;		int line;		int colStart;		int colEnd;				public Element(String name, int line, int colStart, int colEnd) {			name = this.name;			line = this.line;			colStart = this.colStart;			colEnd = this.colEnd;		}				public String getName() {			return name;		}				public ArrayList<Integer> getPosition() {			ArrayList<Integer> list = new ArrayList<Integer>(3);			list.add(line);			list.add(colStart);			list.add(colEnd);						return list;		}				public String toString() {			StringBuilder sb = new StringBuilder(30);			sb.append(name).append(" ").append(line).append(" ");			sb.append(colStart).append(" ").append(colEnd);						return sb.toString();		}	}		ArrayDeque<Element> deque;	ArrayDeque<Element> errorDeque;	boolean htmlElementExists = false;	boolean headElementExists = false;	boolean titleElementExists = false;	boolean bodyElementExists = false;	boolean headTagOpen = false;	boolean bodyTagOpen = false;	boolean tableOpen = false;	boolean formOpen = false;	String[] formElements = {"fieldset", "legend", "label", "input", "button",			"select", "datalist", "optgroup", "option", "textarea", "keygen",			"output", "progress", "meter"};	String[] tableElements = {"caption", "colgroup", "col", "tbody", "thead",			"tfoot", "tr", "td", "th"};		public Encapsulation() {		deque = new ArrayDeque<Element>();		errorDeque = new ArrayDeque<Element>();	}		private void addElement(Element e) {			if(headTagOpen) {							}						if(bodyTagOpen) {							}						if(formOpen) {							} else if(Arrays.asList(formElements).contains(e.getName())) {							}						if(tableOpen) {				if(e.getName() == "table") {					//return error...table within table				}			} else if(Arrays.asList(tableElements).contains(e.getName())) {				//return error			}						deque.add(e);	}		public void encapsulation(String tag, int line, int colStart, int colEnd) {		Element element = new Element(tag, line, colStart, colEnd);		//if element is not singular, add		addElement(element);	}		public ArrayList<String> returnErrors() {		ArrayList<String> list = new ArrayList<String>(errorDeque.size());		for(Iterator<Element> i = errorDeque.iterator(); i.hasNext();) {			list.add(i.next().toString());		}				return list;	}}
+
+import java.util.ArrayList;
+
+/**
+ * Encapsulation class for checking encapsulation errors in HTML code.
+ * 
+ * Incomplete; do not integrate into error checking code yet.
+ * 
+ * @author Ameer Sabri
+ */
+public class Encapsulation extends Mysqlfunctions {
+	/* Declarations for error codes. Currently dummy values. */
+	public static final int ENCAPSULATION_ERROR = 100;
+	public static final int ELEMENT_INSIDE_ITSELF = 200;
+	public static final int NOT_TABLE_ELEMENT = 300;
+	public static final int TABLE_ELEMENT_OUT_OF_TABLE = 324;
+	public static final int NOT_FORM_ELEMENT = 400;
+	public static final int FORM_ELEMENT_OUT_OF_FORM = 435;
+	public static final int OUTSIDE_HTML_TAGS = 500;
+	public static final int INVALID_HEAD_ELEMENT = 600;
+	public static final int INVALID_BODY_ELEMENT = 700;
+	public static final int UNCLOSED_ELEMENT = 800;
+	public static final int STRAY_CLOSE_TAG = 900;
+	
+	/**
+	 * Element class for handling parsed elements and storing their location
+	 * values, as well as an error code.
+	 * 
+	 * @author Ameer Sabri
+	 */
+	class Element {
+		String name;
+		int line;
+		int colStart;
+		int colEnd;
+		int error;
+		
+		public Element(String name, int line, int colStart, int colEnd) {
+			name = this.name;
+			line = this.line;
+			colStart = this.colStart;
+			colEnd = this.colEnd;
+			error = 0;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public ArrayList<Integer> getPosition() {
+			ArrayList<Integer> position = new ArrayList<Integer>(3);
+			position.add(line);
+			position.add(colStart);
+			position.add(colEnd);
+			
+			return position;
+		}
+		
+		public void setError(int error) {
+			error = this.error;
+		}
+		
+		public int getError() {
+			return error;
+		}
+		
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(name).append(" ").append(line).append(" ");
+			sb.append(colStart).append(" ").append(colEnd).append(" ");
+			if(error != 0) {
+				sb.append(getErrMsg(error));
+			} else {
+				sb.append("none");
+			}
+			
+			return sb.toString();
+		}
+	}
+	/* Flags to check whether certain elements have been opened. */
+	boolean htmlElementOpen = false;
+	boolean headElementOpen = false;
+	boolean bodyElementOpen = false;
+	boolean tableElementOpen = false;
+	boolean formElementOpen = false;
+	
+	//ArrayList<Element> elementList;
+	ArrayList<Element> openedElements;
+	ArrayList<Element> errorList;
+	
+	public Encapsulation() {
+		//elements = new ArrayList<Element>();
+		openedElements = new ArrayList<Element>();
+		errorList = new ArrayList<Element>();
+	}
+	
+	private boolean isClosingElement(String element) {
+		if(element.charAt(0) == '/') {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<String> getErrorList() {
+		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size());
+		addUnclosedElements(errors);
+		
+		for(int i = 0; i < errorList.size(); i++) {
+			errors.add(errorList.get(i).toString());
+		}
+		
+		//still need to sort list by line then colStart
+		
+		return errors;
+	}
+	
+	/**
+	 * Helper function for getErrorList. Adds unclosed elements to the error list.
+	 * 
+	 * @param errors Error list to be added to
+	 * @see getErrorList
+	 */
+	private void addUnclosedElements(ArrayList<String> errors) {
+		if(openedElements.size() > 0) {
+			for(int i = 0; i < openedElements.size(); i++) {
+				openedElements.get(i).setError(UNCLOSED_ELEMENT);
+				errors.add((openedElements.get(i)).toString());
+			}
+		}
+	}
+	
+	public void encapsulation(String element, int line, int colStart, int colEnd) {
+		Element e = new Element(element, line, colStart, colEnd);
+		
+		if(!htmlElementOpen) {
+			if((e.getName() != "!DOCTYPE") || (e.getName() != "html"))
+				e.setError(OUTSIDE_HTML_TAGS);
+		}
+		
+		if(headElementOpen) {
+			if(!isMeta(e.getName())) {
+				e.setError(INVALID_HEAD_ELEMENT);
+			}
+		}
+		
+		if(bodyElementOpen) {
+			if(isTableElement(e.getName())) {
+				e.setError(TABLE_ELEMENT_OUT_OF_TABLE);
+			} else if(isFormElement(e.getName())) {
+				e.setError(FORM_ELEMENT_OUT_OF_FORM);
+			}
+		}
+		
+		if(tableElementOpen) {
+			if(!isTableElement(e.getName())) {
+				e.setError(NOT_TABLE_ELEMENT);
+			}
+		}
+		
+		if(formElementOpen) {
+			if(!isFormElement(e.getName())) {
+				e.setError(NOT_FORM_ELEMENT);
+			}
+		}
+		
+		if(!isClosingElement(e.getName())) {
+			openedElements.add(e);
+		} else {
+			if(e.getName() == "/html") {
+				htmlElementOpen = false;
+			}
+			
+			if(e.getName() == "/head") {
+				headElementOpen = false;
+			}
+			
+			if(e.getName() == "/body") {
+				bodyElementOpen = false;
+			}
+		}
+		
+		if(e.getError() != 0) {
+			errorList.add(e);
+		}
+	}
+}
