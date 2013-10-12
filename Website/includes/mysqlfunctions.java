@@ -148,8 +148,7 @@ public class Mysqlfunctions {
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
-
-	   return (ArrayList<String>) list;
+		return (ArrayList<String>) list;
 	}
 
 	//Return true or false for deprecated or not

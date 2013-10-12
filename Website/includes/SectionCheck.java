@@ -64,6 +64,7 @@ public class SectionCheck {
 								}
 								if (openAttr == true) {
 									openAttr = false;
+									// check attribute stuff here
 								}
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
@@ -169,7 +170,7 @@ public class SectionCheck {
 						
 						
 					}
-					if (startComment == true && j >= 2) {
+					if (startComment == true && j > 2) {
 						if((charArray.getChar(j-2)=='-') && (charArray.getChar(j-1)=='-') && (charArray.getChar(j)=='>')) {
 							startComment = false;
 						}
