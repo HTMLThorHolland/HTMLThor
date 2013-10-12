@@ -28,6 +28,7 @@ public class SectionCheck {
 			int attrStart = 0;
 			String tag = null;
 			int errorCount = 0;
+			boolean endTagName = false;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -57,12 +58,17 @@ public class SectionCheck {
 						if(whiteSpaceFlag==false) {
 							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>')) {
 								if(charArray.getChar(j)==' ') {
-									whiteSpaceFlag = true;
+									//whiteSpaceFlag = true;
 								}
-								
-								tag = charArray.getString(tagStart, j-1);
-								if (tag.substring(0,1).equals("/")) {
-									tag = tag.substring(1);
+								if (openAttr == true) {
+									openAttr = false;
+								}
+								if (!endTagName) {
+									tag = charArray.getString(tagStart, j-1);
+									if (tag.substring(0,1).equals("/")) {
+										tag = tag.substring(1);
+									}
+									endTagName = true;
 								}
 								
 								// If it is not a valid tag
@@ -95,10 +101,6 @@ public class SectionCheck {
 									// Check if self closing
 									selfClosing = Mysqlfunctions.isSelfClosing(tag);
 								
-									/* Resets flag values and tag string */
-									closeTag = true;
-									openTag = false;
-									tag = null;
 								
 								
 									// Check if comment tag closed
@@ -131,17 +133,24 @@ public class SectionCheck {
 										selfClosing = false;
 									}
 							
+									/* Resets flag values and tag string */
+									closeTag = true;
+									openTag = false;
+									tag = null;
+									endTagName = false;
 								}	
 							}
 						}
 						else {
 							if (j != 0) {
+								
 								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ') && (charArray.getChar(j) != '>')) {
 									if( (Character.isLetter(charArray.getChar(j))) == true) {
 										attrStart = j;
 										openAttr = true;
 									}
 								}
+								
 							}
 						}
 					}
