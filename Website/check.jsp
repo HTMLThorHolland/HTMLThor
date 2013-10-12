@@ -150,6 +150,16 @@
       							JSONObject jsonTemp = sc.findErrors(fileContents);
                 				jsonTemp.put("filename", temp.getName());
       						
+               					JSONObject jsonErrors = sc.findErrors(fileContents);
+               					JSONObject jsonSource = new JSONObject();
+               					for (int i = 0; i < fileContents.size(); i++) {
+               						jsonSource.put(i, fileContents.get(i));
+               					}
+               					jsonSource.put("length", fileContents.size());
+                				jsonTemp.put("filename", temp.getName());
+                				jsonTemp.put("source", jsonSource);
+                				jsonTemp.put("errors", jsonErrors);
+      							
                 				json.put(Integer.toString(fileCount), jsonTemp);
                 				fileCount++;
                 			}

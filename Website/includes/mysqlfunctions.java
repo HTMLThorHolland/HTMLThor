@@ -34,7 +34,7 @@ public class Mysqlfunctions {
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
-		
+
 		
 		
 		return result;
@@ -47,7 +47,9 @@ public class Mysqlfunctions {
 		
 		String query = new StringBuilder("SELECT * FROM Error WHERE eID = '").append(eID).append("'").toString();
 		ResultSet result = ConnectDB(query);
-		
+		if (result == null) {
+			return "No message";
+		}
 		try {
 			if (result.next()) {
 				msg = result.getString("eMessage");
@@ -139,6 +141,10 @@ public class Mysqlfunctions {
 		String query = "SELECT * FROM Element";
 		ResultSet result = ConnectDB(query);
 		
+		if (result == null) {
+			return (ArrayList<String>) list;
+		}
+		
 		try {
 			while (result.next()) {
 				list.add(result.getString("eName"));
@@ -158,6 +164,10 @@ public class Mysqlfunctions {
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ResultSet result = ConnectDB(query);
+		
+		if (result == null) {
+			return false;
+		}
 		
 		try {
 			if (result.next()) {
@@ -181,6 +191,10 @@ public class Mysqlfunctions {
 		
 		String query = new StringBuilder("SELECT * FROM Error WHERE EName =  ").append(tagName).toString();
 		ResultSet result = ConnectDB(query);
+		
+		if (result == null) {
+			return false;
+		}
 		
 		try {
 		
@@ -206,7 +220,9 @@ public class Mysqlfunctions {
 		
 		String query = "SELECT * FROM Attribute";
 		ResultSet result = ConnectDB(query);
-		
+		if (result == null) {
+			return (ArrayList<String>) list;
+		}
 		try {
 		
 			while (result.next()) {
@@ -227,6 +243,7 @@ public class Mysqlfunctions {
 	//If a tag exists
 	public static boolean checkValidTag(String tagName) {
 
+		
 
 		List<String> list = new ArrayList<String>();
 		list = getTags();
@@ -247,6 +264,10 @@ public class Mysqlfunctions {
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ResultSet result = ConnectDB(query);
+		
+		if (result == null) {
+			return false;
+		}
 		
 		try {
 			if (result.next()) {
