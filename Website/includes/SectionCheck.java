@@ -67,7 +67,7 @@ public class SectionCheck {
 									
 									// Note that some of these additions should use database references in future
 									JSONObject error = new JSONObject();
-									error.put("message", "This tag is not a valid HTML tag");
+									error.put("message", tag + " is not a valid HTML tag");
 									error.put("type", "syntax");
 									error.put("line", i+1);
 									error.put("col", j);
@@ -78,7 +78,7 @@ public class SectionCheck {
 								// If it a deprecated tag
 								else if(!Mysqlfunctions.isDeprecated(tag)) {
 									JSONObject error = new JSONObject();
-									error.put("message", "This HTML tag is a deprecated tag");
+									error.put("message", tag + " tag is a deprecated tag");
 									error.put("type", "semantic");
 									error.put("line", i+1);
 									error.put("col", j);
@@ -106,7 +106,7 @@ public class SectionCheck {
 										if(charArray.getChar(j-1) != '/') {
 										
 											JSONObject error = new JSONObject();
-											error.put("message", "This tag is self-closing but is not self closed");
+											error.put("message", tag + " is self-closing but is not self closed");
 											error.put("type", "semantic");
 											error.put("line", i+1);
 											error.put("col", j);
@@ -118,7 +118,7 @@ public class SectionCheck {
 										if(charArray.getChar(j-1) == '/') {
 										
 											JSONObject error = new JSONObject();
-											error.put("message", "This tag is self-closed but is not allowed to be");
+											error.put("message", tag + " is self-closed but is not allowed to be");
 											error.put("type", "semantic");
 											error.put("line", i+1);
 											error.put("col", j);
@@ -129,6 +129,7 @@ public class SectionCheck {
 									}
 							
 								}	
+							}
 						}
 						else {
 							if (j != 0) {
