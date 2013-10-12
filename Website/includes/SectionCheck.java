@@ -163,9 +163,11 @@ public class SectionCheck {
 									if( (Character.isLetter(charArray.getChar(j))) == true) {
 										attrStart = j;
 										openAttr = true;
+										
 									}
 								}
 							}
+							whiteSpaceFlag = false;
 						}
 						
 						
