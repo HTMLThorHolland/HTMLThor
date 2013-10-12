@@ -55,10 +55,13 @@ public class SectionCheck {
 					// whitespace has not been reached to signal the end of the tag name:
 					if ((startComment==false) && (openTag==true)) {
 						if(whiteSpaceFlag==false) {
-							if(charArray.getChar(j)==' ') {
-								whiteSpaceFlag = true;
+							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>')) {
+								if(charArray.getChar(j)==' ') {
+									whiteSpaceFlag = true;
+								}
+								
 								tag = charArray.getString(tagStart, j-1);
-						
+								
 								// If it is not a valid tag
 								if(!Mysqlfunctions.checkValidTag(tag)) {
 									
@@ -73,7 +76,7 @@ public class SectionCheck {
 									
 								}	
 								// If it a deprecated tag
-								if(!Mysqlfunctions.isDeprecated(tag)) {
+								else if(!Mysqlfunctions.isDeprecated(tag)) {
 									JSONObject error = new JSONObject();
 									error.put("message", "This HTML tag is a deprecated tag");
 									error.put("type", "semantic");
@@ -84,11 +87,52 @@ public class SectionCheck {
 									
 								}
 								
-							}
+							
+								if(charArray.getChar(j)=='>') {
+									// Check if self closing
+									selfClosing = Mysqlfunctions.isSelfClosing(tag);
+								
+									/* Resets flag values and tag string */
+									closeTag = true;
+									openTag = false;
+									tag = null;
+								
+								
+									// Check if comment tag closed
+									if((charArray.getChar(j-1)=='-') && (charArray.getChar(j-2)=='-') && (startComment==true)) {
+										startComment = false;
+									}
+									else if (selfClosing) { 						
+										if(charArray.getChar(j-1) != '/') {
+										
+											JSONObject error = new JSONObject();
+											error.put("message", "This tag is self-closing but is not self closed");
+											error.put("type", "semantic");
+											error.put("line", i+1);
+											error.put("col", j);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
+										selfClosing = false;
+									} else if (!selfClosing) { 						
+										if(charArray.getChar(j-1) == '/') {
+										
+											JSONObject error = new JSONObject();
+											error.put("message", "This tag is self-closed but is not allowed to be");
+											error.put("type", "semantic");
+											error.put("line", i+1);
+											error.put("col", j);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
+										selfClosing = false;
+									}
+							
+								}	
 						}
 						else {
 							if (j != 0) {
-								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ')) {
+								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ') && (charArray.getChar(j) != '>')) {
 									if( (Character.isLetter(charArray.getChar(j))) == true) {
 										attrStart = j;
 										openAttr = true;
@@ -126,47 +170,7 @@ public class SectionCheck {
 					}
 					
 					/* Will need to be moved into the startComment==false if loop */
-					if(charArray.getChar(j)=='>') {
-						// Check if self closing
-						selfClosing = Mysqlfunctions.isSelfClosing(tag);
-						
-						/* Resets flag values and tag string */
-						closeTag = true;
-						openTag = false;
-						tag = null;
-						
-						
-						// Check if comment tag closed
-						if((charArray.getChar(j-1)=='-') && (charArray.getChar(j-2)=='-') && (startComment==true)) {
-							startComment = false;
-						}
-						else if (selfClosing) { 						
-							if(charArray.getChar(j-1) != '/') {
-								
-								JSONObject error = new JSONObject();
-								error.put("message", "This tag is self-closing but is not self closed");
-								error.put("type", "semantic");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-							}
-							selfClosing = false;
-						} else if (!selfClosing) { 						
-							if(charArray.getChar(j-1) == '/') {
-								
-								JSONObject error = new JSONObject();
-								error.put("message", "This tag is self-closed but is not allowed to be");
-								error.put("type", "semantic");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-							}
-							selfClosing = false;
-						}
-						
-					}	
+					
 					
 				}
 			}
