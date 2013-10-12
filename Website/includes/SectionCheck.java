@@ -29,6 +29,8 @@ public class SectionCheck {
 			String tag = null;
 			int errorCount = 0;
 			boolean endTagName = false;
+			boolean faultyTag = false;
+			boolean checkedTag = false;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -71,33 +73,44 @@ public class SectionCheck {
 									endTagName = true;
 								}
 								
-								// If it is not a valid tag
-								if(!Mysqlfunctions.checkValidTag(tag)) {
-									
-									// Note that some of these additions should use database references in future
-									JSONObject error = new JSONObject();
-									error.put("message", tag + " is not a valid HTML tag");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", j);
-									errors.put(errorCount, error);
-									errorCount += 1;
-									
-								}	
-								// If it a deprecated tag
-								else if(!Mysqlfunctions.isDeprecated(tag)) {
-									JSONObject error = new JSONObject();
-									error.put("message", tag + " tag is a deprecated tag");
-									error.put("type", "semantic");
-									error.put("line", i+1);
-									error.put("col", j);
-									errors.put(errorCount, error);
-									errorCount += 1;
-									
+								if (!tagChecked) {
+								
+								
+								
+									// If it is not a valid tag
+									if(!Mysqlfunctions.checkValidTag(tag)) {
+										
+										// Note that some of these additions should use database references in future
+										JSONObject error = new JSONObject();
+										error.put("message", tag + " is not a valid HTML tag");
+										error.put("type", "syntax");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+										faultyTag = true;
+										
+									}	
+									// If it a deprecated tag
+									else if(!Mysqlfunctions.isDeprecated(tag)) {
+										JSONObject error = new JSONObject();
+										error.put("message", tag + " tag is a deprecated tag");
+										error.put("type", "semantic");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+										faultyTag = true;
+									}
+									tagChecked = true;
 								}
 								
 							
 								if(charArray.getChar(j)=='>') {
+								
+								
+								
+								
 									// Check if self closing
 									selfClosing = Mysqlfunctions.isSelfClosing(tag);
 								
