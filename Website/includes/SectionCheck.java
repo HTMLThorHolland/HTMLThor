@@ -30,7 +30,7 @@ public class SectionCheck {
 			int errorCount = 0;
 			boolean endTagName = false;
 			boolean faultyTag = false;
-			boolean checkedTag = false;
+			boolean tagChecked = false;
 			
 			
 			/* Iterates over the lines of the given file. */
