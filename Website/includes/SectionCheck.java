@@ -66,8 +66,8 @@ public class SectionCheck {
 									JSONObject error = new JSONObject();
 									error.put("message", "This tag is not a valid HTML tag");
 									error.put("type", "syntax");
-									error.put("line", i);
-									error.put("column", j);
+									error.put("line", i+1);
+									error.put("col", j);
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
@@ -77,14 +77,13 @@ public class SectionCheck {
 									JSONObject error = new JSONObject();
 									error.put("message", "This HTML tag is a deprecated tag");
 									error.put("type", "semantic");
-									error.put("line", i);
-									error.put("column", j);
+									error.put("line", i+1);
+									error.put("col", j);
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
 								}
-								// Check if self closing
-								selfClosing = Mysqlfunctions.isSelfClosing(tag);
+								
 							}
 						}
 						else {
@@ -116,8 +115,8 @@ public class SectionCheck {
 								JSONObject error = new JSONObject();
 								error.put("message", "This is not a valid attribute for that tag");
 								error.put("type", "syntax");
-								error.put("line", i);
-								error.put("column", j);
+								error.put("line", i+1);
+								error.put("col", j);
 								errors.put(errorCount, error);
 								errorCount += 1;
 							
@@ -128,10 +127,15 @@ public class SectionCheck {
 					
 					/* Will need to be moved into the startComment==false if loop */
 					if(charArray.getChar(j)=='>') {
+						// Check if self closing
+						selfClosing = Mysqlfunctions.isSelfClosing(tag);
+						
 						/* Resets flag values and tag string */
 						closeTag = true;
 						openTag = false;
 						tag = null;
+						
+						
 						// Check if comment tag closed
 						if((charArray.getChar(j-1)=='-') && (charArray.getChar(j-2)=='-') && (startComment==true)) {
 							startComment = false;
@@ -142,8 +146,20 @@ public class SectionCheck {
 								JSONObject error = new JSONObject();
 								error.put("message", "This tag is self-closing but is not self closed");
 								error.put("type", "semantic");
-								error.put("line", i);
-								error.put("column", j);
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+							}
+							selfClosing = false;
+						} else if (!selfClosing) { 						
+							if(charArray.getChar(j-1) == '/') {
+								
+								JSONObject error = new JSONObject();
+								error.put("message", "This tag is self-closed but is not allowed to be");
+								error.put("type", "semantic");
+								error.put("line", i+1);
+								error.put("col", j);
 								errors.put(errorCount, error);
 								errorCount += 1;
 							}

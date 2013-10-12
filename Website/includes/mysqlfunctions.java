@@ -15,11 +15,14 @@ public class Mysqlfunctions {
 
 	private static ResultSet ConnectDB(String Q) {
 
-		String msg = null;
 		String url = "htmlthor.com";
 		ResultSet result = null;
 		
-		//Class.forName("com.mysql.jdbc.Driver");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (Exception ex) {
+			
+		}
 		Connection con = null;
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://htmlthor.com/htmlthor_db?" + "user=htmlthor_udb&password=test1");
@@ -154,12 +157,12 @@ public class Mysqlfunctions {
 		
 		Boolean msg = false;
 		
-		String query = new StringBuilder("SELECT * FROM Error WHERE depTag =  ").append(tagName).toString();
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ResultSet result = ConnectDB(query);
 		
 		try {
 			if (result.next()) {
-				if (result.getString("eID") != null) {
+				if (result.getInt("IsDeprecated") == 0) {
 					msg = true;
 				}
 			}
@@ -243,20 +246,22 @@ public class Mysqlfunctions {
 		
 		boolean msg = false;
 		
-		String query = new StringBuilder("SELECT * FROM Element WHERE EName = ").append(tagName).toString();
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ResultSet result = ConnectDB(query);
 		
 		try {
 			if (result.next()) {
-				if (result.getString("canSelfClose").equals("1")) {
-					msg = true;
+				if (result.getInt("CanSelfClose") == 1) {
+					return true;
 				}
-			}
+			} 
 		} catch (SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
+				
+			
 
 	   return msg;
 	}
