@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * 
  * Incomplete; do not integrate into error checking code yet.
  * 
+ * Work in Progress
+ *
  * @author Ameer Sabri
  */
 public class Encapsulation extends Mysqlfunctions {
