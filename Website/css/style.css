@@ -490,6 +490,7 @@ a {
 	width: 100%;
 	position: fixed;
 	border-bottom: 1px solid black;
+	z-index: 999;
 }
 
 .sectionTitle h2 {
@@ -1017,6 +1018,22 @@ h3.totalErrorsHeading {
     margin-bottom: 4px;
 }
 
+	.totalResult.syntax {
+		background-color: #ff1b56;	
+	}
+	
+	.totalResult.semantic {
+		background-color: #0096ff;
+	}
+	
+	.totalResult.warning {
+		background-color: #FFD912;
+	}
+	
+	.totalResult.deprecated {
+		background-color: #cb1789;
+	}
+
 	.feedback {
 		/* border:1px solid #243f66; */
 		padding:14px 18px;
@@ -1276,7 +1293,7 @@ span.brokenLinkIcon {
 		margin-bottom: 8px;
 		color: #969696;
 		/* text-align: center; */
-		padding-left: 49px;
+		padding-left: 66px;
 }
 
 .codeBackground {
@@ -1306,6 +1323,10 @@ span.brokenLinkIcon {
 
 
 /* Error Listing */
+
+#errorsWrapper {
+	margin-bottom: 20px;
+}
 
 #errors {
 	box-sizing: border-box;
@@ -1486,13 +1507,13 @@ pre.sourceCodeContainer {
 	
 	.qtip.qTipHighlight {
 		color: #ffffff;
-		background-color: #EBEBEB;
 		border: 1px solid #B9B9B9;
 		font-size: .9em;
 		padding: 0;
 		line-height: 1em;
 		max-width: 31%;
 		height: auto;
+		background-color: #F8F8F8;
 	}
 	
 		.qtip.qTipHighlight.syntax {
@@ -1530,6 +1551,7 @@ pre.sourceCodeContainer {
 		padding-left: 12px;
 		padding-top: 5px;
 		padding-bottom: 5px;
+		background-color: #EBEBEB;
 	}
 	
 		.leftMessage.syntax {
@@ -1565,8 +1587,7 @@ pre.sourceCodeContainer {
 	
 		padding-left: 8px;
 		/* border-left: 1px solid #FFFFFF; */
-		background-color: #F8F8F8;
-}
+	}
 	
 		.rightMessage p {
 			line-height: 1.3em;
@@ -1637,21 +1658,7 @@ pre.sourceCodeContainer {
 		color: #ACACAC;
 	}
 	
-	.errorHighlight.syntaxError {
-		/* background-color: #ff1b56; */	
-}
 	
-	.errorHighlight.semanticError {
-		background-color: #0096ff;	
-	}
-	
-	.errorHighlight.warningError {
-		background-color: #FFD912;	
-	}
-	
-	.errorHighlight.deprecatedError {
-		background-color: #cb1789;	
-	}
 	
 	.sourceCodeContainer .errorHighlight span {
 		/* color: #535353; */
@@ -1671,7 +1678,7 @@ pre.sourceCodeContainer {
 	
 		#pageSource .testError {
 			position: absolute;
-			left: -50px;
+			left: -90px;
 			top: -2px;
 		}
 	
@@ -1747,7 +1754,7 @@ ol.linenums {
 }
 
 ol, ul.square, ul.circle, ul.disc {
-    margin-left: 60px;
+    margin-left: 90px;
 }
 
 pre {

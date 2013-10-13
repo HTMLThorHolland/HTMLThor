@@ -89,7 +89,7 @@
 					revealSite();
 				}
 				 $('html, body').animate({
-					 scrollTop: $("#structure").offset().top
+					 scrollTop: $("#structure").offset().top - 100
 				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
@@ -101,7 +101,7 @@
 					revealSite();
 				}
 				 $('html, body').animate({
-					 scrollTop: $("#sourceTitle").offset().top
+					 scrollTop: $("#sourceTitle").offset().top - 100
 				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');
@@ -113,7 +113,7 @@
 					revealSite();
 				}
 				 $('html, body').animate({
-					 scrollTop: $("#errorsTitle").offset().top
+					 scrollTop: $("#errorsTitle").offset().top - 100
 				 }, 600);
 				removeLocation();
 				$(this).addClass('currentLocation');

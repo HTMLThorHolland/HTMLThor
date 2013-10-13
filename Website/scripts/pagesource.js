@@ -3,6 +3,7 @@
 var oldSource = new Array(); /* Has no error messages */
 var finalSource = new Array();
 
+
 /*
  * Iterates through the source code, escapes certain HTML characters.
  * Populates the page source tab with the converted source code.
@@ -90,11 +91,17 @@ function generateErrors(source, filename, fileNumber) {
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		source[lineNumber] = "<div fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer syntax'><span class='errorHighlight syntaxError'>"+source[lineNumber]+"</span></div><div style='clear:both'></div>"
+		source[lineNumber] = "<div fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+"'><span class='errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span></div><div style='clear:both'></div>"
 	}
 	console.log("finish finding errors");
 	return source;
 }
+
+/*  
+	Receive source code
+	Iterate through each error.
+	Highlight where the error takes place.
+*/
 
 function openSourceFile(filename) {
 	$('#sourceLink').click();
@@ -125,14 +132,6 @@ function getContent(error) {
 	for(var i = 0; i < jsonObject[0].errors.count; i++) {
 		/* If this is the case, we know what error message to show */
 		if(jsonObject[0].errors[i].line == linePos) {
-			//alert(errors[i][1]);
-			/*
-				errors[i][0] - error ID (used in html generation)
-				errors[i][1] - error Class (used to specify the type of error)
-				errors[i][2] - error Type (text describing the category of error)
-				errors[i][3] - error Line (the line the error takes place on)
-				errors[i][4] - error Message (the message that appears)
-			*/
 			return "<div class='leftMessage "+jsonObject[0].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[0].errors[i].type+"'>"+jsonObject[0].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[0].errors[i].message+"</p></div>";
 		}
 	}
