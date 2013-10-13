@@ -3,7 +3,7 @@ var jsonObject;
 
 if ($.cookie("dirPath")) {
 
-	console.log("cookie detected");
+	console.log("cookie detected at: "+$.cookie("dirPath"));
 	
 	
 	/*

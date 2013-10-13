@@ -27,6 +27,13 @@ function rockAndRoll() {
 
 }
 
+/*
+ *	TODO: Initially select the file with the most errors to be displayed.
+ */
+function selectMostErrors() {
+	var fileMostErrors = "";
+}
+
 function initSelectBoxes() {
 	var selectBoxes = $('.selectFileObject');
 	for(var i = 0; i < jsonObject.filecount; i++) {
@@ -98,7 +105,6 @@ function revealSite() {
 	hideSections();
 	removeLocation();
 	$('#breakdownLink').addClass('currentLocation');
-	setScrollWidth(); // for page source scrollbar
 	singlePageView();
 	console.log("site has been revealed");
 }

@@ -3,6 +3,8 @@
 var oldSource = new Array(); /* Has no error messages */
 var finalSource = new Array();
 
+// JSONObject to contain all file errors.
+var allFileErrorLocations = {};
 
 /*
  * Iterates through the source code, escapes certain HTML characters.
@@ -38,12 +40,14 @@ function setPageSource(source, filename, fileNumber) {
 	testSource = ["line 1","line 2","line 3"];
 	// remove '.' from filename replace with '_'
 	filename = filename.replace(/\./g,"_");
-	finalSourcePre = "<pre class='sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSourceSubCode.join("")+"</pre>";
+	finalSourcePre = "<pre name='code' class='html:twilight sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSourceSubCode.join("")+"</pre>";
 	$('#pageSource').append(finalSourcePre);
 	//$("#"+filename+".Pre").html(finalSourceSubCode);
 	//console.log($("#"+filename+".Pre").html());
 	//console.log("final source is " + finalSourceSubCode);
 	prettyPrint();
+	// DELETE NOT WORKING $$('pre').light({ altLines: 'hover' });
+	// broken $("pre.htmlCode").snippet("html");
 	addErrorIcon(filename);
 	
 	//oldSourceSub add filename and oldSourceSubCode;
@@ -70,9 +74,22 @@ function setPageSource(source, filename, fileNumber) {
 /* Adds the error icon that is displayed on the source code page. */
 function addErrorIcon(filename) {
 	//console.log("running");
-	$("#"+filename+"_Pre").children(".linenums").children("li").children(".errorContainer").each(function () {
-		console.log($(this));
-		$(this).children(".errorHighlight").after("<div class='nocode testError'></div>");
+	$("#"+filename+"_Pre").children(".linenums").children("li").children(".errorSourceWrapper").each(function () {
+		console.log($(this)+" creating error icon for this.");
+		// OLD WORKING ONE: $(this).children(".errorContainer").after("<div class='nocode testError'></div>");
+		stringOfErrors = $(this).attr("errortypes");
+		arrayOfErrors = stringOfErrors.split(' ');
+		console.log("Here are the error types: "+stringOfErrors);
+		
+		errorIcon = "<div class='errorIcon'>";
+		
+		for(var i = 0; i < arrayOfErrors.length; i++) {
+			errorIcon += "<div class='"+arrayOfErrors[i]+"' style='height: "+1 / arrayOfErrors.length * 100+"%;'></div>";
+		}
+		
+		errorIcon += "</div>";
+		
+		$(this).children(".errorContainer").after(errorIcon);
 	});
 }
 
@@ -87,14 +104,103 @@ function addErrorIcon(filename) {
  */
 function generateErrors(source, filename, fileNumber) {
 	console.log("begin finding errors: " + jsonObject[fileNumber].errors.count);
+	
+	
+	var errorLineNumbers = new Array();
+	
+	
 	for(var i = 0; i < jsonObject[fileNumber].errors.count; i++) {
+		
+		var lineAndErrorTypes = new Array();
+	
+		var errorTypes = new Array();
+		
+		errorTypes.push(jsonObject[fileNumber].errors[i].type);
+	
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		source[lineNumber] = "<div fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+"'><span class='errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span></div><div style='clear:both'></div>"
+		source[lineNumber] = "<span filenumber='"+fileNumber+"' fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		if(!containsLine(errorLineNumbers, lineNumber)) {
+			lineAndErrorTypes.push(lineNumber);
+			lineAndErrorTypes.push(errorTypes);
+			errorLineNumbers.push(lineAndErrorTypes);
+		}
+		else {
+			//console.log("IMPORTANT ALREADY ADDED AT: "+getPosition(errorLineNumbers, lineNumber));
+			if (!contains(errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1], jsonObject[fileNumber].errors[i].type)) {
+				errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1].push(jsonObject[fileNumber].errors[i].type);
+			}
+		}
 	}
-	console.log("finish finding errors");
+	console.log("Begin wrapping errors!");
+	for(var j = 0; j < errorLineNumbers.length; j++) {
+		// TO DO, ADD CLASSES FOR EACH TYPE OF ERROR CONTAINED
+		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
+	}
+	console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
 	return source;
+}
+
+/*
+ *	Convert an array into a single line string with spaces.
+ */
+function generateClasses(classArray) {
+	console.log("Array contains: "+classArray);
+	classString = "";
+	for(var i = 0; i < classArray.length; i++) {
+		console.log("Item is: "+classArray[i]);
+		classString += classArray[i];
+		// if this isn't the last value add a space
+		if(i + 1 != classArray.length) {
+			classString += " ";
+		}
+	}
+	console.log("Final string: "+classString);
+	return classString
+}
+
+/*
+ *	IMPORTANT: THIS CHECKS INDEX[0] AND IS USED SPECIFICALLY FOR LINE NUMBER
+ *	Check to see if an array's item's first value contains value obj.
+ *	Return false if it does not contain the obj.
+ *	Return true if it does.
+ */
+function containsLine(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i][0] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ *	Check to see if an array contains value obj.
+ *	Return false if it does not contain the obj.
+ *	Return true if it does.
+ */
+function contains(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ *	Check to see if an array contains value obj.
+ *	Return false if it does not contain the obj.
+ *	Return true if it does.
+ */
+function getPosition(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i][0] === obj) {
+            return i;
+        }
+    }
+    return false;
 }
 
 /*  
@@ -104,18 +210,22 @@ function generateErrors(source, filename, fileNumber) {
 */
 
 function openSourceFile(filename) {
+	console.log("opening page source");
 	$('#sourceLink').click();
 	$('.sourceCodeContainer').not('#'+filename).hide();
 	$('#'+filename).show();
+	setScrollWidth(filename);
 	console.log('#'+filename + " should be shown");
 	// when there are multiple files, there should be multiple page sources generated
 	// so this should hide all of them and then show the one with the correct id
 }
 
 function revealPageSource(filename) {
+	console.log("revealing page source");
 	filename = filename.replace(/\./g,"_");
 	$('.sourceCodeContainer').not('#'+filename+"_Pre").hide();
 	$('#'+filename+"_Pre").show();
+	setScrollWidth(filename+"_Pre");
 }
 
 
@@ -126,13 +236,12 @@ function revealPageSource(filename) {
  * @param  errorId  the id of the error
  * @return qtip error message
  */
-function getContent(error) {
+function getContent(error, filenumber) {
 	linePos = error.attr('errorId');
-	console.log(linePos + " " + jsonObject[0].errors[0].line);
-	for(var i = 0; i < jsonObject[0].errors.count; i++) {
+	for(var i = 0; i < jsonObject[filenumber].errors.count; i++) {
 		/* If this is the case, we know what error message to show */
-		if(jsonObject[0].errors[i].line == linePos) {
-			return "<div class='leftMessage "+jsonObject[0].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[0].errors[i].type+"'>"+jsonObject[0].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[0].errors[i].message+"</p></div>";
+		if(jsonObject[filenumber].errors[i].line == linePos) {
+			return "<div class='leftMessage "+jsonObject[filenumber].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[i].type+"'>"+jsonObject[filenumber].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[filenumber].errors[i].message+"</p></div>";
 		}
 	}
 	
@@ -151,6 +260,7 @@ $(document).ready(function() {
 	 $(document).delegate('.errorContainer', 'mouseover', function(event) {
 	 
 		var errorClass = $(this).attr('class').split(' ')[1];
+		var fileNumber = $(this).attr('filenumber');
 	 
 		$(this).qtip({
 			overwrite: false,
@@ -164,8 +274,11 @@ $(document).ready(function() {
 				target: $(this)
 			},
 			style: { classes: 'qTipHighlight ' + errorClass },
+			hide: {
+				/*event:"false"*/
+			}, 
 			content: {
-				text: getContent($(this))
+				text: getContent($(this), fileNumber)
 			}
 		});
 		
