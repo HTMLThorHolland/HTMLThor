@@ -1,8 +1,7 @@
-/* TO DO JAVADOC STYLE COMMENTING */
+var allBrokenLinksTotal = 0;
 
 $(document).ready(function() {
-	$('#structureContainer').html(getFiles(directory));
-	createTree(); // executes JSTree
+	generateFileStructure();
 });
 
 /* Example JSON Object that should be generated when a user uploads a directory via .zip */
@@ -44,6 +43,28 @@ var fileErrors = [
 	}
 ];
 
+function generateFileStructure() {
+	$('#structureContainer').html(getFiles(directory));
+	createTree(); // executes JSTree
+	$('#totalBroken').text(allBrokenLinksTotal);
+	if(allBrokenLinksTotal != 0) {
+		$('#totalBroken').addClass("broken");
+	}
+}
+
+/*
+ *	NOWHERE NEAR COMPLETE!
+ *	Create a new broken link error
+ *	Enter into #brokenErrorsContainer
+ */
+function generateBrokenError(errorMessage, fileName, lineNumber, underScoreName) {
+	errorDiv = "<div fileowner='"+fileName+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
+	errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
+	errorDiv += "<p class='errorDescription'>"+jsonObject[j].errors[i].message+"</p>";
+	errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
+	return errorDiv;
+}
+
 /* Loop through each base-level item in the directory */
 function getFiles(container) {
 	list = "<ul>";
@@ -59,6 +80,7 @@ function getFiles(container) {
 			list += "'";
 			// call function to generate a broken file in the overall broken files list
 			generateBrokenFile(container[i].name, container[i].totalErrors);
+			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */

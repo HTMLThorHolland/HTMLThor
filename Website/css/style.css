@@ -1033,6 +1033,10 @@ h3.totalErrorsHeading {
 	.totalResult.deprecated {
 		background-color: #cb1789;
 	}
+	
+	.totalResult.broken {
+		background-color: #ff7a01;
+	}
 
 	.feedback {
 		/* border:1px solid #243f66; */
