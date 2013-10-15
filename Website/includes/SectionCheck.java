@@ -45,13 +45,22 @@ public class SectionCheck {
 				
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
+				
+				
 					if(charArray.getChar(j)=='<') {
+						
 						openTag = true;
+						while (charArray.getChar(j+1) == ' ') {
+							j = j+1;
+						}
 						tagStart = j+1;
 						// Check if opened a comment tag
-						if((charArray.getChar(j+1)=='!') && (charArray.getChar(j+2)=='-') && (charArray.getChar(j+3)=='-')) {
-							startComment = true;
+						if (charArray.getLength() >= j+4) {
+							if((charArray.getChar(j+1)=='!') && (charArray.getChar(j+2)=='-') && (charArray.getChar(j+3)=='-')) {
+								startComment = true;
+							}
 						}
+						j = j+1;
 					}
 			
 					// As long as a comment tag is not open, another tag is open and 
@@ -68,7 +77,8 @@ public class SectionCheck {
 								}
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
-									if (tag.substring(0,1).equals("/")) {
+									
+									if (tag.substring(0,1).equals('/')) {
 										tag = tag.substring(1);
 									}
 									endTagName = true;
@@ -96,7 +106,7 @@ public class SectionCheck {
 									else if(!Mysqlfunctions.isDeprecated(tag)) {
 										JSONObject error = new JSONObject();
 										error.put("message", tag + " tag is a deprecated tag");
-										error.put("type", "semantic");
+										error.put("type", "deprecated");
 										error.put("line", i+1);
 										error.put("col", j);
 										errors.put(errorCount, error);
