@@ -66,7 +66,7 @@ function populateStatistics() {
 	}
 	
 	if(siteTotalSemantic != 0 && siteTotalSyntax == 0) {
-		$('#totalErrors').addClass('warning');
+		$('#totalErrors').addClass('semantic');
 	}
 	
 	if(siteTotalSyntax != 0) {

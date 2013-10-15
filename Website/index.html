@@ -55,25 +55,32 @@
 	<link rel="apple-touch-icon" size="114x114" href="images/apple-touch-icon-114x114.png">
 	
 	<!-- Syntax Highlighter Imports
-	================================================== -->
+	==================================================
 	<script type="text/javascript" src="scripts/shCore.js"></script>
 	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
 	<script type="text/javascript" src="scripts/shBrushXml.js"></script>
-	<link type="text/css" rel="stylesheet" href="css/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="css/shCore.css"/> -->
 	
 	<!-- GOOGLE PRETTIFY Syntax Highlighter Imports USING THIS ONE
 	================================================== -->
 	<script type="text/javascript" src="js/prettify/prettify.js"></script>
 	
 	<!-- Snippet DELETE NOT WORKING
-	================================================== -->
+	==================================================
 	<script type="text/javascript" src="js/jquery.snippet.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/jquery.min.snippet.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.min.snippet.css" />  -->
 	
 	<!-- Snippet DELETE NOT WORKING
-	================================================== -->
+	==================================================
 	<script type="text/javascript" src="js/mootools-core-1.4.5-full-compat-yc.js"></script>
-	<script type="text/javascript" src="js/lighter/Lighter.js"></script>
+	<script type="text/javascript" src="js/lighter/Lighter.js"></script>  -->
+	
+	<!-- TRIP JS (Tour)
+	================================================== -->
+	<script type="text/javascript" src="js/trip.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/trip.min.css"/>
+	<!-- Custom Controller Script for Tour -->
+	<script type="text/javascript" src="scripts/siteTour.js"></script>
 	
 	
 	
@@ -241,6 +248,15 @@
 				</div>
 			</div>
 			<div class="developers">SECRET DEVELOPER VIEW</div>
+			<div class="disclaimer">ABOUT HTML THOR</div>
+			<div class="disclaimerText">
+				<p>HTML THOR was developed by Fatima Arafeh, Simon Hales, Thorbjørn Hansen, Jonathan Holland, Ameer Sabri, Christopher Vanek.</p>
+				<p>HTML THOR utilises several external jQuery plugins including:</p>
+				<p><a href="http://qtip2.com/" target="_blank">qTip2</a></p>
+				<p><a href="https://code.google.com/p/google-code-prettify/" target="_blank">Prettify</a></p>
+				<p><a href="http://www.jstree.com/" target="_blank">jsTree</a></p>
+				<p>HTML THOR is in no way affiliated with Marvel Comics.</p>
+			</div>
 		</div>
 	</div>
 	
@@ -324,7 +340,11 @@
 						</p>
 					</div>
 				
-					<div id="goToUpload">
+					<div id="startSiteTour" class="actionButton">
+						<p>Site Tour</p>
+					</div>
+					<p class="extraText">or</p>
+					<div id="goToUpload" class="actionButton">
 						<p>Begin Validating!</p>
 					</div>
 					
@@ -334,7 +354,7 @@
 				
 					<div id="homeKey" class="information">
 						<h4>Types of <strong>Errors</strong></h4>
-						<div class="errorKey syntax">
+						<div id="homeSyntax" class="errorKey syntax">
 							<div class="testError"></div>
 							<h5>Syntax Errors</h5>
 							<div style="clear:both"></div>
@@ -342,7 +362,7 @@
 								A syntax error can be caused by something as simple as a typo! An example of a syntactic error in your code is like forgetting to close a tag with a > symbol or mistyping a letter, &lt;jead&gt; instead of &lt;head&gt; for example.								
 							</p>
 						</div>
-						<div class="errorKey semantic">
+						<div id="homeSemantic" class="errorKey semantic">
 							<div class="testError"></div>
 							<h5>Semantic Errors</h5>
 							<div style="clear:both"></div>

@@ -20,7 +20,8 @@
 
 /* TEMP CSS */
 
-.developers {
+.developers,
+.disclaimer {
 	font-size: .55em;
 	margin-left: 12px;
 	cursor: pointer;
@@ -28,9 +29,47 @@
 	color: #C1C1C1;
 }
 
-	.developers:hover {
+.disclaimer {
+	margin-top: 4px; /* CHANGE TO 20px */
+}
+
+	.developers:hover,
+	.disclaimer:hover {
 		text-decoration: underline;
 	}
+	
+.disclaimerText {
+	display: none;
+}
+
+.disclaimerTip.qtip {
+	max-width: 50%;
+	padding: 10px;
+	background-color: #313131;
+	border-left: 0;
+	border-color: #282828;
+}
+
+	.disclaimerTip.qtip p {
+		margin-bottom: 4px;
+		color: #B9B9B9;
+	}
+
+	.disclaimerTip.qtip a {
+		color: #E1E1E1;
+	}
+
+	.disclaimerTip.qtip a.qtip-icon {
+		color: #777;
+	}
+
+		.disclaimerTip.qtip a.qtip-icon:hover {
+			color: #000;
+		}
+
+		.disclaimerTip.qtip a:hover {
+			color: #FAFAFA;
+		}
 
 
 /* Hiding Site Elements */
@@ -544,12 +583,17 @@ a {
 
 /* Home / Help Section */
 
-#goToUpload {
+p.extraText {
+	margin: 5px 0;
+	font-size: .9em;
+}
+
+.actionButton {
 	cursor: pointer;
 	display: inline-block;
 }
 
-	#goToUpload p {
+	.actionButton p {
 		background-color: #3982EE;
 		font-size: 1em;
 		color: #F1F1F1;
@@ -559,7 +603,7 @@ a {
 		margin: 0;
 	}
 
-	#goToUpload:hover p {
+	.actionButton:hover p {
 		background-color: #4890FB;
 		text-decoration: underline;
 	}
@@ -716,7 +760,7 @@ button, button:hover {
 	border:0;
 	border-radius:0;
 	text-align:center;
-	padding:6px 8px;
+	padding:6px 10px;
 }
 
 button:hover {
@@ -1353,6 +1397,12 @@ span.brokenLinkIcon {
 	padding: 0 26px;
 	padding-bottom: 20px;
 }
+
+	.noErrors.errorListing {
+		margin-top: 20px;
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
 
 	.errorListing p {
 		margin-bottom: 10px;

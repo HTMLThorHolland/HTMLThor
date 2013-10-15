@@ -177,36 +177,38 @@
 					style: { classes: 'keyTip' },
 					content: {
 						text: $(this).children(".keyInfo").html()
+					},
+					hide: {
+						fixed: true
 					}
 				});
 			});
 			
-			/* TO BE DELETED
-			$(".key").click(function() {
-				$('.key').not(this).each(function(){
-					$(this).children('.keyInfo').slideUp();
-					$(this).removeClass('active');
-				 });
-				$(this).children('.keyInfo').slideToggle();
-				$(this).toggleClass('active');
+			/* DISCLAIMER: ABOUT HTML THOR */
+			
+			$(".disclaimer").click(function() {
+				$(this).qtip({
+					overwrite: false,
+					show: {
+						event: event.type,
+						ready: true
+					},
+					position: {
+						my: 'bottom left',
+						at: 'top right',
+						target: $(this),
+						viewport: $(window)
+					},
+					style: { classes: 'disclaimerTip' },
+					content: {
+						text: $(".disclaimerText").html(),
+						button: true
+					},
+					hide: {
+						event: 'unfocus'
+					}
+				});
 			});
-			
-			$(document).mouseup(function (e)
-			{
-				var container = $(".key");
-
-				if (!container.is(e.target)
-					&& container.has(e.target).length === 0)
-				{
-					$(".keyInfo").slideUp(function(){
-						$(".key").removeClass('active');			
-					});
-				}
-			});
-			*/
-			
-			
-			/* END HELP KEY */
 			
 			
 			/* Developer Testing */
