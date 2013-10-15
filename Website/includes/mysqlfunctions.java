@@ -13,32 +13,49 @@ import java.sql.Statement;
 */
 public class Mysqlfunctions {
 
-	private static ResultSet ConnectDB(String Q) {
-
-		String url = "htmlthor.com";
-		ResultSet result = null;
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (Exception ex) {
+	//Nested Class for DB Connect
+	private class ConnectDB {
+	
+			ResultSet result = null;
+			Connection con = null;
 			
-		}
-		Connection con = null;
-		try {
-			con = DriverManager.getConnection("jdbc:mysql://htmlthor.com/htmlthor_db?" + "user=htmlthor_udb&password=test1");
-			Statement stmt = con.createStatement();
-			result = stmt.executeQuery(Q);
-		
-		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-		}
+			public ConnectDB() {
+			
+			}
+	
+			public static ResultSet run(String Q) {
 
-		
-		
-		return result;
+				String url = "htmlthor.com";
+					
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (Exception ex) {
+					
+				}
+				
+				try {
+					con = DriverManager.getConnection("jdbc:mysql://htmlthor.com/htmlthor_db?" + "user=htmlthor_udb&password=test1");
+					Statement stmt = con.createStatement();
+					result = stmt.executeQuery(Q);
+				
+				} catch (SQLException ex) {
+					System.out.println("SQLException: " + ex.getMessage());
+					System.out.println("SQLState: " + ex.getSQLState());
+					System.out.println("VendorError: " + ex.getErrorCode());
+				}
+				return result;
+			}
+			
+			
+			public static close() {
+			
+				con.close();
+			
+				return
+			}
 	}
+
+	
 
 
 	public static String getErrMsg(int eID) {
@@ -46,7 +63,10 @@ public class Mysqlfunctions {
 		String msg = null;
 		
 		String query = new StringBuilder("SELECT * FROM Error WHERE eID = '").append(eID).append("'").toString();
-		ResultSet result = ConnectDB(query);
+		
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
 		if (result == null) {
 			return "No message";
 		}
@@ -60,6 +80,7 @@ public class Mysqlfunctions {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		
+	   con.close();	
 	   return msg; 
 	}
 
@@ -72,7 +93,8 @@ public class Mysqlfunctions {
 		if (tbl.equals("dep")) {
 		
 			String query = new StringBuilder("SELECT * FROM Deprecated WHERE depTag = ").append(tag).toString();
-			ResultSet result = ConnectDB(query);
+			ConnectDB con = new ConnectDB();
+			ResultSet result = con.run(query);
 
 			try {
 				while(result.next())
@@ -90,7 +112,8 @@ public class Mysqlfunctions {
 		
 			
 			String query = new StringBuilder("SELECT * FROM Element WHERE EName = ").append(tag).toString();
-			ResultSet result = ConnectDB(query);
+			ConnectDB con = new ConnectDB();
+			ResultSet result = con.run(query);
 
 			
 			try {
@@ -111,7 +134,8 @@ public class Mysqlfunctions {
 		} else if  (tbl.equals("att")) {
 		
 			String query = new StringBuilder("SELECT * FROM RequiredAttributes WHERE EName = ").append(tag).toString();
-			ResultSet result = ConnectDB(query);
+			ConnectDB con = new ConnectDB();
+			ResultSet result = con.run(query);
 			
 			try {
 				while(result.next())
@@ -129,6 +153,7 @@ public class Mysqlfunctions {
 			//exit with not a valid table
 		}
 
+		con.close();	
 	   return (ArrayList)list; 
 	}
 
@@ -139,7 +164,8 @@ public class Mysqlfunctions {
 		List<String> list = new ArrayList<String>();
 		
 		String query = "SELECT * FROM Element";
-		ResultSet result = ConnectDB(query);
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
 		
 		if (result == null) {
 			return (ArrayList<String>) list;
@@ -154,6 +180,7 @@ public class Mysqlfunctions {
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
+		con.close();	
 		return (ArrayList<String>) list;
 	}
 
@@ -163,7 +190,8 @@ public class Mysqlfunctions {
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
-		ResultSet result = ConnectDB(query);
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
 		
 		if (result == null) {
 			return false;
@@ -181,6 +209,7 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
+		con.close();	
 	   return msg;
 	}
 
@@ -190,7 +219,8 @@ public class Mysqlfunctions {
 		boolean msg = false;
 		
 		String query = new StringBuilder("SELECT * FROM Error WHERE EName =  ").append(tagName).toString();
-		ResultSet result = ConnectDB(query);
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
 		
 		if (result == null) {
 			return false;
@@ -209,6 +239,7 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
+		con.close();	
 	   return msg;
 		
 	}
@@ -219,7 +250,9 @@ public class Mysqlfunctions {
 		List<String> list = new ArrayList<String>();
 		
 		String query = "SELECT * FROM Attribute";
-		ResultSet result = ConnectDB(query);
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
 		if (result == null) {
 			return (ArrayList<String>) list;
 		}
@@ -235,6 +268,7 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
+		con.close();	
 	   return (ArrayList<String>) list;
 
 	}
@@ -263,7 +297,8 @@ public class Mysqlfunctions {
 		boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
-		ResultSet result = ConnectDB(query);
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
 		
 		if (result == null) {
 			return false;
@@ -283,6 +318,7 @@ public class Mysqlfunctions {
 				
 			
 
+		con.close();	
 	   return msg;
 	}
 	
@@ -293,7 +329,30 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public static boolean isMeta(String tagName) {
-		return false;
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsMeta") == 0) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+	   return msg;
 	}
 	
 	/*
@@ -302,7 +361,30 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public static boolean isTableElement(String tagName) {
-		return false;
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsTableElement") == 0) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+	   return msg;
 	}
 	
 	/*
@@ -311,7 +393,30 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public static boolean isFormElement(String tagName) {
-		return false;
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsFormElement") == 0) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+	   return msg;
 	}
 	
 }
