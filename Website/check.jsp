@@ -107,7 +107,7 @@
                 	Cookie cookie = new Cookie("dirPath", directoryPath);
                 	response.addCookie(cookie);
                 
-                	String redirectURL = "http://www.htmlthor.com";
+                	String redirectURL = "http://htmlthor.com";
                 	response.sendRedirect(response.encodeRedirectURL(redirectURL));
    		 		}
    		 		
