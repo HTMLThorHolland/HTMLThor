@@ -333,7 +333,7 @@
 						</p>
 					</div>
 				
-					<div class="information">
+					<div id="homeResources" class="information">
 						<h4>HTML5 <strong>Resources</strong></h4>
 						<p>
 							Want to check out some HTML5 resources? Stop by <a href="http://www.w3schools.com/html/html5_intro.asp" target="_blank">W3Schools</a>, <a href="http://www.html5rocks.com/en/resources" target="_blank">HTML5 Rocks</a>, and <a href="http://html5doctor.com/resources/" target="_blank">HTML5 Doctor</a>. Don't forget to bookmark HTML Thor! Stay updated for more awesome links by following our <a href="https://twitter.com/flee1906" target="_blank">twitter account</a>.
@@ -466,54 +466,54 @@
 				</div>
 				<div class="sectionContent sectionHalf">
 					<h3>upload</h3>
-					<div onclick="getFile('singleUpload')" class="uploadCat">
-						<div class="uploadTitle"><p>single file</p></div>
-						<div id="iconSingleUpload" class="thumb"></div>
-						<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
-							<button id="single" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
-						</form>
-						<!--
-						<form action="upload2.jsp" method="POST"
-												enctype="multipart/form-data">
-						<input type="file" name="file" size="50" />
-						<br />
-						<input type="submit" value="Upload File" />
-						</form>
-						-->
-					</div>
-					<div onclick="getFile('multiUpload')" class="uploadCat">
-						<div class="uploadTitle"><p>multiple files</p></div>
-						<div id="iconMultiUpload" class="thumb"></div>
-						<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
-							<button id="multi" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" value="upload" onchange="uploadJSP(this.id)" multiple></div>
-						</form>
-					</div>
-					<div onclick="getFile('zipUpload')" class="uploadCat">
-						<div class="uploadTitle"><p>zip directory</p></div>
-						<div id="iconZipUpload" class="thumb"></div>
-						<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
-							<button id="zip" type="button">browse</button>
-							<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
-						</form>
-					</div>
-					<div style="clear:both"></div>
-					<div class="sixteen columns">
-						<div class="alternativeUploads">
-							<h3>or</h3>
-							<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
-								<label for="input-url">enter a url</label><input type="text" name="input-url" placeholder="example.com">
-								<button class="alternativeButton" id="urlButton" type="button">validate</button>
-								<div style="clear:both"></div>
+					<div id="uploadFileOptions">
+						<div onclick="getFile('singleUpload')" class="uploadCat">
+							<div class="uploadTitle"><p>single file</p></div>
+							<div id="iconSingleUpload" class="thumb"></div>
+							<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
+								<button id="single" type="button">browse</button>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" onchange="uploadJSP(this.id)" value="file"></div>
 							</form>
-							<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
-								<label for="input-direct">direct input</label>
-								<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
-								<button class="alternativeButton" id="alternativeButton" type="button">validate</button>
-								<div style="clear:both"></div>
+							<!--
+							<form action="upload2.jsp" method="POST"
+													enctype="multipart/form-data">
+							<input type="file" name="file" size="50" />
+							<br />
+							<input type="submit" value="Upload File" />
+							</form>
+							-->
+						</div>
+						<div onclick="getFile('multiUpload')" class="uploadCat">
+							<div class="uploadTitle"><p>multiple files</p></div>
+							<div id="iconMultiUpload" class="thumb"></div>
+							<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
+								<button id="multi" type="button">browse</button>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" value="upload" onchange="uploadJSP(this.id)" multiple></div>
 							</form>
 						</div>
+						<div onclick="getFile('zipUpload')" class="uploadCat">
+							<div class="uploadTitle"><p>zip directory</p></div>
+							<div id="iconZipUpload" class="thumb"></div>
+							<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
+								<button id="zip" type="button">browse</button>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" value="upload" onchange="uploadJSP(this.id)"></div>
+							</form>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div id="uploadInputOptions" class="alternativeUploads">
+						<h3>or</h3>
+						<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
+							<label for="input-url">enter a url</label><input type="text" name="input-url" placeholder="example.com">
+							<button class="alternativeButton" id="urlButton" type="button">validate</button>
+							<div style="clear:both"></div>
+						</form>
+						<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
+							<label for="input-direct">direct input</label>
+							<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
+							<button class="alternativeButton" id="alternativeButton" type="button">validate</button>
+							<div style="clear:both"></div>
+						</form>
 					</div>
 				</div>
 				<div id="uploadInfo" class="sectionContent sectionHalf">
