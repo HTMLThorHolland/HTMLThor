@@ -23,7 +23,7 @@ public class Mysqlfunctions {
 			
 			}
 	
-			public static ResultSet run(String Q) {
+			public ResultSet run(String Q) {
 
 				String url = "htmlthor.com";
 					
@@ -47,18 +47,24 @@ public class Mysqlfunctions {
 			}
 			
 			
-			public static close() {
+			public void close() {
 			
-				con.close();
+				try {
+					con.close();
+				} catch (SQLException ex) {
+					System.out.println("SQLException: " + ex.getMessage());
+					System.out.println("SQLState: " + ex.getSQLState());
+					System.out.println("VendorError: " + ex.getErrorCode());
+				}
 			
-				return
+				return;
 			}
 	}
 
 	
 
 
-	public static String getErrMsg(int eID) {
+	public String getErrMsg(int eID) {
 		
 		String msg = null;
 		
@@ -86,7 +92,7 @@ public class Mysqlfunctions {
 
 
 	//Options for tbl are - dep,elem,att (deprecated element and attribte repesctively)
-	public static List<String> getDBanswer(String tbl, String tag) {
+	public List<String> getDBanswer(String tbl, String tag) {
 
 		List<String> list = new ArrayList<String>();
 		
@@ -107,6 +113,8 @@ public class Mysqlfunctions {
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 			}
+			
+			con.close();
 			
 		} else if  (tbl.equals("elem")) {
 		
@@ -130,6 +138,8 @@ public class Mysqlfunctions {
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
 			}
+			
+			con.close();
 		
 		} else if  (tbl.equals("att")) {
 		
@@ -149,16 +159,18 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 			}
 			
+			con.close();
+			
 		} else {
 			//exit with not a valid table
 		}
 
-		con.close();	
+			
 	   return (ArrayList)list; 
 	}
 
 	//Returns a list of Arrays - get deprecated tags * NOTE!
-	public static ArrayList<String> getTags() {
+	public ArrayList<String> getTags() {
 		
 		
 		List<String> list = new ArrayList<String>();
@@ -185,7 +197,7 @@ public class Mysqlfunctions {
 	}
 
 	//Return true or false for deprecated or not
-	public static boolean isDeprecated(String tagName) {
+	public boolean isDeprecated(String tagName) {
 		
 		Boolean msg = false;
 		
@@ -214,7 +226,7 @@ public class Mysqlfunctions {
 	}
 
 	//Returns true if tag requires an Attribute
-	public static boolean requiresAttr(String tagName) {
+	public boolean requiresAttr(String tagName) {
 
 		boolean msg = false;
 		
@@ -245,7 +257,7 @@ public class Mysqlfunctions {
 	}
 
 	//Returns a list of all Attribtes for a tagName
-	public static ArrayList<String> getAttr(String tagName) {
+	public ArrayList<String> getAttr(String tagName) {
 
 		List<String> list = new ArrayList<String>();
 		
@@ -275,7 +287,7 @@ public class Mysqlfunctions {
 
 
 	//If a tag exists
-	public static boolean checkValidTag(String tagName) {
+	public boolean checkValidTag(String tagName) {
 
 		
 
@@ -292,7 +304,7 @@ public class Mysqlfunctions {
 	}
 
 
-	public static boolean isSelfClosing(String tagName) {
+	public boolean isSelfClosing(String tagName) {
 		
 		boolean msg = false;
 		
@@ -328,7 +340,7 @@ public class Mysqlfunctions {
 	 * 
 	 * UNIMPLEMENTED
 	 */
-	public static boolean isMeta(String tagName) {
+	public boolean isMeta(String tagName) {
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -360,7 +372,7 @@ public class Mysqlfunctions {
 	 * 
 	 * UNIMPLEMENTED
 	 */
-	public static boolean isTableElement(String tagName) {
+	public boolean isTableElement(String tagName) {
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -392,7 +404,7 @@ public class Mysqlfunctions {
 	 * 
 	 * UNIMPLEMENTED
 	 */
-	public static boolean isFormElement(String tagName) {
+	public boolean isFormElement(String tagName) {
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
