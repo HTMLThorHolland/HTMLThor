@@ -16,6 +16,7 @@ public class SectionCheck {
 		/* This is the coding for the NEW error checking */
 		public JSONObject findErrors(List<String> fileContents) {
 		
+			Mysqlfunctions sql = new Mysqlfunctions();
 		
 			JSONObject errors = new JSONObject();
 			boolean openTag = false;
@@ -89,7 +90,7 @@ public class SectionCheck {
 								
 								
 									// If it is not a valid tag
-									if(!Mysqlfunctions.checkValidTag(tag)) {
+									if(!sql.checkValidTag(tag)) {
 										
 										// Note that some of these additions should use database references in future
 										JSONObject error = new JSONObject();
@@ -103,7 +104,7 @@ public class SectionCheck {
 										
 									}	
 									// If it a deprecated tag
-									else if(!Mysqlfunctions.isDeprecated(tag)) {
+									else if(!sql.isDeprecated(tag)) {
 										JSONObject error = new JSONObject();
 										error.put("message", tag + " tag is a deprecated tag");
 										error.put("type", "deprecated");
@@ -123,7 +124,7 @@ public class SectionCheck {
 								
 								
 									// Check if self closing
-									selfClosing = Mysqlfunctions.isSelfClosing(tag);
+									selfClosing = sql.isSelfClosing(tag);
 								
 								
 								
@@ -198,7 +199,7 @@ public class SectionCheck {
 						if(openAttr == true) {
 							String attr = charArray.getString(attrStart, j-1);
 							List<String> attrList = new ArrayList<String>();
-							attrList = Mysqlfunctions.getAttr(tag);
+							attrList = sql.getAttr(tag);
 							boolean validAttr = false;
 							for (int a = 0; a < attrList.size(); a++) {
 								if(attrList.get(a).equals(attr)) {
