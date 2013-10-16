@@ -22,6 +22,7 @@ public class SectionCheck {
 			boolean openTag = false;
 			boolean closeTag =  false;
 			boolean startComment = false;
+			boolean startPhp = false;
 			boolean whiteSpaceFlag = false;
 			boolean selfClosing = false;
 			boolean openAttr = false;
@@ -63,6 +64,14 @@ public class SectionCheck {
 								startComment = true;
 							}
 						}
+						
+						// Check if opened a php tag
+						if (charArray.getLength() >= j+5) {
+							if((charArray.getChar(j+1)=='?') && (charArray.getChar(j+2)=='p') && (charArray.getChar(j+3)=='h') && (charArray.getChar(j+4)=='p')) {
+								startPhp = true;
+							}
+						}
+						
 						j = j+1;
 						
 						
@@ -78,7 +87,7 @@ public class SectionCheck {
 			
 					// As long as a comment tag is not open, another tag is open and 
 					// whitespace has not been reached to signal the end of the tag name:
-					if ((startComment==false) && (openTag==true)) {
+					if ((startComment==false) && (openTag==true) && (startPhp==false)) {
 						if(whiteSpaceFlag==false) {
 							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>')) {
 								if(charArray.getChar(j)==' ') {
@@ -269,6 +278,11 @@ public class SectionCheck {
 					if (startComment == true && j > 2) {
 						if((charArray.getChar(j-2)=='-') && (charArray.getChar(j-1)=='-') && (charArray.getChar(j)=='>')) {
 							startComment = false;
+						}
+					}
+					if (startPhp == true && j > 1) {
+						if((charArray.getChar(j-1)=='?') && (charArray.getChar(j)=='>')) {
+							startPhp = false;
 						}
 					}
 					
