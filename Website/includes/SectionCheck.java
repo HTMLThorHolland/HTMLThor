@@ -32,6 +32,7 @@ public class SectionCheck {
 			boolean endTagName = false;
 			boolean faultyTag = false;
 			boolean tagChecked = false;
+			boolean selfClosingError = false;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -79,7 +80,8 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									
-									if (tag.substring(0,1).equals('/')) {
+									if (tag.substring(0,1).equals("/")) {
+										
 										tag = tag.substring(1);
 									}
 									endTagName = true;
@@ -127,32 +129,72 @@ public class SectionCheck {
 									selfClosing = sql.isSelfClosing(tag);
 								
 								
+									int closingChecker = j-1;
+									while (closingChecker == ' ' && closingChecker > 0) {
+										closingChecker = closingChecker-1;
+									}
+								
 								
 									// Check if comment tag closed
 									
-									if (selfClosing) { 						
-										if(charArray.getChar(j-1) != '/') {
+									if (selfClosing) { 		
 										
-											JSONObject error = new JSONObject();
-											error.put("message", tag + " is self-closing but is not self closed");
-											error.put("type", "semantic");
-											error.put("line", i+1);
-											error.put("col", j);
-											errors.put(errorCount, error);
-											errorCount += 1;
+										if(charArray.getChar(closingChecker) != '/') {
+											
+											selfClosingError = true;
+											
+											if (selfClosingError) {
+												JSONObject error = new JSONObject();
+												error.put("message", tag + " is self-closing but is not self closed.");
+												error.put("type", "semantic");
+												error.put("line", i+1);
+												error.put("col", closingChecker);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											}
+										} else {
+										
+											selfClosingError = true;
+											if (closingChecker > 0) {
+												if (charArray.getChar(closingChecker-1) == ' ') {
+													selfClosingError = false;
+												}
+											}
+											
+											if (selfClosingError) {
+												JSONObject error = new JSONObject();
+												error.put("message", tag + " is self-closing but is not self closed. You may want to include a space before the closing '/'.");
+												error.put("type", "semantic");
+												error.put("line", i+1);
+												error.put("col", closingChecker);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											}
+										
 										}
 										selfClosing = false;
 									} else if (!selfClosing) { 						
-										if(charArray.getChar(j-1) == '/') {
+										//if(charArray.getChar(closingChecker) == '/') {
+											
+											selfClosingError = true;
+											
+											if (closingChecker > 0) {
+												if (charArray.getChar(closingChecker) != ' ') {
+													selfClosingError = false;
+												}
+											}
+											
+											//if (selfClosingError) {									
 										
-											JSONObject error = new JSONObject();
-											error.put("message", tag + " is self-closed but is not allowed to be");
-											error.put("type", "semantic");
-											error.put("line", i+1);
-											error.put("col", j);
-											errors.put(errorCount, error);
-											errorCount += 1;
-										}
+												JSONObject error = new JSONObject();
+												error.put("message", tag + " is self-closed but is not allowed to be ..." + charArray.getChar(closingChecker) + "...");
+												error.put("type", "semantic");
+												error.put("line", i+1);
+												error.put("col", closingChecker);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											//}
+										//}
 										selfClosing = false;
 									}
 							
