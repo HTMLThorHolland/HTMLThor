@@ -27,12 +27,13 @@ public class SectionCheck {
 			boolean openAttr = false;
 			int tagStart = 0;
 			int attrStart = 0;
-			String tag = null;
+			String tag = "";
 			int errorCount = 0;
 			boolean endTagName = false;
 			boolean faultyTag = false;
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
+			JSONObject error;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -63,7 +64,17 @@ public class SectionCheck {
 							}
 						}
 						j = j+1;
+						
+						
+						
+								
+						
 					}
+			
+			
+								
+					
+			
 			
 					// As long as a comment tag is not open, another tag is open and 
 					// whitespace has not been reached to signal the end of the tag name:
@@ -87,6 +98,10 @@ public class SectionCheck {
 									endTagName = true;
 								}
 								
+								
+								
+								
+								
 								if (!tagChecked) {
 								
 								
@@ -95,7 +110,7 @@ public class SectionCheck {
 									if(!sql.checkValidTag(tag)) {
 										
 										// Note that some of these additions should use database references in future
-										JSONObject error = new JSONObject();
+										error = new JSONObject();
 										error.put("message", tag + " is not a valid HTML tag");
 										error.put("type", "syntax");
 										error.put("line", i+1);
@@ -107,7 +122,7 @@ public class SectionCheck {
 									}	
 									// If it a deprecated tag
 									else if(!sql.isDeprecated(tag)) {
-										JSONObject error = new JSONObject();
+										error = new JSONObject();
 										error.put("message", tag + " tag is a deprecated tag");
 										error.put("type", "deprecated");
 										error.put("line", i+1);
@@ -123,6 +138,26 @@ public class SectionCheck {
 								if(charArray.getChar(j)=='>') {
 								
 								
+									/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								/*
+								error = new JSONObject();
+								error.put("message", tagStart + " " + j + " " + tag + " is not a valid HTML tag");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								*/
+								/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								/* ################################################# */
+								
 								
 								
 									// Check if self closing
@@ -130,8 +165,10 @@ public class SectionCheck {
 								
 								
 									int closingChecker = j-1;
-									while (closingChecker == ' ' && closingChecker > 0) {
+									while (charArray.getChar(closingChecker) == ' ' && closingChecker > 0) {
+										
 										closingChecker = closingChecker-1;
+										
 									}
 								
 								
@@ -144,7 +181,7 @@ public class SectionCheck {
 											selfClosingError = true;
 											
 											if (selfClosingError) {
-												JSONObject error = new JSONObject();
+												error = new JSONObject();
 												error.put("message", tag + " is self-closing but is not self closed.");
 												error.put("type", "semantic");
 												error.put("line", i+1);
@@ -154,15 +191,15 @@ public class SectionCheck {
 											}
 										} else {
 										
-											selfClosingError = true;
+											selfClosingError = false;
 											if (closingChecker > 0) {
-												if (charArray.getChar(closingChecker-1) == ' ') {
-													selfClosingError = false;
+												if (charArray.getChar(closingChecker-1) != ' ') {
+													selfClosingError = true;
 												}
 											}
 											
 											if (selfClosingError) {
-												JSONObject error = new JSONObject();
+												error = new JSONObject();
 												error.put("message", tag + " is self-closing but is not self closed. You may want to include a space before the closing '/'.");
 												error.put("type", "semantic");
 												error.put("line", i+1);
@@ -174,27 +211,27 @@ public class SectionCheck {
 										}
 										selfClosing = false;
 									} else if (!selfClosing) { 						
-										//if(charArray.getChar(closingChecker) == '/') {
+										if(charArray.getChar(closingChecker) == '/') {
 											
 											selfClosingError = true;
 											
 											if (closingChecker > 0) {
-												if (charArray.getChar(closingChecker) != ' ') {
+												if (charArray.getChar(closingChecker-1) != ' ') {
 													selfClosingError = false;
 												}
 											}
 											
-											//if (selfClosingError) {									
+											if (selfClosingError) {									
 										
-												JSONObject error = new JSONObject();
-												error.put("message", tag + " is self-closed but is not allowed to be ..." + charArray.getChar(closingChecker) + "...");
+												error = new JSONObject();
+												error.put("message", tag + " is self-closed but is not allowed to be.");
 												error.put("type", "semantic");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
 												errors.put(errorCount, error);
 												errorCount += 1;
-											//}
-										//}
+											}
+										}
 										selfClosing = false;
 									}
 							
@@ -212,12 +249,16 @@ public class SectionCheck {
 						else {
 							if (j != 0) {
 									
-								if((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ') && (charArray.getChar(j) != '>')) {
-									if( (Character.isLetter(charArray.getChar(j))) == true) {
-										attrStart = j;
-										openAttr = true;
+								if((charArray.getChar(j) != '>')) {
+									if ((charArray.getChar(j-1) == ' ') && (charArray.getChar(j) != ' ')) {
+										if( (Character.isLetter(charArray.getChar(j))) == true) {
+											attrStart = j;
+											openAttr = true;
 										
+										}
 									}
+								} else {
+									j = j - 1;
 								}
 							}
 							whiteSpaceFlag = false;
@@ -250,7 +291,7 @@ public class SectionCheck {
 							
 							}
 							if (!validAttr) {
-								JSONObject error = new JSONObject();
+								error = new JSONObject();
 								error.put("message", attr + " is not a valid attribute for " + tag);
 								error.put("type", "syntax");
 								error.put("line", i+1);
