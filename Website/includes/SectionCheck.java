@@ -34,11 +34,29 @@ public class SectionCheck {
 			boolean faultyTag = false;
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
+			
+			// variables used for escaping script/style tag content
+			boolean openScript = false;
+			boolean openStyle = false;
+			int endEscapedTagPhase = 0; // used to find </script> and </style>
+			// 0: < not found
+			// 1: < found, / not found - whitespace permitted
+			// 2: / found, script/style not found - whitespace permitted
+			// 3: s found - whitespace not permitted
+			// 4: c/t found
+			// 5: r/y found
+			// 6: i/l found
+			// 7: p/e found
+			// 8: t found - looking for >
+			
+			
 			JSONObject error;
 			
 			
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
+			
+			
 
             	String nextLine = fileContents.get(i);
 				
@@ -49,6 +67,160 @@ public class SectionCheck {
 				
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
+				
+				
+					// ==============================================
+					// check whether a style tag is open, in which case content will be unchecked
+					// until </style> is found
+					// ==============================================
+					if (openStyle) {
+						if (endEscapedTagPhase == 0) {
+							if (charArray.getChar(j) == '<') {
+								// look for next char
+								endEscapedTagPhase = 1;
+							}
+						} else if (endEscapedTagPhase == 1) {
+							if (charArray.getChar(j) == '/') {
+								// look for next char
+								endEscapedTagPhase = 2;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 2) {
+							if (charArray.getChar(j) == 's') {
+								// look for next char
+								endEscapedTagPhase = 3;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 3) {
+							if (charArray.getChar(j) == 't') {
+								// look for next char
+								endEscapedTagPhase = 4;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 4) {
+							if (charArray.getChar(j) == 'y') {
+								// look for next char
+								endEscapedTagPhase = 5;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 5) {
+							if (charArray.getChar(j) == 'l') {
+								// look for next char
+								endEscapedTagPhase = 6;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 6) {
+							if (charArray.getChar(j) == 'e') {
+								// look for next char
+								endEscapedTagPhase = 7;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 7) {
+							if (charArray.getChar(j) == '>') {
+								// style has been closed
+								endEscapedTagPhase = 0;
+								openStyle = false;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						}
+						continue;
+					}
+					// ==============================================
+					// check whether a style tag is open, in which case content will be unchecked
+					// until </script> is found
+					// ==============================================
+					if (openScript) {
+						if (endEscapedTagPhase == 0) {
+							if (charArray.getChar(j) == '<') {
+								// look for next char
+								endEscapedTagPhase = 1;
+							}
+						} else if (endEscapedTagPhase == 1) {
+							if (charArray.getChar(j) == '/') {
+								// look for next char
+								endEscapedTagPhase = 2;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 2) {
+							if (charArray.getChar(j) == 's') {
+								// look for next char
+								endEscapedTagPhase = 3;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 3) {
+							if (charArray.getChar(j) == 'c') {
+								// look for next char
+								endEscapedTagPhase = 4;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 4) {
+							if (charArray.getChar(j) == 'r') {
+								// look for next char
+								endEscapedTagPhase = 5;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 5) {
+							if (charArray.getChar(j) == 'i') {
+								// look for next char
+								endEscapedTagPhase = 6;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 6) {
+							if (charArray.getChar(j) == 'p') {
+								// look for next char
+								endEscapedTagPhase = 7;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 7) {
+							if (charArray.getChar(j) == 't') {
+								// look for next char
+								endEscapedTagPhase = 8;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 8) {
+							if (charArray.getChar(j) == '>') {
+								// style has been closed
+								endEscapedTagPhase = 0;
+								openScript = false;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						}
+						continue;
+					}
+					// ==============================================
+					// Script/style checking done
+					// ==============================================
+				
 				
 				
 					if(charArray.getChar(j)=='<') {
@@ -192,7 +364,7 @@ public class SectionCheck {
 											if (selfClosingError) {
 												error = new JSONObject();
 												error.put("message", tag + " is self-closing but is not self closed.");
-												error.put("type", "semantic");
+												error.put("type", "warning");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
 												errors.put(errorCount, error);
@@ -210,7 +382,7 @@ public class SectionCheck {
 											if (selfClosingError) {
 												error = new JSONObject();
 												error.put("message", tag + " is self-closing but is not self closed. You may want to include a space before the closing '/'.");
-												error.put("type", "semantic");
+												error.put("type", "warning");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
 												errors.put(errorCount, error);
@@ -242,6 +414,14 @@ public class SectionCheck {
 											}
 										}
 										selfClosing = false;
+									}
+									
+									if (tag.equals("script")) {
+										openScript = true;
+									}
+									
+									else if (tag.equals("style")) {
+										openStyle = true;
 									}
 							
 									/* Resets flag values and tag string */
