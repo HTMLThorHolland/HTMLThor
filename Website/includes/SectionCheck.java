@@ -25,9 +25,7 @@ public class SectionCheck {
 			boolean startPhp = false;
 			boolean whiteSpaceFlag = false;
 			boolean selfClosing = false;
-			boolean openAttr = false;
 			int tagStart = 0;
-			int attrStart = 0;
 			String tag = "";
 			int errorCount = 0;
 			boolean endTagName = false;
@@ -48,6 +46,19 @@ public class SectionCheck {
 			// 6: i/l found
 			// 7: p/e found
 			// 8: t found - looking for >
+			
+			// variables used for checking attributes and values
+			int attrStart = 0;
+			boolean openAttr = false;
+			int attrPhase = 0;
+			String attribute = "";
+			// 1: attribute key name started - ends at whitespace or =
+			// 2: attribute key name finished, looking for =
+			// 3: = found - looking for quotes to start value - whitespace permitted
+			// 4: " found - ignoring everything until matching " found
+			// 5: ' found - ignoring everything until matching ' found
+			// 6: value not enclosed in quotes - add error when end of attribute value found
+			
 			
 			
 			JSONObject error;
@@ -220,6 +231,135 @@ public class SectionCheck {
 					// ==============================================
 					// Script/style checking done
 					// ==============================================
+				
+				
+					// ==============================================
+					// Attribute checking start
+					// ==============================================
+					if (openAttr) {
+						if (attrPhase == 1) {
+							// looking for end of attribute key
+							if (charArray.getChar(j) == ' ') {
+								// attribute key has ended
+								attribute = charArray.getString(attrStart, j-1);
+								// =====================================
+								// CHECK ATTRIBUTE STUFF LIKE VALID ATTRIBUTE/REQUIRED ATTRIBUTE HERE	
+								// =====================================
+								List<String> attrList = new ArrayList<String>();
+								attrList = sql.getAttr(tag);
+								boolean validAttr = false;
+								for (int a = 0; a < attrList.size(); a++) {
+									if(attrList.get(a).equals(attr)) {
+										validAttr = true;	
+									}
+								}
+								if (!validAttr) {
+									error = new JSONObject();
+									error.put("message", attribute + " " + getErrMsg(23));
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								
+								attrPhase = 2;
+							} else if (charArray.getChar(j) == '=') {
+								// attribute key has ended
+								attribute = charArray.getString(attrStart, j-1);
+								// =====================================
+								// CHECK ATTRIBUTE STUFF LIKE VALID ATTRIBUTE/REQUIRED ATTRIBUTE HERE		
+								// =====================================
+								List<String> attrList = new ArrayList<String>();
+								attrList = sql.getAttr(tag);
+								boolean validAttr = false;
+								for (int a = 0; a < attrList.size(); a++) {
+									if(attrList.get(a).equals(attr)) {
+										validAttr = true;	
+									}
+								}
+								if (!validAttr) {
+									error = new JSONObject();
+									error.put("message", attribute + " " + getErrMsg(23));
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								
+								attrPhase = 3;
+							}
+							continue;
+						} else if (attrPhase == 2) {
+							// looking for the end of whitespace before the =
+							if (charArray.getChar(j) == ' ') {
+								continue;
+							} else if (charArray.getChar(j) == '=') {
+								attrPhase = 3;
+								continue;
+							} else {
+								// did not find a value for the key
+								error = new JSONObject();
+								error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								
+								openAttr = false;
+								attribute = "";
+							}
+						} else if (attrPhase == 3) {
+							// looking for quotes to start 
+							if (charArray.getChar(j) == ' ') {
+							// do nothing
+							} else if (charArray.getChar(j) == '"') {
+								attrPhase = 4;
+							} else if (charArray.getChar(j) == '\'')
+								attrPhase = 5;
+							} else {
+								// value not enclosed in quotes
+								attrPhase = 6;
+								attrStart = j;
+							}
+							continue;
+						} else if (attrPhase == 4) {
+							// looking for end of double quotes
+							if (charArray.getChar(j) == '"') {
+								// reset attribute flags
+								openAttr = false;
+								attribute = "";
+							}
+							continue;
+						} else if (attrPhase == 5) {
+							// looking for end of double quotes
+							if (charArray.getChar(j) == '\'') {
+								// reset attribute flags
+								openAttr = false;
+								attribute = "";
+							}
+							continue;
+						} else if (attrPhase == 6) {
+							// looking for end of double quotes
+							if (charArray.getChar(j) == ' ') {
+								error = new JSONObject();
+								error.put("message", attribute + " is the value of an attribute and should be inside quotes.");
+								error.put("type", "semantic");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								// reached end of attribute value
+								openAttr = false;
+								attribute = "";
+							}
+							continue;
+						}
+						
+					}
+				
 				
 				
 				
@@ -447,7 +587,7 @@ public class SectionCheck {
 										if( (Character.isLetter(charArray.getChar(j))) == true) {
 											attrStart = j;
 											openAttr = true;
-										
+											attrPhase = 1;
 										}
 									}
 								} else {
