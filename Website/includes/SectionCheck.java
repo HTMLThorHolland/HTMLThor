@@ -466,12 +466,7 @@ public class SectionCheck {
 						}
 					}
 					
-					/* Will need to be moved into the startComment==false if loop */
-					/* Checks if attribute has been detected, need to check if
-					 * having code such as <img src = "... (space between
-					 * attribute and '=' validates). If so, will need to strip
-					 * out whitespace after attribute name before throwing it
-					 * into check. */
+					// If an attribute has been reached and finished via the = operator
 					if(charArray.getChar(j) == '=') {
 						if(openAttr == true) {
 							String attr = charArray.getString(attrStart, j-1);
@@ -486,7 +481,8 @@ public class SectionCheck {
 							}
 							if (!validAttr) {
 								error = new JSONObject();
-								error.put("message", attr + " is not a valid attribute for " + tag);
+								// Actual DB reference test
+								error.put("message", attr + " " + getErrMsg(23));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -496,8 +492,6 @@ public class SectionCheck {
 					
 						}
 					}
-					
-					/* Will need to be moved into the startComment==false if loop */
 					
 					
 				}
