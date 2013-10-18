@@ -33,6 +33,7 @@ public class SectionCheck {
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
 			
+			List<String> singularTags = new ArrayList<String>();
 			List<String> ids = new ArrayList<String>();
 			
 			// variables used for escaping script/style tag content
@@ -497,11 +498,30 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									
+									
+									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||tag.equalsIgnoreCase("title")) {
+										if(singularTags.contains(tag.toLowerCase())) {
+											error = new JSONObject();
+											error.put("message", tag + " is a singular tag but is used more than once!");
+											error.put("type", "syntax");
+											error.put("line", i+1);
+											error.put("col", j);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
+										else {
+											singularTags.add(tag.toLowerCase());
+										}
+									}
+									
 									if (tag.substring(0,1).equalsIgnoreCase("/")) {
 										
 										tag = tag.substring(1);
 									}
 									endTagName = true;
+									
+									
 								}
 								
 								
