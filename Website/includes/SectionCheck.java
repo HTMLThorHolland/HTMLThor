@@ -67,7 +67,7 @@ public class SectionCheck {
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
 			
-			
+				List<String> singularTags = new ArrayList<String>();
 
             	String nextLine = fileContents.get(i);
 				
@@ -255,7 +255,7 @@ public class SectionCheck {
 								}
 								if (!validAttr) {
 									error = new JSONObject();
-									error.put("message", attribute + " " + sql.getErrMsg(23));
+									error.put("message", sql.getErrMsg(23));
 									error.put("type", "syntax");
 									error.put("line", i+1);
 									error.put("col", j);
@@ -418,6 +418,22 @@ public class SectionCheck {
 										tag = tag.substring(1);
 									}
 									endTagName = true;
+									
+									if(tag=="html"||tag=="head"||tag=="body"||tag=="!DOCTYPE"||tag=="!doctype"||tag=="meta"||tag=="title") {
+										if(singularTags.contains(tag) {
+											error = new JSONObject();
+											error.put("message", tag + " is a singular tag but is used more than once!");
+											error.put("type", "syntax");
+											error.put("line", i+1);
+											error.put("col", j);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
+										else {
+											singularTags.add(tag);
+										}
+									}
 								}
 								
 								
