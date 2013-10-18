@@ -241,12 +241,33 @@ function getContent(error, filenumber) {
 	for(var i = 0; i < jsonObject[filenumber].errors.count; i++) {
 		/* If this is the case, we know what error message to show */
 		if(jsonObject[filenumber].errors[i].line == linePos) {
-			return "<div class='leftMessage "+jsonObject[filenumber].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[i].type+"'>"+jsonObject[filenumber].errors[i].type+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+jsonObject[filenumber].errors[i].message+"</p></div>";
+			return "<div class='leftMessage "+jsonObject[filenumber].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[i].type+"'>"+returnErrorType(filenumber, i)+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+escapeHTML(jsonObject[filenumber].errors[i].message)+"</p></div>";
 		}
 	}
 	
 	return "<p class='errorMessage'><span class='syntaxError'>Syntax Error</span>Not in database</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
 	
+}
+
+/*
+ *	This function has been created because the error types "warning" and "broken" shouldn't be displayed as actual text.
+ *	So although it's not entirely necessary for syntax, semantic and deprecated, this function will be used to return the error type.
+ */
+function returnErrorType(filenumber, errorNumber) {
+	var errorType = "";
+	if(jsonObject[filenumber].errors[errorNumber].type == "warning") {
+		errorType = "Best Practice";
+		console.log("best practice yo!");
+	}
+	else if(jsonObject[filenumber].errors[errorNumber].type == "broken") {
+		errorType = "Broken Link";
+	}
+	else {
+		console.log("it wasn't a best practice or broken link it was a: "+jsonObject[filenumber].errors[errorNumber].type);
+		errorType = jsonObject[filenumber].errors[errorNumber].type;
+	}
+	console.log("returning error type: "+errorType);
+	return errorType;
 }
 
 
