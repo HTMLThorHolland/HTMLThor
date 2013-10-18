@@ -507,6 +507,10 @@ a {
 	border: 0;
 	background-color: #D6D6D6;
 	max-width: 300px;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 
 .tour.trip-block.white.n:before {
@@ -628,6 +632,10 @@ a {
 
 .sectionContent {
 	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;	
 	box-sizing: border-box;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -648,6 +656,8 @@ p.extraText {
 .actionButton {
 	cursor: pointer;
 	display: inline-block;
+	margin-right: 10px;
+	margin-top: 10px;
 }
 
 	.actionButton p {
@@ -1044,6 +1054,10 @@ button:hover {
 
 .breakdownBarResults {
 	background-color: #F1F1F1;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;	
 	box-sizing: border-box;
 	padding: 0 12px;
 	padding-bottom: 2px;
@@ -1146,6 +1160,10 @@ h3.totalErrorsHeading {
 	
 		/* float: left; */
 		/* width: 100%; */
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;	
 		box-sizing: border-box;
 		padding-left: 126px;
 	}
@@ -1285,6 +1303,10 @@ span.brokenLinkIcon {
 .structureBrokenFilesList {
 	margin-top: 15px;
 	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;	
 	box-sizing: border-box;
 	padding: 0 12px;
 }
@@ -1431,6 +1453,10 @@ span.brokenLinkIcon {
 }
 
 #errors {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;	
 	box-sizing: border-box;
 	padding: 0 20px;
 }
@@ -1447,6 +1473,10 @@ span.brokenLinkIcon {
 	/* margin-left: 25px; */
 	/* width: 90%; */
 	/* margin: 0 auto; */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;	
 	box-sizing: border-box;
 	padding: 0 26px;
 	padding-bottom: 20px;
@@ -1489,7 +1519,7 @@ span.brokenLinkIcon {
 	
 	.errorListing pre {
 		margin-left: 40px;
-		color: #6B6B6B;
+		color: #9E9E9E;
 		max-width: 100%;
 		overflow-x: auto;
 	}
@@ -1623,7 +1653,7 @@ pre.sourceCodeContainer {
 		line-height: 1em;
 		max-width: 31%;
 		height: auto;
-		background-color: #F8F8F8;
+		background-color: #EBEBEB;
 	}
 	
 		.qtip.qTipHighlight.syntax {
@@ -1661,9 +1691,12 @@ pre.sourceCodeContainer {
 		padding-left: 12px;
 		padding-top: 5px;
 		padding-bottom: 5px;
-		background-color: #EBEBEB;
 		border-left: 4px solid #FFF;
 	}
+	
+		.leftMessage p.errorLine {
+			color: #666;
+		}
 	
 		.leftMessage.syntax {
 			border-color: #ff1b56;
@@ -1683,6 +1716,7 @@ pre.sourceCodeContainer {
 	
 	.rightMessage {
 		/* float: left; */
+		min-height: 50px;
 		height: auto;
 		padding-top: 5px;
 		padding-bottom: 5px;
@@ -1695,7 +1729,7 @@ pre.sourceCodeContainer {
 		-o-box-sizing: border-box;	
 		box-sizing: border-box;
 		margin-left: 120px;
-	
+		background-color: #F8F8F8;
 		padding-left: 8px;
 		/* border-left: 1px solid #FFFFFF; */
 	}

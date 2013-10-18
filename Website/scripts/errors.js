@@ -16,8 +16,9 @@ function setErrors() {
 			errorType = jsonObject[j].errors[i].type;
 			errorDiv = "<div fileowner='"+jsonObject[j].filename+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
 			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
-			errorDiv += "<p class='errorDescription'>"+jsonObject[j].errors[i].message+"</p>";
-			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
+			errorDiv += "<p class='errorDescription'>"+escapeHTML(jsonObject[j].errors[i].message)+"</p>";
+			var noTabsError = oldSource[j][1][jsonObject[j].errors[i].line - 1].replace(/\t/g, ""); // replace all indentation with ""
+			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+noTabsError+"</pre></div>";
 			switch (errorType)
 				{
 				case "html": // html should not be a case...
