@@ -245,15 +245,18 @@
 		String sourceCode = "";
 		String inputURL = request.getParameter("input-url");
 		String fileName = filePath.concat(inputURL);
+		/*
 		if (inputURL.indexOf("http://www.") != 0 && inputURL.indexOf("www.") != 0) {
 			inputURL = "http://www.".concat(inputURL);
 		}
-		else if (inputURL.indexOf("http://") != 0) {
+		else */
+		if (inputURL.indexOf("http://") != 0) {
 			inputURL = "http://".concat(inputURL);
 		}
+		/*
 		else if (inputURL.indexOf("www.") != 7) {
 			inputURL = "http://www.".concat(inputURL.substring(7));
-		}
+		} */
 		URL url = new URL(inputURL);
 		InputStream is = url.openStream();
 		int ptr = 0;

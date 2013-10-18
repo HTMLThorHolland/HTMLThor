@@ -33,6 +33,8 @@ public class SectionCheck {
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
 			
+			List<String> ids = new ArrayList<String>();
+			
 			// variables used for escaping script/style tag content
 			boolean openScript = false;
 			boolean openStyle = false;
@@ -49,6 +51,7 @@ public class SectionCheck {
 			
 			// variables used for checking attributes and values
 			int attrStart = 0;
+			int attrValStart = 0;
 			boolean openAttr = false;
 			int attrPhase = 0;
 			String attribute = "";
@@ -249,18 +252,25 @@ public class SectionCheck {
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
 								for (int a = 0; a < attrList.size(); a++) {
-									if(attrList.get(a).equals(attribute)) {
+									if(attrList.get(a).equalsIgnoreCase(attribute)) {
 										validAttr = true;	
 									}
 								}
 								if (!validAttr) {
-									error = new JSONObject();
-									error.put("message", attribute + " " + sql.getErrMsg(23));
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", j);
-									errors.put(errorCount, error);
-									errorCount += 1;
+									if (attribute.length() > 4) {
+										if (attribute.substring(0,5).equalsIgnoreCase("data-")) {
+											validAttr = true;
+										}
+									}
+									if (!validAttr) {
+										error = new JSONObject();
+										error.put("message", attribute + " " + sql.getErrMsg(23));
+										error.put("type", "syntax");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
 								}
 								
 								attrPhase = 2;
@@ -274,18 +284,25 @@ public class SectionCheck {
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
 								for (int a = 0; a < attrList.size(); a++) {
-									if(attrList.get(a).equals(attribute)) {
+									if(attrList.get(a).equalsIgnoreCase(attribute)) {
 										validAttr = true;	
 									}
 								}
 								if (!validAttr) {
-									error = new JSONObject();
-									error.put("message", attribute + " " + sql.getErrMsg(23));
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", j);
-									errors.put(errorCount, error);
-									errorCount += 1;
+									if (attribute.length() > 4) {
+										if (attribute.substring(0,5).equalsIgnoreCase("data-")) {
+											validAttr = true;
+										}
+									}
+									if (!validAttr) {
+										error = new JSONObject();
+										error.put("message", attribute + " " + sql.getErrMsg(23));
+										error.put("type", "syntax");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
 								}
 								
 								attrPhase = 3;
@@ -317,17 +334,59 @@ public class SectionCheck {
 							// do nothing
 							} else if (charArray.getChar(j) == '"') {
 								attrPhase = 4;
+								attrValStart = j;
 							} else if (charArray.getChar(j) == '\'') {
 								attrPhase = 5;
+								attrValStart = j;
+							} else if (charArray.getChar(j) == '#' && attribute.equalsIgnoreCase("href")) {
+								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>') {
+									// unquoted # for href
+									error = new JSONObject();
+									error.put("message", "Even though # is not required to be quoted, it is considered best practice for consistency.");
+									error.put("type", "warning");
+									error.put("line", i+1);
+									error.put("col", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
+									
+									openAttr = false;
+									attribute = "";
+								}
+								continue;
 							} else {
 								// value not enclosed in quotes
 								attrPhase = 6;
-								attrStart = j;
+								attrValStart = j;
 							}
 							continue;
 						} else if (attrPhase == 4) {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == '"') {
+							
+								// check for unique id
+								if (attribute.equalsIgnoreCase("id")) {
+									String attributeVal = charArray.getString(attrValStart+1, j-1);
+									boolean matchedID = false;
+									for (int a = 0; a < ids.size(); a++) {
+										if(ids.get(a).equalsIgnoreCase(attributeVal)) {
+											matchedID = true;
+										}
+							
+									}
+									if (matchedID) {
+										// error for duplicate id
+										error = new JSONObject();
+										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
+										error.put("type", "semantic");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									} else {
+										ids.add(attributeVal);
+									}
+								}
+							
 								// reset attribute flags
 								openAttr = false;
 								attribute = "";
@@ -336,6 +395,31 @@ public class SectionCheck {
 						} else if (attrPhase == 5) {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == '\'') {
+								
+								// check for unique id
+								if (attribute.equalsIgnoreCase("id")) {
+									String attributeVal = charArray.getString(attrValStart+1, j-1);
+									boolean matchedID = false;
+									for (int a = 0; a < ids.size(); a++) {
+										if(ids.get(a).equalsIgnoreCase(attributeVal)) {
+											matchedID = true;
+										}
+							
+									}
+									if (matchedID) {
+										// error for duplicate id
+										error = new JSONObject();
+										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
+										error.put("type", "semantic");
+										error.put("line", i+1);
+										error.put("col", j);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									} else {
+										ids.add(attributeVal);
+									}
+								}
+							
 								// reset attribute flags
 								openAttr = false;
 								attribute = "";
@@ -344,9 +428,9 @@ public class SectionCheck {
 						} else if (attrPhase == 6) {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == ' ') {
-								attribute = charArray.getString(attrStart, j-1);
+								String attributeVal = charArray.getString(attrValStart, j-1);
 								error = new JSONObject();
-								error.put("message", attribute + " is the value of an attribute and should be inside quotes.");
+								error.put("message", attributeVal + " is the value of an attribute and should be inside quotes.");
 								error.put("type", "semantic");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -413,7 +497,7 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									
-									if (tag.substring(0,1).equals("/")) {
+									if (tag.substring(0,1).equalsIgnoreCase("/")) {
 										
 										tag = tag.substring(1);
 									}
@@ -561,11 +645,11 @@ public class SectionCheck {
 										selfClosing = false;
 									}
 									
-									if (tag.equals("script")) {
+									if (tag.equalsIgnoreCase("script")) {
 										openScript = true;
 									}
 									
-									else if (tag.equals("style")) {
+									else if (tag.equalsIgnoreCase("style")) {
 										openStyle = true;
 									}
 							
@@ -619,7 +703,7 @@ public class SectionCheck {
 							attrList = sql.getAttr(tag);
 							boolean validAttr = false;
 							for (int a = 0; a < attrList.size(); a++) {
-								if(attrList.get(a).equals(attribute)) {
+								if(attrList.get(a).equalsIgnoreCase(attribute)) {
 									validAttr = true;	
 								}
 							
