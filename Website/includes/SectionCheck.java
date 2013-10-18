@@ -296,6 +296,7 @@ public class SectionCheck {
 										error.put("type", "syntax");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										faultyTag = true;
@@ -308,6 +309,7 @@ public class SectionCheck {
 										error.put("type", "deprecated");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										faultyTag = true;
@@ -340,7 +342,6 @@ public class SectionCheck {
 								/* ################################################# */
 								
 								
-								
 									// Check if self closing
 									selfClosing = sql.isSelfClosing(tag);
 								
@@ -367,6 +368,7 @@ public class SectionCheck {
 												error.put("type", "warning");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
+												error.put("errorExcerpt", tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -385,6 +387,7 @@ public class SectionCheck {
 												error.put("type", "warning");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
+												error.put("errorExcerpt", tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -409,6 +412,7 @@ public class SectionCheck {
 												error.put("type", "semantic");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
+												error.put("errorExcerpt", tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -486,6 +490,7 @@ public class SectionCheck {
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
+								error.put("errorExcerpt", attr);
 								errors.put(errorCount, error);
 								errorCount += 1;
 							}
@@ -544,8 +549,8 @@ public class SectionCheck {
 			 * Returns a String that returns the tag given between the string
 			 * start and end index given in the array.
 			 *
-			 * @param tagStart the start index of the string
-			 * @param tagEnd the end index of the string
+			 * @param strStart the start index of the string
+			 * @param strEnd the end index of the string
 			 * @return the string specified by the string's start and end index. 
 			 */
 			public String getString(int strStart, int strEnd) {
