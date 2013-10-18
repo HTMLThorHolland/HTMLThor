@@ -249,13 +249,13 @@ public class SectionCheck {
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
 								for (int a = 0; a < attrList.size(); a++) {
-									if(attrList.get(a).equals(attr)) {
+									if(attrList.get(a).equals(attribute)) {
 										validAttr = true;	
 									}
 								}
 								if (!validAttr) {
 									error = new JSONObject();
-									error.put("message", attribute + " " + getErrMsg(23));
+									error.put("message", attribute + " " + sql.getErrMsg(23));
 									error.put("type", "syntax");
 									error.put("line", i+1);
 									error.put("col", j);
@@ -274,13 +274,13 @@ public class SectionCheck {
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
 								for (int a = 0; a < attrList.size(); a++) {
-									if(attrList.get(a).equals(attr)) {
+									if(attrList.get(a).equals(attribute)) {
 										validAttr = true;	
 									}
 								}
 								if (!validAttr) {
 									error = new JSONObject();
-									error.put("message", attribute + " " + getErrMsg(23));
+									error.put("message", attribute + " " + sql.getErrMsg(23));
 									error.put("type", "syntax");
 									error.put("line", i+1);
 									error.put("col", j);
@@ -317,7 +317,7 @@ public class SectionCheck {
 							// do nothing
 							} else if (charArray.getChar(j) == '"') {
 								attrPhase = 4;
-							} else if (charArray.getChar(j) == '\'')
+							} else if (charArray.getChar(j) == '\'') {
 								attrPhase = 5;
 							} else {
 								// value not enclosed in quotes
@@ -344,6 +344,7 @@ public class SectionCheck {
 						} else if (attrPhase == 6) {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == ' ') {
+								attribute = charArray.getString(attrStart, j-1);
 								error = new JSONObject();
 								error.put("message", attribute + " is the value of an attribute and should be inside quotes.");
 								error.put("type", "semantic");
@@ -618,7 +619,7 @@ public class SectionCheck {
 							attrList = sql.getAttr(tag);
 							boolean validAttr = false;
 							for (int a = 0; a < attrList.size(); a++) {
-								if(attrList.get(a).equals(attr)) {
+								if(attrList.get(a).equals(attribute)) {
 									validAttr = true;	
 								}
 							
@@ -626,11 +627,11 @@ public class SectionCheck {
 							if (!validAttr) {
 								error = new JSONObject();
 								// Actual DB reference test
-								error.put("message", attr + " " + getErrMsg(23));
+								error.put("message", attr + " " + sql.getErrMsg(23));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
-								error.put("errorExcerpt", attr);
+								error.put("errorExcerpt", attribute);
 								errors.put(errorCount, error);
 								errorCount += 1;
 							}
