@@ -121,30 +121,58 @@
    		 		
    		 		else if (uploadType.equals("zip")) {
    		 		
+   		 		
    		 			JSONObject dirJSON = new JSONObject();
    		 			SectionCheck sc = new SectionCheck();
    		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
-      				try	{
-            			ZipEntry temp = null;
-            			StringBuilder s = new StringBuilder();
-						byte[] buffer = new byte[1024];
-						int read = 0;
-						int fileCount = 0;
-						JSONObject json = new JSONObject();
-						// process each entry in the zip file
-            			while ((temp = zipInput.getNextEntry()) != null ) 
-            			{
-             				
-             				while ((read = zipInput.read(buffer, 0, 1024)) >= 0) {
-           						s.append(new String(buffer, 0, read));
-      						}
-      						if (!temp.isDirectory()) {
-      						// process the file if it's not a directory
-      						// NEED TO CHECK FOR FILE TYPE HERE TO MAKE SURE ONLY HTML IS PROCESSED
+            			
+            		ZipEntry temp = null;
+            		StringBuilder s = new StringBuilder();
+					byte[] buffer = new byte[1024];
+					int read = 0;
+					int fileCount = 0;
+					int dirCount = 0;
+					JSONObject json = new JSONObject();
+					
+   		 			// keep track of what files already exist
+             		Map<String, Integer> filenames = new HashMap<String, Integer>();
+					// process each entry in the zip file
+            		while ((temp = zipInput.getNextEntry()) != null) 
+            		{
+             			
+      					JSONObject fileJSON = new JSONObject();
+      					
+      					
+      					
+      					
+      					// split into directories and filename
+      					String[] filePathSplit = temp.getName().split("/");
+      					
+      					// increase count if file exists
+						filenames.put(filePathSplit[filePathSplit.length-1], filenames.containsKey(filePathSplit[filePathSplit.length-1])
+    					? filenames.get(filePathSplit[filePathSplit.length-1]) + 1 : 0);
+      					
+             			fileJSON.put("name", filePathSplit[filePathSplit.length-1]);
+             			fileJSON.put("id", filePathSplit[filePathSplit.length-1].concat("_").concat(filenames.get(filePathSplit[filePathSplit.length-1]).toString()));
+             			
+             			
+             			
+             			// read next file contents
+             			while ((read = zipInput.read(buffer, 0, 1024)) >= 0) {
+           					s.append(new String(buffer, 0, read));
+      					}
+      					
+      					// process the file if it's not a directory
+      					if (!temp.isDirectory()) {
+      						fileJSON.put("type", "file");
+      					
+      						// ensure the file is a .html or .php
+      						if ((temp.getName().indexOf(".html") == temp.getName().length() - 5) || (temp.getName().indexOf(".php") == temp.getName().length() - 4)) {
+      							// NEED TO CHECK FOR FILE TYPE HERE TO MAKE SURE ONLY HTML IS PROCESSED
       							String[] tempSourceArr = s.toString().split("\n");
       							List<String> fileContents = new ArrayList<String>();
       							for (int i = 0; i < tempSourceArr.length; i++) {
-     								fileContents.add(tempSourceArr[i]);
+     								fileContents.add(" ".concat(tempSourceArr[i]).concat(" "));
       							}
       						
       							JSONObject jsonTemp = sc.findErrors(fileContents);
@@ -163,38 +191,42 @@
                 				json.put(Integer.toString(fileCount), jsonTemp);
                 				fileCount++;
                 			}
-                			s = new StringBuilder();
-            			}
-            			
-            			json.put("filecount", fileCount);
-            			
-            			
-            			String directoryPath = getServletContext().getRealPath("/").concat("temp/")
-						.concat(directoryID).concat("/");
- 						String errFilePath = directoryPath.concat("errors.json");
- 						String dirFilePath = directoryPath.concat("directory.json");
-                
-                	
-						FileWriter errFile = new FileWriter(errFilePath);
-						errFile.write(json.toJSONString());
-						errFile.flush();
-						errFile.close();
-							
-						FileWriter dirFile = new FileWriter(dirFilePath);
-						dirFile.write(dirJSON.toJSONString());
-						dirFile.flush();
-						dirFile.close();
-                	
-                
-                		Cookie cookie = new Cookie("dirPath", directoryPath);
-                		response.addCookie(cookie);
-                
-                
-                		String redirectURL = "http://www.htmlthor.com";
-   		 				response.sendRedirect(redirectURL);
-       				} catch(Exception ex) {
-       					out.println(ex.getMessage()); 
-       				}
+                		} else {
+                		// is a directory
+                			
+      						fileJSON.put("type", "directory");
+                		
+                		}
+                		s = new StringBuilder();
+                		dirJSON.put(dirCount, fileJSON);
+                		dirCount++;
+            		}
+            		
+            		json.put("filecount", fileCount);
+            		
+            		
+            		String directoryPath = getServletContext().getRealPath("/").concat("temp/")
+					.concat(directoryID).concat("/");
+ 					String errFilePath = directoryPath.concat("errors.json");
+ 					String dirFilePath = directoryPath.concat("directory.json");
+                                	
+					FileWriter errFile = new FileWriter(errFilePath);
+					errFile.write(json.toJSONString());
+					errFile.flush();
+					errFile.close();
+						
+					FileWriter dirFile = new FileWriter(dirFilePath);
+					dirFile.write(dirJSON.toJSONString());
+					dirFile.flush();
+					dirFile.close();
+               	
+               
+               		Cookie cookie = new Cookie("dirPath", directoryPath);
+               		response.addCookie(cookie);
+               
+               
+               		String redirectURL = "http://htmlthor.com";
+   		 			response.sendRedirect(redirectURL);
        				
    		 		}
    		 		
