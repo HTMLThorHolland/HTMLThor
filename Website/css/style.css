@@ -54,7 +54,16 @@
 		margin-bottom: 4px;
 		color: #B9B9B9;
 	}
+	
+	.disclaimerTip.qtip p.last {
+		margin-bottom: 10px;
+	}
 
+	.disclaimerTip.qtip p.lastop {
+		margin-top: 14px;
+		margin-bottom:0px;
+	}
+	
 	.disclaimerTip.qtip a {
 		color: #E1E1E1;
 	}
@@ -71,6 +80,13 @@
 			color: #FAFAFA;
 		}
 
+.qtip-close.qtip-icon {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
 
 /* Hiding Site Elements */
 
@@ -869,9 +885,11 @@ button:hover {
 }
 
 #uploadInfo {
-	margin-top: 67px;
+	/*margin-top: 67px;*/
+	margin-left:40px;
 }
 
+/*
 .infoTidbit {
 	width: 225px;
 	background-color: #f1f1f1;
@@ -879,9 +897,35 @@ button:hover {
 	padding-bottom: 10px;
 	border: 1px solid #E9E9E9;
 	margin-bottom: 8px;
+	float:left;
+	display:inline;
+}*/
+
+/* .infoTidbit {
+/* 	width: 196px;
+	
+	padding: 5px 8px;
+	padding-bottom: 10px;
+	
+	margin: 8px 8px;
+	float:left;
+	display:inline;
+	background-color: #f1f1f1;
+	border: 1px solid #E9E9E9;	
+	-moz-column-count: 3;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 10px;
+    column-count: 3;
+    column-gap: 10px;
+    width: 196px; }
 }
 
+
+
+
 	.infoTidbit h4 {
+	display: inline-block;
 		font-family: "Source Sans Pro";
 		font-size: 1em;
 		font-weight: 400;
@@ -890,21 +934,81 @@ button:hover {
 	}
 
 	.infoTidbit p {
+	display: inline-block;
 		font-size: .9em;
 		margin: 0;
 		font-weight: 300;
 	}
 
 	.infoTidbit a {
+	display: inline-block;
 		font-size: .9em;
 		margin: 0;
 		color: #7192DA;
 		text-decoration: underline;
 	}
 
-		.infoTidbit a:hover {
+	.infoTidbit a:hover {
+		display: inline-block;
 			color: #345AAD;
 		}
+	 */	
+		
+#infoTidbit{
+	-moz-column-count: 2;
+	-moz-column-gap: 10px;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 10px;
+	column-count: 2;
+	column-gap: 10px;
+	width: 500px;
+	height:556px;
+	margin:0 auto;
+}
+
+	#upload .sectionContent h3.TBHeader {
+		text-align: center;
+		font-size: 1.2em;
+		color: #6F6F6F;
+		width:500px;
+	}
+
+    #infoTidbit section.tidbit{
+        display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+        margin-bottom: 10px;
+        width: 100%; 
+		background-color: #f1f1f1;
+		border: 1px solid #E9E9E9;
+		padding: 10px;
+		width:220px;
+	}
+	
+	#infoTidbit section p a {
+		margin: 0;
+		color: #7192DA;
+		text-decoration: underline;
+		padding: 10px;
+	}
+	
+	#infoTidbit section a:hover {
+		color: #345AAD;
+		padding: 10px;
+	}
+	
+	#infoTidbit section p {
+		font-size: .9em;
+		margin: 0;
+		font-weight: 300;
+		padding: 0 10px 10px 10px;
+	}
+	
+	#infoTidbit h4 {
+		font-family: "Source Sans Pro";
+		font-size: 1em;
+		font-weight: 400;
+		line-height: 22px;	
+		padding: 10px 10px 0 5px;
+	}
 
 .uploadCat {
 	text-align:center;
