@@ -11,6 +11,7 @@ function setErrors() {
 		warningErrors = "";
 		deprecatedErrors = "";
 		underScoreName = jsonObject[j].filename.replace(/\./g,"_");
+		underScoreName = underScoreName.replace(/\//g,"_");
 		for(var i = 0; i < jsonObject[j].errors.count; i++) {
 			var actualLineNumber = jsonObject[j].errors[i].line;
 			errorType = jsonObject[j].errors[i].type;
@@ -76,6 +77,7 @@ function openErrorId(fileowner, errorId) {
 
 function revealErrors(filename) {
 	underScoreName = filename.replace(/\./g,"_");
+	underScoreName = underScoreName.replace(/\//g,"_");
 	$('.errorListing').not('.errorListing.'+underScoreName).hide();
 	$('.errorListing.'+underScoreName).show();
 	$('.errorCategory').not('.errorCategory.'+underScoreName).hide();

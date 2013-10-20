@@ -74,11 +74,19 @@ function getFiles(container) {
 	for(var i = 0; i < Object.size(container) - 1; i++) { // have to - 1 as .size is returning 1 too many
 		console.log("i is: " + i + " and the object size is: " + Object.size(container) + " and the name is: "+container[i].name);
 		//console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
-		list += "<li id='"+container[i].fullPath+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
+		
+		var fullPath = container[i].fullPath.replace(/\./g,"_");
+		
+		list += "<li id='"+fullPath+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
 		/* Check if the item contains errors */
 		if(container[i].totalErrors != 0) {
 			// call function to generate a broken file in the overall broken files list
-			generateBrokenFile(container[i].name, container[i].totalErrors);
+			if(container[i].newLocation != "") {
+				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].newLocation);
+			}
+			else {
+				generateBrokenFile(container[i].name, container[i].totalErrors);
+			}
 			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
 		list += ">"; // CLOSE OPENING LI TAG
