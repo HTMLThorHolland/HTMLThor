@@ -2,6 +2,7 @@ package com.htmlthor;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Encapsulation class for checking encapsulation errors in HTML code.
@@ -225,22 +226,10 @@ public class Encapsulation extends Mysqlfunctions {
 		}
 		
 		if(bodyElementOpen) {
-			if(isTableElement(e.getName())) {
+			if(isTableElement(e.getName()) && !tableElementOpen) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(isFormElement(e.getName())) {
+			} else if(isFormElement(e.getName()) && !formElementOpen) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
-			}
-		}
-		
-		if(tableElementOpen) {
-			if(!isTableElement(e.getName())) {
-				addError(e, NOT_TABLE_ELEMENT);
-			}
-		}
-		
-		if(formElementOpen) {
-			if(!isFormElement(e.getName())) {
-				addError(e, NOT_FORM_ELEMENT);
 			}
 		}
 		
@@ -257,7 +246,17 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @see encapsulation
 	 */
 	private void tagEncapsulation(Element e) {
+		Iterator<Element> itr;
+		
 		if(e.getName().charAt(0) != '/') {
+			itr = openedElements.iterator();
+			
+			while(itr.hasNext()) {
+				if (e.getName() == itr.next().getName()) {
+					addError(e, ELEMENT_INSIDE_ITSELF);
+				}
+			}
+			
 			openedElements.push(e);
 			
 			if(e.getName().equals("html")) {
@@ -273,11 +272,12 @@ public class Encapsulation extends Mysqlfunctions {
 			}
 			
 		} else {
+			ArrayDeque<Element> deque = new ArrayDeque<Element>();
 			if(openedElements.isEmpty()) {
-				errorList.add(e);
+				addError(e, STRAY_CLOSE_TAG);
 			} else {
 				while(!openedElements.isEmpty()) {
-					if(e.getName().substring(1).equals(openedElements.peek())) {
+					if(e.getName().substring(1).equals(openedElements.peek().getName())) {
 						openedElements.pop();
 						
 						if(e.getName().equals("/html")) {
@@ -292,9 +292,13 @@ public class Encapsulation extends Mysqlfunctions {
 							bodyElementOpen = false;
 						}
 						
+						if(e.getName().equals("/table")) {
+							itr = openedElements.iterator();
+						}
+						
 						break;
 					} else {
-						errorList.add(openedElements.peek());
+						addError(openedElements.peek(), UNCLOSED_ELEMENT);
 						openedElements.pop();
 					}
 				}
