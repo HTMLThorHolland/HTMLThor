@@ -3,7 +3,8 @@
 $(document).ready(function() {
 
 	var mainTrip = new Trip([
-		{ sel : $("#homeKey"), content : "Really informative explanation on this type of error.", position : "w", expose: true },
+		{ sel : $("#homeKey"), content : "The types of errors you'll find being validated are listed and explained here. Feel free to check these out any time, or use the sidebar for a quick overview.", position : "w", expose: true },
+		{ sel : $(".helpKey"), content : "An always visible list of errors you may encounter in your code are listed here. Hover over one of the listed errors for a quick explanation of what it means.", position : "e", expose: true },
 		{ sel : $("#homeResources"), content : "If you're struggling with HTML5, check out some of the resources linked here.", position : "e", expose: true },
 		{ sel : $("#siteLinks"), content : "This is the site's navigation menu. From here you can traverse between the various sections of the site.", position : "e", expose: true },
 		{ sel : $("#uploadFileOptions"), content : "shouldn't be seen", position : "e", expose: true, myFunction : function() { $("#uploadLink").click(); mainTrip.next(); } },
@@ -19,10 +20,10 @@ $(document).ready(function() {
 		tripTheme : "white tour",
 		canGoPrev: false,
 		onTripChange : function(i, tripData) {
-			if ( i === 3 ) {
+			if ( i === 4 ) {
 				tripData.myFunction();
 			}
-			if ( i === 6 ) {
+			if ( i === 7 ) {
 				tripData.myFunction();
 			}
 		}
