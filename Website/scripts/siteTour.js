@@ -4,12 +4,12 @@ $(document).ready(function() {
 
 	var mainTrip = new Trip([
 		{ sel : $("#homeKey"), content : "The types of errors you'll find being validated are listed and explained here. Feel free to check these out any time, or use the sidebar for a quick overview.", position : "w", expose: true },
-		{ sel : $(".helpKey"), content : "An always visible list of errors you may encounter in your code are listed here. Hover over one of the listed errors for a quick explanation of what it means.", position : "e", expose: true },
+		{ sel : $("#theHelpKey"), content : "An always-visible list of errors you may encounter in your code are listed here. Hover over one of the listed errors for a quick explanation of what it means.", position : "e", expose: true },
 		{ sel : $("#homeResources"), content : "If you're struggling with HTML5, check out some of the resources linked here.", position : "e", expose: true },
 		{ sel : $("#siteLinks"), content : "This is the site's navigation menu. From here you can traverse between the various sections of the site.", position : "e", expose: true },
 		{ sel : $("#uploadFileOptions"), content : "shouldn't be seen", position : "e", expose: true, myFunction : function() { $("#uploadLink").click(); mainTrip.next(); } },
-		{ sel : $("#uploadFileOptions"), content : "This is the site's navigation menu. From here you can traverse between the various sections of the site.", position : "e", expose: true },
-		{ sel : $("#uploadInputOptions"), content : "This is the site's navigation menu. From here you can traverse between the various sections of the site.", position : "e", expose: true },
+		{ sel : $("#uploadFileOptions"), content : "We're on the validate page now. Here you can upload single or multiple files for validation. You can upload a .zip directory of your website to have that validated for code errors and broken links.", position : "e", expose: true },
+		{ sel : $("#uploadInputOptions"), content : "Alternatively, you can plug in a live website or copy in your code for validation.", position : "e", expose: true },
 		{ sel : $("#uploadInputOptions"), content : "Lets see what some validated HTML code looks like.", position : "e", expose: true, myFunction : function() { uploadExampleSite(); } },
 	], {
 		showNavigation : true,
