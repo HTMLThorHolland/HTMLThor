@@ -32,6 +32,7 @@ public class SectionCheck {
 			boolean faultyTag = false;
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
+			boolean openDoctype = true;
 			
 			List<String> singularTags = new ArrayList<String>();
 			List<String> ids = new ArrayList<String>();
@@ -103,7 +104,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 2) {
-							if (charArray.getChar(j) == 's') {
+							if (charArray.getChar(j) == 's' || charArray.getChar(j) == 'S') {
 								// look for next char
 								endEscapedTagPhase = 3;
 							} else if (charArray.getChar(j) != ' ') {
@@ -111,7 +112,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 3) {
-							if (charArray.getChar(j) == 't') {
+							if (charArray.getChar(j) == 't' || charArray.getChar(j) == 'T') {
 								// look for next char
 								endEscapedTagPhase = 4;
 							} else {
@@ -119,7 +120,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 4) {
-							if (charArray.getChar(j) == 'y') {
+							if (charArray.getChar(j) == 'y' || charArray.getChar(j) == 'Y') {
 								// look for next char
 								endEscapedTagPhase = 5;
 							} else {
@@ -127,7 +128,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 5) {
-							if (charArray.getChar(j) == 'l') {
+							if (charArray.getChar(j) == 'l' || charArray.getChar(j) == 'L') {
 								// look for next char
 								endEscapedTagPhase = 6;
 							} else {
@@ -135,7 +136,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 6) {
-							if (charArray.getChar(j) == 'e') {
+							if (charArray.getChar(j) == 'e' || charArray.getChar(j) == 'E') {
 								// look for next char
 								endEscapedTagPhase = 7;
 							} else {
@@ -173,7 +174,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 2) {
-							if (charArray.getChar(j) == 's') {
+							if (charArray.getChar(j) == 's' || charArray.getChar(j) == 'S') {
 								// look for next char
 								endEscapedTagPhase = 3;
 							} else if (charArray.getChar(j) != ' ') {
@@ -181,7 +182,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 3) {
-							if (charArray.getChar(j) == 'c') {
+							if (charArray.getChar(j) == 'c' || charArray.getChar(j) == 'C') {
 								// look for next char
 								endEscapedTagPhase = 4;
 							} else {
@@ -189,7 +190,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 4) {
-							if (charArray.getChar(j) == 'r') {
+							if (charArray.getChar(j) == 'r' || charArray.getChar(j) == 'R') {
 								// look for next char
 								endEscapedTagPhase = 5;
 							} else {
@@ -197,7 +198,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 5) {
-							if (charArray.getChar(j) == 'i') {
+							if (charArray.getChar(j) == 'i' || charArray.getChar(j) == 'I') {
 								// look for next char
 								endEscapedTagPhase = 6;
 							} else {
@@ -205,7 +206,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 6) {
-							if (charArray.getChar(j) == 'p') {
+							if (charArray.getChar(j) == 'p' || charArray.getChar(j) == 'P') {
 								// look for next char
 								endEscapedTagPhase = 7;
 							} else {
@@ -213,7 +214,7 @@ public class SectionCheck {
 								endEscapedTagPhase = 0;
 							}
 						} else if (endEscapedTagPhase == 7) {
-							if (charArray.getChar(j) == 't') {
+							if (charArray.getChar(j) == 't' || charArray.getChar(j) == 'T') {
 								// look for next char
 								endEscapedTagPhase = 8;
 							} else {
@@ -236,6 +237,136 @@ public class SectionCheck {
 					// Script/style checking done
 					// ==============================================
 				
+				
+					// ==============================================
+					// Doctype fix start
+					// ==============================================
+				
+					if (openDoctype) {
+						if (attrPhase == 1) {
+							if (charArray.getChar(j) == ' ') {
+								continue;
+							}
+							if (charArray.getChar(j) == 'h' || charArray.getChar(j) == 'H') {
+								attrPhase = 2;
+								continue;
+							} else {
+								if (charArray.getChar(j) == '>') {
+									openDoctype = false;
+									closeTag = true;
+									openTag = false;
+									tag = null;
+									endTagName = false;
+									tagChecked = false;
+									faultyTag = false;
+								}
+								error = new JSONObject();
+								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
+								continue;
+							}
+						}
+						if (attrPhase == 2) {
+							if (charArray.getChar(j) == 't' || charArray.getChar(j) == 'T') {
+								attrPhase = 3;
+								continue;
+							} else {
+								if (charArray.getChar(j) == '>') {
+									openDoctype = false;
+									closeTag = true;
+									openTag = false;
+									tag = null;
+									endTagName = false;
+									tagChecked = false;
+									faultyTag = false;
+								}
+								error = new JSONObject();
+								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
+								continue;
+							}
+						}
+						if (attrPhase == 3) {
+							if (charArray.getChar(j) == 'm' || charArray.getChar(j) == 'M') {
+								attrPhase = 4;
+								continue;
+							} else {
+								if (charArray.getChar(j) == '>') {
+									openDoctype = false;
+									closeTag = true;
+									openTag = false;
+									tag = null;
+									endTagName = false;
+									tagChecked = false;
+									faultyTag = false;
+								}
+								error = new JSONObject();
+								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
+								continue;
+							}
+						}
+						if (attrPhase == 4) {
+							if (charArray.getChar(j) == 'l' || charArray.getChar(j) == 'L') {
+								attrPhase = 5;
+								continue;
+							} else {
+								if (charArray.getChar(j) == '>') {
+									openDoctype = false;
+									closeTag = true;
+									openTag = false;
+									tag = null;
+									endTagName = false;
+									tagChecked = false;
+									faultyTag = false;
+								}
+								error = new JSONObject();
+								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
+								continue;
+							}
+						}
+						if (attrPhase == 5) {
+							if (charArray.getChar(j) == '>') {
+								openDoctype = false;
+								closeTag = true;
+								openTag = false;
+								tag = null;
+								endTagName = false;
+								tagChecked = false;
+								faultyTag = false;
+							}
+							continue;
+						}
+					
+					
+					
+					
+					}
+				
+					// ==============================================
+					// Doctype fix end
+					// ==============================================
 				
 					// ==============================================
 					// Attribute checking start
@@ -272,6 +403,14 @@ public class SectionCheck {
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
+								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
+									error = new JSONObject();
+									error.put("message", attribute + " is a deprecated attribute for " + tag);
+									error.put("type", "deprecated");
+									error.put("line", i+1);
+									error.put("col", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
 								}
 								
 								attrPhase = 2;
@@ -304,6 +443,14 @@ public class SectionCheck {
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
+								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
+									error = new JSONObject();
+									error.put("message", attribute + " is a deprecated attribute for " + tag);
+									error.put("type", "deprecated");
+									error.put("line", i+1);
+									error.put("col", j);
+									errors.put(errorCount, error);
+									errorCount += 1;
 								}
 								
 								attrPhase = 3;
@@ -465,7 +612,7 @@ public class SectionCheck {
 						
 						// Check if opened a php tag
 						if (charArray.getLength() >= j+5) {
-							if((charArray.getChar(j+1)=='?') && (charArray.getChar(j+2)=='p') && (charArray.getChar(j+3)=='h') && (charArray.getChar(j+4)=='p')) {
+							if((charArray.getChar(j+1)=='?') && (charArray.getChar(j+2)=='p' || charArray.getChar(j+2)=='P') && (charArray.getChar(j+3)=='h' || charArray.getChar(j+3)=='H') && (charArray.getChar(j+4)=='p' || charArray.getChar(j+4)=='P')) {
 								startPhp = true;
 							}
 						}
@@ -498,6 +645,10 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									
+									if (tag.equalsIgnoreCase("!DOCTYPE")) {
+										openDoctype = true;
+										attrPhase = 1;
+									}
 									
 									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||tag.equalsIgnoreCase("title")) {
 										if(singularTags.contains(tag.toLowerCase())) {
@@ -515,9 +666,10 @@ public class SectionCheck {
 										}
 									}
 									
-									if (tag.substring(0,1).equalsIgnoreCase("/")) {
-										
-										tag = tag.substring(1);
+									if (tag.length() > 0) {
+										if (tag.substring(0,1).equalsIgnoreCase("/")) {
+											tag = tag.substring(1);
+										}
 									}
 									endTagName = true;
 									

@@ -96,7 +96,7 @@ public class Mysqlfunctions {
 
 		List<String> list = new ArrayList<String>();
 		
-		if (tbl.equals("dep")) {
+		if (tbl.equalsIgnoreCase("dep")) {
 		
 			String query = new StringBuilder("SELECT * FROM Deprecated WHERE depTag = ").append(tag).toString();
 			ConnectDB con = new ConnectDB();
@@ -116,7 +116,7 @@ public class Mysqlfunctions {
 			
 			con.close();
 			
-		} else if  (tbl.equals("elem")) {
+		} else if  (tbl.equalsIgnoreCase("elem")) {
 		
 			
 			String query = new StringBuilder("SELECT * FROM Element WHERE EName = ").append(tag).toString();
@@ -141,7 +141,7 @@ public class Mysqlfunctions {
 			
 			con.close();
 		
-		} else if  (tbl.equals("att")) {
+		} else if  (tbl.equalsIgnoreCase("att")) {
 		
 			String query = new StringBuilder("SELECT * FROM RequiredAttributes WHERE EName = ").append(tag).toString();
 			ConnectDB con = new ConnectDB();
@@ -196,7 +196,7 @@ public class Mysqlfunctions {
 		return (ArrayList<String>) list;
 	}
 
-	//Return true or false for deprecated or not
+	//Return true or false for deprecated tag or not
 	public boolean isDeprecated(String tagName) {
 		
 		Boolean msg = false;
@@ -212,6 +212,56 @@ public class Mysqlfunctions {
 		try {
 			if (result.next()) {
 				if (result.getInt("IsDeprecated") == 0) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+	   return msg;
+	}
+	
+	
+	//Return true or false for deprecated attribute or not
+	public boolean isDeprecatedAttribute(String attName, String tagName) {
+		
+		Boolean msg = false;
+		
+		String query = "SELECT eID FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		int eID = 0;
+		
+		if (result != null) {
+			
+		
+			try {
+		
+				while (result.next()) {
+					eID = result.getInt("eID");
+				}
+		
+			}catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		}
+		query = "SELECT * FROM Attribute WHERE (eID = " + Integer.toString(eID) + " OR isGlobal = 1) AND Name = '" + attName + "'";
+		result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("isDeprecated") == 1) {
 					msg = true;
 				}
 			}
@@ -260,10 +310,31 @@ public class Mysqlfunctions {
 	public ArrayList<String> getAttr(String tagName) {
 
 		List<String> list = new ArrayList<String>();
-		
-		String query = "SELECT * FROM Attribute";
+		String query = "SELECT eID FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
+		
+		int eID = 0;
+		
+		if (result != null) {
+			
+		
+			try {
+		
+				while (result.next()) {
+					eID = result.getInt("eID");
+				}
+		
+			}catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		}
+		query = "SELECT Name FROM Attribute WHERE eID = " + Integer.toString(eID) + " OR isGlobal = 1";
+		
+		result = con.run(query);
+		
 		
 		if (result == null) {
 			return (ArrayList<String>) list;
@@ -295,13 +366,16 @@ public class Mysqlfunctions {
 		list = getTags();
 		
 		for (int i=0;i<list.size();i++) {
-			if (list.get(i).equals(tagName)) {
+			if (list.get(i).equalsIgnoreCase(tagName)) {
 				return true;
 			}
 		}
 		
 		return false;
 	}
+	
+	
+	
 
 
 	public boolean isSelfClosing(String tagName) {
