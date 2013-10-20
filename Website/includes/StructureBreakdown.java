@@ -22,14 +22,14 @@ public class StructureBreakdown {
 	
 	public JSONObject toJSON() {
 		JSONObject json = new JSONObject();
-		json.put("name", name);
+		json.put("name", name.replaceAll(" ", "_"));
 		json.put("totalErrors", errorCount);
 		if (errorCount > 0) {
 			json.put("type", "brokenFile");
 		} else {
 			json.put("type", type);
 		}
-		json.put("fullPath", fullPath);
+		json.put("fullPath", fullPath.replaceAll(" ", "_"));
 		
 		JSONObject children = new JSONObject();
 		

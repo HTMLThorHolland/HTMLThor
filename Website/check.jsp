@@ -156,7 +156,7 @@
       					
       					
              			fileStruct.setName(filePathSplit[filePathSplit.length-1]);
-             			fileStruct.setPath(path.substring(0, path.length()-4) + temp.getName());
+             			fileStruct.setPath(temp.getName());
              			
              			
              			
@@ -179,7 +179,6 @@
       							}
       						
       							JSONObject jsonTemp = sc.findErrors(fileContents);
-                				jsonTemp.put("filename", temp.getName());
       						
                					JSONObject jsonErrors = sc.findErrors(fileContents);
                					JSONObject jsonSource = new JSONObject();
@@ -187,7 +186,7 @@
                						jsonSource.put(i, fileContents.get(i));
                					}
                					jsonSource.put("length", fileContents.size());
-                				jsonTemp.put("filename", temp.getName());
+                				jsonTemp.put("filename", temp.getName().replaceAll(" ", "_"));
                 				jsonTemp.put("source", jsonSource);
                 				jsonTemp.put("errors", jsonErrors);
       							
@@ -201,14 +200,18 @@
                 		
                 		}
                 		s = new StringBuilder();
-                		
+                		StructureBreakdown prevStruct = root;
+                		try {
                 		StructureBreakdown parentStruct = root;
-                		for (int i = 0; i < filePathSplit.length-1; i++) {
+                		for (int i = 1; i < filePathSplit.length-1; i++) {
+                			prevStruct = parentStruct;
                 			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
                 		}
                 		
                 		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
-                		
+                		} catch (Exception e) {
+                			throw new RuntimeException(temp.getName() + " --- " + prevStruct.toJSON().toJSONString());
+                		}
             		}
             		
             		json.put("filecount", fileCount);
