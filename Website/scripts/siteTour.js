@@ -32,6 +32,22 @@ $(document).ready(function() {
 	$("#startSiteTour").click(function() {
 		mainTrip.start();
 	});
+
+	var resultsTrip = new Trip([
+		{ sel : $("#breakdown .breakdownResults"), content : "The types of errors you'll find being validated are listed and explained here. Feel free to check these out any time, or use the sidebar for a quick overview.", position : "s", expose: true }
+	], {
+		showNavigation : true,
+		showCloseBox : true,
+		delay : -1,
+		finishLabel : "Finish",
+		prevLabel : "",
+		tripTheme : "white tour",
+		canGoPrev: false
+	});
+	
+	$(".developers").click(function() {
+		setTimeout(function(){resultsTrip.start();},500);
+	});
 	
 });
 
