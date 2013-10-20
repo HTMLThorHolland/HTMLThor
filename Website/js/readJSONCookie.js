@@ -20,7 +20,7 @@ if ($.cookie("dirPath")) {
 	//Remove Cookie TIME MMMMMMMMM
 	var cookie_date = new Date ( );  // current date & time
 	cookie_date.setTime (cookie_date.getTime() - 1);
-	document.cookie = "dirPath" += "=; expires=" + cookie_date.toGMTString();
+	document.cookie = "dirPath" + "=; expires=" + cookie_date.toGMTString();
 	
 	
 	JSONpath = JSONpath.substring(28, JSONpath.length-1);

@@ -1,7 +1,6 @@
 var allBrokenLinksTotal = 0;
 
 $(document).ready(function() {
-	generateFileStructure();
 });
 
 /* Example JSON Object that should be generated when a user uploads a directory via .zip */
@@ -43,13 +42,16 @@ var fileErrors = [
 	}
 ];
 
-function generateFileStructure() {
-	$('#structureContainer').html(getFiles(directory));
+function generateFileStructure(object) {
+	$('#structureContainer').html(getFiles(directoryJSON.children));
 	createTree(); // executes JSTree
 	$('#totalBroken').text(allBrokenLinksTotal);
 	if(allBrokenLinksTotal != 0) {
 		$('#totalBroken').addClass("broken");
 	}
+	
+	// NEW TESTING FOR NEW JSON OBJECT
+	
 }
 
 /*
@@ -67,26 +69,23 @@ function generateBrokenError(errorMessage, fileName, lineNumber, underScoreName)
 
 /* Loop through each base-level item in the directory */
 function getFiles(container) {
+	console.log("beginning structure: "+container + " first child is: "+container[0].name);
 	list = "<ul>";
-	for(var i = 0; i < container.length; i++) {
+	for(var i = 0; i < Object.size(container); i++) {
+		console.log("i is: " + i + " and the object size is: " + Object.size(container) + " and the name is: "+container[i].name);
 		//console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
-		list += "<li id='"+container[i].id+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
+		list += "<li id='"+container[i].fullPath+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
 		/* Check if the item contains errors */
-		if(container[i].errorTypes != null && container[i].errorTypes != "") {
-			list +="class='"
-			for(var j = 0; j < container[i].errorTypes.length; j++){
-				list += container[i].errorTypes[j] + " ";
-			}
-			list += "'";
+		if(container[i].totalErrors != 0) {
 			// call function to generate a broken file in the overall broken files list
 			generateBrokenFile(container[i].name, container[i].totalErrors);
 			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
-		if(container[i].children != "" && container[i].children != null) {
+		if(container[i].children != "") {
 			list += "<a href='#'>" + container[i].name + "</a>";
-			//console.log(container[i].name + " has children and is a folder");
+			console.log(container[i].name + " has children and is a folder with these children: "+container[i].children);
 			list += getFiles(container[i].children);
 		}
 		else {
@@ -100,6 +99,16 @@ function getFiles(container) {
 	//console.log(list);
 	return list;
 }
+
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
 
 function generateBrokenFile(name, total, location) {
 	brokenFile = "<div class='structureBrokenFile'>";

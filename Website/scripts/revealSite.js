@@ -23,7 +23,18 @@ function rockAndRoll() {
 		// call function to generate the file selection boxes
 		initSelectBoxes();
 	}
-	revealSite();
+	
+	if(directoryJSON && directoryJSON != null) {
+		console.log("full directory object: "+directoryJSON);
+		console.log("full directory object children: "+directoryJSON.children);
+		console.log("full directory object first child type: "+directoryJSON.children[0].type);
+		generateFileStructure(directoryJSON);
+		revealSiteZip();
+	}
+	
+	else {
+		revealSite();
+	}
 
 }
 
