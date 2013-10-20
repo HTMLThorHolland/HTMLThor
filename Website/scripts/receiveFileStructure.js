@@ -71,7 +71,7 @@ function generateBrokenError(errorMessage, fileName, lineNumber, underScoreName)
 function getFiles(container) {
 	console.log("beginning structure: "+container + " first child is: "+container[0].name);
 	list = "<ul>";
-	for(var i = 0; i < Object.size(container); i++) {
+	for(var i = 0; i < Object.size(container) - 1; i++) { // have to - 1 as .size is returning 1 too many
 		console.log("i is: " + i + " and the object size is: " + Object.size(container) + " and the name is: "+container[i].name);
 		//console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
 		list += "<li id='"+container[i].fullPath+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
@@ -83,7 +83,7 @@ function getFiles(container) {
 		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
-		if(container[i].children != "") {
+		if(container[i].children.count != 0) {
 			list += "<a href='#'>" + container[i].name + "</a>";
 			console.log(container[i].name + " has children and is a folder with these children: "+container[i].children);
 			list += getFiles(container[i].children);
