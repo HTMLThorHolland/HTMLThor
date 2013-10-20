@@ -32,7 +32,7 @@ public class SectionCheck {
 			boolean faultyTag = false;
 			boolean tagChecked = false;
 			boolean selfClosingError = false;
-			boolean openDoctype = true;
+			boolean openDoctype = false;
 			
 			List<String> singularTags = new ArrayList<String>();
 			List<String> ids = new ArrayList<String>();
@@ -261,7 +261,7 @@ public class SectionCheck {
 									faultyTag = false;
 								}
 								error = new JSONObject();
-								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -286,7 +286,7 @@ public class SectionCheck {
 									faultyTag = false;
 								}
 								error = new JSONObject();
-								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -311,7 +311,7 @@ public class SectionCheck {
 									faultyTag = false;
 								}
 								error = new JSONObject();
-								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -336,7 +336,7 @@ public class SectionCheck {
 									faultyTag = false;
 								}
 								error = new JSONObject();
-								error.put("message", "That is not a valid !DOCTYPE declaration.");
+								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
@@ -648,6 +648,7 @@ public class SectionCheck {
 									if (tag.equalsIgnoreCase("!DOCTYPE")) {
 										openDoctype = true;
 										attrPhase = 1;
+										j--;
 									}
 									
 									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||tag.equalsIgnoreCase("title")) {
@@ -689,7 +690,11 @@ public class SectionCheck {
 										
 										// Note that some of these additions should use database references in future
 										error = new JSONObject();
-										error.put("message", tag + " is not a valid HTML tag");
+										if (tag.equalsIgnoreCase("doctype")) {
+											error.put("message", sql.getErrMsg(1));
+										} else {
+											error.put("message", tag + " is not a valid tag");
+										}
 										error.put("type", "syntax");
 										error.put("line", i+1);
 										error.put("col", j);

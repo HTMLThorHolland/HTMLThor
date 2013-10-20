@@ -10,6 +10,7 @@ public class StructureBreakdown {
 
 	private Map<String, StructureBreakdown> subfiles;
 	private String type;
+	private String name;
 
 
 	/* Constructor */
@@ -18,7 +19,8 @@ public class StructureBreakdown {
 	}
 	
 	public JSONObject toJSON() {
-	
+		JSONObject json = new JSONObject();
+		
 	}
 	
 	/* adds a file to the structure */
