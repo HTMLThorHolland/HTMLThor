@@ -1,1 +1,1 @@
-javac -target 1.6 -classpath ../WEB-INF/lib/json-simple-1.1.1.jar:../WEB-INF/lib/mysql-connector-java-3.0.10-stable-bin.jar -d ../WEB-INF/classes RequiredTags.java SingularID.java Mysqlfunctions.java SectionCheck.java
+javac -target 1.6 -classpath ../WEB-INF/lib/json-simple-1.1.1.jar:../WEB-INF/lib/mysql-connector-java-3.0.10-stable-bin.jar -d ../WEB-INF/classes RequiredTags.java SingularID.java Mysqlfunctions.java SectionCheck.java StructureBreakdown.java

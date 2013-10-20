@@ -131,16 +131,21 @@
 					byte[] buffer = new byte[1024];
 					int read = 0;
 					int fileCount = 0;
-					int dirCount = 0;
 					JSONObject json = new JSONObject();
 					
-   		 			// keep track of what files already exist
-             		Map<String, Integer> filenames = new HashMap<String, Integer>();
+					String[] pathSplit = request.getParameter("path").split("/");
+					String path = pathSplit[pathSplit.length-1];
+					
+					StructureBreakdown root = new StructureBreakdown();
+					root.setName(path.substring(0, path.length()-4));
+					root.setType("folder");
+					root.setPath(path.substring(0, path.length()-4));
+					
 					// process each entry in the zip file
             		while ((temp = zipInput.getNextEntry()) != null) 
             		{
              			
-      					JSONObject fileJSON = new JSONObject();
+      					StructureBreakdown fileStruct = new StructureBreakdown();
       					
       					
       					
@@ -148,12 +153,10 @@
       					// split into directories and filename
       					String[] filePathSplit = temp.getName().split("/");
       					
-      					// increase count if file exists
-						filenames.put(filePathSplit[filePathSplit.length-1], filenames.containsKey(filePathSplit[filePathSplit.length-1])
-    					? filenames.get(filePathSplit[filePathSplit.length-1]) + 1 : 0);
       					
-             			fileJSON.put("name", filePathSplit[filePathSplit.length-1]);
-             			fileJSON.put("id", filePathSplit[filePathSplit.length-1].concat("_").concat(filenames.get(filePathSplit[filePathSplit.length-1]).toString()));
+      					
+             			fileStruct.setName(filePathSplit[filePathSplit.length-1]);
+             			fileStruct.setPath(path.substring(0, path.length()-4) + temp.getName());
              			
              			
              			
@@ -164,7 +167,7 @@
       					
       					// process the file if it's not a directory
       					if (!temp.isDirectory()) {
-      						fileJSON.put("type", "file");
+      						fileStruct.setType("file");
       					
       						// ensure the file is a .html or .php
       						if ((temp.getName().indexOf(".html") == temp.getName().length() - 5) || (temp.getName().indexOf(".php") == temp.getName().length() - 4)) {
@@ -194,12 +197,18 @@
                 		} else {
                 		// is a directory
                 			
-      						fileJSON.put("type", "directory");
+      						fileStruct.setType("folder");
                 		
                 		}
                 		s = new StringBuilder();
-                		dirJSON.put(dirCount, fileJSON);
-                		dirCount++;
+                		
+                		StructureBreakdown parentStruct = root;
+                		for (int i = 0; i < filePathSplit.length-1; i++) {
+                			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
+                		}
+                		
+                		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
+                		
             		}
             		
             		json.put("filecount", fileCount);
@@ -216,7 +225,7 @@
 					errFile.close();
 						
 					FileWriter dirFile = new FileWriter(dirFilePath);
-					dirFile.write(dirJSON.toJSONString());
+					dirFile.write(root.toJSON().toJSONString());
 					dirFile.flush();
 					dirFile.close();
                	

@@ -24,6 +24,14 @@ if ($.cookie("dirPath")) {
 	
 	
 	JSONpath = JSONpath.substring(28, JSONpath.length-1);
+	JSONdirectoryPath = JSONpath + "directory.json";
+	var directoryJSON = null;
+	$.getJSON(JSONdirectoryPath, function(response) {
+		directoryJSON = response;
+	})
+	.success(function() {	});
+	
+	
 	JSONpath += "errors.json";
 	$.getJSON(JSONpath, function(response){
        jsonObject = response;
@@ -35,7 +43,7 @@ if ($.cookie("dirPath")) {
 	
 	
 	/*
-	======= EXAMPLES OF USE ======
+	======= EXAMPLES OF USE ERRORS OBJECT ======
 	
 	-- Access file name of first file --
 	jsonObject.filecount -> returns number of files
@@ -43,7 +51,7 @@ if ($.cookie("dirPath")) {
 	-- Access file name of first file --
 	jsonObject[0].filename -> returns String
 	
-	-- Access source code of first file (and at this point only file) --
+	-- Access source code of first file --
 	jsonObject[0].source; -> returns JSONObject
 	
 	-- Access first line of source code of first file --
@@ -68,7 +76,32 @@ if ($.cookie("dirPath")) {
 	jsonObject[0].errors.count; -> returns integer
 	
 	
-	======= END OF EXAMPLES ======
+	======= END OF EXAMPLES ERRORS OBJECT ======
+	
+	
+	======= EXAMPLES OF USE DIRECTORY OBJECT ======
+	-- Access type --
+	directoryJSON.type -> returns string (file, folder or brokenFile)
+	
+	-- Access full path --
+	directoryJSON.fullPath -> returns string
+	
+	-- Access file name --
+	directoryJSON.name -> returns string
+	
+	-- Access error count --
+	directoryJSON.totalErrors -> returns integer
+	
+	-- Access first child file --
+	directoryJSON.children[0] -> returns JSONObject
+	
+	-- Access type of first child file --
+	directoryJSON.children[0].type -> returns string
+	
+	-- Access new location if existing --
+	directoryJSON.children[0].newLocation -> returns string ### CURRENTLY NOT IMPLEMENTED! ###	
+	
+	======= END OF EXAMPLES DIRECTORY OBJECT ======
 	*/
 	
 	// ========== Simon add your code here! ======

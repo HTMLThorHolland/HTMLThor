@@ -377,9 +377,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == ' ') {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
-								// =====================================
-								// CHECK ATTRIBUTE STUFF LIKE VALID ATTRIBUTE/REQUIRED ATTRIBUTE HERE	
-								// =====================================
+								
 								List<String> attrList = new ArrayList<String>();
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
