@@ -143,6 +143,7 @@ public class Encapsulation extends Mysqlfunctions {
 	/* Data structures that contain elements and errors. */
 	ArrayDeque<Element> openedElements;
 	ArrayList<Element> errorList;
+	ArrayList<Element> encapErrorList;
 	
 	/**
 	 * Constructor. Initialises the opened elements deque and the error list.
@@ -150,6 +151,7 @@ public class Encapsulation extends Mysqlfunctions {
 	public Encapsulation() {
 		openedElements = new ArrayDeque<Element>();
 		errorList = new ArrayList<Element>();
+		encapErrorList = new ArrayList<Element>();
 	}
 	
 	/**
@@ -161,8 +163,9 @@ public class Encapsulation extends Mysqlfunctions {
 	public ArrayList<String> getErrorList() {
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */
-		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size());
-		addUnclosedElements(errors);
+		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size() + encapErrorList.size());
+		addUnclosedElements();
+		addEncapErrorsToList();
 		
 		/* Iterates over the error list and adds them to errors. */
 		for(int i = 0; i < errorList.size(); i++) {
@@ -175,12 +178,12 @@ public class Encapsulation extends Mysqlfunctions {
 	}
 	
 	/**
-	 * Helper function for getErrorList. Adds unclosed elements to the error list.
-	 * 
-	 * @param errors error list to be added to
+	 * Helper function for getErrorList. Adds unclosed elements to the error 
+	 * list.
+	 *
 	 * @see getErrorList
 	 */
-	private void addUnclosedElements(ArrayList<String> errors) {
+	private void addUnclosedElements() {
 		Element e = new Element();
 		while(!openedElements.isEmpty()) {
 			e = openedElements.removeLast();
@@ -189,17 +192,40 @@ public class Encapsulation extends Mysqlfunctions {
 	}
 	
 	/**
+	 * Helper function for getErrorList. Adds encapsulation errors to the error 
+	 * list.
+	 * 
+	 * @see getErrorList
+	 */
+	private void addEncapErrorsToList() {
+		errorList.addAll(encapErrorList);
+	}
+	
+	/**
 	 * Helper function that takes an element and an error code, and adds it
 	 * to the error list.
 	 * 
 	 * @param e the element with the error to be added
-	 * @param errorCode the error code of the element
+	 * @param errorCode the error code of the error
 	 * @see getErrorList
 	 * @see encapsulation
 	 */
 	private void addError(Element e, int errorCode) {
 		e.setError(errorCode);
 		errorList.add(e);
+	}
+	
+	/**
+	 * Adds an error to the encapsulation errors list.
+	 * 
+	 * @param e the element with the encapsulation error
+	 * @param errorCode the error code of the error
+	 */
+	private void addEncapError(Element e, int errorCode) {
+		e.setError(errorCode);
+		if(encapErrorList.contains(e)) {
+			encapErrorList.add(e);
+		}
 	}
 	
 	/**
@@ -246,7 +272,9 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @see encapsulation
 	 */
 	private void tagEncapsulation(Element e) {
+
 		Iterator<Element> itr;
+		ArrayDeque<Element> deque = new ArrayDeque<Element>();
 		
 		if(e.getName().charAt(0) != '/') {
 			itr = openedElements.iterator();
@@ -272,37 +300,86 @@ public class Encapsulation extends Mysqlfunctions {
 			}
 			
 		} else {
-			ArrayDeque<Element> deque = new ArrayDeque<Element>();
 			if(openedElements.isEmpty()) {
-				addError(e, STRAY_CLOSE_TAG);
-			} else {
-				while(!openedElements.isEmpty()) {
-					if(e.getName().substring(1).equals(openedElements.peek().getName())) {
-						openedElements.pop();
-						
-						if(e.getName().equals("/html")) {
-							htmlElementOpen = false;
-						}
-						
-						if(e.getName().equals("/head")) {
-							headElementOpen = false;
-						}
-						
-						if(e.getName().equals("/body")) {
-							bodyElementOpen = false;
-						}
-						
-						if(e.getName().equals("/table")) {
-							itr = openedElements.iterator();
-						}
-						
-						break;
-					} else {
-						addError(openedElements.peek(), UNCLOSED_ELEMENT);
-						openedElements.pop();
+				addEncapError(e, STRAY_CLOSE_TAG);
+			}
+				
+			while(!openedElements.isEmpty()) {
+				if(e.getName().substring(1).equals(openedElements.peek().getName())) {
+					openedElements.pop();
+					reAddOpenedElements(deque);
+					
+					if(e.getName().equals("/html")) {
+						htmlElementOpen = false;
 					}
+						
+					if(e.getName().equals("/head")) {
+						headElementOpen = false;
+					}
+						
+					if(e.getName().equals("/body")) {
+						bodyElementOpen = false;
+					}
+						
+					if(e.getName().equals("/table")) {
+						tableElementOpen = false;
+						itr = openedElements.iterator();
+						while(itr.hasNext()) {
+							if (itr.next().getName() == "table") {
+								tableElementOpen = true;
+							}
+						}
+					}
+						
+					if(e.getName().equals("/form")) {
+						formElementOpen = false;
+						itr = openedElements.iterator();
+						while(itr.hasNext()) {
+							if (itr.next().getName() == "table") {
+								formElementOpen = true;
+							}
+						}
+					}
+					
+					break;
+				} else {
+					addEncapError(openedElements.peek(), UNCLOSED_ELEMENT);
+					deque.push(openedElements.peek());
+					openedElements.pop();
 				}
 			}
+			
+			if(openedElements.isEmpty() && !deque.isEmpty()) {
+				int size = deque.size();
+				reAddOpenedElements(deque);
+				removeEncapErrors(size);
+				addEncapError(openedElements.peek(), UNCLOSED_ELEMENT);
+			}
+		}
+	}
+	
+	/**
+	 * Helper function for tagEncapsulation. Adds opened elements back to the
+	 * opened elements deque.
+	 * 
+	 * @param deque the deque containing the opened elements
+	 * @see tagEncapsulation
+	 */
+	private void reAddOpenedElements(ArrayDeque<Element> deque) {
+		while(!deque.isEmpty()) {
+			openedElements.push(deque.pop());
+		}
+	}
+	
+	/**
+	 * Helper function for encapErrorList. Removes invalid encapsulation errors
+	 * from the encapsulation error list.
+	 * 
+	 * @param size the number of errors to be removed
+	 */
+	private void removeEncapErrors(int size) {
+		for(int i = 0; i < size; i++) {
+			encapErrorList.remove(encapErrorList.size() - 1);
 		}
 	}
 }
