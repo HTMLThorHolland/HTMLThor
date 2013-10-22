@@ -49,6 +49,18 @@ function generateFileStructure(object) {
 	if(allBrokenLinksTotal != 0) {
 		$('#totalBroken').addClass("broken");
 	}
+	if(allBrokenLinksTotal > 15) {
+		$("#brokenFeedback p").text("We've detected heaps of broken links within your uploaded .zip folder. Broken links are caused when the file you're linking to can't be found.");
+	}
+	else if(allBrokenLinksTotal <= 15 && allBrokenLinksTotal > 5) {
+		$("#brokenFeedback p").text("We've detected a lot of broken links within your uploaded .zip folder. Broken links are caused when the file you're linking to can't be found.");
+	}
+	else if(allBrokenLinksTotal <= 5 && allBrokenLinksTotal > 0) {
+		$("#brokenFeedback p").text("We've detected a few broken links within your uploaded .zip folder. Broken links are caused when the file you're linking to can't be found.");
+	}
+	else {
+		$("#brokenFeedback p").text("No broken links have been detected in your uploaded .zip folder. Congratulations!");
+	}
 	
 	// NEW TESTING FOR NEW JSON OBJECT
 	

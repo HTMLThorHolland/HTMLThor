@@ -142,7 +142,7 @@ function generateFileStatistics(file, totalErrors, fileNumber) {
 	var fileName = file.filename;
 	var underscoreFileName = fileName.replace(/\./g,"_");
 	statistic = "<div id='"+underscoreFileName+"' class='fileGraph'>";
-	statistic += "<p class='fileName'>"+file.filename+"</p>";
+	statistic += "<div class='fileNameWrapper'><p class='fileName'>"+file.filename+"</p></div>";
 	statistic += "<div class='bar'>";
 	statistic += calculatePercentages(file, totalErrors, fileNumber);
 	statistic += "<div style='clear:both'></div>";

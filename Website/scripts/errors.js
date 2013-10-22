@@ -15,7 +15,7 @@ function setErrors() {
 		for(var i = 0; i < jsonObject[j].errors.count; i++) {
 			var actualLineNumber = jsonObject[j].errors[i].line;
 			errorType = jsonObject[j].errors[i].type;
-			errorDiv = "<div fileowner='"+jsonObject[j].filename+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
+			errorDiv = "<div data-fileowner='"+jsonObject[j].filename+"' data-errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
 			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
 			errorDiv += "<p class='errorDescription'>"+escapeHTML(jsonObject[j].errors[i].message)+"</p>";
 			var noTabsError = oldSource[j][1][jsonObject[j].errors[i].line - 1].replace(/\t/g, ""); // replace all indentation with ""
@@ -70,7 +70,7 @@ function openErrorId(fileowner, errorId) {
 	console.log("fileowner is: "+fileowner + "errorId is: "+errorId);
 	$('html, body').animate({
 		// scroll to the element with the correct fileowner and errorId
-		scrollTop: $(".errorListing[fileowner='"+fileowner+"'][errorId='"+errorId+"']").offset().top
+		scrollTop: $(".errorListing[data-fileowner='"+fileowner+"'][data-errorId='"+errorId+"']").offset().top
 	}, 600);
 }
 

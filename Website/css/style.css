@@ -1134,14 +1134,25 @@ button:hover {
 		text-decoration: underline;
 	}
 
-.fileName {
+.fileNameWrapper {
 	min-width:200px;
 	width: 17%;
+	float: left;
+}
+
+.fileName {
 	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 	.fileName:hover {
 		text-decoration: underline;
+	}
+	
+	.fileNameWrapper p.fileName {
+		float: none;
 	}
 
 .errorNumber {
@@ -1718,6 +1729,7 @@ span.brokenLinkIcon {
 pre.sourceCodeContainer {
 	display: none;
 	font-family: 'Open Sans', sans-serif;
+	padding-top: 3px;
 }
 
 .selectFile {

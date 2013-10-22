@@ -121,7 +121,7 @@ function generateErrors(source, filename, fileNumber) {
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		source[lineNumber] = "<span filenumber='"+fileNumber+"' fileowner='"+filename+"' errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		source[lineNumber] = "<span data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
 		if(!containsLine(errorLineNumbers, lineNumber)) {
 			lineAndErrorTypes.push(lineNumber);
 			lineAndErrorTypes.push(errorTypes);
@@ -239,7 +239,7 @@ function revealPageSource(filename) {
  * @return qtip error message
  */
 function getContent(error, filenumber) {
-	linePos = error.attr('errorId');
+	linePos = error.attr('data-errorId');
 	for(var i = 0; i < jsonObject[filenumber].errors.count; i++) {
 		/* If this is the case, we know what error message to show */
 		if(jsonObject[filenumber].errors[i].line == linePos) {
@@ -283,7 +283,7 @@ $(document).ready(function() {
 	 $(document).delegate('.errorContainer', 'mouseover', function(event) {
 	 
 		var errorClass = $(this).attr('class').split(' ')[1];
-		var fileNumber = $(this).attr('filenumber');
+		var fileNumber = $(this).attr('data-filenumber');
 	 
 		$(this).qtip({
 			overwrite: false,
@@ -310,8 +310,8 @@ $(document).ready(function() {
 	
 	
 	$(document).delegate('.errorContainer', 'click', function(event) {
-		var fileowner = $(this).attr('fileowner');
-		var errorId = $(this).attr('errorId');
+		var fileowner = $(this).attr('data-fileowner');
+		var errorId = $(this).attr('data-errorId');
 		openErrorId(fileowner, errorId); // this function is defined in errors.js
 		event.preventDefault();
 	});
