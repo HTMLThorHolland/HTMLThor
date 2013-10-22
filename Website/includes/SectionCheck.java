@@ -67,7 +67,10 @@ public class SectionCheck {
 			// 5: ' found - ignoring everything until matching ' found
 			// 6: value not enclosed in quotes - add error when end of attribute value found
 			
-			
+			/* START OF AMEER'S CODE */
+			/* Instantiation of Encapsulation class. */
+			Encapsulation encap = new Encapsulation();
+			/* END OF AMEER'S CODE */
 			
 			JSONObject error;
 			
@@ -75,18 +78,14 @@ public class SectionCheck {
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
 			
-			
-
             	String nextLine = fileContents.get(i);
 				
 				/* Initialise the character array on the new line. */
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
 			
-				
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
-				
 				
 					// ==============================================
 					// check whether a style tag is open, in which case content will be unchecked
@@ -237,6 +236,7 @@ public class SectionCheck {
 						continue;
 					}
 					
+					/* START OF AMEER'S CODE */
 					if (openSvg) {
 						if (endEscapedTagPhase == 0) {
 							if (charArray.getChar(j) == '<') {
@@ -405,6 +405,8 @@ public class SectionCheck {
 						}
 						continue;
 					}
+					/* END OF AMEER'S CODE */
+					
 					// ==============================================
 					// Script/style checking done
 					// ==============================================
@@ -849,6 +851,9 @@ public class SectionCheck {
 								}
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
+									if(!singularTags.contains(tag.toLowerCase())) {
+										encap.encapsulation(tag.toLowerCase(), i+1, j, tagStart, j-1);
+									}
 									
 									if (tag.equalsIgnoreCase("!DOCTYPE")) {
 										openDoctype = true;
@@ -1120,9 +1125,58 @@ public class SectionCheck {
 					
 				}
 			}
+			
+			/* START OF AMEER'S CODE */
+			ArrayList<JSONObject> encapErrorList = parseEncapsulationErrors(encap.getErrorList());
+			for(int n = 0; i < encapErrorList.size(); i++) {
+				errors.put(errorCount, encapErrorList.get[i]);
+				errorCount++;
+			}
+			/* END OF AMEER'S CODE */
+			
 			errors.put("count", errorCount);
 			return errors;
 		}			
+		
+		/* START OF AMEER'S CODE */
+		/**
+		 * Takes the list of encapsulation errors and converts them to a
+		 * list of JSONObject error objects.
+		 * 
+		 * @param errors the list of encapsulation errors as Strings
+		 * @return an ArrayList of JSONObjects, containing each error
+		 */
+		private ArrayList<JSONObject> parseEncapsulationErrors(ArrayList<String> errors) {
+			int NUM_ERROR_VALUES = 5;
+			JSONObject error = new JSONObject();
+			String[] errorValues = new String[NUM_ERROR_VALUES];
+			ArrayList<JSONObject> errorList = new ArrayList<JSONObject>(errors.size());
+			
+			String message = "";
+			String type = "syntax";
+			int line = 0;
+			int col = 0;
+			String errorExcerpt = "";
+			
+			for(int i = 0; i < errors.size(); i++) {
+				errorValues = errors.get[i].split(" ", NUM_ERROR_VALUES);
+				
+				message = errorValues[0];
+				line = Integer.parseInt(errorValues[1]);
+				col = Integer.parseInt(errorValues[2]);
+				errorExcerpt = errorValues[4];
+				if(errorExcerpt.charAt(0) == '/') {
+					errorExcerpt = errorValues[4].substring(1);
+				} else {
+					errorExcerpt = errorValues[4];
+				}
+				
+				error = errorConstructor(message, type, line, col, errorExcerpt);
+				errorList.add(error);
+			}
+			
+			return errorList;
+		}
 		
 		/**
 		 * Helper function for error construction. Takes various parameters
@@ -1137,7 +1191,7 @@ public class SectionCheck {
 		 * @return a JSONObject representing the error
 		 */
 		private JSONObject errorConstructor(String message, String type, int line, int col, String errorExcerpt) {
-			error = new JSONObject();
+			JSONObject error = new JSONObject();
 			error.put("message", message);
 			error.put("type", type);
 			error.put("line", line);
@@ -1145,6 +1199,7 @@ public class SectionCheck {
 			error.put("errorExcerpt", errorExcerpt);
 			return error;
 		}
+		/* END OF AMEER'S CODE */
 		
 		
 		/**
