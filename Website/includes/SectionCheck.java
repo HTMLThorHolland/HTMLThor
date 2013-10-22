@@ -1124,8 +1124,15 @@ public class SectionCheck {
 			return errors;
 		}			
 		
-		
-		
+		private JSONObject errorConstructor(String message, String type, int line, int col, String errorExcerpt) {
+			error = new JSONObject();
+			error.put("message", message);
+			error.put("type", type);
+			error.put("line", line);
+			error.put("col", col);
+			error.put("errorExcerpt", errorExcerpt);
+			return error;
+		}
 		
 		
 		/**
