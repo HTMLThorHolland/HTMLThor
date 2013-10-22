@@ -120,13 +120,37 @@ function generateErrors(source, filename, fileNumber) {
 	
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
+		var thisErrorExcerpt = escapeHTML(jsonObject[fileNumber].errors[i].errorExcerpt);
+		
+		
+		/*
+		 *	sourceLine = oldSourceLine . replace . excerpt with <span>excerpt</span>
+		 */
+		 
+		var spanWrap = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>";
+		spanWrap += thisErrorExcerpt;
+		spanWrap += "</span>";
+		source[lineNumber] = source[lineNumber].replace(thisErrorExcerpt, spanWrap);
+		
+		
+		
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		source[lineNumber] = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		//source[lineNumber] = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		
+		
+		/*
+		 *	Check to see if there's already an error on this line in the errorLineNumbers array.
+		 *	This array is used to create a single wrapper on each line where errors occur.
+		 */
 		if(!containsLine(errorLineNumbers, lineNumber)) {
 			lineAndErrorTypes.push(lineNumber);
 			lineAndErrorTypes.push(errorTypes);
 			errorLineNumbers.push(lineAndErrorTypes);
 		}
+		
+		/*
+		 *	If it is already in the array, add this error into the array index that already exists for this line number.
+		 */
 		else {
 			//console.log("IMPORTANT ALREADY ADDED AT: "+getPosition(errorLineNumbers, lineNumber));
 			if (!contains(errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1], jsonObject[fileNumber].errors[i].type)) {
@@ -240,15 +264,13 @@ function revealPageSource(filename) {
  */
 function getContent(error, filenumber) {
 	linePos = error.attr('data-errorId');
-	for(var i = 0; i < jsonObject[filenumber].errors.count; i++) {
-		/* If this is the case, we know what error message to show */
-		if(jsonObject[filenumber].errors[i].line == linePos) {
-			return "<div class='leftMessage "+jsonObject[filenumber].errors[i].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[i].type+"'>"+returnErrorType(filenumber, i)+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+escapeHTML(jsonObject[filenumber].errors[i].message)+"</p></div>";
-		}
-	}
+	errorIndex = error.attr('data-errorIndex');
+	console.log("IMPORTANT!: THE ERROR SHOULD BE: "+jsonObject[filenumber].errors[errorIndex].message);
+	return "<div class='leftMessage "+jsonObject[filenumber].errors[errorIndex].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[errorIndex].type+"'>"+returnErrorType(filenumber, errorIndex)+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+escapeHTML(jsonObject[filenumber].errors[errorIndex].message)+"</p></div>";
 	
+	/*
 	return "<p class='errorMessage'><span class='syntaxError'>Syntax Error</span>Not in database</p><p class='errorLine errorMessage'>Line "+linePos+"</p>";
-	
+	*/
 }
 
 /*

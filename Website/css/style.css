@@ -1880,7 +1880,7 @@ pre.sourceCodeContainer {
 	}
 	
 	.syntaxError, .semanticError, .warningError, .deprecatedError {
-		margin-right: 10px;
+		/*margin-right: 10px;*/
 	}
 	
 	.syntaxError, .syntaxError span, 
@@ -1980,12 +1980,15 @@ pre.sourceCodeContainer {
 	.errorSourceWrapper {
 		height: 18px;
 		width: 100%;
-		cursor: pointer;
 		/*margin-top: -18px;*/
 		font-weight: 900;
 		/*position: absolute;
 		top: 0;
 		left: 0;*/
+	}
+	
+	.errorHighlight  {
+		cursor: pointer;
 	}
 	
 	.clearfix:after {

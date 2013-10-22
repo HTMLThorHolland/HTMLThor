@@ -102,7 +102,7 @@ function noFileErrors() {
 /* When the filename is clicked, navigate to page source. */
 $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	// need to open to the correct file, through a function
-	id = $(this).parent('.fileGraph').attr('id');
+	id = $(this).parent('.fileNameWrapper').parent('.fileGraph').attr('id');
 	console.log(id+".Pre is the passed id");
 	openSourceFile(id+"_Pre"); // in the pagesource.js file
 	changeFile(id);
@@ -141,6 +141,7 @@ $(document).delegate('.fileGraph .errorNumber', 'click', function(event) {
 function generateFileStatistics(file, totalErrors, fileNumber) {
 	var fileName = file.filename;
 	var underscoreFileName = fileName.replace(/\./g,"_");
+	underscoreFileName = underscoreFileName.replace(/\//g,"_");
 	statistic = "<div id='"+underscoreFileName+"' class='fileGraph'>";
 	statistic += "<div class='fileNameWrapper'><p class='fileName'>"+file.filename+"</p></div>";
 	statistic += "<div class='bar'>";
