@@ -34,7 +34,12 @@ $(document).ready(function() {
 	});
 
 	var resultsTrip = new Trip([
-		{ sel : $("#breakdown .breakdownResults"), content : "The types of errors you'll find being validated are listed and explained here. Feel free to check these out any time, or use the sidebar for a quick overview.", position : "s", expose: true }
+		{ sel : $("#breakdown .breakdownResults"), content : "This is a short'n'snappy overview of your results - summarised into a one-liner and displayed with the total number of errors in your files.", position : "s", expose: true },
+		{ sel : $(".breakdownBarResults"), content : "A visual  representation of your errors are listed in bars. Uploading a .zip or multiple files will generate unique bars for each file. Hover over the colours to find out the type of error, and click to be taken to the errors pane for debugging.", position : "s", expose: true },
+		{ sel : $("#structure"), content : "Uploading a .zip file will show your website directory here. You can view broken link errors here and their suggested fix.", position : "n", expose: true },
+		{ sel : $("#sourceWrapper"), content : "Here, errors are presented inline your source code. Hovering over the highlighted lines will bring up an explanation of the error. Use the drop down menu to switch between code if you've uploaded multiple files.", position : "n", expose: true },
+		{ sel : $("#errorsWrapper"), content : "Here, errors are presented in the traditional line-by-line view, a classical approach for the advanced developer.", position : "n", expose: true },
+		{ sel : $("#gotoUpload"), content : "That's it! Now you can begin validating with HTML Thor. Enjoy!", position : "e", expose: true }
 	], {
 		showNavigation : true,
 		showCloseBox : true,
