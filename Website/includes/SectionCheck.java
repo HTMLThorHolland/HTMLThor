@@ -40,14 +40,17 @@ public class SectionCheck {
 			// variables used for escaping script/style tag content
 			boolean openScript = false;
 			boolean openStyle = false;
+			boolean openSvg = false;
+			boolean openMath = false;
+			boolean openCode = false;
 			int endEscapedTagPhase = 0; // used to find </script> and </style>
 			// 0: < not found
 			// 1: < found, / not found - whitespace permitted
 			// 2: / found, script/style not found - whitespace permitted
-			// 3: s found - whitespace not permitted
-			// 4: c/t found
-			// 5: r/y found
-			// 6: i/l found
+			// 3: s/m/c found - whitespace not permitted
+			// 4: c/t/a/v/o found
+			// 5: r/y/g/t/d found
+			// 6: i/l/h/e found
 			// 7: p/e found
 			// 8: t found - looking for >
 			
@@ -226,6 +229,175 @@ public class SectionCheck {
 								// style has been closed
 								endEscapedTagPhase = 0;
 								openScript = false;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						}
+						continue;
+					}
+					
+					if (openSvg) {
+						if (endEscapedTagPhase == 0) {
+							if (charArray.getChar(j) == '<') {
+								// look for next char
+								endEscapedTagPhase = 1;
+							}
+						} else if (endEscapedTagPhase == 1) {
+							if (charArray.getChar(j) == '/') {
+								// look for next char
+								endEscapedTagPhase = 2;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 2) {
+							if (charArray.getChar(j) == 's' || charArray.getChar(j) == 'S') {
+								// look for next char
+								endEscapedTagPhase = 3;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 3) {
+							if (charArray.getChar(j) == 'v' || charArray.getChar(j) == 'V') {
+								// look for next char
+								endEscapedTagPhase = 4;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 4) {
+							if (charArray.getChar(j) == 'g' || charArray.getChar(j) == 'G') {
+								// look for next char
+								endEscapedTagPhase = 5;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 5) {
+							if (charArray.getChar(j) == '>') {
+								// style has been closed
+								endEscapedTagPhase = 0;
+								openSvg = false;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						}
+						continue;
+					}
+					
+					if (openMath) {
+						if (endEscapedTagPhase == 0) {
+							if (charArray.getChar(j) == '<') {
+								// look for next char
+								endEscapedTagPhase = 1;
+							}
+						} else if (endEscapedTagPhase == 1) {
+							if (charArray.getChar(j) == '/') {
+								// look for next char
+								endEscapedTagPhase = 2;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 2) {
+							if (charArray.getChar(j) == 'm' || charArray.getChar(j) == 'M') {
+								// look for next char
+								endEscapedTagPhase = 3;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 3) {
+							if (charArray.getChar(j) == 'a' || charArray.getChar(j) == 'A') {
+								// look for next char
+								endEscapedTagPhase = 4;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 4) {
+							if (charArray.getChar(j) == 't' || charArray.getChar(j) == 'T') {
+								// look for next char
+								endEscapedTagPhase = 5;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 5) {
+							if (charArray.getChar(j) == 'h' || charArray.getChar(j) == 'H') {
+								// look for next char
+								endEscapedTagPhase = 6;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 6) {
+							if (charArray.getChar(j) == '>') {
+								// style has been closed
+								endEscapedTagPhase = 0;
+								openMath = false;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} 
+						continue;
+					}
+					
+					if (openCode) {
+						if (endEscapedTagPhase == 0) {
+							if (charArray.getChar(j) == '<') {
+								// look for next char
+								endEscapedTagPhase = 1;
+							}
+						} else if (endEscapedTagPhase == 1) {
+							if (charArray.getChar(j) == '/') {
+								// look for next char
+								endEscapedTagPhase = 2;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 2) {
+							if (charArray.getChar(j) == 'c' || charArray.getChar(j) == 'C') {
+								// look for next char
+								endEscapedTagPhase = 3;
+							} else if (charArray.getChar(j) != ' ') {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 3) {
+							if (charArray.getChar(j) == 'o' || charArray.getChar(j) == 'O') {
+								// look for next char
+								endEscapedTagPhase = 4;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 4) {
+							if (charArray.getChar(j) == 'd' || charArray.getChar(j) == 'D') {
+								// look for next char
+								endEscapedTagPhase = 5;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 5) {
+							if (charArray.getChar(j) == 'e' || charArray.getChar(j) == 'E') {
+								// look for next char
+								endEscapedTagPhase = 6;
+							} else {
+								// reset tag
+								endEscapedTagPhase = 0;
+							}
+						} else if (endEscapedTagPhase == 6) {
+							if (charArray.getChar(j) == '>') {
+								// style has been closed
+								endEscapedTagPhase = 0;
+								openCode = false;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -861,6 +1033,18 @@ public class SectionCheck {
 									
 									else if (tag.equalsIgnoreCase("style")) {
 										openStyle = true;
+									}
+									
+									else if(tag.equalsIgnoreCase("svg")) {
+										openSvg = true;
+									}
+									
+									else if(tag.equalsIgnoreCase("math")) {
+										openMath = true;
+									}
+									
+									else if(tag.equalsIgnoreCase("code")) {
+										openCode = true;
 									}
 							
 									/* Resets flag values and tag string */
