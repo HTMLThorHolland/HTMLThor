@@ -14,9 +14,10 @@ function setErrors() {
 		underScoreName = underScoreName.replace(/\//g,"_");
 		for(var i = 0; i < jsonObject[j].errors.count; i++) {
 			var actualLineNumber = jsonObject[j].errors[i].line;
+			var actualColumnNumber = jsonObject[j].errors[i].col + 1;
 			errorType = jsonObject[j].errors[i].type;
 			errorDiv = "<div data-fileowner='"+jsonObject[j].filename+"' data-errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
-			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
+			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+actualColumnNumber+":</p>";
 			errorDiv += "<p class='errorDescription'>"+escapeHTML(jsonObject[j].errors[i].message)+"</p>";
 			var noTabsError = oldSource[j][1][jsonObject[j].errors[i].line - 1].replace(/\t/g, ""); // replace all indentation with ""
 			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+noTabsError+"</pre></div>";
