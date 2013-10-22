@@ -483,4 +483,36 @@ public class Mysqlfunctions {
 	   return msg;
 	}
 	
+	/*
+	 * Checks whether an Attribte is, isBoolean
+	 * 
+	 * Returns 1 for yes and 0 for no
+	 */
+	public boolean isAtrrBool(String attributeName) {
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Attribute WHERE Name = '"+attributeName+"'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsBoolean") == 0) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+	   return msg;
+	}
+	
 }
