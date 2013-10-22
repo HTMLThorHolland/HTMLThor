@@ -97,21 +97,21 @@ public class StructureBreakdown {
 	}
 	
 	private boolean isImage(String extension) {
-		if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".jpeg") || extension.equalsIgnoreCase(".png") || extension.equalsIgnoreCase(".gif")) {
+		if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("gif")) {
 			return true;
 		}
 		return false;
 	}
 	
 	private boolean isJS(String extension) {
-		if (extension.equalsIgnoreCase(".js")) {
+		if (extension.equalsIgnoreCase("js")) {
 			return true;
 		}
 		return false;
 	}
 	
 	private boolean isCSS(String extension) {
-		if (extension.equalsIgnoreCase(".css")) {
+		if (extension.equalsIgnoreCase("css")) {
 			return true;
 		}
 		return false;

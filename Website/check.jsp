@@ -156,7 +156,7 @@
       					
       					
              			fileStruct.setName(filePathSplit[filePathSplit.length-1]);
-             			fileStruct.setPath(temp.getName());
+             			fileStruct.setPath(path.substring(0, path.length()-4).concat("/").concat(temp.getName()));
              			
              			
              			
@@ -170,7 +170,7 @@
       						fileStruct.setType("file");
       					
       						// ensure the file is a .html or .php
-      						if ((temp.getName().indexOf(".html") == temp.getName().length() - 5) || (temp.getName().indexOf(".php") == temp.getName().length() - 4)) {
+      						if ((temp.getName().toLowerCase().indexOf(".html") == temp.getName().toLowerCase().length() - 5) || (temp.getName().indexOf(".php") == temp.getName().length() - 4)) {
       							// NEED TO CHECK FOR FILE TYPE HERE TO MAKE SURE ONLY HTML IS PROCESSED
       							String str = s.toString().replaceAll("\r", "");
       							String[] tempSourceArr = str.split("\n");
@@ -187,7 +187,7 @@
                						jsonSource.put(i, fileContents.get(i));
                					}
                					jsonSource.put("length", fileContents.size());
-                				jsonTemp.put("filename", temp.getName().replaceAll(" ", "_"));
+                				jsonTemp.put("filename", path.substring(0, path.length()-4).concat("/").concat(temp.getName().replaceAll(" ", "_")));
                 				jsonTemp.put("source", jsonSource);
                 				jsonTemp.put("errors", jsonErrors);
       							
@@ -204,7 +204,7 @@
                 		StructureBreakdown prevStruct = root;
                 		try {
                 		StructureBreakdown parentStruct = root;
-                		for (int i = 1; i < filePathSplit.length-1; i++) {
+                		for (int i = 0; i < filePathSplit.length-1; i++) {
                 			prevStruct = parentStruct;
                 			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
                 		}
