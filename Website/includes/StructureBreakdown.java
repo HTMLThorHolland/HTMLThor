@@ -69,6 +69,23 @@ public class StructureBreakdown {
 		fullPath = p;
 	}
 
-
+	private String getSuggestedFileLocation() {
+		String[] fullPathSplit = fullPath.split("/");
+		if (fullPathSplit.length != 2) {
+			return null;
+		}
+		String[] extensionSplit = fullPath.split(".");
+		if (isImage(extensionSplit[extensionSplit.length-1])) {
+		
+		}
+		return null;
+	}
+	
+	private boolean isImage(String extension) {
+		if (extension.equalsIgnoreCase(.jpg) || extension.equalsIgnoreCase(.jpeg) || extension.equalsIgnoreCase(.png) || extension.equalsIgnoreCase(.gif)) {
+			return true;
+		}
+		return false;
+	}
 
 }
