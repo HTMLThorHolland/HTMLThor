@@ -172,7 +172,8 @@
       						// ensure the file is a .html or .php
       						if ((temp.getName().indexOf(".html") == temp.getName().length() - 5) || (temp.getName().indexOf(".php") == temp.getName().length() - 4)) {
       							// NEED TO CHECK FOR FILE TYPE HERE TO MAKE SURE ONLY HTML IS PROCESSED
-      							String[] tempSourceArr = s.toString().split("\n");
+      							String str = s.toString().replaceAll("\r", "");
+      							String[] tempSourceArr = str.split("\n");
       							List<String> fileContents = new ArrayList<String>();
       							for (int i = 0; i < tempSourceArr.length; i++) {
      								fileContents.add(" ".concat(tempSourceArr[i]).concat(" "));

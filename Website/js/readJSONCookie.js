@@ -72,6 +72,9 @@ if ($.cookie("dirPath")) {
 	-- Access column number of first error of first file --
 	jsonObject[0].errors[0].col; -> returns integer
 	
+	-- Access error excerpt of first error of first file --
+	jsonObject[0].errors[0].errorExcerpt; -> returns string
+	
 	-- Access error count for first file --
 	jsonObject[0].errors.count; -> returns integer
 	

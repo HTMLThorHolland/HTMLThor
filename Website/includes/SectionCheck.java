@@ -251,6 +251,15 @@ public class SectionCheck {
 								attrPhase = 2;
 								continue;
 							} else {
+								error = new JSONObject();
+								error.put("message",  sql.getErrMsg(1));
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								error.put("errorExcerpt", tag);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
 								if (charArray.getChar(j) == '>') {
 									openDoctype = false;
 									closeTag = true;
@@ -260,14 +269,6 @@ public class SectionCheck {
 									tagChecked = false;
 									faultyTag = false;
 								}
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-								attrPhase = 5;
 								continue;
 							}
 						}
@@ -276,6 +277,15 @@ public class SectionCheck {
 								attrPhase = 3;
 								continue;
 							} else {
+								error = new JSONObject();
+								error.put("message",  sql.getErrMsg(1));
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								error.put("errorExcerpt", tag);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
 								if (charArray.getChar(j) == '>') {
 									openDoctype = false;
 									closeTag = true;
@@ -285,14 +295,6 @@ public class SectionCheck {
 									tagChecked = false;
 									faultyTag = false;
 								}
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-								attrPhase = 5;
 								continue;
 							}
 						}
@@ -301,6 +303,15 @@ public class SectionCheck {
 								attrPhase = 4;
 								continue;
 							} else {
+								error = new JSONObject();
+								error.put("message",  sql.getErrMsg(1));
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								error.put("errorExcerpt", tag);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
 								if (charArray.getChar(j) == '>') {
 									openDoctype = false;
 									closeTag = true;
@@ -310,14 +321,6 @@ public class SectionCheck {
 									tagChecked = false;
 									faultyTag = false;
 								}
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-								attrPhase = 5;
 								continue;
 							}
 						}
@@ -326,6 +329,15 @@ public class SectionCheck {
 								attrPhase = 5;
 								continue;
 							} else {
+								error = new JSONObject();
+								error.put("message",  sql.getErrMsg(1));
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								error.put("errorExcerpt", tag);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 5;
 								if (charArray.getChar(j) == '>') {
 									openDoctype = false;
 									closeTag = true;
@@ -335,14 +347,6 @@ public class SectionCheck {
 									tagChecked = false;
 									faultyTag = false;
 								}
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-								attrPhase = 5;
 								continue;
 							}
 						}
@@ -355,10 +359,31 @@ public class SectionCheck {
 								endTagName = false;
 								tagChecked = false;
 								faultyTag = false;
+							} else if (charArray.getChar(j) != ' ') {
+								error = new JSONObject();
+								error.put("message",  sql.getErrMsg(1));
+								error.put("type", "syntax");
+								error.put("line", i+1);
+								error.put("col", j);
+								error.put("errorExcerpt", tag);
+								errors.put(errorCount, error);
+								errorCount += 1;
+								attrPhase = 6;
 							}
 							continue;
 						}
-					
+						if (attrPhase == 6) {
+							if (charArray.getChar(j) == '>') {
+								openDoctype = false;
+								closeTag = true;
+								openTag = false;
+								tag = null;
+								endTagName = false;
+								tagChecked = false;
+								faultyTag = false;
+							}
+							continue;
+						}
 					
 					
 					
@@ -398,6 +423,7 @@ public class SectionCheck {
 										error.put("type", "syntax");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
@@ -407,6 +433,7 @@ public class SectionCheck {
 									error.put("type", "deprecated");
 									error.put("line", i+1);
 									error.put("col", j);
+									error.put("errorExcerpt", attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -438,6 +465,7 @@ public class SectionCheck {
 										error.put("type", "syntax");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
@@ -447,6 +475,7 @@ public class SectionCheck {
 									error.put("type", "deprecated");
 									error.put("line", i+1);
 									error.put("col", j);
+									error.put("errorExcerpt", attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -468,6 +497,7 @@ public class SectionCheck {
 								error.put("type", "syntax");
 								error.put("line", i+1);
 								error.put("col", j);
+								error.put("errorExcerpt", attribute);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								
@@ -492,6 +522,7 @@ public class SectionCheck {
 									error.put("type", "warning");
 									error.put("line", i+1);
 									error.put("col", j);
+									error.put("errorExcerpt", "#");
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
@@ -526,6 +557,7 @@ public class SectionCheck {
 										error.put("type", "semantic");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									} else {
@@ -559,6 +591,7 @@ public class SectionCheck {
 										error.put("type", "semantic");
 										error.put("line", i+1);
 										error.put("col", j);
+										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									} else {
@@ -580,6 +613,7 @@ public class SectionCheck {
 								error.put("type", "semantic");
 								error.put("line", i+1);
 								error.put("col", j);
+								error.put("errorExcerpt", attributeVal);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								// reached end of attribute value
@@ -605,6 +639,7 @@ public class SectionCheck {
 						if (charArray.getLength() >= j+4) {
 							if((charArray.getChar(j+1)=='!') && (charArray.getChar(j+2)=='-') && (charArray.getChar(j+3)=='-')) {
 								startComment = true;
+								openTag = false;
 							}
 						}
 						
