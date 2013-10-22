@@ -48,10 +48,10 @@ function populateStatistics() {
 		$('#feedback').html("<p>Oops! You’ve got a few critters in here you’ll have to clean up!</p>");	
 	}
 	if(overallErrors > 7 && overallErrors <= 15) {
-		$('#feedback').html("<p>Gee, this site needs a clean up - get to work!</p>");	
+		$('#feedback').html("<p>Gee, this code needs a clean up - get to work!</p>");	
 	}
 	if(overallErrors > 15 && overallErrors <= 50) {
-		$('#feedback').html("<p>Gosh, your site’s looking downtrodden with errors!</p>");	
+		$('#feedback').html("<p>Gosh, your code's looking downtrodden with errors!</p>");	
 	}
 	if(overallErrors > 50) {
 		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	

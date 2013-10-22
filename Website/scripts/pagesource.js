@@ -121,7 +121,7 @@ function generateErrors(source, filename, fileNumber) {
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
 		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		source[lineNumber] = "<span data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		source[lineNumber] = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
 		if(!containsLine(errorLineNumbers, lineNumber)) {
 			lineAndErrorTypes.push(lineNumber);
 			lineAndErrorTypes.push(errorTypes);
