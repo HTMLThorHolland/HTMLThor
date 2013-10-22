@@ -23,6 +23,12 @@ public class StructureBreakdown {
 	public JSONObject toJSON() {
 		JSONObject json = new JSONObject();
 		json.put("name", name.replaceAll(" ", "_"));
+		if (type.equals("file")) {
+			String suggestLoc = getSuggestedFileLocation();
+			if (suggestLoc != null) {
+				json.put("newLocation", suggestLoc);
+			}
+		}
 		json.put("totalErrors", errorCount);
 		if (errorCount > 0) {
 			json.put("type", "brokenFile");
@@ -74,15 +80,38 @@ public class StructureBreakdown {
 		if (fullPathSplit.length != 2) {
 			return null;
 		}
-		String[] extensionSplit = fullPath.split(".");
+		String[] extensionSplit = fullPath.split("\\.");
 		if (isImage(extensionSplit[extensionSplit.length-1])) {
-		
+			errorCount++;
+			return fullPathSplit[0].concat("/images/").concat(name);
+		}
+		if (isJS(extensionSplit[extensionSplit.length-1])) {
+			errorCount++;
+			return fullPathSplit[0].concat("/js/").concat(name);
+		}
+		if (isImage(extensionSplit[extensionSplit.length-1])) {
+			errorCount++;
+			return fullPathSplit[0].concat("/css/").concat(name);
 		}
 		return null;
 	}
 	
 	private boolean isImage(String extension) {
-		if (extension.equalsIgnoreCase(.jpg) || extension.equalsIgnoreCase(.jpeg) || extension.equalsIgnoreCase(.png) || extension.equalsIgnoreCase(.gif)) {
+		if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".jpeg") || extension.equalsIgnoreCase(".png") || extension.equalsIgnoreCase(".gif")) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isJS(String extension) {
+		if (extension.equalsIgnoreCase(".js")) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isCSS(String extension) {
+		if (extension.equalsIgnoreCase(".css")) {
 			return true;
 		}
 		return false;
