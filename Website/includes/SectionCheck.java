@@ -1124,6 +1124,18 @@ public class SectionCheck {
 			return errors;
 		}			
 		
+		/**
+		 * Helper function for error construction. Takes various parameters
+		 * and returns a JSONObject containing the values required for the
+		 * error object.
+		 * 
+		 * @param message the error message of the error
+		 * @param type the type of error
+		 * @param line the line number the error is located on
+		 * @param col the column the error starts
+		 * @param errorExcerpt the error excerpt of the error
+		 * @return a JSONObject representing the error
+		 */
 		private JSONObject errorConstructor(String message, String type, int line, int col, String errorExcerpt) {
 			error = new JSONObject();
 			error.put("message", message);
