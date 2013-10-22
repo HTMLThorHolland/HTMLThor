@@ -310,32 +310,10 @@ public class Mysqlfunctions {
 	public ArrayList<String> getAttr(String tagName) {
 
 		List<String> list = new ArrayList<String>();
-		String query = "SELECT eID FROM Element WHERE EName = '" + tagName + "'";
+		String query = "SELECT * FROM Attribute WHERE eID = (SELECT eID FROM Element WHERE EName = '"+tagName+"') OR isGlobal=1";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
-		
-		int eID = 0;
-		
-		if (result != null) {
-			
-		
-			try {
-		
-				while (result.next()) {
-					eID = result.getInt("eID");
-				}
-		
-			}catch (SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
-			}
-		}
-		query = "SELECT Name FROM Attribute WHERE eID = " + Integer.toString(eID) + " OR isGlobal = 1";
-		
-		result = con.run(query);
-		
-		
+				
 		if (result == null) {
 			return (ArrayList<String>) list;
 		}
