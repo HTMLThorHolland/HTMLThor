@@ -26,7 +26,7 @@ public class SectionCheck {
 			boolean whiteSpaceFlag = false;
 			boolean selfClosing = false;
 			int tagStart = 0;
-			String tag = "";
+			String tag = "lol";
 			int errorCount = 0;
 			boolean endTagName = false;
 			boolean faultyTag = false;
@@ -59,7 +59,7 @@ public class SectionCheck {
 			int attrValStart = 0;
 			boolean openAttr = false;
 			int attrPhase = 0;
-			String attribute = "";
+			String attribute = "lel";
 			// 1: attribute key name started - ends at whitespace or =
 			// 2: attribute key name finished, looking for =
 			// 3: = found - looking for quotes to start value - whitespace permitted
@@ -73,7 +73,7 @@ public class SectionCheck {
 			/* END OF AMEER'S CODE */
 			
 			JSONObject error;
-			
+			List<String> requiredTags = new ArrayList<String>();
 			
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
@@ -863,21 +863,27 @@ public class SectionCheck {
 										j--;
 									}
 									
+									
 									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||
-										tag.equalsIgnoreCase("title")) {
-										if(singularTags.contains(tag.toLowerCase())) {
-											error = new JSONObject();
-											error.put("message", tag + " is a singular tag but is used more than once!");
-											error.put("type", "syntax");
-											error.put("line", i+1);
-											error.put("col", endTagColumnNo);
-											error.put("errorExcerpt", tag);
-											errors.put(errorCount, error);
-											errorCount += 1;
+										tag.equalsIgnoreCase("title")||tag.equalsIgnoreCase("meta")) {
+										
+										if(!tag.equalsIgnoreCase("meta")) {
+											if(singularTags.contains(tag.toLowerCase())) {
+												error = new JSONObject();
+												error.put("message", tag + " is a singular tag but is used more than once!");
+												error.put("type", "syntax");
+												error.put("line", i+1);
+												error.put("col", endTagColumnNo);
+												error.put("errorExcerpt", tag);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											}
+											else {
+												singularTags.add(tag.toLowerCase());
+											}
 										}
-										else {
-											singularTags.add(tag.toLowerCase());
-										}
+										
+										requiredTags.add(tag);
 									}
 									
 									if (tag.length() > 0) {
@@ -1137,6 +1143,55 @@ public class SectionCheck {
 			}
 			/* END OF AMEER'S CODE */
 			
+			if(!requiredTags.contains("html") {
+				error.put("message", "Required tag <html> not present");
+				error.put("type", "syntax");
+				error.put("line", 0);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
+			if(!requiredTags.contains("head") {
+				error.put("message", "Required tag <head> not present");
+				error.put("type", "syntax");
+				error.put("line", 0);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
+			if(!requiredTags.contains("body") {
+				error.put("message", "Required tag <body> not present");
+				error.put("type", "syntax");
+				error.put("line", 0);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
+			if(!requiredTags.contains("title") {
+				error.put("message", "Required tag <title> not present");
+				error.put("type", "semantic");
+				error.put("line", 0);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
+			if(!requiredTags.contains("meta") {
+				error.put("message", "Required tag <meta> not present");
+				error.put("type", "semantic");
+				error.put("line", 0);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
+			
+			
+			
+			
 			errors.put("count", errorCount);
 			return errors;
 		}			
@@ -1169,9 +1224,11 @@ public class SectionCheck {
 				col = Integer.parseInt(errorValues[2]);
 				errorExcerpt = errorValues[4];
 				if(errorExcerpt.charAt(0) == '/') {
-					errorExcerpt = errorValues[4].substring(1);
+					errorExcerpt = "FIXED"
+					//errorExcerpt = errorValues[4].substring(1);
 				} else {
-					errorExcerpt = errorValues[4];
+					errorExcerpt = "FIXED"
+					//errorExcerpt = errorValues[4];
 				}
 				
 				error = errorConstructor(message, type, line, col, errorExcerpt);
