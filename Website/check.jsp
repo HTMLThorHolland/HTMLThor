@@ -158,7 +158,14 @@
       					
       					// split into directories and filename
       					String[] filePathSplit = temp.getName().split("/");
-      					
+      					if (filePathSplit.length > maxLevel) {
+      						// add more lists to the structure list for the new levels
+      						while (filePathSplit.length > maxLevel) {
+      							List<StructureBreakdown> levelList = new ArrayList<StructureBreakdown>();
+      							structList.add(levelList);
+      							maxLevel++;
+      						}
+      					}
       					
       					
              			fileStruct.setName(filePathSplit[filePathSplit.length-1]);
@@ -210,7 +217,11 @@
       						fileStruct.setType("folder");
                 		
                 		}
+                		
+                		
                 		s = new StringBuilder();
+                		/******* THIS NEEDS TO BE MOVED
+                		********
                 		StructureBreakdown prevStruct = root;
                 		StructureBreakdown parentStruct = root;
                 		
@@ -220,6 +231,8 @@
                 		}
                 		
                 		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
+                		**********
+                		*********/
             		}
             		
             		
