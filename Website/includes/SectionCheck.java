@@ -1197,6 +1197,16 @@ public class SectionCheck {
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
+			if(!requiredTags.contains("!doctype")) {
+				error = new JSONObject();
+				error.put("message", "Required tag <!DOCTYPE> not present");
+				error.put("type", "syntax");
+				error.put("line", 1);
+				error.put("col", 0);
+				error.put("errorExcerpt", "");
+				errors.put(errorCount, error);
+				errorCount += 1;
+			}
 			
 			
 			
