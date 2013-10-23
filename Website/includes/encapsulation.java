@@ -14,19 +14,15 @@ import java.util.Iterator;
  * @author Ameer Sabri
  */
 public class Encapsulation extends Mysqlfunctions {
-	/* Declarations for error codes. Currently dummy values.
-	 * Will add to the database soon. */
-	public static final int ENCAPSULATION_ERROR = 101;
-	public static final int ELEMENT_INSIDE_ITSELF = 102;
-	public static final int NOT_TABLE_ELEMENT = 103;
-	public static final int TABLE_ELEMENT_OUT_OF_TABLE = 104;
-	public static final int NOT_FORM_ELEMENT = 105;
-	public static final int FORM_ELEMENT_OUT_OF_FORM = 106;
-	public static final int OUTSIDE_HTML_TAGS = 107;
-	public static final int INVALID_HEAD_ELEMENT = 108;
-	public static final int INVALID_BODY_ELEMENT = 109;
-	public static final int UNCLOSED_ELEMENT = 110;
-	public static final int STRAY_CLOSE_TAG = 111;
+	/* Declarations for error codes. Added to the database. */
+	public static final int ELEMENT_INSIDE_ITSELF = 101;
+	public static final int TABLE_ELEMENT_OUT_OF_TABLE = 102;
+	public static final int FORM_ELEMENT_OUT_OF_FORM = 103;
+	public static final int OUTSIDE_HTML_TAGS = 104;
+	public static final int INVALID_HEAD_ELEMENT = 105;
+	public static final int INVALID_BODY_ELEMENT = 106;
+	public static final int UNCLOSED_ELEMENT = 107;
+	public static final int STRAY_CLOSE_TAG = 108;
 	
 	/**
 	 * Element class for handling parsed elements and storing their location
