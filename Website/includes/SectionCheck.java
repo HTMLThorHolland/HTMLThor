@@ -1151,7 +1151,7 @@ public class SectionCheck {
 				error = new JSONObject();
 				error.put("message", "Required tag <html> not present");
 				error.put("type", "syntax");
-				error.put("line", 0);
+				error.put("line", 1);
 				error.put("col", 0);
 				error.put("errorExcerpt", "");
 				errors.put(errorCount, error);
@@ -1161,7 +1161,7 @@ public class SectionCheck {
 				error = new JSONObject();
 				error.put("message", "Required tag <head> not present");
 				error.put("type", "syntax");
-				error.put("line", 0);
+				error.put("line", 1);
 				error.put("col", 0);
 				error.put("errorExcerpt", "");
 				errors.put(errorCount, error);
@@ -1171,7 +1171,7 @@ public class SectionCheck {
 				error = new JSONObject();
 				error.put("message", "Required tag <body> not present");
 				error.put("type", "syntax");
-				error.put("line", 0);
+				error.put("line", 1);
 				error.put("col", 0);
 				error.put("errorExcerpt", "");
 				errors.put(errorCount, error);
@@ -1181,7 +1181,7 @@ public class SectionCheck {
 				error = new JSONObject();
 				error.put("message", "Required tag <title> not present");
 				error.put("type", "semantic");
-				error.put("line", 0);
+				error.put("line", 1);
 				error.put("col", 0);
 				error.put("errorExcerpt", "");
 				errors.put(errorCount, error);
@@ -1191,7 +1191,7 @@ public class SectionCheck {
 				error = new JSONObject();
 				error.put("message", "Required tag <meta> not present");
 				error.put("type", "semantic");
-				error.put("line", 0);
+				error.put("line", 1);
 				error.put("col", 0);
 				error.put("errorExcerpt", "");
 				errors.put(errorCount, error);
@@ -1221,7 +1221,7 @@ public class SectionCheck {
 			
 			String message = "";
 			String type = "syntax";
-			int line = 0;
+			int line = 1;
 			int col = 0;
 			String errorExcerpt = "";
 			
