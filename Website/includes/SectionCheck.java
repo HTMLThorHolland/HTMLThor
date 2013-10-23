@@ -77,6 +77,7 @@ public class SectionCheck {
 			
 			
 			JSONObject error;
+			List<String> AttributeList;
 			List<String> requiredTags = new ArrayList<String>();
 			
 			/* Iterates over the lines of the given file. */
@@ -597,6 +598,21 @@ public class SectionCheck {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
 								endAttrColumnNo = j-1;
+								if(AttributeList.contains(attribute.toLowerCase())) {
+									// Duplicate attribute use for this tag
+									error = new JSONObject();
+									error.put("message", attribute + " has already been assigned once for this tag");
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", endAttrColumnNo);
+									error.put("errorExcerpt", attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								else {
+									AttributeList.add(attribute.toLowerCase());
+								}
+								
 								
 								List<String> attrList = new ArrayList<String>();
 								attrList = sql.getAttr(tag);
@@ -901,6 +917,9 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									endTagColumnNo = j-1;
+									// Initiate required attributes list
+									AttributeList = new ArrayList<String>();
+									
 									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
 										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
 									}
@@ -989,26 +1008,21 @@ public class SectionCheck {
 							
 								if(charArray.getChar(j)=='>') {
 								
+								List<String> requiredAttributes = new ArrayList<String>();
+								requiredAttributes = sql.requiresAttr(tag.toLowerCase());
+								for(int z = 0; z < requiredAttributes.size(); z++) {
+									if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
+										error = new JSONObject();
+										error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
+										error.put("type", "syntax");
+										error.put("line", i+1);
+										error.put("col", endTagColumnNo);
+										error.put("errorExcerpt", tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+								}
 								
-									/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
-								/*
-								error = new JSONObject();
-								error.put("message", tagStart + " " + j + " " + tag + " is not a valid HTML tag");
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", j);
-								errors.put(errorCount, error);
-								errorCount += 1;
-								*/
-								/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
-								/* ################################################# */
 								
 								
 									// Check if self closing
