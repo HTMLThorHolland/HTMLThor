@@ -887,7 +887,7 @@ public class SectionCheck {
 											}
 										}
 										
-										requiredTags.add(tag);
+										requiredTags.add(tag.toLowerCase());
 									}
 									
 									if (tag.length() > 0) {
@@ -1147,7 +1147,8 @@ public class SectionCheck {
 			}
 			/* END OF AMEER'S CODE */
 			
-			if(!requiredTags.contains("html") {
+			if(!requiredTags.contains("html")) {
+				error = new JSONObject();
 				error.put("message", "Required tag <html> not present");
 				error.put("type", "syntax");
 				error.put("line", 0);
@@ -1156,7 +1157,8 @@ public class SectionCheck {
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
-			if(!requiredTags.contains("head") {
+			if(!requiredTags.contains("head")) {
+				error = new JSONObject();
 				error.put("message", "Required tag <head> not present");
 				error.put("type", "syntax");
 				error.put("line", 0);
@@ -1165,7 +1167,8 @@ public class SectionCheck {
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
-			if(!requiredTags.contains("body") {
+			if(!requiredTags.contains("body")) {
+				error = new JSONObject();
 				error.put("message", "Required tag <body> not present");
 				error.put("type", "syntax");
 				error.put("line", 0);
@@ -1174,7 +1177,8 @@ public class SectionCheck {
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
-			if(!requiredTags.contains("title") {
+			if(!requiredTags.contains("title")) {
+				error = new JSONObject();
 				error.put("message", "Required tag <title> not present");
 				error.put("type", "semantic");
 				error.put("line", 0);
@@ -1183,7 +1187,8 @@ public class SectionCheck {
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
-			if(!requiredTags.contains("meta") {
+			if(!requiredTags.contains("meta")) {
+				error = new JSONObject();
 				error.put("message", "Required tag <meta> not present");
 				error.put("type", "semantic");
 				error.put("line", 0);
@@ -1228,10 +1233,10 @@ public class SectionCheck {
 				col = Integer.parseInt(errorValues[2]);
 				errorExcerpt = errorValues[4];
 				if(errorExcerpt.charAt(0) == '/') {
-					errorExcerpt = "FIXED"
+					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4].substring(1);
 				} else {
-					errorExcerpt = "FIXED"
+					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4];
 				}
 				

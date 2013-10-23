@@ -1,5 +1,6 @@
 
 var jsonObject;
+var directoryJSON = null;
 
 if ($.cookie("dirPath")) {
 
@@ -25,7 +26,7 @@ if ($.cookie("dirPath")) {
 	
 	JSONpath = JSONpath.substring(28, JSONpath.length-1);
 	JSONdirectoryPath = JSONpath + "directory.json";
-	var directoryJSON = null;
+	
 	$.getJSON(JSONdirectoryPath, function(response) {
 		directoryJSON = response;
 	})
