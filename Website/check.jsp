@@ -121,7 +121,7 @@
    		 		
    		 		else if (uploadType.equals("zip")) {
    		 		
-   		 		
+   		 			// initialize variables needed for reading the zip
    		 			JSONObject dirJSON = new JSONObject();
    		 			SectionCheck sc = new SectionCheck();
    		 			ZipInputStream zipInput = new ZipInputStream(new FileInputStream(request.getParameter("path")));
@@ -134,10 +134,14 @@
 					JSONObject json = new JSONObject();
 					
 					List<String> fileNames = new ArrayList<String>();
+					List<List<StructureBreakdown>> structList = new ArrayList<List<StructureBreakdown>>();
+					int maxLevel = 0;
+					
 					
 					String[] pathSplit = request.getParameter("path").split("/");
 					String path = pathSplit[pathSplit.length-1];
 					
+					// generate root folder for structure breakdown
 					StructureBreakdown root = new StructureBreakdown();
 					root.setName(path.substring(0, path.length()-4));
 					root.setType("folder");
@@ -180,8 +184,9 @@
       							for (int i = 0; i < tempSourceArr.length; i++) {
      								fileContents.add(" ".concat(tempSourceArr[i]).concat(" "));
       							}
-      						
-      							JSONObject jsonTemp = sc.findErrors(fileContents);
+      							/******* THIS NEEDS TO BE MOVED
+      							********
+      							JSONObject jsonTemp = new JSONObject();
       						
                					JSONObject jsonErrors = sc.findErrors(fileContents);
                					JSONObject jsonSource = new JSONObject();
@@ -195,7 +200,10 @@
       							
                 				json.put(Integer.toString(fileCount), jsonTemp);
                 				fileCount++;
+                				**********
+                				*********/
                 			}
+                			
                 		} else {
                 		// is a directory
                 			
@@ -210,16 +218,15 @@
                 			prevStruct = parentStruct;
                 			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
                 		}
-                		try {
+                		
                 		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
-                		} catch (NullPointerException ex) {
-                			String errorString = "";
-                			for (int k = 0; k < fileNames.size(); k++) {
-                				errorString = errorString + fileNames.get(k) + " --- ";
-                			}
-                			throw new RuntimeException(errorString);
-                		}
             		}
+            		
+            		
+            		
+            		
+            		// RUN THROUGH CHECKING CODE ETC DOWN HERE!
+            		//
             		
             		json.put("filecount", fileCount);
             		

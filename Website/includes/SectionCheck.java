@@ -687,7 +687,7 @@ public class SectionCheck {
 								continue;
 							}else {
 								
-								if(!isAttrBool(attribute)) {
+								if(!sql.isAttrBool(attribute)) {
 									// did not find a value for the key
 									error = new JSONObject();
 									error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
@@ -738,7 +738,7 @@ public class SectionCheck {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == '"') {
 							
-								if(isAttrBool(attribute)) {
+								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
 									error = new JSONObject();
 									error.put("message", attribute + " should not have a value associated with it");
@@ -784,7 +784,7 @@ public class SectionCheck {
 							// looking for end of single quotes
 							if (charArray.getChar(j) == '\'') {
 								
-								if(isAttrBool(attribute)) {
+								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
 									error = new JSONObject();
 									error.put("message", attribute + " should not have a value associated with it");
@@ -901,7 +901,7 @@ public class SectionCheck {
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
 									endTagColumnNo = j-1;
-									if(!singularTags.contains(tag.toLowerCase())) {
+									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
 										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
 									}
 									
