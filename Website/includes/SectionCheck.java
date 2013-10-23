@@ -104,6 +104,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 1) {
 							if (charArray.getChar(j) == '/') {
 								// look for next char
+								tagStart = j;
 								endEscapedTagPhase = 2;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -145,6 +146,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == 'e' || charArray.getChar(j) == 'E') {
 								// look for next char
 								endEscapedTagPhase = 7;
+								endTagColumnNo = j;
 							} else {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -153,6 +155,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '>') {
 								// style has been closed
 								endEscapedTagPhase = 0;
+								encap.encapsulation("/style", i+1, tagStart, endTagColumnNo);
 								openStyle = false;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -175,6 +178,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '/') {
 								// look for next char
 								endEscapedTagPhase = 2;
+								tagStart = j;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -223,6 +227,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == 't' || charArray.getChar(j) == 'T') {
 								// look for next char
 								endEscapedTagPhase = 8;
+								endTagColumnNo = j;
 							} else {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -231,6 +236,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '>') {
 								// style has been closed
 								endEscapedTagPhase = 0;
+								encap.encapsulation("/script", i+1, tagStart, endTagColumnNo);
 								openScript = false;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -251,6 +257,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '/') {
 								// look for next char
 								endEscapedTagPhase = 2;
+								tagStart = j;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -274,6 +281,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 4) {
 							if (charArray.getChar(j) == 'g' || charArray.getChar(j) == 'G') {
 								// look for next char
+								endTagColumnNo = j;
 								endEscapedTagPhase = 5;
 							} else {
 								// reset tag
@@ -283,6 +291,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '>') {
 								// style has been closed
 								endEscapedTagPhase = 0;
+								encap.encapsulation("/svg", i+1, tagStart, endTagColumnNo);
 								openSvg = false;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -301,6 +310,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 1) {
 							if (charArray.getChar(j) == '/') {
 								// look for next char
+								tagStart = j;
 								endEscapedTagPhase = 2;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -333,6 +343,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 5) {
 							if (charArray.getChar(j) == 'h' || charArray.getChar(j) == 'H') {
 								// look for next char
+								endTagColumnNo = j;
 								endEscapedTagPhase = 6;
 							} else {
 								// reset tag
@@ -342,6 +353,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == '>') {
 								// style has been closed
 								endEscapedTagPhase = 0;
+								encap.encapsulation("/math", i+1, tagStart, endTagColumnNo);
 								openMath = false;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -360,6 +372,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 1) {
 							if (charArray.getChar(j) == '/') {
 								// look for next char
+								tagStart = j;
 								endEscapedTagPhase = 2;
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
@@ -392,6 +405,7 @@ public class SectionCheck {
 						} else if (endEscapedTagPhase == 5) {
 							if (charArray.getChar(j) == 'e' || charArray.getChar(j) == 'E') {
 								// look for next char
+								endTagColumnNo = j;
 								endEscapedTagPhase = 6;
 							} else {
 								// reset tag
@@ -402,6 +416,7 @@ public class SectionCheck {
 								// style has been closed
 								endEscapedTagPhase = 0;
 								openCode = false;
+								encap.encapsulation("/code", i+1, tagStart, endTagColumnNo);
 							} else if (charArray.getChar(j) != ' ') {
 								// reset tag
 								endEscapedTagPhase = 0;
@@ -552,6 +567,7 @@ public class SectionCheck {
 						}
 						if (attrPhase == 6) {
 							if (charArray.getChar(j) == '>') {
+								
 								openDoctype = false;
 								closeTag = true;
 								openTag = false;
