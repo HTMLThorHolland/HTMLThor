@@ -669,16 +669,19 @@ public class SectionCheck {
 							} else if (charArray.getChar(j) == '=') {
 								attrPhase = 3;
 								continue;
-							} else {
-								// did not find a value for the key
-								error = new JSONObject();
-								error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endAttrColumnNo);
-								error.put("errorExcerpt", attribute);
-								errors.put(errorCount, error);
-								errorCount += 1;
+							}else {
+								
+								if(!isAttrBool(attribute)) {
+									// did not find a value for the key
+									error = new JSONObject();
+									error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", endAttrColumnNo);
+									error.put("errorExcerpt", attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
 								
 								openAttr = false;
 								attribute = "";
@@ -719,6 +722,18 @@ public class SectionCheck {
 							// looking for end of double quotes
 							if (charArray.getChar(j) == '"') {
 							
+								if(isAttrBool(attribute)) {
+									// this type of attribute cannot have a value
+									error = new JSONObject();
+									error.put("message", attribute + " should not have a value associated with it");
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", endAttrColumnNo);
+									error.put("errorExcerpt", attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+							
 								// check for unique id
 								if (attribute.equalsIgnoreCase("id")) {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
@@ -750,8 +765,21 @@ public class SectionCheck {
 							}
 							continue;
 						} else if (attrPhase == 5) {
-							// looking for end of double quotes
+							// looking for end of single quotes
 							if (charArray.getChar(j) == '\'') {
+								
+								if(isAttrBool(attribute)) {
+									// this type of attribute cannot have a value
+									error = new JSONObject();
+									error.put("message", attribute + " should not have a value associated with it");
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", endAttrColumnNo);
+									error.put("errorExcerpt", attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								
 								
 								// check for unique id
 								if (attribute.equalsIgnoreCase("id")) {

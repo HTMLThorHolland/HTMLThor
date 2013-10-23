@@ -522,7 +522,7 @@ public class Mysqlfunctions {
 	 * 
 	 * Returns 1 for yes and 0 for no
 	 */
-	public boolean isAtrrBool(String attributeName) {
+	public boolean isAttrBool(String attributeName) {
 		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
