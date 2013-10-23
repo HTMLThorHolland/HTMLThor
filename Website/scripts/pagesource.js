@@ -78,7 +78,7 @@ function addErrorIcon(filename) {
 	$("#"+filename+"_Pre").children(".linenums").children("li").children(".errorSourceWrapper").each(function () {
 		console.log($(this)+" creating error icon for this.");
 		// OLD WORKING ONE: $(this).children(".errorContainer").after("<div class='nocode testError'></div>");
-		stringOfErrors = $(this).attr("errortypes");
+		stringOfErrors = $(this).attr("data-errortypes");
 		arrayOfErrors = stringOfErrors.split(' ');
 		console.log("Here are the error types: "+stringOfErrors);
 		
@@ -109,10 +109,19 @@ function generateErrors(source, filename, fileNumber) {
 	
 	var errorLineNumbers = new Array();
 	
+	// This array will store the errors per line
+	// FOR MULTI-ERRORS GENERATION
+	var errorsEachLine = new Array();
+	
 	
 	for(var i = 0; i < jsonObject[fileNumber].errors.count; i++) {
 		
 		var lineAndErrorTypes = new Array();
+		
+		// This array will store the line number and error
+		var errorByLine = new Array();
+		var errorByLineCollection = new Array();
+		errorByLineCollection.push(jsonObject[fileNumber].errors[i]);
 	
 		var errorTypes = new Array();
 		
@@ -130,7 +139,7 @@ function generateErrors(source, filename, fileNumber) {
 		var spanWrap = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>";
 		spanWrap += thisErrorExcerpt;
 		spanWrap += "</span>";
-		source[lineNumber] = source[lineNumber].replace(thisErrorExcerpt, spanWrap);
+		//IMPORTANT! UNCOMMENT THIS!!! source[lineNumber] = source[lineNumber].replace(thisErrorExcerpt, spanWrap);
 		
 		
 		
@@ -157,11 +166,64 @@ function generateErrors(source, filename, fileNumber) {
 				errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1].push(jsonObject[fileNumber].errors[i].type);
 			}
 		}
+		
+		/*
+		 *	Similar to the above if statements. This is to store multiple errors per line (rather than just their type).
+		 */
+		if(!containsLine(errorsEachLine, lineNumber)) {
+			
+			errorByLine.push(lineNumber);
+			errorByLine.push(errorByLineCollection);
+			errorsEachLine.push(errorByLine);
+			
+		}
+		
+		/*
+		 *	If it is already in the array, add this error into the array index that already exists for this line number.
+		 */
+		else {
+			console.log("there already exists errors at: "+getPosition(errorsEachLine, lineNumber));
+			errorsEachLine[getPosition(errorsEachLine, lineNumber)][1].push(jsonObject[fileNumber].errors[i]);
+		}
+		
+		
+		
 	}
+	
+	/* Loop through the errors by line number */
+	for(var j = 0; j < errorsEachLine.length; j++) {
+		// The below line sorts the errors by column number
+		errorsEachLine[j][1].sort(function(a,b) { return a.col - b.col } );
+		var offSetColumn = 0;
+		var lineLocation = errorsEachLine[j][0];
+		
+		// test to see if there's more than 1 error present
+	
+		for(var q = 0; q < errorsEachLine[j][1].length; q++) {
+			var thisErrorExcerpt = errorsEachLine[j][1][q].errorExcerpt;
+			// errorsEachLine[j][1][q].col
+			// get the end column number
+			var endColumn = errorsEachLine[j][1][q].col + offSetColumn;
+			var beginningColumn = endColumn - thisErrorExcerpt.length;
+			
+			console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
+			console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
+			console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
+			console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
+			
+			// add span
+			// measure length of span
+			// increase offset
+		}
+		
+	}	
+	
 	console.log("Begin wrapping errors!");
+	/* Loop through errorLineNumbers and wrap each line
+	 *	IMPORTANT: This must come after the errorsEachLine loop!
+	 */
 	for(var j = 0; j < errorLineNumbers.length; j++) {
-		// TO DO, ADD CLASSES FOR EACH TYPE OF ERROR CONTAINED
-		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
+		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
 	}
 	console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
 	return source;

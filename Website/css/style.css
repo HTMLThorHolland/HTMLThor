@@ -387,6 +387,10 @@ a {
 	height: 10px;
 }
 
+#siteLinks.trip-exposed {
+	box-shadow: none;
+}
+
 .sideLinksWrapper {
     border-top: 1px solid #F8F8F8;
 }
@@ -414,6 +418,11 @@ a {
 	background-color: #313131;
 	border-top: 1px solid #F8F8F8;
 }
+
+	#theHelpKey.trip-exposed {
+		background-color: #313131;
+		box-shadow: 0;
+	}
 
 	.helpKey p {
 		color: #E4E4E4;

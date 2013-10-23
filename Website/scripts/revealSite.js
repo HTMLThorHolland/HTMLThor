@@ -2,6 +2,7 @@
 
 function rockAndRoll() {
 
+
 	if(!jsonObject.filecount) {
 		jsonObject.filecount = 1;
 	}
@@ -36,6 +37,32 @@ function rockAndRoll() {
 		revealSite();
 	}
 
+}
+
+/* Load jsonObject for tour */
+function initTour() {
+	
+	
+	
+	
+	$.getJSON("../tour/errors.json", function(response){
+       jsonObject = response;
+ 	})
+ 	.success(function() { 
+		console.log(jsonObject.filecount);
+		
+		var directoryJSON = null;
+		$.getJSON("../tour/directory.json", function(response) {
+			directoryJSON = response;
+		})
+		.success(function() {  
+			rockAndRoll();
+		});
+		
+	});
+	
+	
+		
 }
 
 /*
