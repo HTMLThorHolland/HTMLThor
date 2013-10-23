@@ -157,7 +157,7 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @return an ArrayList of the errors
 	 */
 	public ArrayList<String> getErrorList() {
-		for(int n = errorList.size(); n > 0; n--) {
+		for(int n = errorList.size()-1; n > 0; n--) {
 			if(errorList.get(n).getError() == 0) {
 				errorList.remove(n);
 			}
