@@ -29,8 +29,13 @@ public class StructureBreakdown {
 			
 			if (suggestLoc != null) {
 				json.put("newLocation", suggestLoc);
+			} else {
+				json.put("newLocation", "");
 			}
+		} else {
+			json.put("newLocation", "");
 		}
+		
 		json.put("totalErrors", errorCount);
 		if (errorCount > 0) {
 			json.put("type", "brokenFile");

@@ -72,6 +72,10 @@ public class SectionCheck {
 			Encapsulation encap = new Encapsulation();
 			/* END OF AMEER'S CODE */
 			
+			int endTagColumnNo = 0;
+			int endAttrColumnNo = 0;
+			
+			
 			JSONObject error;
 			List<String> requiredTags = new ArrayList<String>();
 			
@@ -852,9 +856,9 @@ public class SectionCheck {
 								}
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
-									int endTagColumnNo = j-1;
+									endTagColumnNo = j-1;
 									if(!singularTags.contains(tag.toLowerCase())) {
-										encap.encapsulation(tag.toLowerCase(), i+1, j, tagStart, j-1);
+										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
 									}
 									
 									if (tag.equalsIgnoreCase("!DOCTYPE")) {
@@ -1137,8 +1141,8 @@ public class SectionCheck {
 			
 			/* START OF AMEER'S CODE */
 			ArrayList<JSONObject> encapErrorList = parseEncapsulationErrors(encap.getErrorList());
-			for(int n = 0; i < encapErrorList.size(); i++) {
-				errors.put(errorCount, encapErrorList.get[i]);
+			for(int i = 0; i < encapErrorList.size(); i++) {
+				errors.put(errorCount, encapErrorList.get(i));
 				errorCount++;
 			}
 			/* END OF AMEER'S CODE */
@@ -1217,7 +1221,7 @@ public class SectionCheck {
 			String errorExcerpt = "";
 			
 			for(int i = 0; i < errors.size(); i++) {
-				errorValues = errors.get[i].split(" ", NUM_ERROR_VALUES);
+				errorValues = errors.get(i).split(" ", NUM_ERROR_VALUES);
 				
 				message = errorValues[0];
 				line = Integer.parseInt(errorValues[1]);

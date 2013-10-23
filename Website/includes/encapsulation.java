@@ -25,12 +25,12 @@ public class Encapsulation extends Mysqlfunctions {
 	public static final int STRAY_CLOSE_TAG = 108;
 	
 	/**
-	 * Element class for handling parsed elements and storing their location
+	 * TagElement class for handling parsed elements and storing their location
 	 * values, as well as an error code.
 	 * 
 	 * @author Ameer Sabri
 	 */
-	class Element {
+	class TagElement {
 		String name;
 		int line;
 		int colStart;
@@ -40,7 +40,7 @@ public class Encapsulation extends Mysqlfunctions {
 		/**
 		 * Basic null constructor.
 		 */
-		public Element() {
+		public TagElement() {
 			name = null;
 			line = 0;
 			colStart = 0;
@@ -56,11 +56,11 @@ public class Encapsulation extends Mysqlfunctions {
 		 * @param colStart the column where the element's name starts
 		 * @param colEnd the column where the element's name ends
 		 */
-		public Element(String name, int line, int colStart, int colEnd) {
-			name = this.name;
-			line = this.line;
-			colStart = this.colStart;
-			colEnd = this.colEnd;
+		public TagElement(String name, int line, int colStart, int colEnd) {
+			this.name = name;
+			this.line = line;
+			this.colStart = colStart;
+			this.colEnd = colEnd;
 			error = 0;
 		}
 		
@@ -70,7 +70,7 @@ public class Encapsulation extends Mysqlfunctions {
 		 * @return the name of the element
 		 */
 		public String getName() {
-			return name;
+			return this.name;
 		}
 		
 		/**
@@ -90,7 +90,7 @@ public class Encapsulation extends Mysqlfunctions {
 		}
 		
 		/**
-		 * Setter for the error code for the Element.
+		 * Setter for the error code for the TagElement.
 		 * 
 		 * @param error the error code
 		 */
@@ -108,12 +108,12 @@ public class Encapsulation extends Mysqlfunctions {
 		}
 		
 		/**
-		 * Creates a string representation of the Element in the form
+		 * Creates a string representation of the TagElement in the form
 		 * "name x y z error message" where x, y and z are the positional values
 		 * the line, column start, and column end values associated with the
-		 * Element.
+		 * TagElement.
 		 * 
-		 * @return String representation of Element
+		 * @return String representation of TagElement
 		 */
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
@@ -137,17 +137,17 @@ public class Encapsulation extends Mysqlfunctions {
 	boolean formElementOpen = false;
 	
 	/* Data structures that contain elements and errors. */
-	ArrayDeque<Element> openedElements;
-	ArrayList<Element> errorList;
-	ArrayList<Element> encapErrorList;
+	ArrayDeque<TagElement> openedElements;
+	ArrayList<TagElement> errorList;
+	ArrayList<TagElement> encapErrorList;
 	
 	/**
 	 * Constructor. Initialises the opened elements deque and the error list.
 	 */
 	public Encapsulation() {
-		openedElements = new ArrayDeque<Element>();
-		errorList = new ArrayList<Element>();
-		encapErrorList = new ArrayList<Element>();
+		openedElements = new ArrayDeque<TagElement>();
+		errorList = new ArrayList<TagElement>();
+		encapErrorList = new ArrayList<TagElement>();
 	}
 	
 	/**
@@ -180,7 +180,7 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @see getErrorList
 	 */
 	private void addUnclosedElements() {
-		Element e = new Element();
+		TagElement e = new TagElement();
 		while(!openedElements.isEmpty()) {
 			e = openedElements.removeLast();
 			addError(e, UNCLOSED_ELEMENT);
@@ -206,7 +206,7 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @see getErrorList
 	 * @see encapsulation
 	 */
-	private void addError(Element e, int errorCode) {
+	private void addError(TagElement e, int errorCode) {
 		e.setError(errorCode);
 		errorList.add(e);
 	}
@@ -217,7 +217,7 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @param e the element with the encapsulation error
 	 * @param errorCode the error code of the error
 	 */
-	private void addEncapError(Element e, int errorCode) {
+	private void addEncapError(TagElement e, int errorCode) {
 		e.setError(errorCode);
 		if(encapErrorList.contains(e)) {
 			encapErrorList.add(e);
@@ -231,32 +231,36 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @param line the line the element is on
 	 * @param colStart the starting column on the line the element name is on
 	 * @param colEnd the ending column on the line the element name is on
-	 * @see Element
+	 * @see TagElement
 	 */
 	public void encapsulation(String element, int line, int colStart, int colEnd) {
-		Element e = new Element(element, line, colStart, colEnd);
+		TagElement elem = new TagElement(element, line, colStart, colEnd);
 		
 		if(!htmlElementOpen) {
-			if((!e.getName().equals("!DOCTYPE")) || (!e.getName().equals("html")))
-				addError(e, OUTSIDE_HTML_TAGS);
+		try {
+			if((!elem.getName().equals("!DOCTYPE")) || (!elem.getName().equals("html")))
+				addError(elem, OUTSIDE_HTML_TAGS);
+		} catch (NullPointerException ex) {
+			throw new RuntimeException(element + " new error3 " + elem.getName());
+		}
 		}
 		
 		if(headElementOpen) {
-			if(!isMeta(e.getName())) {
-				addError(e, INVALID_HEAD_ELEMENT);
+			if(!isMeta(elem.getName())) {
+				addError(elem, INVALID_HEAD_ELEMENT);
 			}
 		}
 		
 		if(bodyElementOpen) {
-			if(isTableElement(e.getName()) && !tableElementOpen) {
-				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(isFormElement(e.getName()) && !formElementOpen) {
-				addError(e, FORM_ELEMENT_OUT_OF_FORM);
+			if(isTableElement(elem.getName()) && !tableElementOpen) {
+				addError(elem, TABLE_ELEMENT_OUT_OF_TABLE);
+			} else if(isFormElement(elem.getName()) && !formElementOpen) {
+				addError(elem, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
 		
-		if(!isSelfClosing(e.getName())) {
-			tagEncapsulation(e);
+		if(!isSelfClosing(elem.getName())) {
+			tagEncapsulation(elem);
 		}
 	}
 	
@@ -267,10 +271,10 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @param e the element
 	 * @see encapsulation
 	 */
-	private void tagEncapsulation(Element e) {
+	private void tagEncapsulation(TagElement e) {
 
-		Iterator<Element> itr;
-		ArrayDeque<Element> deque = new ArrayDeque<Element>();
+		Iterator<TagElement> itr;
+		ArrayDeque<TagElement> deque = new ArrayDeque<TagElement>();
 		
 		if(e.getName().charAt(0) != '/') {
 			itr = openedElements.iterator();
@@ -361,7 +365,7 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @param deque the deque containing the opened elements
 	 * @see tagEncapsulation
 	 */
-	private void reAddOpenedElements(ArrayDeque<Element> deque) {
+	private void reAddOpenedElements(ArrayDeque<TagElement> deque) {
 		while(!deque.isEmpty()) {
 			openedElements.push(deque.pop());
 		}
