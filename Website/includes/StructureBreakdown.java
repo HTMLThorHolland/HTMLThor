@@ -25,6 +25,8 @@ public class StructureBreakdown {
 		json.put("name", name.replaceAll(" ", "_"));
 		if (type.equals("file")) {
 			String suggestLoc = getSuggestedFileLocation();
+			
+			
 			if (suggestLoc != null) {
 				json.put("newLocation", suggestLoc);
 			}
@@ -81,22 +83,25 @@ public class StructureBreakdown {
 			return null;
 		}
 		String[] extensionSplit = fullPath.split("\\.");
+		
 		if (isImage(extensionSplit[extensionSplit.length-1])) {
-			errorCount++;
-			return fullPathSplit[0].concat("/images/").concat(name);
+			String returnString = fullPathSplit[0] + "/images/"+ name;
+			return returnString;
 		}
-		if (isJS(extensionSplit[extensionSplit.length-1])) {
-			errorCount++;
-			return fullPathSplit[0].concat("/js/").concat(name);
+		else if (isJS(extensionSplit[extensionSplit.length-1])) {
+			String returnString = fullPathSplit[0] + "/js/"+ name;
+			return returnString;
 		}
-		if (isImage(extensionSplit[extensionSplit.length-1])) {
-			errorCount++;
-			return fullPathSplit[0].concat("/css/").concat(name);
+		else if (isCSS(extensionSplit[extensionSplit.length-1])) {
+			String returnString = fullPathSplit[0] + "/css/"+ name;
+			return returnString;
+		} else {
+			return null;
 		}
-		return null;
 	}
 	
 	private boolean isImage(String extension) {
+		
 		if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("gif")) {
 			return true;
 		}

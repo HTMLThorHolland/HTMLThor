@@ -29,14 +29,31 @@ if ($.cookie("dirPath")) {
 	$.getJSON(JSONdirectoryPath, function(response) {
 		directoryJSON = response;
 	})
-	.success(function() {	});
+	.success(function() {
+		console.log("Successfully loaded directory.");
+	
+		JSONpath += "errors.json";
+		$.getJSON(JSONpath, function(response){
+       		jsonObject = response;
+ 		})
+ 		.success(function() {
+ 			rockAndRoll();
+ 		});
+	})
+	.fail(function() {
+	
+		console.log("Failed to load directory.");
+		JSONpath += "errors.json";
+		$.getJSON(JSONpath, function(response){
+       		jsonObject = response;
+ 		})
+ 		.success(function() {
+ 			rockAndRoll();
+ 		});
+	});
 	
 	
-	JSONpath += "errors.json";
-	$.getJSON(JSONpath, function(response){
-       jsonObject = response;
- 	})
- 	.success(function() {
+	
 	
 	// once cookie is read and parsed, it can be deleted
 	// $.removeCookie("jsonObjectHtml");
@@ -110,7 +127,7 @@ if ($.cookie("dirPath")) {
 	// ========== Simon add your code here! ======
 
 	
-	$(document).ready(function() {
+	
 		/*
 		if(jsonObject[0].errors[0]) {
 			console.log("error location "+jsonObject[0].errors[0].line);		
@@ -124,9 +141,9 @@ if ($.cookie("dirPath")) {
 		*/
 
 		/* This order is important, setPageSource must be before setErrors! */
-		rockAndRoll(); // THIS FUNCTION CONTROLS THE SITE AND CONTAINS THE CALLS THAT USED TO BE BELOW
+		 // THIS FUNCTION CONTROLS THE SITE AND CONTAINS THE CALLS THAT USED TO BE BELOW
 		// IT'S DEFINED IN revealSite.js
-	});
 	
-	}); // this is only ending the success() function. May want to rewrite this to make it more clear.
+	
+	 // this is only ending the success() function. May want to rewrite this to make it more clear.
 }

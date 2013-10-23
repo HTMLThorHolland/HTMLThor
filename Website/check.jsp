@@ -202,7 +202,6 @@
                 		}
                 		s = new StringBuilder();
                 		StructureBreakdown prevStruct = root;
-                		try {
                 		StructureBreakdown parentStruct = root;
                 		for (int i = 0; i < filePathSplit.length-1; i++) {
                 			prevStruct = parentStruct;
@@ -210,9 +209,7 @@
                 		}
                 		
                 		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
-                		} catch (Exception e) {
-                			throw new RuntimeException(temp.getName() + " --- " + prevStruct.toJSON().toJSONString());
-                		}
+                		
             		}
             		
             		json.put("filecount", fileCount);
