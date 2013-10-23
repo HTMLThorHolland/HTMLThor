@@ -20,7 +20,7 @@ public class StructureBreakdown {
 	private String name = "";
 	private String fullPath = "";
 	private int errorCount = 0;
-	private List<String> source;
+	private List<String> source = null;
 
 
 	/**
@@ -84,11 +84,22 @@ public class StructureBreakdown {
 	}
 	
 	/**
-	 * Gets a StructureBreakdown representation matching a string
+	 * Gets a StructureBreakdown representation matching a string.
+	 * If filename doesn't exist, it is assumed code is trying to access a directory which has not been
+	 * included as a zip entry. The method will generate that directory as a new StructureBreakdown
+	 * and return it.
      * @param filename The name of the file to get
      * @return The StructureBreakdown representation of the subfile
      */
 	public StructureBreakdown getSubfile(String filename) {
+		if (!subfiles.containsKey(filename)) {
+			StructureBreakdown directory = new StructureBreakdown();
+			directory.setType("folder");
+			directory.setName(filename);
+			directory.setPath(fullPath + filename + "/");
+			subfiles.put(filename, directory);
+		}
+		
 		return subfiles.get(filename);
 	}
 	
@@ -130,9 +141,18 @@ public class StructureBreakdown {
 	/**
 	 * Gets the source code associated with the StructureBreakdown. Will only be set for files that
 	 * are due to be checked (eg. .php or .html files).
+	 * @return The source code in a list of lines
 	 */
 	public List<String> getSource() {
 		return source;
+	}
+	
+	/**
+	 * Gets the full path of the file.
+	 * @return The full path of the file
+	 */
+	public String getFullPath() {
+		return fullPath;
 	}
 
 	/**

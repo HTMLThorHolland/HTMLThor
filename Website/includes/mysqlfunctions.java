@@ -299,7 +299,7 @@ public class Mysqlfunctions {
 		ResultSet result = con.run(query);
 		
 		if (result == null) {
-			return false;
+			return DBRequires;
 		}
 		
 		try {

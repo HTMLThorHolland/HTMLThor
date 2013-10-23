@@ -22,7 +22,9 @@
 	
 	
 <%!
-	
+	/**
+	 * Reads a file into a list of strings
+	 */
 	public List<String> readUploadedFile(String filename) {
 		BufferedReader br = null;
 		String tempLine = null;
@@ -121,6 +123,9 @@
    		 		
    		 		else if (uploadType.equals("zip")) {
    		 		
+   		 		
+   		 			String debugString = "";
+   		 		
    		 			// initialize variables needed for reading the zip
    		 			JSONObject dirJSON = new JSONObject();
    		 			SectionCheck sc = new SectionCheck();
@@ -153,7 +158,6 @@
              			
       					StructureBreakdown fileStruct = new StructureBreakdown();
       					
-      					fileNames.add(temp.getName());
       					
       					
       					// split into directories and filename
@@ -191,25 +195,12 @@
       							for (int i = 0; i < tempSourceArr.length; i++) {
      								fileContents.add(" ".concat(tempSourceArr[i]).concat(" "));
       							}
-      							/******* THIS NEEDS TO BE MOVED
-      							********
-      							JSONObject jsonTemp = new JSONObject();
-      						
-               					JSONObject jsonErrors = sc.findErrors(fileContents);
-               					JSONObject jsonSource = new JSONObject();
-               					for (int i = 0; i < fileContents.size(); i++) {
-               						jsonSource.put(i, fileContents.get(i));
-               					}
-               					jsonSource.put("length", fileContents.size());
-                				jsonTemp.put("filename", path.substring(0, path.length()-4).concat("/").concat(temp.getName().replaceAll(" ", "_")));
-                				jsonTemp.put("source", jsonSource);
-                				jsonTemp.put("errors", jsonErrors);
-      							
-                				json.put(Integer.toString(fileCount), jsonTemp);
-                				fileCount++;
-                				**********
-                				*********/
+      							fileStruct.addSource(fileContents);
                 			}
+                			
+                			
+                			// Add to list of files that could avoid broken links errors
+      						fileNames.add(temp.getName());
                 			
                 		} else {
                 		// is a directory
@@ -220,20 +211,71 @@
                 		
                 		
                 		s = new StringBuilder();
-                		/******* THIS NEEDS TO BE MOVED
-                		********
-                		StructureBreakdown prevStruct = root;
-                		StructureBreakdown parentStruct = root;
                 		
-                		for (int i = 0; i < filePathSplit.length-1; i++) {
-                			prevStruct = parentStruct;
-                			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
-                		}
+                		int thisFileLevel = filePathSplit.length-1;
                 		
-                		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
-                		**********
-                		*********/
+                		((ArrayList)structList.get(thisFileLevel)).add(fileStruct);  
+                		
+                		debugString = debugString + "Adding: " + temp.getName() + " to level " + Integer.toString(thisFileLevel) + " --- \n";
+                		
+                				
             		}
+            		
+            		sc.addAssociatedFiles(fileNames);
+            		
+            		
+            		
+            		for (int i = 0; i < structList.size(); i++) {
+            			for (int j = 0; j < ((ArrayList)structList.get(i)).size(); j++) {
+            				
+            				StructureBreakdown thisStruct = (StructureBreakdown)((ArrayList)structList.get(i)).get(j);
+            				String structFilePath = thisStruct.getFullPath();
+            				List<String> fileContents = thisStruct.getSource();
+            				
+            				debugString = debugString + " --- " + structFilePath;
+            				
+            				if (fileContents != null) {
+            					JSONObject jsonTemp = new JSONObject();
+      						
+      							// set path of file to check
+      						
+               					JSONObject jsonErrors = sc.findErrors(fileContents);
+               					JSONObject jsonSource = new JSONObject();
+               					for (int k = 0; k < fileContents.size(); k++) {
+               						jsonSource.put(k, fileContents.get(k));
+               					}
+               					jsonSource.put("length", fileContents.size());
+                				jsonTemp.put("filename", structFilePath.replaceAll(" ", "_"));
+                				jsonTemp.put("source", jsonSource);
+                				jsonTemp.put("errors", jsonErrors);
+      							
+                				json.put(Integer.toString(fileCount), jsonTemp);
+                				fileCount++;
+            				}
+            				
+            				//TODO GET ANY BROKEN LINKS AND ADD TO STRUCTUREBREAKDOWN
+            				
+                			StructureBreakdown prevStruct = root;
+                			StructureBreakdown parentStruct = root;
+                			
+                			String[] filePathSplit = structFilePath.split("/");
+                		
+                			try {
+                		
+                			for (int k = 1; k < filePathSplit.length-1; k++) {
+                				prevStruct = parentStruct;
+                				parentStruct = parentStruct.getSubfile(filePathSplit[k]);
+                			}
+                		
+                			parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], thisStruct);
+                			
+                			} catch (NullPointerException ex) {
+                				throw new RuntimeException(debugString);
+                			}
+                		
+            			}
+            		}
+            		
             		
             		
             		

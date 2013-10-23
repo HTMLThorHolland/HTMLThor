@@ -8,6 +8,8 @@ import org.json.simple.JSONObject;
 
 public class SectionCheck {
 	
+	private List<String> filesInZip = null;
+	
 	/* Just an empty constructor */
 	public SectionCheck() {
 	
@@ -77,7 +79,7 @@ public class SectionCheck {
 			
 			
 			JSONObject error;
-			List<String> AttributeList;
+			List<String> attributeList = new ArrayList<String>();;
 			List<String> requiredTags = new ArrayList<String>();
 			
 			/* Iterates over the lines of the given file. */
@@ -598,7 +600,7 @@ public class SectionCheck {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
 								endAttrColumnNo = j-1;
-								if(AttributeList.contains(attribute.toLowerCase())) {
+								if(attributeList.contains(attribute.toLowerCase())) {
 									// Duplicate attribute use for this tag
 									error = new JSONObject();
 									error.put("message", attribute + " has already been assigned once for this tag");
@@ -610,7 +612,7 @@ public class SectionCheck {
 									errorCount += 1;
 								}
 								else {
-									AttributeList.add(attribute.toLowerCase());
+									attributeList.add(attribute.toLowerCase());
 								}
 								
 								
@@ -918,7 +920,7 @@ public class SectionCheck {
 									tag = charArray.getString(tagStart, j-1);
 									endTagColumnNo = j-1;
 									// Initiate required attributes list
-									AttributeList = new ArrayList<String>();
+									attributeList = new ArrayList<String>();
 									
 									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
 										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
@@ -1337,6 +1339,15 @@ public class SectionCheck {
 			return error;
 		}
 		/* END OF AMEER'S CODE */
+		
+		/**
+		 * Adds a list of file names that have been passed along with the current file. Used to check
+		 * for broken links.
+		 * @param filenames List of filenames (including file path)
+		 */
+		public void addAssociatedFiles(List<String> filenames) {
+			filesInZip = filenames;
+		}
 		
 		
 		/**
