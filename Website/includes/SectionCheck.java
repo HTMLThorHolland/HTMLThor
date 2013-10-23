@@ -429,7 +429,7 @@ public class SectionCheck {
 								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endTagColumnNo);
 								error.put("errorExcerpt", tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -455,7 +455,7 @@ public class SectionCheck {
 								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endTagColumnNo);
 								error.put("errorExcerpt", tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -481,7 +481,7 @@ public class SectionCheck {
 								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endTagColumnNo);
 								error.put("errorExcerpt", tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -507,7 +507,7 @@ public class SectionCheck {
 								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endTagColumnNo);
 								error.put("errorExcerpt", tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -538,7 +538,7 @@ public class SectionCheck {
 								error.put("message",  sql.getErrMsg(1));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endTagColumnNo);
 								error.put("errorExcerpt", tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -576,6 +576,7 @@ public class SectionCheck {
 							if (charArray.getChar(j) == ' ') {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
+								endAttrColumnNo = j-1;
 								
 								List<String> attrList = new ArrayList<String>();
 								attrList = sql.getAttr(tag);
@@ -596,7 +597,7 @@ public class SectionCheck {
 										error.put("message", attribute + " " + sql.getErrMsg(23));
 										error.put("type", "syntax");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endAttrColumnNo);
 										error.put("errorExcerpt", attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -606,7 +607,7 @@ public class SectionCheck {
 									error.put("message", attribute + " is a deprecated attribute for " + tag);
 									error.put("type", "deprecated");
 									error.put("line", i+1);
-									error.put("col", j);
+									error.put("col", endAttrColumnNo);
 									error.put("errorExcerpt", attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
@@ -638,7 +639,7 @@ public class SectionCheck {
 										error.put("message", attribute + " " + sql.getErrMsg(23));
 										error.put("type", "syntax");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endAttrColumnNo);
 										error.put("errorExcerpt", attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -648,7 +649,7 @@ public class SectionCheck {
 									error.put("message", attribute + " is a deprecated attribute for " + tag);
 									error.put("type", "deprecated");
 									error.put("line", i+1);
-									error.put("col", j);
+									error.put("col", endAttrColumnNo);
 									error.put("errorExcerpt", attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
@@ -670,7 +671,7 @@ public class SectionCheck {
 								error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endAttrColumnNo);
 								error.put("errorExcerpt", attribute);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -695,7 +696,7 @@ public class SectionCheck {
 									error.put("message", "Even though # is not required to be quoted, it is considered best practice for consistency.");
 									error.put("type", "warning");
 									error.put("line", i+1);
-									error.put("col", j);
+									error.put("col", endAttrColumnNo);
 									error.put("errorExcerpt", "#");
 									errors.put(errorCount, error);
 									errorCount += 1;
@@ -730,7 +731,7 @@ public class SectionCheck {
 										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
 										error.put("type", "semantic");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endAttrColumnNo);
 										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -764,7 +765,7 @@ public class SectionCheck {
 										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
 										error.put("type", "semantic");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endAttrColumnNo);
 										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -786,7 +787,7 @@ public class SectionCheck {
 								error.put("message", attributeVal + " is the value of an attribute and should be inside quotes.");
 								error.put("type", "semantic");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endAttrColumnNo);
 								error.put("errorExcerpt", attributeVal);
 								errors.put(errorCount, error);
 								errorCount += 1;
@@ -851,6 +852,7 @@ public class SectionCheck {
 								}
 								if (!endTagName) {
 									tag = charArray.getString(tagStart, j-1);
+									int endTagColumnNo = j-1;
 									if(!singularTags.contains(tag.toLowerCase())) {
 										encap.encapsulation(tag.toLowerCase(), i+1, j, tagStart, j-1);
 									}
@@ -861,13 +863,14 @@ public class SectionCheck {
 										j--;
 									}
 									
-									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||tag.equalsIgnoreCase("title")) {
+									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||
+										tag.equalsIgnoreCase("title")) {
 										if(singularTags.contains(tag.toLowerCase())) {
 											error = new JSONObject();
 											error.put("message", tag + " is a singular tag but is used more than once!");
 											error.put("type", "syntax");
 											error.put("line", i+1);
-											error.put("col", j);
+											error.put("col", endTagColumnNo);
 											error.put("errorExcerpt", tag);
 											errors.put(errorCount, error);
 											errorCount += 1;
@@ -907,7 +910,7 @@ public class SectionCheck {
 										}
 										error.put("type", "syntax");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endTagColumnNo);
 										error.put("errorExcerpt", tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -920,7 +923,7 @@ public class SectionCheck {
 										error.put("message", tag + " tag is a deprecated tag");
 										error.put("type", "deprecated");
 										error.put("line", i+1);
-										error.put("col", j);
+										error.put("col", endTagColumnNo);
 										error.put("errorExcerpt", tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -979,7 +982,7 @@ public class SectionCheck {
 												error.put("message", tag + " is self-closing but is not self closed.");
 												error.put("type", "warning");
 												error.put("line", i+1);
-												error.put("col", closingChecker);
+												error.put("col", endTagColumnNo);
 												error.put("errorExcerpt", tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
@@ -999,7 +1002,7 @@ public class SectionCheck {
 												error.put("type", "warning");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
-												error.put("errorExcerpt", tag);
+												error.put("errorExcerpt", "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1024,7 +1027,7 @@ public class SectionCheck {
 												error.put("type", "semantic");
 												error.put("line", i+1);
 												error.put("col", closingChecker);
-												error.put("errorExcerpt", tag);
+												error.put("errorExcerpt", "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1113,7 +1116,7 @@ public class SectionCheck {
 								error.put("message", attr + " " + sql.getErrMsg(23));
 								error.put("type", "syntax");
 								error.put("line", i+1);
-								error.put("col", j);
+								error.put("col", endAttrColumnNo);
 								error.put("errorExcerpt", attribute);
 								errors.put(errorCount, error);
 								errorCount += 1;
