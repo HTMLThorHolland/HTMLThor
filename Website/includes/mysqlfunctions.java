@@ -290,11 +290,11 @@ public class Mysqlfunctions {
 	}
 
 	//Returns true if tag requires an Attribute
-	public boolean requiresAttr(String tagName) {
+	public List<String> requiresAttr(String tagName) {
 		long startTime = System.nanoTime();
-		boolean msg = false;
+		List<String> DBRequires = new ArrayList<String>();
 		
-		String query = new StringBuilder("SELECT * FROM Error WHERE EName =  ").append(tagName).toString();
+		String query = new StringBuilder("SELECT * FROM Attribute WHERE isRequired = 1 AND eID = (SELECT eID FROM Element WHERE Ename =" ).append(tagName).toString() +(")");
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
 		
@@ -303,10 +303,9 @@ public class Mysqlfunctions {
 		}
 		
 		try {
-		
-			if (result.next()) {
-				if (result.getString("eID") != null) {
-					msg = true;
+			while(result.next()) {
+				if (result.getString("Name") != null) {
+					DBRequires.add(result.getString("Name"));
 				}
 			}
 		} catch (SQLException ex) {
@@ -319,7 +318,7 @@ public class Mysqlfunctions {
 		long endTime = System.nanoTime();
 		long runTime = startTime - endTime;
 		System.out.println("requiresAttr runtime: " + Long.toString(runTime));		
-		return msg;
+		return DBRequires;
 		
 	}
 
