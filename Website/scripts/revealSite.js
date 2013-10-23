@@ -7,9 +7,9 @@ function rockAndRoll() {
 		jsonObject.filecount = 1;
 	}
 
-	console.log("number of files upload "+jsonObject.filecount);
+	//console.log("number of files upload "+jsonObject.filecount);
 	for(var i = 0; i < jsonObject.filecount; i++) {
-		console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
+		//console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
 		setPageSource(jsonObject[i].source, jsonObject[i].filename, i);
 	}
 	revealPageSource(jsonObject[0].filename);
@@ -26,9 +26,9 @@ function rockAndRoll() {
 	}
 	
 	if(directoryJSON && directoryJSON != null) {
-		console.log("full directory object: "+directoryJSON);
-		console.log("full directory object children: "+directoryJSON.children);
-		console.log("full directory object first child type: "+directoryJSON.children[0].type);
+		//console.log("full directory object: "+directoryJSON);
+		//console.log("full directory object children: "+directoryJSON.children);
+		//console.log("full directory object first child type: "+directoryJSON.children[0].type);
 		generateFileStructure(directoryJSON);
 		revealSiteZip();
 	}
@@ -49,9 +49,8 @@ function initTour() {
        jsonObject = response;
  	})
  	.success(function() { 
-		console.log(jsonObject.filecount);
+		//console.log(jsonObject.filecount);
 		
-		var directoryJSON = null;
 		$.getJSON("../tour/directory.json", function(response) {
 			directoryJSON = response;
 		})
@@ -110,10 +109,10 @@ function setSelectBoxes(filename) {
 		$('.selectFileObject').each(function() { // For each other list
 			$(this).val(filename);
 		});
-		console.log("set the new value to: "+filename);
+		//console.log("set the new value to: "+filename);
 	}
 	else {
-		console.log(filename+" is not an option from the select boxes");
+		//console.log(filename+" is not an option from the select boxes");
 	}
 }
 
@@ -144,7 +143,7 @@ function revealSite() {
 	removeLocation();
 	$('#breakdownLink').addClass('currentLocation');
 	singlePageView();
-	console.log("site has been revealed");
+	//console.log("site has been revealed");
 }
 
 /* Function to reveal .extraOne and .extraTwo sections of the site */

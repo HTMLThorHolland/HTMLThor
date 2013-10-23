@@ -4,7 +4,7 @@ var directoryJSON = null;
 
 if ($.cookie("dirPath")) {
 
-	console.log("cookie detected at: "+$.cookie("dirPath"));
+	//console.log("cookie detected at: "+$.cookie("dirPath"));
 	
 	
 	/*
@@ -31,7 +31,7 @@ if ($.cookie("dirPath")) {
 		directoryJSON = response;
 	})
 	.success(function() {
-		console.log("Successfully loaded directory.");
+		//console.log("Successfully loaded directory.");
 	
 		JSONpath += "errors.json";
 		$.getJSON(JSONpath, function(response){
@@ -43,7 +43,7 @@ if ($.cookie("dirPath")) {
 	})
 	.fail(function() {
 	
-		console.log("Failed to load directory.");
+		//console.log("Failed to load directory.");
 		JSONpath += "errors.json";
 		$.getJSON(JSONpath, function(response){
        		jsonObject = response;
@@ -131,13 +131,13 @@ if ($.cookie("dirPath")) {
 	
 		/*
 		if(jsonObject[0].errors[0]) {
-			console.log("error location "+jsonObject[0].errors[0].line);		
+			//console.log("error location "+jsonObject[0].errors[0].line);		
 		}
 		if(jsonObject[0].errors.count != 0) {
-			console.log("there are "+jsonObject[0].errors.count+" errors");		
+			//console.log("there are "+jsonObject[0].errors.count+" errors");		
 		}
 		else {
-			console.log("no errors");		
+			//console.log("no errors");		
 		}
 		*/
 

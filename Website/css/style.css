@@ -1744,7 +1744,7 @@ pre.sourceCodeContainer {
 .selectFile {
 	margin-left: 50px;
 	border-bottom: 2px solid #C5C5C5;
-	width: 450px;
+	width: 600px;
 	height:20px;	
 	margin-bottom: 8px;
 	padding-bottom: 10px;
@@ -1752,7 +1752,7 @@ pre.sourceCodeContainer {
 }
 
 	.selectFile select {
-		width: 240px;
+		width: 400px;
 	}
 
 	.selectFile label {

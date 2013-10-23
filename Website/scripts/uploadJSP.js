@@ -1,8 +1,8 @@
 
 function getFile(id) {
-	console.log(id);
+	//console.log(id);
 	document.getElementById(id).click();
-	console.log("clicked");
+	//console.log("clicked");
 }
 
 /* Important function that submits the singleUploadForm when the user selects a file. */

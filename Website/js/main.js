@@ -29,7 +29,7 @@
 	
 		$(document).ready(function() {
 		
-			console.log("main js is running");
+			//console.log("main js is running");
 		
 			
 			/* Hide sections of the site that should not be shown initially*/
@@ -58,7 +58,7 @@
 			 });
 			
 			$("#breakdownLink").click(function(e) {
-				console.log("breakdown clicked");
+				//console.log("breakdown clicked");
 				e.preventDefault();
 				if(!resultsOpen) {
 					revealSite();
@@ -71,7 +71,7 @@
 			 });
 			
 			$("#feedbackLink").click(function(e) {
-				console.log("breakdown clicked");
+				//console.log("breakdown clicked");
 				e.preventDefault();
 				if(!resultsOpen) {
 					revealSite();

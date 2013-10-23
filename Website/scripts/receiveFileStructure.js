@@ -81,16 +81,17 @@ function generateBrokenError(errorMessage, fileName, lineNumber, underScoreName)
 
 /* Loop through each base-level item in the directory */
 function getFiles(container) {
-	console.log("beginning structure: "+container + " first child is: "+container[0].name);
+	//console.log("beginning structure: "+container + " first child is: "+container[0].name);
 	list = "<ul>";
 	for(var i = 0; i < Object.size(container) - 1; i++) { // have to - 1 as .size is returning 1 too many
-		console.log("i is: " + i + " and the object size is: " + Object.size(container) + " and the name is: "+container[i].name);
-		//console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
+		//console.log("i is: " + i + " and the object size is: " + Object.size(container) + " and the name is: "+container[i].name);
+		////console.log("loop started with " + container[i].name + container[i].type + " i = "+i+" container length is "+container.length);
 		
 		var fullPath = container[i].fullPath.replace(/\./g,"_");
 		
 		list += "<li id='"+fullPath+"' rel='"+container[i].type+"' "; // CREATE LI TAG WITH ID AND ITEM TYPE
 		/* Check if the item contains errors */
+		//console.log("This file has a new location at: "+container[i].newLocation);
 		if(container[i].totalErrors != 0) {
 			// call function to generate a broken file in the overall broken files list
 			if(container[i].newLocation != "") {
@@ -101,22 +102,25 @@ function getFiles(container) {
 			}
 			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
+		else if(container[i].newLocation != "") {
+			generateBrokenFile(container[i].name, container[i].totalErrors, container[i].newLocation);
+		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
 		if(container[i].children.count != 0) {
 			list += "<a href='#'>" + container[i].name + "</a>";
-			console.log(container[i].name + " has children and is a folder with these children: "+container[i].children);
+			//console.log(container[i].name + " has children and is a folder with these children: "+container[i].children);
 			list += getFiles(container[i].children);
 		}
 		else {
 			list += "<a href='#'>" + container[i].name + "</a>";
-			//console.log(container[i].name + " has no children and is a file");
+			////console.log(container[i].name + " has no children and is a file");
 		}
 		list += "</li>"; // CLOSE OVERALL LI TAG
 	}
-	//console.log("end of loop");
+	////console.log("end of loop");
 	list += "</ul>";
-	//console.log(list);
+	////console.log(list);
 	return list;
 }
 
@@ -136,7 +140,7 @@ function generateBrokenFile(name, total, location) {
 	brokenFile += "<p class='fileLocation'><span class='fileName'>"+name+"</span></p>";
 	brokenFile += "<p class='brokenLinksNumber'>Broken Links: "+total+"</p>";
 	if(location) {
-		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in the <span class='highlight link'>/html folder</span>.</p>"
+		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in the <span class='highlight'>/html folder</span>.</p>"
 	}
 	brokenFile += "<div style='clear: both'></div>";
 	brokenFile += "</div>";
@@ -169,7 +173,7 @@ function getFileErrors(fileId) {
 
 /* When the user highlights over a brokenLink a qtip is generated. */
 $(document).delegate('.brokenLink', 'mouseover', function(event) {
-	console.log("hover");
+	//console.log("hover");
 	$(this).qtip({
 		overwrite: true,
 		show: {

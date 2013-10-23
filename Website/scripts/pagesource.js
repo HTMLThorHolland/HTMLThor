@@ -21,8 +21,8 @@ function setPageSource(source, filename, fileNumber) {
 	// will contain the source code (finalSourceSubCode) and will be added to finalSource
 	var finalSourceSub = new Array();
 	var finalSourceSubCode = new Array();
-	console.log("this is the oldSource "+oldSource);
-	console.log("this is the oldSourceSubCode "+oldSourceSubCode);
+	//console.log("this is the oldSource "+oldSource);
+	//console.log("this is the oldSourceSubCode "+oldSourceSubCode);
 	
 	for(var i = 0; i < source.length; i++) {
 		var htmlElements = [["<","&lt;"],[">","&gt;"],["\"","&quot;"],["\'","&#39;"]];
@@ -34,7 +34,7 @@ function setPageSource(source, filename, fileNumber) {
 		oldSourceSubCode[i] += "\n";
 		finalSourceSubCode[i] = source[i];
 		finalSourceSubCode[i] += "\n";
-		//console.log("source is "+finalSourceSubCode[i]);
+		////console.log("source is "+finalSourceSubCode[i]);
 	}
 	finalSourceSubCode = generateErrors(finalSourceSubCode, filename, fileNumber);
 	testSource = ["line 1","line 2","line 3"];
@@ -44,8 +44,8 @@ function setPageSource(source, filename, fileNumber) {
 	finalSourcePre = "<pre name='code' class='html:twilight sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSourceSubCode.join("")+"</pre>";
 	$('#pageSource').append(finalSourcePre);
 	//$("#"+filename+".Pre").html(finalSourceSubCode);
-	//console.log($("#"+filename+".Pre").html());
-	//console.log("final source is " + finalSourceSubCode);
+	////console.log($("#"+filename+".Pre").html());
+	////console.log("final source is " + finalSourceSubCode);
 	prettyPrint();
 	// DELETE NOT WORKING $$('pre').light({ altLines: 'hover' });
 	// broken $("pre.htmlCode").snippet("html");
@@ -67,20 +67,20 @@ function setPageSource(source, filename, fileNumber) {
 	oldSourceSubCode = [];
 	finalSourceSub = [];
 	finalSourceSubCode = [];
-	console.log("page source updated");
+	//console.log("page source updated");
 }
 
 
 
 /* Adds the error icon that is displayed on the source code page. */
 function addErrorIcon(filename) {
-	//console.log("running");
+	////console.log("running");
 	$("#"+filename+"_Pre").children(".linenums").children("li").children(".errorSourceWrapper").each(function () {
-		console.log($(this)+" creating error icon for this.");
+		//console.log($(this)+" creating error icon for this.");
 		// OLD WORKING ONE: $(this).children(".errorContainer").after("<div class='nocode testError'></div>");
 		stringOfErrors = $(this).attr("data-errortypes");
 		arrayOfErrors = stringOfErrors.split(' ');
-		console.log("Here are the error types: "+stringOfErrors);
+		//console.log("Here are the error types: "+stringOfErrors);
 		
 		errorIcon = "<div class='errorIcon'>";
 		
@@ -104,7 +104,7 @@ function addErrorIcon(filename) {
  * @return	source	The same HTML source array but with all of the errors inserted.
  */
 function generateErrors(source, filename, fileNumber) {
-	console.log("begin finding errors: " + jsonObject[fileNumber].errors.count);
+	//console.log("begin finding errors: " + jsonObject[fileNumber].errors.count);
 	
 	
 	var errorLineNumbers = new Array();
@@ -129,6 +129,12 @@ function generateErrors(source, filename, fileNumber) {
 	
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
+		console.log("Trying to run escapeHTML on "+jsonObject[fileNumber].errors[i]+" excerpt of: "+jsonObject[fileNumber].errors[i].errorExcerpt+" the error message is "+jsonObject[fileNumber].errors[i].message+" and the line number is "+jsonObject[fileNumber].errors[i].line);
+		if(!jsonObject[fileNumber].errors[i].errorExcerpt) {
+			console.log("THIS IS BAD. THERE IS NO ERROR EXCERPT FOR "+jsonObject[fileNumber].errors[i].message+" ON LINE "+jsonObject[fileNumber].errors[i].line);
+			jsonObject[fileNumber].errors[i].errorExcerpt = "";
+		}
+		console.log("The new excerpt is "+jsonObject[fileNumber].errors[i].errorExcerpt);
 		var thisErrorExcerpt = escapeHTML(jsonObject[fileNumber].errors[i].errorExcerpt);
 		
 		
@@ -143,7 +149,7 @@ function generateErrors(source, filename, fileNumber) {
 		
 		
 		
-		console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
+		//console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
 		//source[lineNumber] = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
 		
 		
@@ -161,7 +167,7 @@ function generateErrors(source, filename, fileNumber) {
 		 *	If it is already in the array, add this error into the array index that already exists for this line number.
 		 */
 		else {
-			//console.log("IMPORTANT ALREADY ADDED AT: "+getPosition(errorLineNumbers, lineNumber));
+			////console.log("IMPORTANT ALREADY ADDED AT: "+getPosition(errorLineNumbers, lineNumber));
 			if (!contains(errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1], jsonObject[fileNumber].errors[i].type)) {
 				errorLineNumbers[getPosition(errorLineNumbers, lineNumber)][1].push(jsonObject[fileNumber].errors[i].type);
 			}
@@ -182,7 +188,7 @@ function generateErrors(source, filename, fileNumber) {
 		 *	If it is already in the array, add this error into the array index that already exists for this line number.
 		 */
 		else {
-			console.log("there already exists errors at: "+getPosition(errorsEachLine, lineNumber));
+			//console.log("there already exists errors at: "+getPosition(errorsEachLine, lineNumber));
 			errorsEachLine[getPosition(errorsEachLine, lineNumber)][1].push(jsonObject[fileNumber].errors[i]);
 		}
 		
@@ -206,10 +212,10 @@ function generateErrors(source, filename, fileNumber) {
 			var endColumn = errorsEachLine[j][1][q].col + offSetColumn;
 			var beginningColumn = endColumn - thisErrorExcerpt.length;
 			
-			console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
-			console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
-			console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
-			console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
+			//console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
+			//console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
+			//console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
+			//console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
 			
 			// add span
 			// measure length of span
@@ -218,14 +224,14 @@ function generateErrors(source, filename, fileNumber) {
 		
 	}	
 	
-	console.log("Begin wrapping errors!");
+	//console.log("Begin wrapping errors!");
 	/* Loop through errorLineNumbers and wrap each line
 	 *	IMPORTANT: This must come after the errorsEachLine loop!
 	 */
 	for(var j = 0; j < errorLineNumbers.length; j++) {
 		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
 	}
-	console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
+	//console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
 	return source;
 }
 
@@ -233,17 +239,17 @@ function generateErrors(source, filename, fileNumber) {
  *	Convert an array into a single line string with spaces.
  */
 function generateClasses(classArray) {
-	console.log("Array contains: "+classArray);
+	//console.log("Array contains: "+classArray);
 	classString = "";
 	for(var i = 0; i < classArray.length; i++) {
-		console.log("Item is: "+classArray[i]);
+		//console.log("Item is: "+classArray[i]);
 		classString += classArray[i];
 		// if this isn't the last value add a space
 		if(i + 1 != classArray.length) {
 			classString += " ";
 		}
 	}
-	console.log("Final string: "+classString);
+	//console.log("Final string: "+classString);
 	return classString
 }
 
@@ -297,18 +303,18 @@ function getPosition(a, obj) {
 */
 
 function openSourceFile(filename) {
-	console.log("opening page source");
+	//console.log("opening page source");
 	$('#sourceLink').click();
 	$('.sourceCodeContainer').not('#'+filename).hide();
 	$('#'+filename).show();
 	setScrollWidth(filename);
-	console.log('#'+filename + " should be shown");
+	//console.log('#'+filename + " should be shown");
 	// when there are multiple files, there should be multiple page sources generated
 	// so this should hide all of them and then show the one with the correct id
 }
 
 function revealPageSource(filename) {
-	console.log("revealing page source");
+	//console.log("revealing page source");
 	filename = filename.replace(/\./g,"_");
 	filename = filename.replace(/\//g,"_");
 	$('.sourceCodeContainer').not('#'+filename+"_Pre").hide();
@@ -327,7 +333,7 @@ function revealPageSource(filename) {
 function getContent(error, filenumber) {
 	linePos = error.attr('data-errorId');
 	errorIndex = error.attr('data-errorIndex');
-	console.log("IMPORTANT!: THE ERROR SHOULD BE: "+jsonObject[filenumber].errors[errorIndex].message);
+	//console.log("IMPORTANT!: THE ERROR SHOULD BE: "+jsonObject[filenumber].errors[errorIndex].message);
 	return "<div class='leftMessage "+jsonObject[filenumber].errors[errorIndex].type+"'><p class='errorMessage'><span class='"+jsonObject[filenumber].errors[errorIndex].type+"'>"+returnErrorType(filenumber, errorIndex)+"</span></p><p class='errorLine errorMessage'>Line "+linePos+"</p></div><div class='rightMessage'><p class='errorMessage'>"+escapeHTML(jsonObject[filenumber].errors[errorIndex].message)+"</p></div>";
 	
 	/*
@@ -343,16 +349,16 @@ function returnErrorType(filenumber, errorNumber) {
 	var errorType = "";
 	if(jsonObject[filenumber].errors[errorNumber].type == "warning") {
 		errorType = "Best Practice";
-		console.log("best practice yo!");
+		//console.log("best practice yo!");
 	}
 	else if(jsonObject[filenumber].errors[errorNumber].type == "broken") {
 		errorType = "Broken Link";
 	}
 	else {
-		console.log("it wasn't a best practice or broken link it was a: "+jsonObject[filenumber].errors[errorNumber].type);
+		//console.log("it wasn't a best practice or broken link it was a: "+jsonObject[filenumber].errors[errorNumber].type);
 		errorType = jsonObject[filenumber].errors[errorNumber].type;
 	}
-	console.log("returning error type: "+errorType);
+	//console.log("returning error type: "+errorType);
 	return errorType;
 }
 

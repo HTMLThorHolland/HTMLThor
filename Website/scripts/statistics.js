@@ -30,13 +30,13 @@ function populateStatistics() {
 	
 		generateFileStatistics(jsonObject[i], jsonObject[i].errors.count, i);
 		overallErrors += jsonObject[i].errors.count;
-		console.log(i+" iteration: errors: "+jsonObject[i].errors.count+ " and total errors are: "+overallErrors);
+		//console.log(i+" iteration: errors: "+jsonObject[i].errors.count+ " and total errors are: "+overallErrors);
 		
 	}
 	
 	if(overallErrors == 0) {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
-		console.log("no errors found, set feedback id");
+		//console.log("no errors found, set feedback id");
 	}
 	if(overallErrors <= 2) {
 		$('#feedback').html("<p>We found the needle in the haystack, but what a clean site!</p>");	
@@ -74,13 +74,13 @@ function populateStatistics() {
 	}
 	
 	else {
-		console.log("should not have reached else for the totalErrors");
+		//console.log("should not have reached else for the totalErrors");
 	}
 	
 	// set the heading containing the total errors
 	$('#totalErrors').html(overallErrors);
 	
-	console.log("finished generating statistics with total errors: "+overallErrors);
+	//console.log("finished generating statistics with total errors: "+overallErrors);
 }
 
 /*
@@ -103,7 +103,7 @@ function noFileErrors() {
 $(document).delegate('.fileGraph .fileName', 'click', function(event) {
 	// need to open to the correct file, through a function
 	id = $(this).parent('.fileNameWrapper').parent('.fileGraph').attr('id');
-	console.log(id+".Pre is the passed id");
+	//console.log(id+".Pre is the passed id");
 	openSourceFile(id+"_Pre"); // in the pagesource.js file
 	changeFile(id);
 	removeLocation();
@@ -168,7 +168,7 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 	
 	/* Counts the number of errors for each type. */
 	for(var i = 0; i < jsonObject[fileNumber].errors.count; i++) {
-		console.log("searching "+i+" error out of "+jsonObject[fileNumber].errors.count);
+		//console.log("searching "+i+" error out of "+jsonObject[fileNumber].errors.count);
 		switch (jsonObject[fileNumber].errors[i].type)
 			{
 			case "html": // html should not be a case...
@@ -207,7 +207,7 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 		warningPercentage = warningErrors / totalErrors * 100;
 		deprecatedPercentage = deprecatedErrors / totalErrors * 100;
 		
-		console.log("there are: syntax-"+syntaxErrors + " and there are: semantic-"+semanticErrors);
+		//console.log("there are: syntax-"+syntaxErrors + " and there are: semantic-"+semanticErrors);
 		
 		/* Adding attribute errorNumber to allow the hover highlight to easily retrieve the number of errors. */
 		bars += "<div class='syntax graph' style='width:"+syntaxPercentage+"%;' errorNumber='"+syntaxErrors+"'></div>";
@@ -250,7 +250,7 @@ function visualHighlight(barId) {
 
 /* When a .graph is hovered over, a qtip is created. */
 $(document).delegate('.graph', 'mouseover', function(event) {
-	console.log("hover");
+	//console.log("hover");
 	if(!$(this).hasClass('zero')) {
 		$(this).qtip({
 			overwrite: false,

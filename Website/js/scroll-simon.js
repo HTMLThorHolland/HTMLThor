@@ -16,7 +16,7 @@ as the page source section, so you can scroll with its scrollbar instead of
 the page source's which is at the bottom of the document. */
 function setScrollWidth(filename) {
 	// change #pageCode to filename_Pre
-	console.log("setting up the page source for scrolling.");
+	//console.log("setting up the page source for scrolling.");
 	$('#source').children('.sectionContent').css({'width':'auto'});
 	$('#source').children('.sectionContent').css({'max-width':'auto'});
 	$('#'+filename).css({'width':'auto'});

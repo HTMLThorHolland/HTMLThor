@@ -6,7 +6,7 @@ $(document).ready(function() {
             content : 'Hi, I am Trip.js', 
             delay : 2000,
             callback : function(i) {
-                console.log("step "+ i +" is finished");
+                //console.log("step "+ i +" is finished");
             }
         },
         {
@@ -15,7 +15,7 @@ $(document).ready(function() {
             content : 'This is a plugin that can help you make hint flow easily !',
             delay : 3000,
             callback : function(i) {
-                console.log("step "+ i +" is finished");
+                //console.log("step "+ i +" is finished");
             }
         },
         {
@@ -73,16 +73,16 @@ $(document).ready(function() {
     ], {
         tripTheme : "black",
         onTripStart : function() {
-            console.log("onTripStart");
+            //console.log("onTripStart");
         },
         onTripEnd : function() {
-            console.log("onTripEnd");
+            //console.log("onTripEnd");
         },
         onTripStop : function() {
-            console.log("onTripStop");
+            //console.log("onTripStop");
         },
         onTripChange : function(index, tripBlock) {
-            console.log("onTripChange");
+            //console.log("onTripChange");
         },
         backToTopWhenEnded : true,
         delay : 2000

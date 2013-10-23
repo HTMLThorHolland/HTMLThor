@@ -35,7 +35,7 @@ function init() {
     });
 	
 	
-	console.log("Node ID: "+nodeId+" and nodeName: "
+	//console.log("Node ID: "+nodeId+" and nodeName: "
 	+nodeName+" and nodeColor: "+nodeColor+" and nodeConnections: "+nodeConnections);
 	
   }
@@ -45,20 +45,20 @@ function init() {
 	nodeId = collect[i][0];
 	nodeConnections = collect[i][1][5];
 	
-	console.log(nodeId);
+	//console.log(nodeId);
 	
-	console.log(nodeConnections);
+	//console.log(nodeConnections);
 	
 	if((nodeConnections != null) && (nodeConnections != "")) {
 		for(j=0; j < nodeConnections.length; j++) {
-			console.log(nodeId+j);
+			//console.log(nodeId+j);
 			sigInst.addEdge(nodeId+j, nodeId,nodeConnections[j]);
-			console.log("added edge");
+			//console.log("added edge");
 		}
 	}
 	
 	else {
-		console.log("no connections");
+		//console.log("no connections");
 	}
 	
   }

@@ -87,10 +87,10 @@ $(document).ready(function() {
         onTripChange : function(i, tripData) {
             if ( i === 1 ) {
                 alert("onTripChange, go check your console !");
-                console.log("You can put your own function or data in tripData, then access it onTripChange !");
-                console.log("current tripIndex : " + i);
-                console.log("current tripData : ", tripData);
-                console.log("User's function : " + tripData.myFunction());
+                //console.log("You can put your own function or data in tripData, then access it onTripChange !");
+                //console.log("current tripIndex : " + i);
+                //console.log("current tripData : ", tripData);
+                //console.log("User's function : " + tripData.myFunction());
             }
         }
     });
