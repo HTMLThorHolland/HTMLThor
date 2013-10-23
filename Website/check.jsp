@@ -133,6 +133,8 @@
 					int fileCount = 0;
 					JSONObject json = new JSONObject();
 					
+					List<String> fileNames = new ArrayList<String>();
+					
 					String[] pathSplit = request.getParameter("path").split("/");
 					String path = pathSplit[pathSplit.length-1];
 					
@@ -147,7 +149,7 @@
              			
       					StructureBreakdown fileStruct = new StructureBreakdown();
       					
-      					
+      					fileNames.add(temp.getName());
       					
       					
       					// split into directories and filename
@@ -203,13 +205,20 @@
                 		s = new StringBuilder();
                 		StructureBreakdown prevStruct = root;
                 		StructureBreakdown parentStruct = root;
+                		
                 		for (int i = 0; i < filePathSplit.length-1; i++) {
                 			prevStruct = parentStruct;
                 			parentStruct = parentStruct.getSubfile(filePathSplit[i]);
                 		}
-                		
+                		try {
                 		parentStruct.addSubfile(filePathSplit[filePathSplit.length-1], fileStruct);
-                		
+                		} catch (NullPointerException ex) {
+                			String errorString = "";
+                			for (int k = 0; k < fileNames.size(); k++) {
+                				errorString = errorString + fileNames.get(k) + " --- ";
+                			}
+                			throw new RuntimeException(errorString);
+                		}
             		}
             		
             		json.put("filecount", fileCount);

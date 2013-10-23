@@ -384,8 +384,10 @@ public class Encapsulation extends Mysqlfunctions {
 	 * @param size the number of errors to be removed
 	 */
 	private void removeEncapErrors(int size) {
-		for(int i = 0; i < size; i++) {
-			encapErrorList.remove(encapErrorList.size() - 1);
+		if (encapErrorList.size() != 0) {
+			for(int i = 0; i < size; i++) {
+				encapErrorList.remove(encapErrorList.size() - 1);
+			}
 		}
 	}
 }
