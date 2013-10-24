@@ -1391,6 +1391,16 @@ public class SectionCheck {
 			filePath = filepath;
 		}
 		
+		/**
+		 * Checks whether a path reference exists in a zip file. Should be used on the values of
+		 * attributes like src. Any full path will be considered valid (eg. starting with http://).
+		 * @param filepath The file path to check whether valid
+		 * @return True if the path is valid. False if invalid.
+		 */
+		private boolean checkPathExists(String filepath) {
+			
+		}
+		
 		
 		/**
 		 * Class for accessing the character array of the line of the HTML file

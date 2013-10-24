@@ -237,7 +237,7 @@
             				if (fileContents != null) {
             					JSONObject jsonTemp = new JSONObject();
       						
-      							// set path of file to check
+      							sc.addFilePath(structFilePath.substr(structFilePath.indexOf('/')+1));
       						
                					JSONObject jsonErrors = sc.findErrors(fileContents);
                					JSONObject jsonSource = new JSONObject();
