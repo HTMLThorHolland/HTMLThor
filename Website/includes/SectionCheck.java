@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 public class SectionCheck {
 	
 	private List<String> filesInZip = null;
+	private String filePath = null;
 	
 	/* Just an empty constructor */
 	public SectionCheck() {
@@ -82,6 +83,10 @@ public class SectionCheck {
 			List<String> attributeList = new ArrayList<String>();;
 			List<String> requiredTags = new ArrayList<String>();
 			
+			long timeoutStart = System.currentTimeMillis();
+			long timeoutEnd = t+30000;
+			
+			
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
 			
@@ -93,6 +98,19 @@ public class SectionCheck {
 			
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
+				
+					if (System.currentTimeMillis() > timeoutEnd) {
+						error = new JSONObject();
+						error.put("message",  "Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer+toString(j));
+						error.put("type", "syntax");
+						error.put("line", i+1);
+						error.put("col", j);
+						error.put("errorExcerpt", "");
+						errors.put(errorCount, error);
+						errorCount += 1;
+						errors.put("count", errorCount);
+						return errors;
+					}
 				
 					// ==============================================
 					// check whether a style tag is open, in which case content will be unchecked
@@ -1342,11 +1360,22 @@ public class SectionCheck {
 		
 		/**
 		 * Adds a list of file names that have been passed along with the current file. Used to check
-		 * for broken links.
+		 * for broken links. User must always call addFilePath after addAssociatedFiles before 
+		 * using findErrors.
 		 * @param filenames List of filenames (including file path)
 		 */
 		public void addAssociatedFiles(List<String> filenames) {
 			filesInZip = filenames;
+		}
+		
+		/**
+		 * Adds a path of the file that is about to be checked. Used to find broken links.
+		 * Will still required a call to findErrors before the file is checked.
+		 * This method exists instead of an overloaded findErrors method.
+		 * @param filepath Full path of the file that will be checked next.
+		 */
+		public void addFilePath(String filepath) {
+			filePath = filepath;
 		}
 		
 		
