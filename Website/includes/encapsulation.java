@@ -95,7 +95,7 @@ public class Encapsulation {
 		 * @param error the error code
 		 */
 		public void setError(int error) {
-			error = this.error;
+			this.error = error;
 		}
 		
 		/**
@@ -137,7 +137,7 @@ public class Encapsulation {
 	boolean formElementOpen = false;
 	
 	/* Create instance of MySQL class. */
-	Mysqlfunctions sql = new Mysqlfunctions();
+	Mysqlfunctions sql;
 	
 	/* Data structures that contain elements and errors. */
 	ArrayDeque<Element> openedElements;
@@ -151,6 +151,7 @@ public class Encapsulation {
 		openedElements = new ArrayDeque<Element>();
 		errorList = new ArrayList<Element>();
 		encapErrorList = new ArrayList<Element>();
+		sql = new Mysqlfunctions();
 	}
 	
 	/**
@@ -160,11 +161,12 @@ public class Encapsulation {
 	 * @return an ArrayList of the errors
 	 */
 	public ArrayList<String> getErrorList() {
+	/*
 		for(int n = errorList.size()-1; n > 0; n--) {
 			if(errorList.get(n).getError() == 0) {
 				errorList.remove(n);
 			}
-		}
+		}*/
 		
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */

@@ -65,7 +65,6 @@ public class Mysqlfunctions {
 
 
 	public String getErrMsg(int eID) {
-		long startTime = System.nanoTime();
 		String msg = null;
 		
 		String query = new StringBuilder("SELECT * FROM Error WHERE eID = '").append(eID).append("'").toString();
@@ -89,14 +88,11 @@ public class Mysqlfunctions {
 	   con.close();
 	   long endTime = System.nanoTime();
 	   long runTime = startTime - endTime;
-	   System.out.println("getErrMsg runtime: " + Long.toString(runTime));
-	   return msg; 
 	}
 
 
 	//Options for tbl are - dep,elem,att (deprecated element and attribte repesctively)
 	public List<String> getDBanswer(String tbl, String tag) {
-		long startTime = System.nanoTime();
 		List<String> list = new ArrayList<String>();
 		
 		if (tbl.equalsIgnoreCase("dep")) {
@@ -167,16 +163,11 @@ public class Mysqlfunctions {
 		} else {
 			//exit with not a valid table
 		}
-
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("getDBAnswer runtime: " + Long.toString(runTime));
 		return (ArrayList)list; 
 	}
 
 	//Returns a list of Arrays - get deprecated tags * NOTE!
 	public ArrayList<String> getTags() {
-		long startTime = System.nanoTime();
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -198,15 +189,12 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		con.close();
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("getTags runtime: " + Long.toString(runTime));
+		
 		return (ArrayList<String>) list;
 	}
 
 	//Return true or false for deprecated tag or not
 	public boolean isDeprecated(String tagName) {
-		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -230,16 +218,13 @@ public class Mysqlfunctions {
 		}
 
 		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isDeprecated runtime: " + Long.toString(runTime));
+
 	   return msg;
 	}
 	
 	
 	//Return true or false for deprecated attribute or not
 	public boolean isDeprecatedAttribute(String attName, String tagName) {
-		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
 		String query = "SELECT eID FROM Element WHERE EName = '" + tagName + "'";
@@ -282,16 +267,12 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
-		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isDeprecatedAttribute runtime: " + Long.toString(runTime));
+		con.close();
 		return msg;
 	}
 
 	//Returns true if tag requires an Attribute
 	public List<String> requiresAttr(String tagName) {
-		long startTime = System.nanoTime();
 		List<String> DBRequires = new ArrayList<String>();
 		
 		String query = new StringBuilder("SELECT * FROM Attribute WHERE isRequired = 1 AND eID = (SELECT eID FROM Element WHERE Ename =" ).append(tagName).toString() +(")");
@@ -314,17 +295,12 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
-		con.close();
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("requiresAttr runtime: " + Long.toString(runTime));		
+		con.close();	
 		return DBRequires;
-		
 	}
 
 	//Returns a list of all Attribtes for a tagName
 	public ArrayList<String> getAttr(String tagName) {
-		long startTime = System.nanoTime();
 		List<String> list = new ArrayList<String>();
 		String query = "SELECT * FROM Attribute WHERE eID = (SELECT eID FROM Element WHERE EName = '"+tagName+"') OR isGlobal=1";
 		ConnectDB con = new ConnectDB();
@@ -346,19 +322,12 @@ public class Mysqlfunctions {
 		}
 
 		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("getAttr runtime: " + Long.toString(runTime));
-		
 		return (ArrayList<String>) list;
 	}
 
 
 	//If a tag exists
 	public boolean checkValidTag(String tagName) {
-		long startTime = System.nanoTime();
-		
-
 		List<String> list = new ArrayList<String>();
 		list = getTags();
 		
@@ -375,7 +344,6 @@ public class Mysqlfunctions {
 	}
 
 	public boolean isSelfClosing(String tagName) {
-		long startTime = System.nanoTime();
 		boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -401,9 +369,7 @@ public class Mysqlfunctions {
 			
 
 		con.close();
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isSelfClosing runtime: " + Long.toString(runTime));		
+
 		return msg;
 	}
 	
@@ -414,7 +380,7 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public boolean isMeta(String tagName) {
-		long startTime = System.nanoTime();
+		
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -438,9 +404,7 @@ public class Mysqlfunctions {
 		}
 
 		con.close();
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isMeta runtime: " + Long.toString(runTime));		
+	
 		return msg;
 	}
 	
@@ -450,7 +414,6 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public boolean isTableElement(String tagName) {
-		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -474,9 +437,7 @@ public class Mysqlfunctions {
 		}
 
 		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isTableElement runtime: " + Long.toString(runTime));
+
 		return msg;
 	}
 	
@@ -486,7 +447,6 @@ public class Mysqlfunctions {
 	 * UNIMPLEMENTED
 	 */
 	public boolean isFormElement(String tagName) {
-		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
@@ -510,9 +470,7 @@ public class Mysqlfunctions {
 		}
 
 		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isFormElement runtime: " + Long.toString(runTime));
+		
 		return msg;
 	}
 	
@@ -522,7 +480,6 @@ public class Mysqlfunctions {
 	 * Returns 1 for yes and 0 for no
 	 */
 	public boolean isAttrBool(String attributeName) {
-		long startTime = System.nanoTime();
 		Boolean msg = false;
 		
 		String query = "SELECT * FROM Attribute WHERE Name = '"+attributeName+"'";
@@ -546,9 +503,7 @@ public class Mysqlfunctions {
 		}
 
 		con.close();	
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("isAttrBool runtime: " + Long.toString(runTime));
+
 		return msg;
 	}
 	
