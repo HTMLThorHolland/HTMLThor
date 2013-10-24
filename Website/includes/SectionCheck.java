@@ -1060,10 +1060,11 @@ public class SectionCheck {
 								
 								List<String> requiredAttributes = new ArrayList<String>();
 								requiredAttributes = sql.requiresAttr(tag.toLowerCase());
+								Boolean erroredAttrAlready = false;
 								for(int z = 0; z < requiredAttributes.size(); z++) {
 									if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
 										error = new JSONObject();
-										if(requiredAttributes.get(z)=="alt") {
+										if(requiredAttributes.get(z).equalsIgnoreCase("alt")) {
 											error.put("message", "For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.");
 											error.put("type", "warning");
 											error.put("line", i+1);
@@ -1071,9 +1072,29 @@ public class SectionCheck {
 											error.put("errorExcerpt", tag);
 											errors.put(errorCount, error);
 											errorCount += 1;
-										
+											erroredAttrAlready = true;
 										}
-										else {
+										if(requiredAttributes.get(z).equalsIgnoreCase("name")&&(tag.equalsIgnoreCase("input"))) {
+											error.put("message", "For best practices, use the name attribute for every <input> tag.");
+											error.put("type", "warning");
+											error.put("line", i+1);
+											error.put("col", endTagColumnNo);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+											erroredAttrAlready = true;
+										}
+										if(requiredAttributes.get(z).equalsIgnoreCase("value")&&(tag.equalsIgnoreCase("input"))) {
+											error.put("message", "For best practices, use the value attribute for every <input> tag.");
+											error.put("type", "warning");
+											error.put("line", i+1);
+											error.put("col", endTagColumnNo);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+											erroredAttrAlready = true;
+										}
+										if(!erroredAttrAlready) {
 											error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
 											error.put("type", "syntax");
 											error.put("line", i+1);
@@ -1082,6 +1103,7 @@ public class SectionCheck {
 											errors.put(errorCount, error);
 											errorCount += 1;
 										}
+										erroredAttrAlready = false;
 									}
 								}
 								
