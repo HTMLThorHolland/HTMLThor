@@ -37,6 +37,8 @@ public class SectionCheck {
 			boolean selfClosingError = false;
 			boolean openDoctype = false;
 			
+			boolean isClosingTag = false;
+			
 			List<String> singularTags = new ArrayList<String>();
 			List<String> ids = new ArrayList<String>();
 			
@@ -800,6 +802,23 @@ public class SectionCheck {
 									errorCount += 1;
 								}
 							
+							
+								// check for broken link
+								if (attribute.equalsIgnoreCase("src") || attribute.equalsIgnoreCase("href")) {
+									String attributeVal = charArray.getString(attrValStart+1, j-1);
+									String wrongLoc = checkPathExists(attributeVal);
+									if (wrongLoc != null) {
+										error = new JSONObject();
+										error.put("message", wrongLoc + " could not be found.");
+										error.put("type", "broken");
+										error.put("line", i+1);
+										error.put("col", j-1);
+										error.put("errorExcerpt", attributeVal);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+								}
+							
 								// check for unique id
 								if (attribute.equalsIgnoreCase("id")) {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
@@ -846,6 +865,21 @@ public class SectionCheck {
 									errorCount += 1;
 								}
 								
+								// check for broken link
+								if (attribute.equalsIgnoreCase("src") || attribute.equalsIgnoreCase("href")) {
+									String attributeVal = charArray.getString(attrValStart+1, j-1);
+									String wrongLoc = checkPathExists(attributeVal);
+									if (wrongLoc != null) {
+										error = new JSONObject();
+										error.put("message", wrongLoc + " could not be found.");
+										error.put("type", "broken");
+										error.put("line", i+1);
+										error.put("col", j-1);
+										error.put("errorExcerpt", attributeVal);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+								}
 								
 								// check for unique id
 								if (attribute.equalsIgnoreCase("id")) {
@@ -1005,7 +1039,11 @@ public class SectionCheck {
 									
 									if (tag.length() > 0) {
 										if (tag.substring(0,1).equalsIgnoreCase("/")) {
+											isClosingTag = true;
 											tag = tag.substring(1);
+										}
+										else {
+											isClosingTag = false;
 										}
 									}
 									endTagName = true;
@@ -1058,33 +1096,34 @@ public class SectionCheck {
 							
 								if(charArray.getChar(j)=='>') {
 								
-								List<String> requiredAttributes = new ArrayList<String>();
-								requiredAttributes = sql.requiresAttr(tag.toLowerCase());
-								for(int z = 0; z < requiredAttributes.size(); z++) {
-									if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
-										error = new JSONObject();
-										if(requiredAttributes.get(z)=="alt") {
-											error.put("message", "For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.");
-											error.put("type", "warning");
-											error.put("line", i+1);
-											error.put("col", endTagColumnNo);
-											error.put("errorExcerpt", tag);
-											errors.put(errorCount, error);
-											errorCount += 1;
-										
-										}
-										else {
-											error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
-											error.put("type", "syntax");
-											error.put("line", i+1);
-											error.put("col", endTagColumnNo);
-											error.put("errorExcerpt", tag);
-											errors.put(errorCount, error);
-											errorCount += 1;
+								if (!isClosingTag) {
+									List<String> requiredAttributes = new ArrayList<String>();
+									requiredAttributes = sql.requiresAttr(tag.toLowerCase());
+									for(int z = 0; z < requiredAttributes.size(); z++) {
+										if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
+											error = new JSONObject();
+											if(requiredAttributes.get(z).equalsIgnoreCase("alt")) {
+												error.put("message", "For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.");
+												error.put("type", "warning");
+												error.put("line", i+1);
+												error.put("col", endTagColumnNo);
+												error.put("errorExcerpt", tag);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											
+											}
+											else {
+												error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
+												error.put("type", "syntax");
+												error.put("line", i+1);
+												error.put("col", endTagColumnNo);
+												error.put("errorExcerpt", tag);
+												errors.put(errorCount, error);
+												errorCount += 1;
+											}
 										}
 									}
 								}
-								
 								
 								
 									// Check if self closing
@@ -1461,6 +1500,8 @@ public class SectionCheck {
 				while (path.charAt(iter) != '/') {
 					iter--;
 				}
+			} else {
+				return "";
 			}
 			return path.substring(0, iter);
 		}
