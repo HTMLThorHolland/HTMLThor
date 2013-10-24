@@ -11,16 +11,22 @@ public class SectionCheck {
 	private List<String> filesInZip = null;
 	private String filePath = null;
 	int brokenLinks;
+	int colOffset;
+	List<String> source = null;
 	
 	/* Just an empty constructor */
 	public SectionCheck() {
-	
+		
 	}
 
 		/* This is the coding for the NEW error checking */
 		public JSONObject findErrors(List<String> fileContents) {
 		
+			source = fileContents;
+		
 			Mysqlfunctions sql = new Mysqlfunctions();
+		
+			colOffset = 0;
 		
 			JSONObject errors = new JSONObject();
 			boolean openTag = false;
@@ -94,9 +100,8 @@ public class SectionCheck {
 			
 			/* Iterates over the lines of the given file. */
 			for (int i=0; i<fileContents.size(); i++) {
-			
-            	String nextLine = fileContents.get(i);
-				
+				String nextLine = fileContents.get(i);
+				colOffset = 0;
 				/* Initialise the character array on the new line. */
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
@@ -105,17 +110,22 @@ public class SectionCheck {
 				for(int j=0; j<charArray.getLength(); j++) {
 				
 					if (System.currentTimeMillis() > timeoutEnd) {
-						error = new JSONObject();
-						error.put("message",  "Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer.toString(j));
-						error.put("type", "syntax");
-						error.put("line", i+1);
-						error.put("col", j);
-						error.put("errorExcerpt", "");
+						error = errorConstructor("Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer.toString(j), "syntax", i+1, j-1, "");
 						errors.put(errorCount, error);
 						errorCount += 1;
 						errors.put("count", errorCount);
 						return errors;
 					}
+				
+					if (charArray.getChar(j) == '<' || charArray.getChar(j) == '>') {
+						colOffset += 3;
+					} else if (charArray.getChar(j) == '"') {
+						colOffset += 5;
+					} else if (charArray.getChar(j) == '\'') {
+						colOffset += 4;
+					}
+					
+				
 				
 					// ==============================================
 					// check whether a style tag is open, in which case content will be unchecked
@@ -470,12 +480,7 @@ public class SectionCheck {
 								attrPhase = 2;
 								continue;
 							} else {
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endTagColumnNo);
-								error.put("errorExcerpt", tag);
+								error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								attrPhase = 5;
@@ -496,12 +501,7 @@ public class SectionCheck {
 								attrPhase = 3;
 								continue;
 							} else {
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endTagColumnNo);
-								error.put("errorExcerpt", tag);
+								error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								attrPhase = 5;
@@ -522,12 +522,7 @@ public class SectionCheck {
 								attrPhase = 4;
 								continue;
 							} else {
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endTagColumnNo);
-								error.put("errorExcerpt", tag);
+								error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								attrPhase = 5;
@@ -548,12 +543,7 @@ public class SectionCheck {
 								attrPhase = 5;
 								continue;
 							} else {
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endTagColumnNo);
-								error.put("errorExcerpt", tag);
+								error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								attrPhase = 5;
@@ -579,12 +569,7 @@ public class SectionCheck {
 								tagChecked = false;
 								faultyTag = false;
 							} else if (charArray.getChar(j) != ' ') {
-								error = new JSONObject();
-								error.put("message",  sql.getErrMsg(1));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endTagColumnNo);
-								error.put("errorExcerpt", tag);
+								error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								attrPhase = 6;
@@ -625,12 +610,7 @@ public class SectionCheck {
 								endAttrColumnNo = j-1;
 								if(attributeList.contains(attribute.toLowerCase())) {
 									// Duplicate attribute use for this tag
-									error = new JSONObject();
-									error.put("message", attribute + " has already been assigned once for this tag");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " has already been assigned once for this tag", "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -654,22 +634,12 @@ public class SectionCheck {
 										}
 									}
 									if (!validAttr) {
-										error = new JSONObject();
-										error.put("message", attribute + " " + sql.getErrMsg(23));
-										error.put("type", "syntax");
-										error.put("line", i+1);
-										error.put("col", endAttrColumnNo);
-										error.put("errorExcerpt", attribute);
+										error = errorConstructor(attribute + " " + sql.getErrMsg(23), "syntax", i+1, endAttrColumnNo, attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
 								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
-									error = new JSONObject();
-									error.put("message", attribute + " is a deprecated attribute for " + tag);
-									error.put("type", "deprecated");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " is a deprecated attribute for " + tag, "deprecated", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -681,12 +651,7 @@ public class SectionCheck {
 								endAttrColumnNo = j-1;
 								if(attributeList.contains(attribute.toLowerCase())) {
 									// Duplicate attribute use for this tag
-									error = new JSONObject();
-									error.put("message", attribute + " has already been assigned once for this tag");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " has already been assigned once for this tag", "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -709,22 +674,12 @@ public class SectionCheck {
 										}
 									}
 									if (!validAttr) {
-										error = new JSONObject();
-										error.put("message", attribute + " " + sql.getErrMsg(23));
-										error.put("type", "syntax");
-										error.put("line", i+1);
-										error.put("col", endAttrColumnNo);
-										error.put("errorExcerpt", attribute);
+										error = errorConstructor(attribute + " " + sql.getErrMsg(23), "syntax", i+1, endAttrColumnNo, attribute);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
 								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
-									error = new JSONObject();
-									error.put("message", attribute + " is a deprecated attribute for " + tag);
-									error.put("type", "deprecated");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " is a deprecated attribute for " + tag, "deprecated", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -743,12 +698,7 @@ public class SectionCheck {
 								
 								if(!sql.isAttrBool(attribute)) {
 									// did not find a value for the key
-									error = new JSONObject();
-									error.put("message", attribute + " must have an associated value. Use = 'value' to set a value to this attribute.");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " must have an associated value. Use = 'value' to set a value to this attribute.", "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -769,12 +719,7 @@ public class SectionCheck {
 							} else if (charArray.getChar(j) == '#' && attribute.equalsIgnoreCase("href")) {
 								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>' || charArray.getChar(j+1) == '/') {
 									// unquoted # for href
-									error = new JSONObject();
-									error.put("message", "Even though # is not required to be quoted, it is considered best practice for consistency.");
-									error.put("type", "warning");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", "#");
+									error = errorConstructor("Even though # is not required to be quoted, it is considered best practice for consistency.", "warning", i+1, endAttrColumnNo, "#");
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
@@ -794,12 +739,7 @@ public class SectionCheck {
 							
 								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
-									error = new JSONObject();
-									error.put("message", attribute + " should not have a value associated with it");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " should not have a value associated with it", "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -810,12 +750,7 @@ public class SectionCheck {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
-										error = new JSONObject();
-										error.put("message", wrongLoc + " could not be found.");
-										error.put("type", "broken");
-										error.put("line", i+1);
-										error.put("col", j-1);
-										error.put("errorExcerpt", attributeVal);
+										error = errorConstructor(wrongLoc + " could not be found.", "broken", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1; 
 										brokenLinks += 1;
@@ -834,12 +769,7 @@ public class SectionCheck {
 									}
 									if (matchedID) {
 										// error for duplicate id
-										error = new JSONObject();
-										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
-										error.put("type", "semantic");
-										error.put("line", i+1);
-										error.put("col", endAttrColumnNo);
-										error.put("errorExcerpt", attributeVal);
+										error = errorConstructor(attributeVal + " is already used as an ID value earlier in the file.", "semantic", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									} else {
@@ -858,12 +788,7 @@ public class SectionCheck {
 								
 								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
-									error = new JSONObject();
-									error.put("message", attribute + " should not have a value associated with it");
-									error.put("type", "syntax");
-									error.put("line", i+1);
-									error.put("col", endAttrColumnNo);
-									error.put("errorExcerpt", attribute);
+									error = errorConstructor(attribute + " should not have a value associated with it", "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -873,12 +798,7 @@ public class SectionCheck {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
-										error = new JSONObject();
-										error.put("message", wrongLoc + " could not be found.");
-										error.put("type", "broken");
-										error.put("line", i+1);
-										error.put("col", j-1);
-										error.put("errorExcerpt", attributeVal);
+										error = errorConstructor(wrongLoc + " could not be found.", "broken", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										brokenLinks += 1;
@@ -897,12 +817,8 @@ public class SectionCheck {
 									}
 									if (matchedID) {
 										// error for duplicate id
+										error = errorConstructor(attributeVal + " is already used as an ID value earlier in the file.", "semantic", i+1, j-1, attributeVal);
 										error = new JSONObject();
-										error.put("message", attributeVal + " is already used as an ID value earlier in the file.");
-										error.put("type", "semantic");
-										error.put("line", i+1);
-										error.put("col", endAttrColumnNo);
-										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									} else {
@@ -919,12 +835,7 @@ public class SectionCheck {
 							// looking for end of attribute
 							if (charArray.getChar(j) == ' ' || charArray.getChar(j) == '/' || charArray.getChar(j) == '>') {
 								String attributeVal = charArray.getString(attrValStart, j-1);
-								error = new JSONObject();
-								error.put("message", attributeVal + " is the value of an attribute and should be inside quotes.");
-								error.put("type", "semantic");
-								error.put("line", i+1);
-								error.put("col", endAttrColumnNo);
-								error.put("errorExcerpt", attributeVal);
+								error = errorConstructor(attributeVal + " is the value of an attribute and should be inside quotes.", "semantic", i+1, j-1, attributeVal);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								// reached end of attribute value
@@ -994,12 +905,7 @@ public class SectionCheck {
 									
 									// Check if tag and tag before tag are br tag
 									if(prevTag.equalsIgnoreCase("br") && tag.equalsIgnoreCase("br")) {
-										error = new JSONObject();
-										error.put("message", "You have used at two <br /> tags in a row. If you are using br tags to create a list, use <li> tags instead.");
-										error.put("type", "semantic");
-										error.put("line", i+1);
-										error.put("col", endTagColumnNo);
-										error.put("errorExcerpt", tag);
+										error = errorConstructor("You have used at two <br /> tags in a row. If you are using br tags to create a list, use <li> tags instead.", "semantic", i+1, endTagColumnNo, tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
@@ -1024,12 +930,7 @@ public class SectionCheck {
 										
 										if(!tag.equalsIgnoreCase("meta")) {
 											if(singularTags.contains(tag.toLowerCase())) {
-												error = new JSONObject();
-												error.put("message", tag + " is a singular tag but is used more than once!");
-												error.put("type", "syntax");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor(tag + " is a singular tag but is used more than once!", "syntax", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1069,14 +970,10 @@ public class SectionCheck {
 										// Note that some of these additions should use database references in future
 										error = new JSONObject();
 										if (tag.equalsIgnoreCase("doctype")) {
-											error.put("message", sql.getErrMsg(1));
+											error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 										} else {
-											error.put("message", tag + " is not a valid tag");
+											error = errorConstructor(tag + " is not a valid tag", "syntax", i+1, endTagColumnNo, tag);
 										}
-										error.put("type", "syntax");
-										error.put("line", i+1);
-										error.put("col", endTagColumnNo);
-										error.put("errorExcerpt", tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										faultyTag = true;
@@ -1084,12 +981,7 @@ public class SectionCheck {
 									}	
 									// If it a deprecated tag
 									else if(!sql.isDeprecated(tag)) {
-										error = new JSONObject();
-										error.put("message", tag + " tag is a deprecated tag");
-										error.put("type", "deprecated");
-										error.put("line", i+1);
-										error.put("col", endTagColumnNo);
-										error.put("errorExcerpt", tag);
+										error = errorConstructor(tag + " tag is a deprecated tag", "deprecated", i+1, endTagColumnNo, tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										faultyTag = true;
@@ -1106,43 +998,26 @@ public class SectionCheck {
 									Boolean erroredAttrAlready = false;
 									for(int z = 0; z < requiredAttributes.size(); z++) {
 										if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
-											error = new JSONObject();
 											if(requiredAttributes.get(z).equalsIgnoreCase("alt")) {
-												error.put("message", "For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.");
-												error.put("type", "warning");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor("For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.", "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
 											}
 											if(requiredAttributes.get(z).equalsIgnoreCase("name")&&(tag.equalsIgnoreCase("input"))) {
-												error.put("message", "For best practices, use the name attribute for every <input> tag.");
-												error.put("type", "warning");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor("For best practices, use the name attribute for every <input> tag.", "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
 											}
 											if(requiredAttributes.get(z).equalsIgnoreCase("value")&&(tag.equalsIgnoreCase("input"))) {
-												error.put("message", "For best practices, use the value attribute for every <input> tag.");
-												error.put("type", "warning");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor("For best practices, use the value attribute for every <input> tag.", "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
  											}
 											if(!erroredAttrAlready) {
-												error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
-												error.put("type", "syntax");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor("required attribute " + requiredAttributes.get(z) + " is not present", "syntax", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1172,12 +1047,7 @@ public class SectionCheck {
 											selfClosingError = true;
 											
 											if (selfClosingError) {
-												error = new JSONObject();
-												error.put("message", tag + " is self-closing but is not self closed.");
-												error.put("type", "warning");
-												error.put("line", i+1);
-												error.put("col", endTagColumnNo);
-												error.put("errorExcerpt", tag);
+												error = errorConstructor(tag + " is self-closing but is not self closed.", "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1191,12 +1061,7 @@ public class SectionCheck {
 											}
 											
 											if (selfClosingError) {
-												error = new JSONObject();
-												error.put("message", tag + " is self-closing but is not self closed. You may want to include a space before the closing '/'.");
-												error.put("type", "warning");
-												error.put("line", i+1);
-												error.put("col", closingChecker);
-												error.put("errorExcerpt", "/");
+												error = errorConstructor("We suggest including a space before the closing '/'.", "warning", i+1, closingChecker, "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1216,12 +1081,7 @@ public class SectionCheck {
 											
 											if (selfClosingError) {									
 										
-												error = new JSONObject();
-												error.put("message", tag + " is self-closed but is not allowed to be.");
-												error.put("type", "semantic");
-												error.put("line", i+1);
-												error.put("col", closingChecker);
-												error.put("errorExcerpt", "/");
+												error = errorConstructor(tag + " is self-closed but is not allowed to be.", "semantic", i+1, closingChecker, "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1305,13 +1165,7 @@ public class SectionCheck {
 							
 							}
 							if (!validAttr) {
-								error = new JSONObject();
-								// Actual DB reference test
-								error.put("message", attr + " " + sql.getErrMsg(23));
-								error.put("type", "syntax");
-								error.put("line", i+1);
-								error.put("col", endAttrColumnNo);
-								error.put("errorExcerpt", attribute);
+								error = errorConstructor(attr + " " + sql.getErrMsg(23), "syntax", i+1, endAttrColumnNo, attribute);
 								errors.put(errorCount, error);
 								errorCount += 1;
 							}
@@ -1332,62 +1186,32 @@ public class SectionCheck {
 			/* END OF AMEER'S CODE */
 			
 			if(!requiredTags.contains("html")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <html> not present");
-				error.put("type", "syntax");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <html> not present", "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("head")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <head> not present");
-				error.put("type", "syntax");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <head> not present", "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("body")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <body> not present");
-				error.put("type", "syntax");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <body> not present", "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("title")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <title> not present");
-				error.put("type", "semantic");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <title> not present", "semantic", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("meta")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <meta> not present");
-				error.put("type", "semantic");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <meta> not present", "semantic", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("!doctype")) {
-				error = new JSONObject();
-				error.put("message", "Required tag <!DOCTYPE> not present");
-				error.put("type", "syntax");
-				error.put("line", 1);
-				error.put("col", 0);
-				error.put("errorExcerpt", "");
+				error = errorConstructor("Required tag <!DOCTYPE> not present", "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
@@ -1460,6 +1284,42 @@ public class SectionCheck {
 			error.put("line", line);
 			error.put("col", col);
 			error.put("errorExcerpt", errorExcerpt);
+			error.put("colOffset", colOffset);
+			int lengthOffset = 0;
+			/*
+			for (int i = 0; i < errorExcerpt.length(); i++) {
+				if (errorExcerpt.charAt(i) == '<' || errorExcerpt.charAt(i) == '>') {
+					lengthOffset += 3;
+				} else if (errorExcerpt.charAt(i) == '"') {
+					lengthOffset += 5;
+				} else if (errorExcerpt.charAt(i) == '\'') {
+					lengthOffset += 4;
+				}
+			}
+			error.put("lengthOffset", lengthOffset);
+			*/
+			int expectedCol = col+1-errorExcerpt.length();
+			String lineText = source.get(line-1);
+			int index = 0;
+			int count = 0;
+			while (index != -1 && index != expectedCol) {
+				if (count == 0) {
+					index = lineText.indexOf(errorExcerpt);
+				} else {
+					index = lineText.indexOf(errorExcerpt, index+1);
+				}
+				count += 1;
+			}
+			if (index == -1) {
+				error.put("occ", -1);
+			} else {
+				error.put("occ", count);
+			}
+			
+			if (errorExcerpt.equals("")) {
+				error.put("occ", -1);
+			}
+			
 			return error;
 		}
 		/* END OF AMEER'S CODE */
@@ -1495,6 +1355,8 @@ public class SectionCheck {
 		/**
 		 * Checks whether a path reference exists in a zip file. Should be used on the values of
 		 * attributes like src. Any full path will be considered valid (eg. starting with http://).
+		 * Any reference to a javascript function will also be considered valid, despite the
+		 * risk that function does not exist.
 		 * @param filepath The file path to check whether valid
 		 * @return The string of where the file was expected if non-existent. Otherwise null.
 		 */
@@ -1502,7 +1364,7 @@ public class SectionCheck {
 			if (filesInZip == null) {
 				return null;
 			}
-			if (filepath.toLowerCase().indexOf("http://") == 0) {
+			if (filepath.toLowerCase().indexOf("http://") == 0 || filepath.toLowerCase().indexOf("javascript:") == 0) {
 				return null;
 			}
 			String currentPath = upOneFolder(filePath); // eliminated the file name
