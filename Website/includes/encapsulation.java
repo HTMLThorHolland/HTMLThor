@@ -13,7 +13,7 @@ import java.util.Iterator;
  * 
  * @author Ameer Sabri
  */
-public class Encapsulation extends Mysqlfunctions {
+public class Encapsulation {
 	/* Declarations for error codes. Added to the database. */
 	public static final int ELEMENT_INSIDE_ITSELF = 101;
 	public static final int TABLE_ELEMENT_OUT_OF_TABLE = 102;
@@ -121,7 +121,7 @@ public class Encapsulation extends Mysqlfunctions {
 			sb.append(name).append(" ").append(line).append(" ");
 			sb.append(colStart).append(" ").append(colEnd).append(" ");
 			if(error != 0) {
-				sb.append(getErrMsg(error));
+				sb.append(sql.getErrMsg(error));
 			} else {
 				sb.append("none");
 			}
@@ -135,6 +135,9 @@ public class Encapsulation extends Mysqlfunctions {
 	boolean bodyElementOpen = false;
 	boolean tableElementOpen = false;
 	boolean formElementOpen = false;
+	
+	/* Create instance of MySQL class. */
+	Mysqlfunctions sql = new Mysqlfunctions();
 	
 	/* Data structures that contain elements and errors. */
 	ArrayDeque<Element> openedElements;
@@ -249,20 +252,20 @@ public class Encapsulation extends Mysqlfunctions {
 		}
 		
 		if(headElementOpen) {
-			if(!isMeta(e.getName())) {
+			if(!sql.isMeta(e.getName())) {
 				addError(e, INVALID_HEAD_ELEMENT);
 			}
 		}
 		
 		if(bodyElementOpen) {
-			if(isTableElement(e.getName()) && !tableElementOpen) {
+			if(sql.isTableElement(e.getName()) && !tableElementOpen) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(isFormElement(e.getName()) && !formElementOpen) {
+			} else if(sql.isFormElement(e.getName()) && !formElementOpen) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
 		
-		if(!isSelfClosing(e.getName())) {
+		if(!sql.isSelfClosing(e.getName())) {
 			tagEncapsulation(e);
 		}
 	}
