@@ -13,6 +13,7 @@ public class SectionCheck {
 	int brokenLinks;
 	int colOffset;
 	List<String> source = null;
+	int errorsInLine = 0;
 	
 	/* Just an empty constructor */
 	public SectionCheck() {
@@ -102,6 +103,7 @@ public class SectionCheck {
 			for (int i=0; i<fileContents.size(); i++) {
 				String nextLine = fileContents.get(i);
 				colOffset = 0;
+				errorsInLine = 0;
 				/* Initialise the character array on the new line. */
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
@@ -719,7 +721,7 @@ public class SectionCheck {
 							} else if (charArray.getChar(j) == '#' && attribute.equalsIgnoreCase("href")) {
 								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>' || charArray.getChar(j+1) == '/') {
 									// unquoted # for href
-									error = errorConstructor("Even though # is not required to be quoted, it is considered best practice for consistency.", "warning", i+1, endAttrColumnNo, "#");
+									error = errorConstructor("Even though # is not required to be quoted, it is considered best practice for consistency.", "warning", i+1, j, "#");
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
@@ -1310,6 +1312,11 @@ public class SectionCheck {
 				}
 				count += 1;
 			}
+			
+			if (errorExcerpt.equals("/")) {
+				count += errorsInLine;
+			}
+			
 			if (index == -1) {
 				error.put("occ", -1);
 			} else {
@@ -1319,7 +1326,9 @@ public class SectionCheck {
 			if (errorExcerpt.equals("")) {
 				error.put("occ", -1);
 			}
-			
+			if (count != -1) {
+				errorsInLine++;
+			}
 			return error;
 		}
 		/* END OF AMEER'S CODE */
