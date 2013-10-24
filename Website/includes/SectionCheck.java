@@ -1013,19 +1013,19 @@ public class SectionCheck {
 									for(int z = 0; z < requiredAttributes.size(); z++) {
 										if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
 											if(requiredAttributes.get(z).equalsIgnoreCase("alt")) {
-												error = errorConstructor(sql.getErrMsg(37), "warning", i+1, endTagColumnNo, tag);
-												errors.put(errorCount, error);
-												errorCount += 1;
-												erroredAttrAlready = true;
-											}
-											if(requiredAttributes.get(z).equalsIgnoreCase("name")&&(tag.equalsIgnoreCase("input"))) {
 												error = errorConstructor(sql.getErrMsg(36), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
 											}
-											if(requiredAttributes.get(z).equalsIgnoreCase("value")&&(tag.equalsIgnoreCase("input"))) {
+											if(requiredAttributes.get(z).equalsIgnoreCase("name")&&(tag.equalsIgnoreCase("input"))) {
 												error = errorConstructor(sql.getErrMsg(35), "warning", i+1, endTagColumnNo, tag);
+												errors.put(errorCount, error);
+												errorCount += 1;
+												erroredAttrAlready = true;
+											}
+											if(requiredAttributes.get(z).equalsIgnoreCase("value")&&(tag.equalsIgnoreCase("input"))) {
+												error = errorConstructor(sql.getErrMsg(34), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
