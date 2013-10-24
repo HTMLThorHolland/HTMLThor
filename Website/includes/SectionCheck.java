@@ -704,7 +704,7 @@ public class SectionCheck {
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
-								attrPhase = 1;
+								attrPhase = 0;
 								openAttr = false;
 								attribute = "";
 							}
@@ -725,7 +725,7 @@ public class SectionCheck {
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
-									attrPhase = 1;
+									attrPhase = 0;
 									openAttr = false;
 									attribute = "";
 								}
@@ -781,7 +781,7 @@ public class SectionCheck {
 								}
 							
 								// reset attribute flags
-								attrPhase = 1;
+								attrPhase = 0;
 								openAttr = false;
 								attribute = "";
 							}
@@ -831,7 +831,7 @@ public class SectionCheck {
 								}
 							
 								// reset attribute flags
-								attrPhase = 1;
+								attrPhase = 0;
 								openAttr = false;
 								attribute = "";
 							}
@@ -844,7 +844,7 @@ public class SectionCheck {
 								errors.put(errorCount, error);
 								errorCount += 1;
 								// reached end of attribute value
-								attrPhase = 1;
+								attrPhase = 0;
 								openAttr = false;
 								attribute = "";
 							}
@@ -977,7 +977,9 @@ public class SectionCheck {
 										}
 									}
 									endTagName = true;
-									
+									if (charArray.getChar(j)==' ' || charArray.getChar(j)=='\t') {
+										whiteSpaceFlag = true;
+									}
 									
 								}
 								
@@ -1019,7 +1021,7 @@ public class SectionCheck {
 								
 								attribute = "";
 								openAttr = false;
-								attrPhase = 1;
+								attrPhase = 0;
 								
 								if (!isClosingTag) {
 									List<String> requiredAttributes = new ArrayList<String>();
@@ -1263,6 +1265,7 @@ public class SectionCheck {
 		 * @return an ArrayList of JSONObjects, containing each error
 		 */
 		private ArrayList<JSONObject> parseEncapsulationErrors(ArrayList<String> errors) {
+			Mysqlfunctions sql = new Mysqlfunctions();
 			int NUM_ERROR_VALUES = 4;
 			JSONObject error = new JSONObject();
 			String[] errorValues = new String[NUM_ERROR_VALUES];
@@ -1277,11 +1280,14 @@ public class SectionCheck {
 			for(int i = 0; i < errors.size(); i++) {
 				errorValues = errors.get(i).split(" ", NUM_ERROR_VALUES);
 				
-				error = Integer.parseInt(errorValues[0]);
+				errorCode = Integer.parseInt(errorValues[3]);
 				line = Integer.parseInt(errorValues[1]);
 				col = Integer.parseInt(errorValues[2]);
 				errorExcerpt = errorValues[0];
-				//col = col + errorExcerpt.length() - 1;
+				if (errorExcerpt == null) {
+					errorExcerpt = "";
+				}
+				col = col + errorExcerpt.length() - 1;
 				/*
 				if(errorExcerpt.charAt(0) == '/') {
 					errorExcerpt = "FIXED";
@@ -1290,8 +1296,11 @@ public class SectionCheck {
 					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4];
 				}*/
-				
-				error = errorConstructor(sql.getErrMsg(error), type, line, col, errorExcerpt);
+				String message = sql.getErrMsg(errorCode);
+				if (message == null) {
+					message = "No message could be found for error code: "+Integer.toString(errorCode);
+				}
+				error = errorConstructor(message, type, line, col, errorExcerpt);
 				errorList.add(error);
 			}
 			
