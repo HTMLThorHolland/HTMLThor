@@ -130,8 +130,7 @@ public class Encapsulation {
 			sb.append(name).append(" ").append(line).append(" ");
 			sb.append(colStart).append(" ").append(colEnd).append(" ");
 			if(error != 0) {
-				//sb.append(sql.getErrMsg(error));
-				sb.append(error);
+				sb.append(sql.getErrMsg(error));
 			} else {
 				sb.append("none");
 			}
