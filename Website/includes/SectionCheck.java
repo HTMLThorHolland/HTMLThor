@@ -815,7 +815,7 @@ public class SectionCheck {
 										error.put("col", j-1);
 										error.put("errorExcerpt", attributeVal);
 										errors.put(errorCount, error);
-										errorCount += 1;
+										errorCount += 1; 
 									}
 								}
 							
