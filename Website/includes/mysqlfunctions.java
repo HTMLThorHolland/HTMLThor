@@ -275,7 +275,8 @@ public class Mysqlfunctions {
 	public List<String> requiresAttr(String tagName) {
 		List<String> DBRequires = new ArrayList<String>();
 		
-		String query = new StringBuilder("SELECT * FROM Attribute WHERE isRequired = 1 AND eID = (SELECT eID FROM Element WHERE Ename =" ).append(tagName).toString() +(")");
+		
+		String query = new StringBuilder("SELECT * FROM Attribute WHERE isRequired = 1 AND eID = (SELECT eID FROM Element WHERE Ename = '" ).append(tagName).toString().append("' )");
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
 		
