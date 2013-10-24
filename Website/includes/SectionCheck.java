@@ -82,7 +82,7 @@ public class SectionCheck {
 			JSONObject error;
 			List<String> attributeList = new ArrayList<String>();
 			List<String> requiredTags = new ArrayList<String>();
-			String prevTag;
+			String prevTag = "";
 			
 			long timeoutStart = System.currentTimeMillis();
 			long timeoutEnd = timeoutStart+30000;
@@ -1415,9 +1415,38 @@ public class SectionCheck {
 		 * @return True if the path is valid. False if invalid.
 		 */
 		private boolean checkPathExists(String filepath) {
+			if (filepath.toLowerCase().indexOf("http://") == 0) {
+				return true;
+			}
+			try {
+			String currentPath = upOneFolder(filePath); // eliminated the file name
+			while (filepath.indexOf("../") == 0) {
+				currentPath = upOneFolder(currentPath);
+				filepath = filepath.substring(3);
+			}
+			currentPath = currentPath + filepath;
+			} catch (Exception ex) {
+				return false;
+			}
 			
+			if (filesInZip.contains(currentPath)) {
+				return true;
+			}
+			return false;
 		}
 		
+		/**
+		 * Gets the file path of parent folder of current file.
+		 * @param path Path of the file to find parent folder of
+		 * @return The file path of the parent folder
+		 */
+		private String upOneFolder(String path) {
+			int iter = path.length()-1;
+			while (path.charAt(iter) != '/') {
+				iter--;
+			}
+			return path.substring(0, iter);
+		}
 		
 		/**
 		 * Class for accessing the character array of the line of the HTML file
