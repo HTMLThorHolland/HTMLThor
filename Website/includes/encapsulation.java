@@ -128,12 +128,7 @@ public class Encapsulation {
 			StringBuilder sb = new StringBuilder();
 			
 			sb.append(name).append(" ").append(line).append(" ");
-			sb.append(colStart).append(" ").append(colEnd).append(" ");
-			if(error != 0) {
-				sb.append(sql.getErrMsg(error));
-			} else {
-				sb.append("none");
-			}
+			sb.append(colStart).append(" ").append(error);
 			
 			return sb.toString();
 		}
@@ -170,24 +165,17 @@ public class Encapsulation {
 	 * @return an ArrayList of the errors
 	 */
 	public ArrayList<String> getErrorList() {
-		//System.out.println(encapErrorList.toString());
-		System.out.println(errorList.toString());
 
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */
 		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size() + encapErrorList.size());
-		System.out.println(errorList.toString());
 		addUnclosedElements();
-		System.out.println(errorList.toString());
 		addEncapErrorsToList();
-		System.out.println(errorList.toString());
 		
 		/* Iterates over the error list and adds them to errors. */
 		for(int i = 0; i < errorList.size(); i++) {
 			errors.add(errorList.get(i).toString());
 		}
-		
-		System.out.println("Opened tags: " + openedElements.toString());
 		
 		return errors;
 	}
@@ -279,12 +267,9 @@ public class Encapsulation {
 	 * @param errorCode the error code of the error
 	 */
 	private void addEncapError(Element e, int errorCode) {
-		System.out.println("The encap errors are " + encapErrorList.toString());
 		boolean alreadyExists = false;
 		e.setError(errorCode);
-		System.out.println("middle of encap error loop for " + e.toString());
 		for(int i = 0; i < encapErrorList.size(); i++) {
-			System.out.println(encapErrorList.get(i));
 			if(checkSameElement(e, encapErrorList.get(i))) {
 				alreadyExists = true;
 				break;
@@ -294,8 +279,6 @@ public class Encapsulation {
 		if(!alreadyExists) {
 			encapErrorList.add(e);
 		}
-		
-		System.out.println("The encap errors now are " + encapErrorList.toString());
 	}
 	
 	/**
@@ -424,11 +407,8 @@ public class Encapsulation {
 			}
 
 			if(openedElements.isEmpty() && !deque.isEmpty()) {
-				System.out.println("The deque is " + deque.toString());
 				int size = deque.size();
 				reAddOpenedElements(deque);
-				System.out.println("The size is " + size);
-				System.out.println("The encap errors list is " + encapErrorList.toString());
 				removeEncapErrors(size);
 				addEncapError(e, STRAY_CLOSE_TAG);
 			}
@@ -443,7 +423,6 @@ public class Encapsulation {
 	 * @see tagEncapsulation
 	 */
 	private void reAddOpenedElements(ArrayDeque<Element> deque) {
-		System.out.println(openedElements.toString());
 		Element e = new Element();
 		while(!deque.isEmpty()) {
 			e = deque.peek();
@@ -451,7 +430,6 @@ public class Encapsulation {
 			openedElements.push(e);
 			deque.pop();
 		}
-		System.out.println(openedElements.toString());
 	}
 	
 	/**

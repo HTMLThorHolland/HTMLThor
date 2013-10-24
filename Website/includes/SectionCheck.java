@@ -1263,34 +1263,35 @@ public class SectionCheck {
 		 * @return an ArrayList of JSONObjects, containing each error
 		 */
 		private ArrayList<JSONObject> parseEncapsulationErrors(ArrayList<String> errors) {
-			int NUM_ERROR_VALUES = 5;
+			int NUM_ERROR_VALUES = 4;
 			JSONObject error = new JSONObject();
 			String[] errorValues = new String[NUM_ERROR_VALUES];
 			ArrayList<JSONObject> errorList = new ArrayList<JSONObject>(errors.size());
 			
-			String message = "";
 			String type = "syntax";
 			int line = 1;
 			int col = 0;
+			int errorCode;
 			String errorExcerpt = "";
 			
 			for(int i = 0; i < errors.size(); i++) {
 				errorValues = errors.get(i).split(" ", NUM_ERROR_VALUES);
 				
-				message = errorValues[0];
+				error = Integer.parseInt(errorValues[0]);
 				line = Integer.parseInt(errorValues[1]);
 				col = Integer.parseInt(errorValues[2]);
-				errorExcerpt = errorValues[4];
-				col = col + errorExcerpt.length() - 1;
+				errorExcerpt = errorValues[0];
+				//col = col + errorExcerpt.length() - 1;
+				/*
 				if(errorExcerpt.charAt(0) == '/') {
 					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4].substring(1);
 				} else {
 					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4];
-				}
+				}*/
 				
-				error = errorConstructor(message, type, line, col, errorExcerpt);
+				error = errorConstructor(sql.getErrMsg(error), type, line, col, errorExcerpt);
 				errorList.add(error);
 			}
 			
