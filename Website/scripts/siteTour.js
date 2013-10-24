@@ -81,7 +81,7 @@ $(document).ready(function() {
 
 function scrollToTour() {
 	$('html, body').animate({
-        scrollTop: $(".trip-block").offset().top + 300
+        scrollTop: $(".trip-block").offset().top + 200
     }, 1000);
 }
 
