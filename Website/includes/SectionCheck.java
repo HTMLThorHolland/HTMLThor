@@ -1424,27 +1424,30 @@ public class SectionCheck {
 		 * Checks whether a path reference exists in a zip file. Should be used on the values of
 		 * attributes like src. Any full path will be considered valid (eg. starting with http://).
 		 * @param filepath The file path to check whether valid
-		 * @return True if the path is valid. False if invalid.
+		 * @return The string of where the file was expected if non-existent. Otherwise null.
 		 */
-		private boolean checkPathExists(String filepath) {
-			if (filepath.toLowerCase().indexOf("http://") == 0) {
-				return true;
+		private String checkPathExists(String filepath) {
+			if (filesInZip == null) {
+				return null;
 			}
-			try {
+			if (filepath.toLowerCase().indexOf("http://") == 0) {
+				return null;
+			}
 			String currentPath = upOneFolder(filePath); // eliminated the file name
+			try {
 			while (filepath.indexOf("../") == 0) {
 				currentPath = upOneFolder(currentPath);
 				filepath = filepath.substring(3);
 			}
 			currentPath = currentPath + filepath;
 			} catch (Exception ex) {
-				return false;
+				return "Something broke";
 			}
 			
 			if (filesInZip.contains(currentPath)) {
-				return true;
+				return null;
 			}
-			return false;
+			return currentPath;
 		}
 		
 		/**
@@ -1454,8 +1457,10 @@ public class SectionCheck {
 		 */
 		private String upOneFolder(String path) {
 			int iter = path.length()-1;
-			while (path.charAt(iter) != '/') {
-				iter--;
+			if (path.indexOf("/") != -1) {
+				while (path.charAt(iter) != '/') {
+					iter--;
+				}
 			}
 			return path.substring(0, iter);
 		}
