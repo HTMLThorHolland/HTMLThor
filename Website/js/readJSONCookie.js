@@ -93,6 +93,9 @@ if ($.cookie("dirPath")) {
 	-- Access error excerpt of first error of first file --
 	jsonObject[0].errors[0].errorExcerpt; -> returns string
 	
+	-- Access error occurrence number,  1-indexed (aka first occurrence will have occ = 1) --
+	jsonObject[0].errors[0].occ; -> returns integer
+	
 	-- Access error count for first file --
 	jsonObject[0].errors.count; -> returns integer
 	

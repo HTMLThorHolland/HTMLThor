@@ -42,6 +42,10 @@ $(document).ready(function() {
 			if ( i === 13 ) {
 				tripData.myFunction();
 			}
+		},
+		onTripEnd : function() {
+			$(".trip-block").remove();
+			$(".trip-overlay").remove();
 		}
 	});
 	
@@ -77,7 +81,7 @@ $(document).ready(function() {
 
 function scrollToTour() {
 	$('html, body').animate({
-        scrollTop: $(".trip-block").offset().top
+        scrollTop: $(".trip-block").offset().top + 300
     }, 1000);
 }
 

@@ -1,4 +1,4 @@
-
+var zipUploaded = false;
 
 function rockAndRoll() {
 
@@ -30,7 +30,8 @@ function rockAndRoll() {
 		//console.log("full directory object children: "+directoryJSON.children);
 		//console.log("full directory object first child type: "+directoryJSON.children[0].type);
 		generateFileStructure(directoryJSON);
-		revealSiteZip();
+		zipUploaded = true;
+		revealSite();
 	}
 	
 	else {
@@ -144,6 +145,9 @@ function revealSite() {
 	$('#breakdownLink').addClass('currentLocation');
 	singlePageView();
 	//console.log("site has been revealed");
+	if(zipUploaded) {
+		$('.extraTwo').fadeIn();
+	}
 }
 
 /* Function to reveal .extraOne and .extraTwo sections of the site */

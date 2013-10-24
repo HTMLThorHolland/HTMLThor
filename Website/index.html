@@ -170,7 +170,7 @@
 					<a id="homeLink" class="currentLocation" href="#">home</a>
 				</li>
 				<li>
-					<a id="uploadLink" class="" href="#">validate</a>
+					<a id="uploadLink" class="" href="#upload">validate</a>
 				</li>
 				<!-- add .extraOne back in breakdownLink -->
 			</ul>
@@ -201,7 +201,7 @@
 		<div class="helpKey">
 		<div id="theHelpKey">
 			<h3>HELP <strong>KEY</strong></h3>
-			<div class="key">
+			<div id="syntaxSide" class="key">
 				<div class="keyTop syntax">
 					<div class="testError"></div>
 					<p>Syntax</p>
@@ -211,7 +211,7 @@
 					<p>Any error as a result of writing code incorrectly is deemed a syntax error. For example forgetting a > or ".</p>
 				</div>
 			</div>
-			<div class="key">
+			<div id="semanticSide" class="key">
 				<div class="keyTop semantic">
 					<div class="testError"></div>
 					<p>Semantic</p>
@@ -221,7 +221,7 @@
 					<p>An error caused by using the tags in the wrong context, or in the wrong way. For example, breaking with &lt;br/&gt; instead of using &lt;li&gt; tags.</p>
 				</div>
 			</div>
-			<div class="key">
+			<div id="warningSide" class="key">
 				<div class="keyTop warning">
 					<div class="testError"></div>
 					<p>Best practice</p>
@@ -231,7 +231,7 @@
 					<p>This error is caused when you do things in a legal but undesirable way. For example, using a table layout instead of sections for your webpage.</p>
 				</div>
 			</div>
-			<div class="key">
+			<div id="deprecatedSide" class="key">
 				<div class="keyTop deprecated">
 					<div class="testError"></div>
 					<p>Deprecated tag</p>
@@ -241,8 +241,8 @@
 					<p>An error caused by using a tag or attribute that was once valid in HTML but no longer is. An example of this is the &lt;dir&gt; tag now replaced with &lt;ul&gt;.</p>
 				</div>
 			</div>
-			<div class="key">
-				<div class="keyTop brokenLink">
+			<div id="brokenSide" class="key">
+				<div class="keyTop broken">
 					<div class="testError"></div>
 					<p>Broken Link</p>
 					<div style="clear: both"></div>
@@ -261,7 +261,9 @@
 					<p>You're a HTML hero, nothing to worry about here!</p>
 				</div>
 			</div>
+			<!--
 			<div class="developers">SECRET DEVELOPER VIEW</div>
+			-->
 			<div class="disclaimer">ABOUT HTML THOR</div>
 			<div class="disclaimerText">
 				<p>HTML THOR was developed by Fatima Arafeh, Simon Hales,</p>
@@ -520,7 +522,7 @@
 					<div id="uploadInputOptions" class="alternativeUploads">
 						<h3>or</h3>
 						<form id="urlInputForm" action="upload.jsp?uploadType=url" method="POST">
-							<label for="input-url">enter a url</label><input type="text" name="input-url" placeholder="example.com" />
+							<label for="input-url">enter a url</label><input id="input-url" type="text" name="input-url" placeholder="example.com" />
 							<button class="alternativeButton" id="urlButton" type="button">validate</button>
 							<div style="clear:both"></div>
 						</form>

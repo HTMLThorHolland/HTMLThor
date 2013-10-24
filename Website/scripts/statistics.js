@@ -13,6 +13,7 @@ var siteTotalSyntax = 0;
 var siteTotalSemantic = 0;
 var siteTotalWarning = 0;
 var siteTotalDeprecated = 0;
+var siteTotalBroken = 0;
 
 /*
  * Function called to generate the statistics. Will in the future iterate through all of 
@@ -55,6 +56,10 @@ function populateStatistics() {
 	}
 	if(overallErrors > 50) {
 		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	
+	}
+	
+	if(siteTotalBroken != 0 && siteTotalDeprecated == 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
+		$('#totalErrors').addClass('deprecated');
 	}
 	
 	if(siteTotalDeprecated != 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
@@ -165,6 +170,7 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 	semanticErrors = 0;
 	warningErrors = 0;
 	deprecatedErrors = 0;
+	brokenErrors = 0;
 	
 	/* Counts the number of errors for each type. */
 	for(var i = 0; i < jsonObject[fileNumber].errors.count; i++) {
@@ -191,6 +197,10 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 				deprecatedErrors ++;
 				siteTotalDeprecated ++;
 			  break;
+			case "broken":
+				brokenErrors ++;
+				siteTotalBroken ++;
+			  break;
 			}
 	}
 	
@@ -206,6 +216,7 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 		semanticPercentage = semanticErrors / totalErrors * 100;
 		warningPercentage = warningErrors / totalErrors * 100;
 		deprecatedPercentage = deprecatedErrors / totalErrors * 100;
+		brokenPercentage = brokenErrors / totalErrors * 100;
 		
 		//console.log("there are: syntax-"+syntaxErrors + " and there are: semantic-"+semanticErrors);
 		
@@ -214,6 +225,7 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 		bars += "<div class='semantic graph' style='width:"+semanticPercentage+"%;' errorNumber='"+semanticErrors+"'></div>";
 		bars += "<div class='warning graph' style='width:"+warningPercentage+"%;' errorNumber='"+warningErrors+"'></div>";
 		bars += "<div class='deprecated graph' style='width:"+deprecatedPercentage+"%;' errorNumber='"+deprecatedErrors+"'></div>";
+		bars += "<div class='broken graph' style='width:"+brokenPercentage+"%;' errorNumber='"+brokenErrors+"'></div>";
 		
 	}
 	bars += "</div>";
@@ -232,11 +244,27 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 function visualHighlight(barId) {
 	errorNumber = barId.attr('errorNumber');
 	errorType = barId.attr('class').split(' ')[0];
-	if(errorNumber == 1){
-		return "<p>There is "+barId.attr('errorNumber')+" "+errorType+" error.</p>";	
+	if(errorType == "warning") {
+		errorType = "best practice";
 	}
-	else {
-		return "<p>There are "+barId.attr('errorNumber')+" "+errorType+" errors.</p>";		
+	if(errorType == "broken" && errorNumber == 1) {
+		errorType = "broken link";	
+	}
+	else if(errorType == "broken") {
+		errorType = "broken links";	
+	}
+	var errorMessage = "";
+	if(errorNumber == 1){
+		errorMessage = "<p>There is "+barId.attr('errorNumber')+" <span class='bold'>"+errorType+"</span> error.</p><div class='errorExplanation'>";	
+		errorMessage += $("#"+errorType+"Side .keyInfo" ).html();	
+		errorMessage += "</div>";	
+		return errorMessage;	
+	}
+	else {		
+		errorMessage = "<p>There are "+barId.attr('errorNumber')+" <span class='bold'>"+errorType+"</span> errors.</p><div class='errorExplanation'>";	
+		errorMessage += $("#"+errorType+"Side .keyInfo" ).html();	
+		errorMessage += "</div>";	
+		return errorMessage;	
 	}
 
 	/* WILL NEED THIS LOOP FOR DYNAMIC
@@ -259,15 +287,14 @@ $(document).delegate('.graph', 'mouseover', function(event) {
 				ready: true
 			},
 			position: {
-				my: 'bottom left',
-				at: 'top left',
+				my: 'top left',
+				at: 'bottom left',
 				target: $(this)
 			},
 			style: { classes: 'barHighlight' },
 			hide: {
-				delay: 0
-				//event: false
-			}, 
+				fixed: true
+			},
 			content: {
 				text: visualHighlight($(this))
 			}

@@ -10,6 +10,7 @@ function setErrors() {
 		semanticErrors = "";
 		warningErrors = "";
 		deprecatedErrors = "";
+		brokenErrors = "";
 		underScoreName = jsonObject[j].filename.replace(/\./g,"_");
 		underScoreName = underScoreName.replace(/\//g,"_");
 		for(var i = 0; i < jsonObject[j].errors.count; i++) {
@@ -19,16 +20,16 @@ function setErrors() {
 			errorDiv = "<div data-fileowner='"+jsonObject[j].filename+"' data-errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
 			errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+actualColumnNumber+":</p>";
 			
-			console.log("Trying to run escapeHTML on "+jsonObject[j].errors[i]+" excerpt of: "+jsonObject[j].errors[i].errorExcerpt+" the error message is "+jsonObject[j].errors[i].message+" and the line number is "+jsonObject[j].errors[i].line);
+			//console.log("Trying to run escapeHTML on "+jsonObject[j].errors[i]+" excerpt of: "+jsonObject[j].errors[i].errorExcerpt+" the error message is "+jsonObject[j].errors[i].message+" and the line number is "+jsonObject[j].errors[i].line);
 			if(!jsonObject[j].errors[i].errorExcerpt) {
 				console.log("THIS IS BAD. THERE IS NO ERROR EXCERPT FOR "+jsonObject[j].errors[i].message+" ON LINE "+jsonObject[j].errors[i].line);
 				jsonObject[j].errors[i].errorExcerpt = "";
 			}
-			console.log("The new error excerpt is "+jsonObject[j].errors[i].errorExcerpt);
+			//console.log("The new error excerpt is "+jsonObject[j].errors[i].errorExcerpt);
 			
 			errorDiv += "<p class='errorDescription'>"+escapeHTML(jsonObject[j].errors[i].message)+"</p>";
 			//var noTabsError = oldSource[j][1][jsonObject[j].errors[i].line - 1].replace(/\t/g, ""); // replace all indentation with ""
-			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
+			errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1].replace(/\t/g, "")+"</pre></div>";
 			switch (errorType)
 				{
 				case "html": // html should not be a case...
@@ -51,6 +52,10 @@ function setErrors() {
 					//console.log(errorType);
 					deprecatedErrors += errorDiv;
 				  break;
+				case "broken":
+					//console.log(errorType);
+					brokenErrors += errorDiv;
+				  break;
 				}
 		}
 		if(jsonObject[j].errors.count == 0) {
@@ -67,6 +72,9 @@ function setErrors() {
 		}
 		if(deprecatedErrors != "") {
 			$('#deprecatedErrorsContainer').addClass(underScoreName).append(deprecatedErrors);		
+		}
+		if(brokenErrors != "") {
+			$('#brokenErrorsContainer').addClass(underScoreName).append(brokenErrors);		
 		}
 	}
 }

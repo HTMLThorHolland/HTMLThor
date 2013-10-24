@@ -36,7 +36,7 @@ function setPageSource(source, filename, fileNumber) {
 		finalSourceSubCode[i] += "\n";
 		////console.log("source is "+finalSourceSubCode[i]);
 	}
-	finalSourceSubCode = generateErrors(finalSourceSubCode, filename, fileNumber);
+	finalSourceSubCode = generateErrors(finalSourceSubCode, filename, fileNumber, oldSourceSubCode);
 	testSource = ["line 1","line 2","line 3"];
 	// remove '.' from filename replace with '_'
 	filename = filename.replace(/\./g,"_");
@@ -103,7 +103,7 @@ function addErrorIcon(filename) {
  * @param	source	An array containing the HTML source code.
  * @return	source	The same HTML source array but with all of the errors inserted.
  */
-function generateErrors(source, filename, fileNumber) {
+function generateErrors(source, filename, fileNumber, oldPassedSource) {
 	//console.log("begin finding errors: " + jsonObject[fileNumber].errors.count);
 	
 	
@@ -121,6 +121,7 @@ function generateErrors(source, filename, fileNumber) {
 		// This array will store the line number and error
 		var errorByLine = new Array();
 		var errorByLineCollection = new Array();
+		jsonObject[fileNumber].errors[i].errorIndex = i;
 		errorByLineCollection.push(jsonObject[fileNumber].errors[i]);
 	
 		var errorTypes = new Array();
@@ -129,13 +130,14 @@ function generateErrors(source, filename, fileNumber) {
 	
 		lineNumber = jsonObject[fileNumber].errors[i].line - 1;
 		var actualLineNumber = jsonObject[fileNumber].errors[i].line;
-		console.log("Trying to run escapeHTML on "+jsonObject[fileNumber].errors[i]+" excerpt of: "+jsonObject[fileNumber].errors[i].errorExcerpt+" the error message is "+jsonObject[fileNumber].errors[i].message+" and the line number is "+jsonObject[fileNumber].errors[i].line);
+		//console.log("Trying to run escapeHTML on "+jsonObject[fileNumber].errors[i]+" excerpt of: "+jsonObject[fileNumber].errors[i].errorExcerpt+" the error message is "+jsonObject[fileNumber].errors[i].message+" and the line number is "+jsonObject[fileNumber].errors[i].line);
 		if(!jsonObject[fileNumber].errors[i].errorExcerpt) {
 			console.log("THIS IS BAD. THERE IS NO ERROR EXCERPT FOR "+jsonObject[fileNumber].errors[i].message+" ON LINE "+jsonObject[fileNumber].errors[i].line);
 			jsonObject[fileNumber].errors[i].errorExcerpt = "";
 		}
-		console.log("The new excerpt is "+jsonObject[fileNumber].errors[i].errorExcerpt);
+		//console.log("The new excerpt is "+jsonObject[fileNumber].errors[i].errorExcerpt);
 		var thisErrorExcerpt = escapeHTML(jsonObject[fileNumber].errors[i].errorExcerpt);
+		var thisErrorOccurrence = jsonObject[fileNumber].errors[i].occ;
 		
 		
 		/*
@@ -145,7 +147,14 @@ function generateErrors(source, filename, fileNumber) {
 		var spanWrap = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>";
 		spanWrap += thisErrorExcerpt;
 		spanWrap += "</span>";
-		//IMPORTANT! UNCOMMENT THIS!!! source[lineNumber] = source[lineNumber].replace(thisErrorExcerpt, spanWrap);
+		
+		// errorsEachLine[j][1][q].col
+		// get the end column number
+		var endColumn = jsonObject[fileNumber].errors[i].col;
+		var beginningColumn = endColumn - thisErrorExcerpt.length;
+		
+		// IMPORTANT FUNCTION set the source with the span wrapped around the error
+		source[lineNumber] = replaceByOccurrence(source[lineNumber], thisErrorExcerpt, spanWrap, thisErrorOccurrence);
 		
 		
 		
@@ -177,7 +186,7 @@ function generateErrors(source, filename, fileNumber) {
 		 *	Similar to the above if statements. This is to store multiple errors per line (rather than just their type).
 		 */
 		if(!containsLine(errorsEachLine, lineNumber)) {
-			
+			console.log("There is no error at this line yet");
 			errorByLine.push(lineNumber);
 			errorByLine.push(errorByLineCollection);
 			errorsEachLine.push(errorByLine);
@@ -196,9 +205,10 @@ function generateErrors(source, filename, fileNumber) {
 		
 	}
 	
-	/* Loop through the errors by line number */
+	/* Loop through the errors by line number
 	for(var j = 0; j < errorsEachLine.length; j++) {
 		// The below line sorts the errors by column number
+		console.log("STARTING MULTIPLE ERROR CHECK");
 		errorsEachLine[j][1].sort(function(a,b) { return a.col - b.col } );
 		var offSetColumn = 0;
 		var lineLocation = errorsEachLine[j][0];
@@ -211,18 +221,73 @@ function generateErrors(source, filename, fileNumber) {
 			// get the end column number
 			var endColumn = errorsEachLine[j][1][q].col + offSetColumn;
 			var beginningColumn = endColumn - thisErrorExcerpt.length;
+			console.log("New! Error index is: "+errorsEachLine[j][1][q].errorIndex);
+			console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
+			console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
+			console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
+			console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
 			
-			//console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
-			//console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
-			//console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
-			//console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
+			// TO DO FIX ERROR INDEX BELOW
+			var beginningSpan = "<span data-errorIndex='"+errorsEachLine[j][1][q].errorIndex+"' data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+lineLocation+"' class='errorContainer "+errorsEachLine[j][1][q].type+" errorHighlight "+errorsEachLine[j][1][q].type+"Error'>";
+					
+			var endSpan = "</span>";
+			
+			var totalSpan = beginningSpan + endSpan;
+			var totalSpanLength = totalSpan.length;
+			
+			// Insert endSpan into source code (first so as not to stuff up the column numbers)
+			//source[lineLocation] = source[lineLocation].substr(0, endColumn) + endSpan + source[lineLocation].substr(endColumn);
+			// inset beginningSpan into source code (by column number)
+			//source[lineLocation] = source[lineLocation].substr(0, beginningColumn) + beginningSpan + source[lineLocation].substr(beginningColumn);
+			
+			// convert back to HTML so the col info corresponds correctly
+			var sourceLine = reconvertHTML(source[lineLocation]);
+			
+			var beginningLine = sourceLine.substr(0, beginningColumn);
+			var lineExcerpt = sourceLine.substr(beginningColumn, endColumn);
+			var endLine = sourceLine.substr(endColumn);
+			
+			// deconvert html
+			
+			beginningLine = escapeHTML(beginningLine);
+			lineExcerpt = escapeHTML(lineExcerpt);
+			endLine = escapeHTML(endLine);
+			console.log("The new line should consist of :"+beginningLine+" : "+beginningSpan);
+			source[lineLocation] = beginningLine + beginningSpan + lineExcerpt + endSpan + endLine;
+			
+			// deconvert html
+			// cut up to begCol
+			// cut out excerpt
+			// cut out after endCol
+			// reconvert html
+			// add beg + span + excerpt + span + end
+			
+			
+			
+			// store this span's beginning starting and ending location and end startin / ending location in an array
+			// at beginning, extract all spans and put in array
+			// append beginning escapedhtml with first span, repeat for all spans
+			// append new span
+			// append excerpt
+			// append close span
+			// append ending
+			
+			
+			
+			console.log ("Old offset is: "+offSetColumn);
+			offSetColumn += totalSpanLength;
+			console.log ("New offset is: "+offSetColumn);
+			
+			
+			
+			// THIS VERSION SHOULD BE ON THE SITE!!!!!
 			
 			// add span
 			// measure length of span
 			// increase offset
 		}
 		
-	}	
+	}	 */
 	
 	//console.log("Begin wrapping errors!");
 	/* Loop through errorLineNumbers and wrap each line
@@ -234,6 +299,91 @@ function generateErrors(source, filename, fileNumber) {
 	//console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
 	return source;
 }
+
+
+function replaceByOccurrence(htmlString, htmlExcerpt, htmlReplace, htmlOccurrence) {
+	console.log("@LOOKING FOR excerpt of "+htmlExcerpt+" and it's the "+htmlOccurrence+" occurrence.");
+	if(htmlOccurrence != -1) {
+		var nth = 0;
+		var regex = new RegExp(htmlExcerpt, "g");
+		htmlString = htmlString.replace(regex, function (match, i, original) {
+			nth++;
+			console.log("match found this is the "+nth+" occurrence.");
+			return (nth === htmlOccurrence) ? htmlReplace : match;
+		});
+		console.log("REPLACED@ on occurrence number "+nth+" and changed to "+htmlString); // "HELMO, WORLD!";
+		return htmlString;
+	}
+	else {
+		return htmlString;
+	}
+
+}
+
+
+
+
+/* Function to work out which index to replace
+	returns number
+ */
+function getIndexByColumn(htmlString, htmlExcerpt, htmlColumn) {
+	indexReplace = 0;
+	/*
+	var index = 0;
+	var count = 0;
+	var occurrenceArray = new Array();
+	while (index != -1) {
+		 if (count == 0) {
+			  index = htmlString.indexOf(htmlExcerpt, index);
+		 } else {
+			  occurrenceArray[count] = index;
+			  index = htmlString.indexOf(htmlExcerpt, index+1);
+		 }
+		 count += 1;
+	}
+	
+	for(var j = 0; j < occurrenceArray.length; j++) {
+		if(occurrenceArray[j] == htmlColumn) {
+			alert("woah the columns match up with the "+j+" element");
+			indexReplace = j;		
+		}
+	}
+	
+	console.log(occurrenceArray);
+	
+	*/
+	
+	/*
+	*/
+	var indices = [];
+	
+	var re = new RegExp(htmlExcerpt,'gi');
+	var regex = re, result, indices = [];
+	while ( (result = regex.exec(htmlString)) ) {
+		indices.push(result.index);
+	}
+	
+	for(var j = 0; j < indices.length; j++) {
+		if(indices[j] == htmlColumn) {
+			alert("woah the columns match up at"+j);
+			indexReplace = j;		
+		}
+	}
+	console.log(indices);
+	
+	
+	
+	// loop through each occurrence of htmlExcerpt in htmlString
+	
+	// if htmlColumn == the found occurrence
+	
+	// set indexReplace to the iteration
+	
+	//return indexReplace;
+}
+
+
+
 
 /*
  *	Convert an array into a single line string with spaces.

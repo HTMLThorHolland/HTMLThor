@@ -732,6 +732,10 @@ p.extraText {
 		border-color: #cb1789;	
 	}
 	
+	.errorKey.broken h5 {
+		border-color: #ff8209;	
+	}
+	
 	.errorKey.valid h5 {
 		border-color: #1BEC77;	
 	}
@@ -1326,6 +1330,17 @@ h3.totalErrorsHeading {
 		margin-bottom: 0;
 	}
 
+	.qtip.barHighlight .errorExplanation {
+		margin-top: 5px;
+		padding-top: 5px;
+		border-top: 1px solid #C1C1C1;
+		font-size: .85em;
+	}
+
+	.qtip.barHighlight span.bold {
+		font-weight: 600;
+	}
+
 .bar {
 	height:30px;
 	width: 66%;
@@ -1363,6 +1378,10 @@ h3.totalErrorsHeading {
 	.graph.deprecated {
 		background-color:#cb1789;	
 	}
+	
+	.graph.broken {
+		background-color:#ff8209;	
+	}
 
 	.graph.statGraph {
 		margin-bottom:20px;
@@ -1399,7 +1418,7 @@ h3.totalErrorsHeading {
 /* FILE STRUCTURE SECTION */
 
 .structureContent {
-	max-height: 522px;
+	/*max-height: 522px;*/
 }
 
 	.structureContent h4 {
@@ -1671,6 +1690,10 @@ span.brokenLinkIcon {
 		color:#cb1789;
 	}
 	
+	.brokenError pre strong {
+		color:#ff8209;
+	}
+	
 .errorCategory {
 	display: none;
 }
@@ -1805,6 +1828,12 @@ pre.sourceCodeContainer {
 			box-shadow: inset 6px 0 #cb1789;
 		}
 	
+		.qtip.qTipHighlight.broken {
+			-moz-box-shadow: inset 6px 0 #ff8209;
+			-webkit-box-shadow: inset 6px 0 #ff8209;
+			box-shadow: inset 6px 0 #ff8209;
+		}
+	
 	.qTipHighlight .qtip-content {
 		padding: 0;
 	}
@@ -1837,6 +1866,10 @@ pre.sourceCodeContainer {
 	
 		.leftMessage.deprecated {
 			border-color: #cb1789;		
+		}
+	
+		.leftMessage.broken {
+			border-color: #ff8209;		
 		}
 	
 	.rightMessage {
@@ -1922,6 +1955,13 @@ pre.sourceCodeContainer {
 		color: #cb1789;
 	}
 	
+	.brokenError , .brokenError span, 
+	.broken span,
+	.qTipHighlight .broken,
+	.sourceCodeContainer ol li .broken span {
+		color: #ff8209;
+	}
+	
 	.errorHighlight {
 		cursor: pointer;
 		/*float: left;*/
@@ -1976,7 +2016,7 @@ pre.sourceCodeContainer {
 			background-position: -75px 0px;
 		}
 	
-		.brokenLink .testError {
+		.broken .testError {
 			background-image: url("../images/warnings.png");
 			background-repeat: no-repeat;
 			background-position: -98px 0px;
@@ -2043,7 +2083,7 @@ pre.sourceCodeContainer {
 	}
 	
 	.pageSource .errorIcon .broken {
-		background-color: black;
+		background-color: #ff8209;
 	}
 
 

@@ -95,15 +95,15 @@ function getFiles(container) {
 		if(container[i].totalErrors != 0) {
 			// call function to generate a broken file in the overall broken files list
 			if(container[i].newLocation != "") {
-				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].newLocation);
+				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath, container[i].newLocation);
 			}
 			else {
-				generateBrokenFile(container[i].name, container[i].totalErrors);
+				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath);
 			}
 			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
 		else if(container[i].newLocation != "") {
-			generateBrokenFile(container[i].name, container[i].totalErrors, container[i].newLocation);
+			generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath, container[i].newLocation);
 		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
@@ -134,18 +134,41 @@ Object.size = function(obj) {
 };
 
 
-function generateBrokenFile(name, total, location) {
-	brokenFile = "<div class='structureBrokenFile'>";
+function generateBrokenFile(name, total, filePath, location) {
+	brokenFile = "<div class='structureBrokenFile' data-fileId='"+filePath+"'>";
 	brokenFile += "<span class='brokenLinkIcon'></span>";
 	brokenFile += "<p class='fileLocation'><span class='fileName'>"+name+"</span></p>";
 	brokenFile += "<p class='brokenLinksNumber'>Broken Links: "+total+"</p>";
 	if(location) {
-		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in the <span class='highlight'>/html folder</span>.</p>"
+		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in <span class='highlight'>"+location+"</span></p>"
 	}
 	brokenFile += "<div style='clear: both'></div>";
 	brokenFile += "</div>";
 	$('.structureBrokenFilesList').append(brokenFile);
 }
+
+
+
+
+$(document).delegate('.structureBrokenFile .fileLocation', 'click', function(event) {
+
+	id = $(this).closest('.structureBrokenFile').attr('data-fileId');
+	openSourceFile(id+"_Pre"); // in the pagesource.js file
+	changeFile(id);
+	removeLocation();
+	$('#sourceLink').addClass('currentLocation');
+	
+});
+
+
+$(document).delegate('.structureBrokenFile .brokenLinksNumber', 'click', function(event) {
+	changeFile($(this).closest('.structureBrokenFile').attr('data-fileId'));
+	removeLocation();
+	$('#errorsLink').addClass('currentLocation');
+	$('html, body').animate({
+		scrollTop: $("#errorsList .errorCategory.broken").offset().top
+	}, 600);
+});
 
 
 /* Function to generate the qtip error message */
