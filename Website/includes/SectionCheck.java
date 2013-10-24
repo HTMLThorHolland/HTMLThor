@@ -704,7 +704,7 @@ public class SectionCheck {
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
-								
+								attrPhase = 1;
 								openAttr = false;
 								attribute = "";
 							}
@@ -725,6 +725,7 @@ public class SectionCheck {
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
+									attrPhase = 1;
 									openAttr = false;
 									attribute = "";
 								}
@@ -780,6 +781,7 @@ public class SectionCheck {
 								}
 							
 								// reset attribute flags
+								attrPhase = 1;
 								openAttr = false;
 								attribute = "";
 							}
@@ -829,6 +831,7 @@ public class SectionCheck {
 								}
 							
 								// reset attribute flags
+								attrPhase = 1;
 								openAttr = false;
 								attribute = "";
 							}
@@ -837,10 +840,11 @@ public class SectionCheck {
 							// looking for end of attribute
 							if (charArray.getChar(j) == ' ' || charArray.getChar(j) == '/' || charArray.getChar(j) == '>') {
 								String attributeVal = charArray.getString(attrValStart, j-1);
-								error = errorConstructor(sql.getErrMsg(38).replaceAll("-att", attribute).replaceAll("-attval", attributeVal), "semantic", i+1, j-1, attributeVal);
+								error = errorConstructor(sql.getErrMsg(38).replaceAll("--attval", attributeVal).replaceAll("--att", attribute), "semantic", i+1, j-1, attributeVal);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								// reached end of attribute value
+								attrPhase = 1;
 								openAttr = false;
 								attribute = "";
 							}
@@ -903,6 +907,11 @@ public class SectionCheck {
 									tag = charArray.getString(tagStart, j-1);
 									tag = tag.replaceAll(" ", "");
 									endTagColumnNo = j-1;
+									
+									
+									attrPhase = 0;
+									openAttr = false;
+									
 									// Initiate required attributes list
 									attributeList = new ArrayList<String>();
 									
@@ -918,7 +927,9 @@ public class SectionCheck {
 									prevTag = tag;
 									
 									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
-										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
+										if (tag.length() > 0) {
+											encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
+										}
 									}
 									
 									if (tag.equalsIgnoreCase("!DOCTYPE")) {
@@ -1005,6 +1016,10 @@ public class SectionCheck {
 								
 							
 								if(charArray.getChar(j)=='>') {
+								
+								attribute = "";
+								openAttr = false;
+								attrPhase = 1;
 								
 								if (!isClosingTag) {
 									List<String> requiredAttributes = new ArrayList<String>();
@@ -1130,6 +1145,8 @@ public class SectionCheck {
 									endTagName = false;
 									tagChecked = false;
 									faultyTag = false;
+									attrPhase = 0;
+									openAttr = false;
 								}	
 							}
 						
@@ -1264,6 +1281,7 @@ public class SectionCheck {
 				line = Integer.parseInt(errorValues[1]);
 				col = Integer.parseInt(errorValues[2]);
 				errorExcerpt = errorValues[4];
+				col = col + errorExcerpt.length() - 1;
 				if(errorExcerpt.charAt(0) == '/') {
 					errorExcerpt = "FIXED";
 					//errorExcerpt = errorValues[4].substring(1);
