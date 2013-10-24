@@ -117,6 +117,64 @@
    		 		/* ================ SINGLE FILE CHECKING END ================
 				** ========================================================== */
    		 		
+   		 		/* ================ MULTI FILE CHECKING START ===============
+				** ========================================================== */
+            	
+            	if (uploadType.equals("multi")) {
+   					
+   					String fileparam = request.getParameter("path");
+   					String[] filenames = fileparam.split(",");
+                	JSONObject json = new JSONObject();
+   					for (int j = 0; j < filenames.length; j++) {
+            			String[] filestring = filenames[j].split("/");
+            			String filename = filestring[filestring.length-1];
+            		
+            			List<String> fileContents = readUploadedFile(filenames[j]);
+            		
+   		 				SectionCheck sc = new SectionCheck();
+                		JSONObject jsonFile = new JSONObject();
+               			JSONObject jsonErrors = sc.findErrors(fileContents);
+               			JSONObject jsonSource = new JSONObject();
+               			for (int i = 0; i < fileContents.size(); i++) {
+               				jsonSource.put(i, fileContents.get(i));
+               			}
+               			jsonSource.put("length", fileContents.size());
+                		jsonFile.put("filename", filename);
+                		jsonFile.put("source", jsonSource);
+                		jsonFile.put("errors", jsonErrors);
+                		json.put(Integer.toString(j), jsonFile);
+                	}
+                
+            		json.put("filecount", filenames.length);
+ 					String directoryPath = getServletContext().getRealPath("/").concat("temp/")
+						.concat(directoryID).concat("/");
+ 					String outFilePath = directoryPath.concat("errors.json");
+                
+                	try {
+ 					
+						FileWriter file = new FileWriter(outFilePath);
+						file.write(json.toJSONString());
+						file.flush();
+						file.close();
+ 
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+                	
+                	request.getSession(true);
+                	Cookie cookie = new Cookie("dirPath", directoryPath);
+                	response.addCookie(cookie);
+                
+                	String redirectURL = "http://htmlthor.com";
+                	response.sendRedirect(response.encodeRedirectURL(redirectURL));
+   		 		}
+   		 		
+   		 		
+   		 		/* ================ MULTI FILE CHECKING END =================
+				** ========================================================== */
+   		 		
+   		 		
    		 		
    		 		/* ================ ZIP FILE CHECKING START =================
 				** ========================================================== */
