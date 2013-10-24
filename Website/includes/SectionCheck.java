@@ -891,16 +891,17 @@ public class SectionCheck {
 					// whitespace has not been reached to signal the end of the tag name:
 					if ((startComment==false) && (openTag==true) && (startPhp==false)) {
 						if(whiteSpaceFlag==false) {
-							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>')) {
-								if(charArray.getChar(j)==' ') {
+							if((charArray.getChar(j)==' ')||(charArray.getChar(j)=='>'|| charArray.getChar(j)=='\t')) {
+								if((charArray.getChar(j)==' ' || charArray.getChar(j)=='\t') && endTagName) {
 									whiteSpaceFlag = true;
 								}
 								if (openAttr == true) {
 									openAttr = false;
 									// check attribute stuff here
 								}
-								if (!endTagName) {
+								if (!endTagName && !charArray.getString(tagStart, j-1).trim().equals("/")) {
 									tag = charArray.getString(tagStart, j-1);
+									tag = tag.replaceAll(" ", "");
 									endTagColumnNo = j-1;
 									// Initiate required attributes list
 									attributeList = new ArrayList<String>();
@@ -962,7 +963,7 @@ public class SectionCheck {
 								
 								
 								
-								if (!tagChecked) {
+								if (!tagChecked && endTagName) {
 								
 								
 								

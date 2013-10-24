@@ -40,7 +40,7 @@
 		
 		try {
 			while ((tempLine = br.readLine()) != null) {
-				lines.add(tempLine);
+				lines.add(tempLine.concat(" "));
 			}
 		} catch (Exception e) {
 			lines.add(e.getMessage());
