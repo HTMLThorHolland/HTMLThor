@@ -234,6 +234,8 @@
             				
             				debugString = debugString + " --- " + structFilePath;
             				
+            				int brokenLinks = 0;
+            				
             				if (fileContents != null) {
             					JSONObject jsonTemp = new JSONObject();
       						
@@ -251,9 +253,12 @@
       							
                 				json.put(Integer.toString(fileCount), jsonTemp);
                 				fileCount++;
+                				
+                				
+            					brokenLinks = sc.getBrokenLinks();
             				}
             				
-            				//TODO GET ANY BROKEN LINKS AND ADD TO STRUCTUREBREAKDOWN
+            				thisStruct.setBrokenLinks(brokenLinks);
             				
                 			StructureBreakdown prevStruct = root;
                 			StructureBreakdown parentStruct = root;

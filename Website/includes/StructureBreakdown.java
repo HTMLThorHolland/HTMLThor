@@ -112,6 +112,14 @@ public class StructureBreakdown {
 	}
 	
 	/**
+	 * Sets the number of broken links in the file.
+	 * @param b The number of broken links found
+	 */
+	 public void setBrokenLinks(int b) {
+	 	errorCount = b;
+	 }
+	
+	/**
 	 * Sets the name of the StructureBreakdown. Should be the full file name including extension,
 	 * but excluding any parent folders.
      * @param n The name to set as.
