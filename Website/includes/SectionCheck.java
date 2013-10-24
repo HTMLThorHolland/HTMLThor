@@ -1063,13 +1063,25 @@ public class SectionCheck {
 								for(int z = 0; z < requiredAttributes.size(); z++) {
 									if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
 										error = new JSONObject();
-										error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
-										error.put("type", "syntax");
-										error.put("line", i+1);
-										error.put("col", endTagColumnNo);
-										error.put("errorExcerpt", tag);
-										errors.put(errorCount, error);
-										errorCount += 1;
+										if(requiredAttributes.get(z)=="alt") {
+											error.put("message", "For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.");
+											error.put("type", "warning");
+											error.put("line", i+1);
+											error.put("col", endTagColumnNo);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										
+										}
+										else {
+											error.put("message", "required attribute " + requiredAttributes.get(z) + " is not present");
+											error.put("type", "syntax");
+											error.put("line", i+1);
+											error.put("col", endTagColumnNo);
+											error.put("errorExcerpt", tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
 									}
 								}
 								
