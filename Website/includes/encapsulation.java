@@ -7,14 +7,11 @@ import java.util.Iterator;
 /**
  * Encapsulation class for checking encapsulation errors in HTML code.
  * 
- * Incomplete; do not integrate into error checking code yet.
- * 
- * WORK IN PROGRESS
- * 
  * @author Ameer Sabri
  */
 public class Encapsulation {
 	/* Declarations for error codes. Added to the database. */
+	public static final int ENCAPSULATION_ERROR = 100;
 	public static final int ELEMENT_INSIDE_ITSELF = 101;
 	public static final int TABLE_ELEMENT_OUT_OF_TABLE = 102;
 	public static final int FORM_ELEMENT_OUT_OF_FORM = 103;
@@ -89,6 +86,18 @@ public class Encapsulation {
 			return position;
 		}
 		
+		public int getLine() {
+			return line;
+		}
+		
+		public int getColStart() {
+			return colStart;
+		}
+		
+		public int getColEnd() {
+			return colEnd;
+		}
+		
 		/**
 		 * Setter for the error code for the Element.
 		 * 
@@ -104,7 +113,7 @@ public class Encapsulation {
 		 * @return the error code
 		 */
 		public int getError() {
-			return error;
+			return this.error;
 		}
 		
 		/**
@@ -121,7 +130,8 @@ public class Encapsulation {
 			sb.append(name).append(" ").append(line).append(" ");
 			sb.append(colStart).append(" ").append(colEnd).append(" ");
 			if(error != 0) {
-				sb.append(sql.getErrMsg(error));
+				//sb.append(sql.getErrMsg(error));
+				sb.append(error);
 			} else {
 				sb.append("none");
 			}
@@ -161,25 +171,24 @@ public class Encapsulation {
 	 * @return an ArrayList of the errors
 	 */
 	public ArrayList<String> getErrorList() {
-	/*
-		for(int n = errorList.size()-1; n > 0; n--) {
-			if(errorList.get(n).getError() == 0) {
-				errorList.remove(n);
-			}
-		}
-		
+		//System.out.println(encapErrorList.toString());
+		System.out.println(errorList.toString());
+
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */
 		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size() + encapErrorList.size());
+		System.out.println(errorList.toString());
 		addUnclosedElements();
+		System.out.println(errorList.toString());
 		addEncapErrorsToList();
+		System.out.println(errorList.toString());
 		
 		/* Iterates over the error list and adds them to errors. */
 		for(int i = 0; i < errorList.size(); i++) {
 			errors.add(errorList.get(i).toString());
 		}
 		
-		//sort the errors before returning them?
+		System.out.println("Opened tags: " + openedElements.toString());
 		
 		return errors;
 	}
@@ -205,7 +214,49 @@ public class Encapsulation {
 	 * @see getErrorList
 	 */
 	private void addEncapErrorsToList() {
-		errorList.addAll(encapErrorList);
+		boolean equality = false;
+		for(int i = 0; i < encapErrorList.size(); i++) {
+			if(encapErrorList.get(i).getError() == 0) {
+				encapErrorList.get(i).setError(ENCAPSULATION_ERROR);
+			}
+			for(int j = 0; j < errorList.size(); j++) {
+				if(checkSameElement(encapErrorList.get(i), errorList.get(j))) {
+					equality = true;
+					break;
+				}
+			}
+			
+			if(!equality) {
+				errorList.add(encapErrorList.get(i));
+			}
+		}
+		
+		
+	}
+	
+	/**
+	 * Checks if two elements are the same by comparing all the relevant fields.
+	 * Will fill in Javadoc when I can be stuffed.
+	 * 
+	 * @param e1
+	 * @param e2
+	 * @return
+	 */
+	private boolean checkSameElement(Element e1, Element e2) {
+		boolean check = false;
+		if(e1.getName().equals(e2.getName())) {
+			if(e1.getLine() == e2.getLine()) {
+				if(e1.getColStart() == e2.getColStart()) {
+					if(e1.getColEnd() == e2.getColEnd()) {
+						if(e1.getError() == e2.getError()) {
+							check = true;
+						}
+					}
+				}
+			}
+		}
+		
+		return check;
 	}
 	
 	/**
@@ -229,10 +280,23 @@ public class Encapsulation {
 	 * @param errorCode the error code of the error
 	 */
 	private void addEncapError(Element e, int errorCode) {
+		System.out.println("The encap errors are " + encapErrorList.toString());
+		boolean alreadyExists = false;
 		e.setError(errorCode);
-		if(!encapErrorList.contains(e)) {
+		System.out.println("middle of encap error loop for " + e.toString());
+		for(int i = 0; i < encapErrorList.size(); i++) {
+			System.out.println(encapErrorList.get(i));
+			if(checkSameElement(e, encapErrorList.get(i))) {
+				alreadyExists = true;
+				break;
+			}
+		}
+		
+		if(!alreadyExists) {
 			encapErrorList.add(e);
 		}
+		
+		System.out.println("The encap errors now are " + encapErrorList.toString());
 	}
 	
 	/**
@@ -246,6 +310,10 @@ public class Encapsulation {
 	 */
 	public void encapsulation(String element, int line, int colStart, int colEnd) {
 		Element e = new Element(element, line, colStart, colEnd);
+		String cleanName = e.getName();
+		if(e.getName().charAt(0) == '/') {
+			cleanName = e.getName().substring(1);
+		}
 		
 		if(!htmlElementOpen) {
 			if(!e.getName().equals("html")) {
@@ -254,20 +322,20 @@ public class Encapsulation {
 		}
 		
 		if(headElementOpen) {
-			if(!sql.isMeta(e.getName())) {
+			if(!(sql.isMeta(cleanName) || cleanName.equals("title") || e.getName().equals("/head"))) {
 				addError(e, INVALID_HEAD_ELEMENT);
 			}
 		}
 		
 		if(bodyElementOpen) {
-			if(sql.isTableElement(e.getName()) && !tableElementOpen) {
+			if(sql.isTableElement(cleanName) && !tableElementOpen) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(sql.isFormElement(e.getName()) && !formElementOpen) {
+			} else if(sql.isFormElement(cleanName) && !formElementOpen) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
 		
-		if(!sql.isSelfClosing(e.getName())) {
+		if(!sql.isSelfClosing(cleanName)) {
 			tagEncapsulation(e);
 		}
 	}
@@ -280,15 +348,14 @@ public class Encapsulation {
 	 * @see encapsulation
 	 */
 	private void tagEncapsulation(Element e) {
-
 		Iterator<Element> itr;
 		ArrayDeque<Element> deque = new ArrayDeque<Element>();
 		
 		if(e.getName().charAt(0) != '/') {
-			itr = openedElements.iterator();
 			
+			itr = openedElements.iterator();
 			while(itr.hasNext()) {
-				if (e.getName() == itr.next().getName()) {
+				if (e.getName().equals(itr.next().getName())) {
 					addError(e, ELEMENT_INSIDE_ITSELF);
 				}
 			}
@@ -333,7 +400,7 @@ public class Encapsulation {
 						tableElementOpen = false;
 						itr = openedElements.iterator();
 						while(itr.hasNext()) {
-							if (itr.next().getName() == "table") {
+							if (itr.next().getName().equals("table")) {
 								tableElementOpen = true;
 							}
 						}
@@ -343,7 +410,7 @@ public class Encapsulation {
 						formElementOpen = false;
 						itr = openedElements.iterator();
 						while(itr.hasNext()) {
-							if (itr.next().getName() == "table") {
+							if(itr.next().getName().equals("form")) {
 								formElementOpen = true;
 							}
 						}
@@ -356,12 +423,15 @@ public class Encapsulation {
 					openedElements.pop();
 				}
 			}
-			
+
 			if(openedElements.isEmpty() && !deque.isEmpty()) {
+				System.out.println("The deque is " + deque.toString());
 				int size = deque.size();
 				reAddOpenedElements(deque);
+				System.out.println("The size is " + size);
+				System.out.println("The encap errors list is " + encapErrorList.toString());
 				removeEncapErrors(size);
-				addEncapError(openedElements.peek(), UNCLOSED_ELEMENT);
+				addEncapError(e, STRAY_CLOSE_TAG);
 			}
 		}
 	}
@@ -374,9 +444,15 @@ public class Encapsulation {
 	 * @see tagEncapsulation
 	 */
 	private void reAddOpenedElements(ArrayDeque<Element> deque) {
+		System.out.println(openedElements.toString());
+		Element e = new Element();
 		while(!deque.isEmpty()) {
-			openedElements.push(deque.pop());
+			e = deque.peek();
+			e.setError(0);
+			openedElements.push(e);
+			deque.pop();
 		}
+		System.out.println(openedElements.toString());
 	}
 	
 	/**
@@ -386,10 +462,8 @@ public class Encapsulation {
 	 * @param size the number of errors to be removed
 	 */
 	private void removeEncapErrors(int size) {
-		if (encapErrorList.size() != 0) {
-			for(int i = 0; i < size; i++) {
-				encapErrorList.remove(encapErrorList.size() - 1);
-			}
+		for(int i = 0; i < size; i++) {
+			encapErrorList.remove(encapErrorList.size() - 1);
 		}
 	}
 }
