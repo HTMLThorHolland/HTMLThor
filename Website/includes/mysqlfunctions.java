@@ -1,4 +1,4 @@
-package com.htmlthor;
+ package com.htmlthor;
 
 import java.io.*;
 import java.util.*;
@@ -86,8 +86,8 @@ public class Mysqlfunctions {
 		}
 		
 	   con.close();
-	   long endTime = System.nanoTime();
-	   long runTime = startTime - endTime;
+	   
+	   return msg;
 	}
 
 
@@ -337,9 +337,6 @@ public class Mysqlfunctions {
 			}
 		}
 		
-		long endTime = System.nanoTime();
-		long runTime = startTime - endTime;
-		System.out.println("checkValidTag runtime: " + Long.toString(runTime));
 		return false;
 	}
 

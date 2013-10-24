@@ -84,7 +84,7 @@ public class SectionCheck {
 			List<String> requiredTags = new ArrayList<String>();
 			
 			long timeoutStart = System.currentTimeMillis();
-			long timeoutEnd = t+30000;
+			long timeoutEnd = timeoutStart+30000;
 			
 			
 			/* Iterates over the lines of the given file. */
@@ -101,7 +101,7 @@ public class SectionCheck {
 				
 					if (System.currentTimeMillis() > timeoutEnd) {
 						error = new JSONObject();
-						error.put("message",  "Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer+toString(j));
+						error.put("message",  "Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer.toString(j));
 						error.put("type", "syntax");
 						error.put("line", i+1);
 						error.put("col", j);
@@ -749,7 +749,7 @@ public class SectionCheck {
 								attrPhase = 5;
 								attrValStart = j;
 							} else if (charArray.getChar(j) == '#' && attribute.equalsIgnoreCase("href")) {
-								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>') {
+								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>' || charArray.getChar(j+1) == '/') {
 									// unquoted # for href
 									error = new JSONObject();
 									error.put("message", "Even though # is not required to be quoted, it is considered best practice for consistency.");
@@ -864,8 +864,8 @@ public class SectionCheck {
 							}
 							continue;
 						} else if (attrPhase == 6) {
-							// looking for end of double quotes
-							if (charArray.getChar(j) == ' ') {
+							// looking for end of attribute
+							if (charArray.getChar(j) == ' ' || charArray.getChar(j) == '/' || charArray.getChar(j) == '>') {
 								String attributeVal = charArray.getString(attrValStart, j-1);
 								error = new JSONObject();
 								error.put("message", attributeVal + " is the value of an attribute and should be inside quotes.");
