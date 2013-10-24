@@ -254,7 +254,9 @@
 		}
 	
 		URL url = new URL(inputURL);
+		try {
 		InputStream is = url.openStream();
+		
 		int ptr = 0;
 		StringBuffer buffer = new StringBuffer();
 		while ((ptr = is.read()) != -1) {
@@ -269,6 +271,11 @@
 		
 		String redirectURL = "check.jsp?type=single&dirid=".concat(directoryID).concat("&path=").concat(fileName);
    		response.sendRedirect(redirectURL);
+   		} catch (Exception ex) {
+   			out.println("<img src='images/dark_logo.png' alt='logo' />");
+   			out.println("<h1 style='font-family: \"Source Sans Pro\",Arial,sans-serif;'>Unfortunately we were unable to open your site ".concat(inputURL).concat("</h1>"));
+   			out.println("<h1 style='font-family: \"Source Sans Pro\",Arial,sans-serif;'>Please return to <a href='http://htmlthor.com' style='color: #7192DA;'>htmlthor.com</a> to try again</h1>");
+   		}
 	
 	}
 	
