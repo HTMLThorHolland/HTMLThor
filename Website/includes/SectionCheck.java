@@ -80,8 +80,9 @@ public class SectionCheck {
 			
 			
 			JSONObject error;
-			List<String> attributeList = new ArrayList<String>();;
+			List<String> attributeList = new ArrayList<String>();
 			List<String> requiredTags = new ArrayList<String>();
+			String prevTag;
 			
 			long timeoutStart = System.currentTimeMillis();
 			long timeoutEnd = timeoutStart+30000;
@@ -952,6 +953,22 @@ public class SectionCheck {
 									endTagColumnNo = j-1;
 									// Initiate required attributes list
 									attributeList = new ArrayList<String>();
+									
+									// Check if tag and tag before tag are br tag
+									if(prevTag.equalsIgnoreCase("br") && tag.equalsIgnoreCase("br")) {
+										error = new JSONObject();
+										error.put("message", "You have used at two <br /> tags in a row. If you are using br tags to create a list, use <li> tags instead.");
+										error.put("type", "semantic");
+										error.put("line", i+1);
+										error.put("col", endTagColumnNo);
+										error.put("errorExcerpt", tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+									
+									
+									// Assign tag to prevTag
+									prevTag = tag;
 									
 									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
 										encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
