@@ -612,7 +612,7 @@ public class SectionCheck {
 								endAttrColumnNo = j-1;
 								if(attributeList.contains(attribute.toLowerCase())) {
 									// Duplicate attribute use for this tag
-									error = errorConstructor(attribute + " has already been assigned once for this tag", "syntax", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(attribute + sql.getErrMsg(44), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -641,7 +641,7 @@ public class SectionCheck {
 										errorCount += 1;
 									}
 								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
-									error = errorConstructor(attribute + " is a deprecated attribute for " + tag, "deprecated", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(sql.getErrMsg(30).replaceAll("--attr", attribute).replaceAll("--tag", tag), "deprecated", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -653,7 +653,7 @@ public class SectionCheck {
 								endAttrColumnNo = j-1;
 								if(attributeList.contains(attribute.toLowerCase())) {
 									// Duplicate attribute use for this tag
-									error = errorConstructor(attribute + " has already been assigned once for this tag", "syntax", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(attribute + sql.getErrMsg(44), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -681,7 +681,7 @@ public class SectionCheck {
 										errorCount += 1;
 									}
 								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
-									error = errorConstructor(attribute + " is a deprecated attribute for " + tag, "deprecated", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(sql.getErrMsg(30).replaceAll("--attr", attribute).replaceAll("--tag", tag), "deprecated", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -700,7 +700,7 @@ public class SectionCheck {
 								
 								if(!sql.isAttrBool(attribute)) {
 									// did not find a value for the key
-									error = errorConstructor(attribute + " must have an associated value. Use = 'value' to set a value to this attribute.", "syntax", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(sql.getErrMsg(43).replaceAll("-attr", attribute), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -721,7 +721,7 @@ public class SectionCheck {
 							} else if (charArray.getChar(j) == '#' && attribute.equalsIgnoreCase("href")) {
 								if (charArray.getChar(j+1) == ' ' || charArray.getChar(j+1) == '>' || charArray.getChar(j+1) == '/') {
 									// unquoted # for href
-									error = errorConstructor("Even though # is not required to be quoted, it is considered best practice for consistency.", "warning", i+1, j, "#");
+									error = errorConstructor(sql.getErrMsg(42), "warning", i+1, j, "#");
 									errors.put(errorCount, error);
 									errorCount += 1;
 									
@@ -741,7 +741,7 @@ public class SectionCheck {
 							
 								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
-									error = errorConstructor(attribute + " should not have a value associated with it", "syntax", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(sql.getErrMsg(40).replaceAll("--attr",attribute), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -752,7 +752,7 @@ public class SectionCheck {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
-										error = errorConstructor(wrongLoc + " could not be found.", "broken", i+1, j-1, attributeVal);
+										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1; 
 										brokenLinks += 1;
@@ -771,7 +771,7 @@ public class SectionCheck {
 									}
 									if (matchedID) {
 										// error for duplicate id
-										error = errorConstructor(attributeVal + " is already used as an ID value earlier in the file.", "semantic", i+1, j-1, attributeVal);
+										error = errorConstructor(attributeVal + sql.getErrMsg(39), "semantic", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									} else {
@@ -790,7 +790,7 @@ public class SectionCheck {
 								
 								if(sql.isAttrBool(attribute)) {
 									// this type of attribute cannot have a value
-									error = errorConstructor(attribute + " should not have a value associated with it", "syntax", i+1, endAttrColumnNo, attribute);
+									error = errorConstructor(sql.getErrMsg(40).replaceAll("--attr",attribute), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
 								}
@@ -800,7 +800,7 @@ public class SectionCheck {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
-										error = errorConstructor(wrongLoc + " could not be found.", "broken", i+1, j-1, attributeVal);
+										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										brokenLinks += 1;
@@ -819,7 +819,7 @@ public class SectionCheck {
 									}
 									if (matchedID) {
 										// error for duplicate id
-										error = errorConstructor(attributeVal + " is already used as an ID value earlier in the file.", "semantic", i+1, j-1, attributeVal);
+										error = errorConstructor(attributeVal + sql.getErrMsg(39), "semantic", i+1, j-1, attributeVal);
 										error = new JSONObject();
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -837,7 +837,7 @@ public class SectionCheck {
 							// looking for end of attribute
 							if (charArray.getChar(j) == ' ' || charArray.getChar(j) == '/' || charArray.getChar(j) == '>') {
 								String attributeVal = charArray.getString(attrValStart, j-1);
-								error = errorConstructor(attributeVal + " is the value of an attribute and should be inside quotes.", "semantic", i+1, j-1, attributeVal);
+								error = errorConstructor(sql.getErrMsg(38).replaceAll("-att", attribute).replaceAll("-attval", attributeVal), "semantic", i+1, j-1, attributeVal);
 								errors.put(errorCount, error);
 								errorCount += 1;
 								// reached end of attribute value
@@ -908,7 +908,7 @@ public class SectionCheck {
 									
 									// Check if tag and tag before tag are br tag
 									if(prevTag.equalsIgnoreCase("br") && tag.equalsIgnoreCase("br")) {
-										error = errorConstructor("You have used at two <br /> tags in a row. If you are using br tags to create a list, use <li> tags instead.", "semantic", i+1, endTagColumnNo, tag);
+										error = errorConstructor(sql.getErrMsg(37), "semantic", i+1, endTagColumnNo, tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 									}
@@ -933,7 +933,18 @@ public class SectionCheck {
 										
 										if(!tag.equalsIgnoreCase("meta")) {
 											if(singularTags.contains(tag.toLowerCase())) {
-												error = errorConstructor(tag + " is a singular tag but is used more than once!", "syntax", i+1, endTagColumnNo, tag);
+												error = new JSONObject();
+												if (tag.equalsIgnoreCase("html")) {
+													error = errorConstructor(sql.getErrMsg(8), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("head")) {
+													error = errorConstructor(sql.getErrMsg(9), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("title")) {
+													error = errorConstructor(sql.getErrMsg(10), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("!doctype")) {
+													error = errorConstructor(sql.getErrMsg(7), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("body")) {
+													error = errorConstructor(sql.getErrMsg(16), "semantic", i+1, endTagColumnNo, tag);
+												}
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -975,7 +986,7 @@ public class SectionCheck {
 										if (tag.equalsIgnoreCase("doctype")) {
 											error = errorConstructor(sql.getErrMsg(1), "syntax", i+1, endTagColumnNo, tag);
 										} else {
-											error = errorConstructor(tag + " is not a valid tag", "syntax", i+1, endTagColumnNo, tag);
+											error = errorConstructor(sql.getErrMsg(18).replaceAll("--tag", tag), "syntax", i+1, endTagColumnNo, tag);
 										}
 										errors.put(errorCount, error);
 										errorCount += 1;
@@ -984,7 +995,7 @@ public class SectionCheck {
 									}	
 									// If it a deprecated tag
 									else if(!sql.isDeprecated(tag)) {
-										error = errorConstructor(tag + " tag is a deprecated tag", "deprecated", i+1, endTagColumnNo, tag);
+										error = errorConstructor(sql.getErrMsg(29).replaceAll("--element", tag), "deprecated", i+1, endTagColumnNo, tag);
 										errors.put(errorCount, error);
 										errorCount += 1;
 										faultyTag = true;
@@ -1002,25 +1013,25 @@ public class SectionCheck {
 									for(int z = 0; z < requiredAttributes.size(); z++) {
 										if(!attributeList.contains(requiredAttributes.get(z).toLowerCase())) {
 											if(requiredAttributes.get(z).equalsIgnoreCase("alt")) {
-												error = errorConstructor("For best practices, use the alt attribute for every <img> tag to supply an alternative text description of the image.", "warning", i+1, endTagColumnNo, tag);
+												error = errorConstructor(sql.getErrMsg(37), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
 											}
 											if(requiredAttributes.get(z).equalsIgnoreCase("name")&&(tag.equalsIgnoreCase("input"))) {
-												error = errorConstructor("For best practices, use the name attribute for every <input> tag.", "warning", i+1, endTagColumnNo, tag);
+												error = errorConstructor(sql.getErrMsg(36), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
 											}
 											if(requiredAttributes.get(z).equalsIgnoreCase("value")&&(tag.equalsIgnoreCase("input"))) {
-												error = errorConstructor("For best practices, use the value attribute for every <input> tag.", "warning", i+1, endTagColumnNo, tag);
+												error = errorConstructor(sql.getErrMsg(35), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 												erroredAttrAlready = true;
  											}
 											if(!erroredAttrAlready) {
-												error = errorConstructor("required attribute " + requiredAttributes.get(z) + " is not present", "syntax", i+1, endTagColumnNo, tag);
+												error = errorConstructor(sql.getErrMsg(21).replaceAll("--tag",tag).replaceAll("--attr", requiredAttributes.get(z)), "syntax", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1050,7 +1061,7 @@ public class SectionCheck {
 											selfClosingError = true;
 											
 											if (selfClosingError) {
-												error = errorConstructor(tag + " is self-closing but is not self closed.", "warning", i+1, endTagColumnNo, tag);
+												error = errorConstructor(sql.getErrMsg(19).replaceAll("--element_uc", tag), "warning", i+1, endTagColumnNo, tag);
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1064,7 +1075,7 @@ public class SectionCheck {
 											}
 											
 											if (selfClosingError) {
-												error = errorConstructor("We suggest including a space before the closing '/'.", "warning", i+1, closingChecker, "/");
+												error = errorConstructor(sql.getErrMsg(33), "warning", i+1, closingChecker, "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1084,7 +1095,7 @@ public class SectionCheck {
 											
 											if (selfClosingError) {									
 										
-												error = errorConstructor(tag + " is self-closed but is not allowed to be.", "semantic", i+1, closingChecker, "/");
+												error = errorConstructor(sql.getErrMsg(31).replaceAll("--element_uc", tag), "semantic", i+1, closingChecker, "/");
 												errors.put(errorCount, error);
 												errorCount += 1;
 											}
@@ -1189,32 +1200,32 @@ public class SectionCheck {
 			/* END OF AMEER'S CODE */
 			
 			if(!requiredTags.contains("html")) {
-				error = errorConstructor("Required tag <html> not present", "syntax", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(3), "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("head")) {
-				error = errorConstructor("Required tag <head> not present", "syntax", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(4), "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("body")) {
-				error = errorConstructor("Required tag <body> not present", "syntax", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(6), "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("title")) {
-				error = errorConstructor("Required tag <title> not present", "semantic", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(5), "semantic", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("meta")) {
-				error = errorConstructor("Required tag <meta> not present", "semantic", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(32), "semantic", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
 			if(!requiredTags.contains("!doctype")) {
-				error = errorConstructor("Required tag <!DOCTYPE> not present", "syntax", 1, 0, "");
+				error = errorConstructor(sql.getErrMsg(2), "syntax", 1, 0, "");
 				errors.put(errorCount, error);
 				errorCount += 1;
 			}
