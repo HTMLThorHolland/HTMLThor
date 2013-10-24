@@ -166,7 +166,7 @@ public class Encapsulation {
 			if(errorList.get(n).getError() == 0) {
 				errorList.remove(n);
 			}
-		}*/
+		}
 		
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */
@@ -230,7 +230,7 @@ public class Encapsulation {
 	 */
 	private void addEncapError(Element e, int errorCode) {
 		e.setError(errorCode);
-		if(encapErrorList.contains(e)) {
+		if(!encapErrorList.contains(e)) {
 			encapErrorList.add(e);
 		}
 	}
