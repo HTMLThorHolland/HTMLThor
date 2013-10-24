@@ -673,9 +673,22 @@ public class SectionCheck {
 							} else if (charArray.getChar(j) == '=') {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
-								// =====================================
-								// CHECK ATTRIBUTE STUFF LIKE VALID ATTRIBUTE/REQUIRED ATTRIBUTE HERE		
-								// =====================================
+								endAttrColumnNo = j-1;
+								if(attributeList.contains(attribute.toLowerCase())) {
+									// Duplicate attribute use for this tag
+									error = new JSONObject();
+									error.put("message", attribute + " has already been assigned once for this tag");
+									error.put("type", "syntax");
+									error.put("line", i+1);
+									error.put("col", endAttrColumnNo);
+									error.put("errorExcerpt", attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								else {
+									attributeList.add(attribute.toLowerCase());
+								}
+								
 								List<String> attrList = new ArrayList<String>();
 								attrList = sql.getAttr(tag);
 								boolean validAttr = false;
