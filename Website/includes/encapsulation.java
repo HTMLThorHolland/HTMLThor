@@ -336,12 +336,27 @@ public class Encapsulation {
 		ArrayDeque<Element> deque = new ArrayDeque<Element>();
 		
 		if(e.getName().charAt(0) != '/') {
-			
 			itr = openedElements.iterator();
+			boolean noAdd = false;
 			while(itr.hasNext()) {
-				if (e.getName().equals(itr.next().getName())) {
-					if(!((e.getName().equals("div")) || (e.getName().equals("span")))) {
-						addError(e, ELEMENT_INSIDE_ITSELF);
+				Element itrElem = itr.next();
+				String validNest = "";
+				
+				if(e.getName().equals("li")) {
+					validNest = "ul";
+				}
+				if(e.getName().equals("ul")) {
+					validNest = "li";
+				}
+				
+				if(itrElem.getName().equals(validNest)) {
+					noAdd = true;
+				}
+				if(e.getName().equals(itrElem.getName())) {
+					if(!((e.getName().equals("div")) || (e.getName().equals("span")) || (e.getName().equals("fieldset")))) {
+						if(!noAdd) {
+							addError(e, ELEMENT_INSIDE_ITSELF);
+						}
 					}
 				}
 			}
