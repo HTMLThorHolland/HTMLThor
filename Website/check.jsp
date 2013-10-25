@@ -74,6 +74,9 @@
             		String filename = filestring[filestring.length-1];
             		
    		 			SectionCheck sc = new SectionCheck();
+   		 			
+   		 			sc.addFilePath(filename);
+   		 			
                 	JSONObject jsonFile = new JSONObject();
                		JSONObject jsonErrors = sc.findErrors(fileContents);
                		JSONObject jsonSource = new JSONObject();
@@ -132,6 +135,9 @@
             			List<String> fileContents = readUploadedFile(filenames[j]);
             		
    		 				SectionCheck sc = new SectionCheck();
+   		 				
+   		 				sc.addFilePath(filename);
+   		 				
                 		JSONObject jsonFile = new JSONObject();
                			JSONObject jsonErrors = sc.findErrors(fileContents);
                			JSONObject jsonSource = new JSONObject();
