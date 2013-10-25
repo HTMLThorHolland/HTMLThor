@@ -620,6 +620,9 @@ public class SectionCheck {
 									attributeList.add(attribute.toLowerCase());
 								}
 								
+								if (tag.equalsIgnoreCase("meta") && attribute.equalsIgnoreCase("charset")) {
+									requiredTags.add(tag.toLowerCase());
+								}
 								
 								List<String> attrList = new ArrayList<String>();
 								attrList = sql.getAttr(tag);
@@ -629,6 +632,11 @@ public class SectionCheck {
 										validAttr = true;	
 									}
 								}
+								
+								if (tag.equalsIgnoreCase("meta") && attribute.equalsIgnoreCase("charset")) {
+									requiredTags.add(tag.toLowerCase());
+								}
+								
 								if (!validAttr) {
 									if (attribute.length() > 4) {
 										if (attribute.substring(0,5).equalsIgnoreCase("data-")) {
@@ -709,6 +717,10 @@ public class SectionCheck {
 									errorCount += 1;
 								} else {
 									attributeList.add(attribute.toLowerCase());
+								}
+								
+								if (tag.equalsIgnoreCase("meta") && attribute.equalsIgnoreCase("charset")) {
+									requiredTags.add(tag.toLowerCase());
 								}
 								
 								List<String> attrList = new ArrayList<String>();
@@ -1012,9 +1024,10 @@ public class SectionCheck {
 											else {
 												singularTags.add(tag.toLowerCase());
 											}
+											requiredTags.add(tag.toLowerCase());
 										}
 										
-										requiredTags.add(tag.toLowerCase());
+										
 									}
 									
 									if (tag.length() > 0) {
@@ -1225,6 +1238,14 @@ public class SectionCheck {
 					}
 					if (startComment == true && j > 2) {
 						if((charArray.getChar(j-2)=='-') && (charArray.getChar(j-1)=='-') && (charArray.getChar(j)=='>')) {
+							closeTag = true;
+							openTag = false;
+							tag = null;
+							endTagName = false;
+							tagChecked = false;
+							faultyTag = false;
+							attrPhase = 0;
+							openAttr = false;
 							startComment = false;
 							continue;
 						}
