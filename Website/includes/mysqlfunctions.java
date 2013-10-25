@@ -424,7 +424,7 @@ public class Mysqlfunctions {
 		
 		try {
 			if (result.next()) {
-				if (result.getInt("IsTableElement") == 1) {
+				if (result.getInt("IsTableElem") == 1) {
 					msg = true;
 				}
 			}
@@ -457,7 +457,7 @@ public class Mysqlfunctions {
 		
 		try {
 			if (result.next()) {
-				if (result.getInt("IsFormElement") == 1) {
+				if (result.getInt("IsFormElem") == 1) {
 					msg = true;
 				}
 			}
