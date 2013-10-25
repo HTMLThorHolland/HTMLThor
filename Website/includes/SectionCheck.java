@@ -13,7 +13,14 @@ public class SectionCheck {
 	int brokenLinks;
 	int colOffset;
 	List<String> source = null;
-	int errorsInLine = 0;
+	int syntaxInLine = 0;
+	int semanticInLine = 0;
+	int brokenInLine = 0;
+	int warningInLine = 0;
+	int deprecatedInLine = 0;
+	boolean errorInChar = false;
+	boolean encapError = false;
+	List<Boolean> errorsInLine = new ArrayList<Boolean>();
 	
 	/* Just an empty constructor */
 	public SectionCheck() {
@@ -24,10 +31,12 @@ public class SectionCheck {
 		public JSONObject findErrors(List<String> fileContents) {
 		
 			source = fileContents;
-		
+			
+			errorsInLine = new ArrayList<Boolean>();
 			Mysqlfunctions sql = new Mysqlfunctions();
 		
 			colOffset = 0;
+			encapError = false;
 		
 			JSONObject errors = new JSONObject();
 			boolean openTag = false;
@@ -103,7 +112,15 @@ public class SectionCheck {
 			for (int i=0; i<fileContents.size(); i++) {
 				String nextLine = fileContents.get(i);
 				colOffset = 0;
-				errorsInLine = 0;
+				
+				
+				
+				syntaxInLine = 0;
+				semanticInLine = 0;
+				brokenInLine = 0;
+				warningInLine = 0;
+				deprecatedInLine = 0;
+				
 				/* Initialise the character array on the new line. */
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
@@ -114,7 +131,7 @@ public class SectionCheck {
 			
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
-				
+					errorInChar = false;
 					if (System.currentTimeMillis() > timeoutEnd) {
 						error = errorConstructor("Your file reached the time limit of 30 seconds at line " + Integer.toString(i+1) + " and column " + Integer.toString(j), "syntax", i+1, j-1, "");
 						errors.put(errorCount, error);
@@ -1306,6 +1323,12 @@ public class SectionCheck {
 					
 					
 				}
+			
+				if (syntaxInLine != 0 || semanticInLine != 0 || brokenInLine != 0 || warningInLine != 0 || deprecatedInLine != 0) {
+					errorsInLine.add(true);
+				} else {
+					errorsInLine.add(false);
+				}
 			}
 			
 			/* START OF AMEER'S CODE */
@@ -1364,11 +1387,12 @@ public class SectionCheck {
 		 */
 		private ArrayList<JSONObject> parseEncapsulationErrors(ArrayList<String> errors) {
 			Mysqlfunctions sql = new Mysqlfunctions();
+			encapError = true;
 			int NUM_ERROR_VALUES = 4;
 			JSONObject error = new JSONObject();
 			String[] errorValues = new String[NUM_ERROR_VALUES];
 			ArrayList<JSONObject> errorList = new ArrayList<JSONObject>(errors.size());
-			
+			errorInChar = false;
 			String type = "syntax";
 			int line = 1;
 			int col = 0;
@@ -1438,6 +1462,16 @@ public class SectionCheck {
 			}
 			error.put("lengthOffset", lengthOffset);
 			*/
+			
+			boolean parseOcc = true;
+			
+			if (encapError) {
+				if (errorsInLine.get(line-1)) {
+					parseOcc = false;
+				}
+			}
+			
+			if (parseOcc) {
 			int expectedCol = col+1-errorExcerpt.length();
 			String lineText = source.get(line-1);
 			int index = 0;
@@ -1451,8 +1485,10 @@ public class SectionCheck {
 				count += 1;
 			}
 			
-			if (errorExcerpt.equals("/")) {
-				count += errorsInLine;
+			if (errorExcerpt.length() > 0) {
+				if (getErrorOffset(errorExcerpt) > 0) {
+					count = -1;
+				}
 			}
 			
 			if (index == -1) {
@@ -1461,15 +1497,130 @@ public class SectionCheck {
 				error.put("occ", count);
 			}
 			
-			if (errorExcerpt.equals("")) {
+			if (errorExcerpt.equals("") || errorInChar) {
 				error.put("occ", -1);
+				count = -1;
 			}
 			if (count != -1) {
-				errorsInLine++;
+				if (type.equalsIgnoreCase("syntax")) {
+					syntaxInLine++;
+				} else if (type.equalsIgnoreCase("broken")) {
+					brokenInLine++;
+				} else if (type.equalsIgnoreCase("semantic")) {
+					semanticInLine++;
+				} else if (type.equalsIgnoreCase("warning")) {
+					warningInLine++;
+				} else if (type.equalsIgnoreCase("deprecated")) {
+					deprecatedInLine++;
+				}
 			}
+			
+			} else {
+				error.put("occ", -1);
+			}
+			
+			errorInChar = true;
 			return error;
 		}
 		/* END OF AMEER'S CODE */
+		
+		private int getErrorOffset(String excerpt) {
+			
+			String syntaxString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer syntax errorHighlight syntaxError data-hasqtip= aria-describedby=q-tip></span>";
+			String deprecatedString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer deprecated errorHighlight deprecatedError data-hasqtip= aria-describedby=q-tip></span>";
+			String semanticString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer semantic errorHighlight semanticError data-hasqtip= aria-describedby=q-tip></span>";
+			String warningString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer warning errorHighlight warningError data-hasqtip= aria-describedby=q-tip></span>";
+			String brokenString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer broken errorHighlight brokenError data-hasqtip= aria-describedby=q-tip></span>";
+			int index = 0;
+			int count = 0;
+			
+			int offset = 0;
+			
+			
+			
+			while (index != -1) {
+
+       			index = syntaxString.indexOf(excerpt,index);
+
+       			if(index != -1) {
+             		count++;
+             		index += excerpt.length();
+      			}
+			}
+			if (count > 1) {
+				count = count/2;
+			}
+			offset = offset + count*syntaxInLine;
+			
+			
+			count = 0;
+			index = 0;
+			while (index != -1) {
+
+       			index = warningString.indexOf(excerpt,index);
+
+       			if(index != -1) {
+             		count++;
+             		index += excerpt.length();
+      			}
+			}
+			if (count > 1) {
+				count = count/2;
+			}
+			offset = offset + count*warningInLine;
+			
+			count = 0;
+			index = 0;
+			while (index != -1) {
+
+       			index = brokenString.indexOf(excerpt,index);
+
+       			if(index != -1) {
+             		count++;
+             		index += excerpt.length();
+      			}
+			}
+			if (count > 1) {
+				count = count/2;
+			}
+			offset = offset + count*brokenInLine;
+			
+			count = 0;
+			index = 0;
+			while (index != -1) {
+
+       			index = deprecatedString.indexOf(excerpt,index);
+
+       			if(index != -1) {
+             		count++;
+             		index += excerpt.length();
+      			}
+			}
+			if (count > 1) {
+				count = count/2;
+			}
+			offset = offset + count*deprecatedInLine;
+			
+			count = 0;
+			index = 0;
+			while (index != -1) {
+
+       			index = semanticString.indexOf(excerpt,index);
+
+       			if(index != -1) {
+             		count++;
+             		index += excerpt.length();
+      			}
+			}
+			if (count > 1) {
+				count = count/2;
+			}
+			offset = offset + count*semanticInLine;
+		
+		
+			return offset;
+		}
+		
 		
 		/**
 		 * Adds a list of file names that have been passed along with the current file. Used to check
