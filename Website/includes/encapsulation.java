@@ -174,7 +174,9 @@ public class Encapsulation {
 		
 		/* Iterates over the error list and adds them to errors. */
 		for(int i = 0; i < errorList.size(); i++) {
-			errors.add(errorList.get(i).toString());
+			if(!errors.contains(errorList.get(i).toString())) {
+				errors.add(errorList.get(i).toString());
+			}
 		}
 		
 		return errors;
