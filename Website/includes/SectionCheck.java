@@ -970,6 +970,28 @@ public class SectionCheck {
 									tag = tag.replaceAll(" ", "");
 									endTagColumnNo = j-1;
 									
+									// Error messages for values that are not deprecated, but best practice asks they not be used
+									if(tag.equalsIgnoreCase("s")) {
+										error = errorConstructor(sql.getErrMsg(24), "warning", i+1, endTagColumnNo, tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+									if(tag.equalsIgnoreCase("i")) {
+										error = errorConstructor(sql.getErrMsg(25), "warning", i+1, endTagColumnNo, tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+									if(tag.equalsIgnoreCase("b")) {
+										error = errorConstructor(sql.getErrMsg(26), "warning", i+1, endTagColumnNo, tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+									if(tag.equalsIgnoreCase("u")) {
+										error = errorConstructor(sql.getErrMsg(27), "warning", i+1, endTagColumnNo, tag);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+									
 									
 									attrPhase = 0;
 									openAttr = false;
