@@ -340,7 +340,7 @@ public class Encapsulation {
 			itr = openedElements.iterator();
 			while(itr.hasNext()) {
 				if (e.getName().equals(itr.next().getName())) {
-					if(!((e.getName().equals("div")) || (e.getName().equals("span"))) {
+					if(!((e.getName().equals("div")) || (e.getName().equals("span")))) {
 						addError(e, ELEMENT_INSIDE_ITSELF);
 					}
 				}
