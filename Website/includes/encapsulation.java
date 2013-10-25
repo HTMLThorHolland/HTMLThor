@@ -306,20 +306,20 @@ public class Encapsulation {
 		}
 		
 		if(headElementOpen) {
-			if(!(sql.isMeta(e.getName()) || cleanName.equals("title") || e.getName().equals("/head"))) {
+			if(!(sql.isMeta(cleanName) || cleanName.equals("title") || e.getName().equals("/head"))) {
 				addError(e, INVALID_HEAD_ELEMENT);
 			}
 		}
 		
 		if(bodyElementOpen) {
-			if(sql.isTableElement(e.getName()) && tableElementOpen == false) {
+			if(sql.isTableElement(cleanName) && tableElementOpen == false) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(sql.isFormElement(e.getName()) && formElementOpen == false) {
+			} else if(sql.isFormElement(cleanName) && formElementOpen == false) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
 		
-		if(!sql.isSelfClosing(e.getName())) {
+		if(!sql.isSelfClosing(cleanName) {
 			tagEncapsulation(e);
 		}
 	}
