@@ -107,6 +107,10 @@ public class SectionCheck {
 				/* Initialise the character array on the new line. */
 				char[] intermediate = nextLine.toCharArray();
 				CharArray charArray = new CharArray(nextLine.toCharArray());
+				
+				if (openTag == true) {
+					whiteSpaceFlag = true;
+				}
 			
 				//Check for open tags
 				for(int j=0; j<charArray.getLength(); j++) {
