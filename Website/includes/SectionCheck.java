@@ -647,7 +647,58 @@ public class SectionCheck {
 								}
 								
 								attrPhase = 2;
-							} else if (charArray.getChar(j) == '=') {
+							} else if (charArray.getChar(j) == '>' || charArray.getChar(j) == '/') {
+								// did not find value for attribute
+								attribute = charArray.getString(attrStart, j-1);
+								endAttrColumnNo = j-1;
+								if(!sql.isAttrBool(attribute)) {
+									// did not find a value for the key
+									error = errorConstructor(sql.getErrMsg(43).replaceAll("-attr", attribute), "syntax", i+1, endAttrColumnNo, attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								
+								if(attributeList.contains(attribute.toLowerCase())) {
+									// Duplicate attribute use for this tag
+									error = errorConstructor(attribute + sql.getErrMsg(44), "syntax", i+1, endAttrColumnNo, attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								} else {
+									attributeList.add(attribute.toLowerCase());
+								}
+								
+								List<String> attrList = new ArrayList<String>();
+								attrList = sql.getAttr(tag);
+								boolean validAttr = false;
+								for (int a = 0; a < attrList.size(); a++) {
+									if(attrList.get(a).equalsIgnoreCase(attribute)) {
+										validAttr = true;	
+									}
+								}
+								if (!validAttr) {
+									if (attribute.length() > 4) {
+										if (attribute.substring(0,5).equalsIgnoreCase("data-")) {
+											validAttr = true;
+										}
+									}
+									if (!validAttr) {
+										error = errorConstructor(attribute + " " + sql.getErrMsg(23), "syntax", i+1, endAttrColumnNo, attribute);
+										errors.put(errorCount, error);
+										errorCount += 1;
+									}
+								} else if (sql.isDeprecatedAttribute(attribute, tag)) {
+									error = errorConstructor(sql.getErrMsg(30).replaceAll("--attr", attribute).replaceAll("--tag", tag), "deprecated", i+1, endAttrColumnNo, attribute);
+									errors.put(errorCount, error);
+									errorCount += 1;
+								}
+								
+								j--;
+								
+								attrPhase = 0;
+								openAttr = false;
+								attribute = "";
+								continue;
+								} else if (charArray.getChar(j) == '=') {
 								// attribute key has ended
 								attribute = charArray.getString(attrStart, j-1);
 								endAttrColumnNo = j-1;
@@ -656,8 +707,7 @@ public class SectionCheck {
 									error = errorConstructor(attribute + sql.getErrMsg(44), "syntax", i+1, endAttrColumnNo, attribute);
 									errors.put(errorCount, error);
 									errorCount += 1;
-								}
-								else {
+								} else {
 									attributeList.add(attribute.toLowerCase());
 								}
 								
@@ -1176,6 +1226,7 @@ public class SectionCheck {
 					if (startComment == true && j > 2) {
 						if((charArray.getChar(j-2)=='-') && (charArray.getChar(j-1)=='-') && (charArray.getChar(j)=='>')) {
 							startComment = false;
+							continue;
 						}
 					}
 					if (startPhp == true && j > 1) {
