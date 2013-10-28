@@ -2,7 +2,6 @@ var zipUploaded = false;
 
 function rockAndRoll() {
 
-
 	if(!jsonObject.filecount) {
 		jsonObject.filecount = 1;
 	}
@@ -12,7 +11,6 @@ function rockAndRoll() {
 		//console.log("ATTENTION!: there are "+jsonObject.filecount+" files and this file is: "+jsonObject[i].filename);
 		setPageSource(jsonObject[i].source, jsonObject[i].filename, i);
 	}
-	revealPageSource(jsonObject[0].filename);
 	setErrors();
 	revealErrors(jsonObject[0].filename);
 	// hide errors, and then show the relevant one. Hide by class and then show by whether they belong to the right filename.
@@ -24,6 +22,7 @@ function rockAndRoll() {
 		// call function to generate the file selection boxes
 		initSelectBoxes();
 	}
+	revealPageSource(jsonObject[0].filename);
 	
 	if(directoryJSON && directoryJSON != null) {
 		//console.log("full directory object: "+directoryJSON);
@@ -38,6 +37,43 @@ function rockAndRoll() {
 		revealSite();
 	}
 
+}
+
+var ellipsisCount = 0;
+var loadingEllipsis;
+
+function loadingAnimation() {	
+	console.log("executing loading animation");
+	$("#loadingAnimationWrapper").show();
+	console.log("finished loading the loading animation");
+	
+	//loadingEllipsis=setInterval(function(){ellipsis()},500);
+	
+}
+
+function ellipsis() {
+	if(ellipsisCount == 0) {
+		$("#ellipsisLoading").text("loading");
+		ellipsisCount++;		
+	}
+	else if(ellipsisCount == 1) {
+		$("#ellipsisLoading").text("loading.");
+		ellipsisCount++;	
+	}
+	else if(ellipsisCount == 2) {
+		$("#ellipsisLoading").text("loading..");
+		ellipsisCount++;	
+	}
+	else {
+		$("#ellipsisLoading").text("loading...");
+		ellipsisCount = 0;		
+	}
+}
+
+function endLoadingAnimation() {
+	//clearInterval(loadingEllipsis);
+	$("#loadingAnimationWrapper").hide();
+	console.log("loading animation has been destroyed");
 }
 
 /* Load jsonObject for tour */
@@ -148,6 +184,7 @@ function revealSite() {
 	if(zipUploaded) {
 		$('.extraTwo').fadeIn();
 	}
+	endLoadingAnimation();
 }
 
 /* Function to reveal .extraOne and .extraTwo sections of the site */

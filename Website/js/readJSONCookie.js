@@ -17,6 +17,8 @@ if ($.cookie("dirPath")) {
 	var jsonObject = $.parseJSON(jsonString);
 	*/
 	
+	loadingAnimation();
+	
 	var JSONpath = $.cookie("dirPath");
 	//Remove Cookie TIME MMMMMMMMM
 	var cookie_date = new Date ( );  // current date & time

@@ -209,6 +209,47 @@ a {
 
 /* END General */
 
+/* LOADING ANIMATION */
+
+
+.qtip.loadingAnimationTip {
+	color: #ffffff;
+	border: 1px solid #B9B9B9;
+	font-size: .9em;
+	padding: 0;
+	line-height: 1em;
+	max-width: 31%;
+	height: auto;
+	background-color: #EBEBEB;
+}
+
+.qtip.loadingAnimationTip .qtip-content {
+	padding: 0;
+}
+
+#loadingAnimationWrapper {
+	width: 150px;
+	height: 150px;
+	position: fixed;
+	display: none;
+	background-color: #000;
+	text-align: center;
+}
+
+	.loadingAnimation {
+		width: 50px;
+		height: 50px;
+		margin: 0 auto;
+		margin-top: 40px;
+		margin-bottom: 10px;
+		background-image: url("../images/thor.gif");
+	}
+
+	#loadingAnimationWrapper p {
+		color: #fff;
+	}
+
+
 
 /* TOP HELP BAR */
 

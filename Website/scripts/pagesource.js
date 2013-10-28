@@ -453,7 +453,7 @@ function getPosition(a, obj) {
 */
 
 function openSourceFile(filename) {
-	//console.log("opening page source");
+	console.log("opening page source");
 	$('#sourceLink').click();
 	$('.sourceCodeContainer').not('#'+filename).hide();
 	$('#'+filename).show();
@@ -464,7 +464,7 @@ function openSourceFile(filename) {
 }
 
 function revealPageSource(filename) {
-	//console.log("revealing page source");
+	console.log("revealing page source");
 	filename = filename.replace(/\./g,"_");
 	filename = filename.replace(/\//g,"_");
 	$('.sourceCodeContainer').not('#'+filename+"_Pre").hide();

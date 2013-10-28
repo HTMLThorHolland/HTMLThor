@@ -32,4 +32,5 @@ function uploadJSP(id) {
 	form = id+"Form";
 	/* the id + "Form" must result in the container FORM id */
 	document.getElementById(form).submit();
+	loadingAnimation();
 }

@@ -39,22 +39,22 @@ function populateStatistics() {
 		$('#feedback').html("<p><strong>Congratulations!</strong> Your site rocks!</p>");
 		//console.log("no errors found, set feedback id");
 	}
-	if(overallErrors <= 2) {
+	else if(overallErrors <= 2) {
 		$('#feedback').html("<p>We found the needle in the haystack, but what a clean site!</p>");	
 	}
-	if(overallErrors > 2 && overallErrors <= 4) {
+	else if(overallErrors > 2 && overallErrors <= 4) {
 		$('#feedback').html("<p>Near perfect code - just a few errors to deal with.</p>");	
 	}
-	if(overallErrors > 4 && overallErrors <= 7) {
+	else if(overallErrors > 4 && overallErrors <= 7) {
 		$('#feedback').html("<p>Oops! You’ve got a few critters in here you’ll have to clean up!</p>");	
 	}
-	if(overallErrors > 7 && overallErrors <= 15) {
+	else if(overallErrors > 7 && overallErrors <= 15) {
 		$('#feedback').html("<p>Gee, this code needs a clean up - get to work!</p>");	
 	}
-	if(overallErrors > 15 && overallErrors <= 50) {
+	else if(overallErrors > 15 && overallErrors <= 50) {
 		$('#feedback').html("<p>Gosh, your code's looking downtrodden with errors!</p>");	
 	}
-	if(overallErrors > 50) {
+	else if(overallErrors > 50) {
 		$('#feedback').html("<p>Your site is riddled with errors! Grab a coffee and get to work!</p>");	
 	}
 	
@@ -62,24 +62,24 @@ function populateStatistics() {
 		$('#totalErrors').addClass('deprecated');
 	}
 	
-	if(siteTotalDeprecated != 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
+	else if(siteTotalDeprecated != 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
 		$('#totalErrors').addClass('deprecated');
 	}
 	
-	if(siteTotalWarning != 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
+	else if(siteTotalWarning != 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
 		$('#totalErrors').addClass('warning');
 	}
 	
-	if(siteTotalSemantic != 0 && siteTotalSyntax == 0) {
+	else if(siteTotalSemantic != 0 && siteTotalSyntax == 0) {
 		$('#totalErrors').addClass('semantic');
 	}
 	
-	if(siteTotalSyntax != 0) {
+	else if(siteTotalSyntax != 0) {
 		$('#totalErrors').addClass('syntax');
 	}
 	
 	else {
-		//console.log("should not have reached else for the totalErrors");
+		console.log("should not have reached else for the totalErrors");
 	}
 	
 	// set the heading containing the total errors
@@ -244,24 +244,25 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 function visualHighlight(barId) {
 	errorNumber = barId.attr('errorNumber');
 	errorType = barId.attr('class').split(' ')[0];
+	displayType = errorType;
 	if(errorType == "warning") {
-		errorType = "best practice";
+		displayType = "best practice";
 	}
 	if(errorType == "broken" && errorNumber == 1) {
-		errorType = "broken link";	
+		displayType = "broken link";	
 	}
 	else if(errorType == "broken") {
-		errorType = "broken links";	
+		displayType = "broken links";	
 	}
 	var errorMessage = "";
 	if(errorNumber == 1){
-		errorMessage = "<p>There is "+barId.attr('errorNumber')+" <span class='bold'>"+errorType+"</span> error.</p><div class='errorExplanation'>";	
+		errorMessage = "<p>There is "+barId.attr('errorNumber')+" <span class='bold'>"+displayType+"</span> error.</p><div class='errorExplanation'>";	
 		errorMessage += $("#"+errorType+"Side .keyInfo" ).html();	
 		errorMessage += "</div>";	
 		return errorMessage;	
 	}
 	else {		
-		errorMessage = "<p>There are "+barId.attr('errorNumber')+" <span class='bold'>"+errorType+"</span> errors.</p><div class='errorExplanation'>";	
+		errorMessage = "<p>There are "+barId.attr('errorNumber')+" <span class='bold'>"+displayType+"</span> errors.</p><div class='errorExplanation'>";	
 		errorMessage += $("#"+errorType+"Side .keyInfo" ).html();	
 		errorMessage += "</div>";	
 		return errorMessage;	

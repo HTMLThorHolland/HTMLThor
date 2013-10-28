@@ -26,11 +26,24 @@
 			$('#'+id+' > .sectionContent').fadeIn();
 			$('#'+id).removeClass("noMargin");	
 		}
+		
+		$(window).resize(function(){
+
+			$('#loadingAnimationWrapper').css({
+				position:'fixed',
+				left: ($(window).width() - $('#loadingAnimationWrapper').outerWidth())/2,
+				top: ($(window).height() - $('#loadingAnimationWrapper').outerHeight())/2
+			});
+
+		});
+
+		// To initially run the function:
 	
 		$(document).ready(function() {
 		
 			//console.log("main js is running");
 		
+			$(window).resize();
 			
 			/* Hide sections of the site that should not be shown initially*/
 			$('.extraOne').hide();
@@ -130,6 +143,7 @@
 			$("#alternativeButton").click(function(e) {
 				if($("#input-direct").val()) {
 					$('#directInputForm').submit();
+					loadingAnimation();
 				}
 				else {
 					alert("Please enter something into the text area first.");
@@ -139,6 +153,7 @@
 			$("#urlButton").click(function(e) {
 				if($("#input-url").val()) {
 					$('#urlInputForm').submit();
+					loadingAnimation();
 				}
 				else {
 					alert("Please enter a url first.");
