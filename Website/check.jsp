@@ -112,7 +112,7 @@
                 	Cookie cookie = new Cookie("dirPath", directoryPath);
                 	response.addCookie(cookie);
                 
-                	String redirectURL = "http://htmlthor.com";
+                	String redirectURL = "http://htmlthor.com#validated";
                 	response.sendRedirect(response.encodeRedirectURL(redirectURL));
    		 		}
    		 		
@@ -172,7 +172,7 @@
                 	Cookie cookie = new Cookie("dirPath", directoryPath);
                 	response.addCookie(cookie);
                 
-                	String redirectURL = "http://htmlthor.com";
+                	String redirectURL = "http://htmlthor.com#validated";
                 	response.sendRedirect(response.encodeRedirectURL(redirectURL));
    		 		}
    		 		
@@ -375,7 +375,7 @@
                		response.addCookie(cookie);
                
                
-               		String redirectURL = "http://htmlthor.com";
+               		String redirectURL = "http://htmlthor.com#validated";
    		 			response.sendRedirect(redirectURL);
        				
    		 		}
