@@ -18,6 +18,7 @@ public class SectionCheck {
 	int brokenInLine = 0;
 	int warningInLine = 0;
 	int deprecatedInLine = 0;
+	int errorCountInLine = 0;
 	boolean errorInChar = false;
 	boolean encapError = false;
 	List<Boolean> errorsInLine = new ArrayList<Boolean>();
@@ -1392,7 +1393,7 @@ public class SectionCheck {
 			JSONObject error = new JSONObject();
 			String[] errorValues = new String[NUM_ERROR_VALUES];
 			ArrayList<JSONObject> errorList = new ArrayList<JSONObject>(errors.size());
-			errorInChar = false;
+			
 			String type = "syntax";
 			int line = 1;
 			int col = 0;
@@ -1401,6 +1402,15 @@ public class SectionCheck {
 			
 			for(int i = 0; i < errors.size(); i++) {
 				errorValues = errors.get(i).split(" ", NUM_ERROR_VALUES);
+				
+				
+				
+				errorInChar = false;
+				syntaxInLine = 0;
+				semanticInLine = 0;
+				brokenInLine = 0;
+				warningInLine = 0;
+				deprecatedInLine = 0;
 				
 				errorCode = Integer.parseInt(errorValues[3]);
 				line = Integer.parseInt(errorValues[1]);

@@ -319,7 +319,7 @@ public class Encapsulation {
 			}
 		}
 		
-		if(!sql.isSelfClosing(cleanName) {
+		if(!sql.isSelfClosing(cleanName)) {
 			tagEncapsulation(e);
 		}
 	}
