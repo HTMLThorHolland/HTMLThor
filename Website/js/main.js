@@ -146,7 +146,25 @@
 					loadingAnimation();
 				}
 				else {
-					alert("Please enter something into the text area first.");
+					$("#alternativeButton").qtip({
+						overwrite: false,
+						show: {
+							event: event.type,
+							ready: true
+						},
+						position: {
+							my: 'top left',
+							at: 'top right',
+							target: $("#alternativeButton")
+						},
+						style: { classes: 'warningTip' },
+						hide: {
+							event: 'unfocus'
+						}, 
+						content: {
+							text: "<p>I command you to enter something into the text area first.</p>"
+						}
+					});
 				}
 			});
 			 
@@ -156,7 +174,25 @@
 					loadingAnimation();
 				}
 				else {
-					alert("Please enter a url first.");
+					$("#urlButton").qtip({
+						overwrite: false,
+						show: {
+							event: event.type,
+							ready: true
+						},
+						position: {
+							my: 'top left',
+							at: 'top right',
+							target: $("#urlButton")
+						},
+						style: { classes: 'warningTip' },
+						hide: {
+							event: 'unfocus'
+						}, 
+						content: {
+							text: "<p>I command you to enter a url first.</p>"
+						}
+					});
 				}
 			});
 			

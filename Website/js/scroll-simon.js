@@ -19,20 +19,23 @@ function setScrollWidth(filename) {
 	console.log("setting up the page source for scrolling.");
 	console.log("@PAGE SOURCE WIDTH: "+$('#pageSource').width());
 	$('#source').children('.sectionContent').css({'width':'auto'});
-	$('#source').children('.sectionContent').css({'max-width':'auto'});
+	$('#source').children('.sectionContent').css({'max-width':'none'});
 	$('#'+filename).css({'width':'auto'});
-	$('#'+filename).css({'max-width':'auto'});
+	$('#'+filename).css({'max-width':'none'});
 	$('#pageSource').css({'width':'auto'});
-	$('#pageSource').css({'max-width':'auto'});
+	$('#pageSource').css({'max-width':'none'});
+	$('#pageSource').css({'overflow':'none'});
 	
 	console.log("@NEW PAGE SOURCE WIDTH: "+$('#pageSource').width());
 	$('#scrollContent').width($('#pageSource').width());
 	
+	
 	$('#source').children('.sectionContent').css({'width':'auto'});
-	$('#source').children('.sectionContent').css({'max-width':'auto'});
+	$('#source').children('.sectionContent').css({'max-width':'none'});
 	$('#'+filename).css({'width':'100%'});
 	$('#'+filename).css({'max-width':'100%'});
 	$('#pageSource').css({'width':'100%'});
 	$('#pageSource').css({'max-width':'100%'});
+	$('#pageSource').css({'overflow':'hidden'});
 	
 }

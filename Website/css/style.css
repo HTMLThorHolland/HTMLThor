@@ -102,11 +102,11 @@
 /* Colours */
 
 .red {
-	background-color:#ff1b56;
+	background-color:#FF153A;
 }
 
 .yellow { 
-		background-color:#FFD912;
+		background-color:#F1DF03;
 }
 
 .blue {
@@ -759,7 +759,7 @@ p.extraText {
 	}
 	
 	.errorKey.syntax h5 {
-		border-color: #ff1b56;	
+		border-color: #FF153A;	
 	}
 	
 	.errorKey.semantic h5 {
@@ -767,7 +767,7 @@ p.extraText {
 	}
 	
 	.errorKey.warning h5 {
-		border-color: #FFD912;	
+		border-color: #F1DF03;	
 	}
 	
 	.errorKey.deprecated h5 {
@@ -1162,6 +1162,34 @@ button:hover {
 		background-image: url("../images/icon_zip_120.png");
 		background-position: center;
 	}
+	
+	
+/* Upload messages */
+
+.qtip.warningTip {
+	border: 0;
+	background-color: black;
+	max-width: 250px;
+	background-color: #282828;
+	padding: 10px;
+	text-align: center;
+}
+
+	.qtip.warningTip .qtip-content {
+		padding: 0;
+	}
+
+	.qtip.warningTip p {
+		margin-bottom: 0;
+		font-size: 1.2em;
+		line-height: 14px;
+		color: #D1D1D1;
+	}
+
+	.qtip.warningTip p span.highlight {
+		font-weight: 600;
+		color: #F1F1F1;
+	}
 
 /* END Upload Section */
 
@@ -1301,7 +1329,7 @@ h3.totalErrorsHeading {
 }
 
 	.totalResult.syntax {
-		background-color: #ff1b56;	
+		background-color: #FF153A;	
 	}
 	
 	.totalResult.semantic {
@@ -1309,7 +1337,7 @@ h3.totalErrorsHeading {
 	}
 	
 	.totalResult.warning {
-		background-color: #FFD912;
+		background-color: #F1DF03;
 	}
 	
 	.totalResult.deprecated {
@@ -1406,7 +1434,7 @@ h3.totalErrorsHeading {
 	}
 
 	.graph.syntax {
-		background-color:#ff1b56;
+		background-color:#FF153A;
 }
 
 	.graph.semantic {
@@ -1414,7 +1442,7 @@ h3.totalErrorsHeading {
 	}
 
 	.graph.warning {
-		background-color:#FFD912;
+		background-color:#F1DF03;
 	}
 	
 	.graph.deprecated {
@@ -1717,7 +1745,7 @@ span.brokenLinkIcon {
 		}
 	
 	.syntaxError pre strong {
-		color:#ff1b56;
+		color:#FF153A;
 	}
 	
 	.semanticError pre strong {
@@ -1725,7 +1753,7 @@ span.brokenLinkIcon {
 	}
 	
 	.warningError pre strong {
-		color:#FFD912;
+		color:#F1DF03;
 	}
 	
 	.deprecatedError pre strong {
@@ -1847,9 +1875,9 @@ pre.sourceCodeContainer {
 	}
 	
 		.qtip.qTipHighlight.syntax {
-			-moz-box-shadow: inset 6px 0 #ff1b56;
-			-webkit-box-shadow: inset 6px 0 #ff1b56;
-			box-shadow: inset 6px 0 #ff1b56;
+			-moz-box-shadow: inset 6px 0 #FF153A;
+			-webkit-box-shadow: inset 6px 0 #FF153A;
+			box-shadow: inset 6px 0 #FF153A;
 		}
 	
 		.qtip.qTipHighlight.semantic {
@@ -1859,9 +1887,9 @@ pre.sourceCodeContainer {
 		}
 	
 		.qtip.qTipHighlight.warning {
-			-moz-box-shadow: inset 6px 0 #FFD912;
-			-webkit-box-shadow: inset 6px 0 #FFD912;
-			box-shadow: inset 6px 0 #FFD912;
+			-moz-box-shadow: inset 6px 0 #F1DF03;
+			-webkit-box-shadow: inset 6px 0 #F1DF03;
+			box-shadow: inset 6px 0 #F1DF03;
 		}
 	
 		.qtip.qTipHighlight.deprecated {
@@ -1895,7 +1923,7 @@ pre.sourceCodeContainer {
 		}
 	
 		.leftMessage.syntax {
-			border-color: #ff1b56;
+			border-color: #FF153A;
 		}
 	
 		.leftMessage.semantic {
@@ -1903,7 +1931,7 @@ pre.sourceCodeContainer {
 		}
 	
 		.leftMessage.warning {
-			border-color: #FFD912;		
+			border-color: #F1DF03;		
 		}
 	
 		.leftMessage.deprecated {
@@ -1971,7 +1999,7 @@ pre.sourceCodeContainer {
 	.syntax span,
 	.qTipHighlight .syntax,
 	.sourceCodeContainer ol li .syntax span {
-		color: #ff1b56;
+		color: #FF153A;
 	}
 	
 	
@@ -1987,7 +2015,7 @@ pre.sourceCodeContainer {
 	.warning span,
 	.qTipHighlight .warning,
 	.sourceCodeContainer ol li .warning span {
-		color: #FFD912; /* best practice */
+		color: #F1DF03; /* best practice */
 	}
 	
 	.deprecatedError , .deprecatedError span, 
@@ -2109,7 +2137,7 @@ pre.sourceCodeContainer {
 	}
 	
 	.pageSource .errorIcon .syntax {
-		background-color: #ff1b56;
+		background-color: #FF153A;
 	}
 	
 	.pageSource .errorIcon .semantic {
@@ -2117,7 +2145,7 @@ pre.sourceCodeContainer {
 	}
 	
 	.pageSource .errorIcon .warning {
-		background-color: #FFD912;
+		background-color: #F1DF03;
 	}
 	
 	.pageSource .errorIcon .deprecated {

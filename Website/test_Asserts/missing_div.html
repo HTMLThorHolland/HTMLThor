@@ -497,7 +497,7 @@
 							<div id="iconSingleUpload" class="thumb"></div>
 							<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
 								<button id="single" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="51200" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="40960" onchange="uploadJSP(this.id)" /></div>
 							</form>
 							<!--
 							<form action="upload2.jsp" method="POST"
@@ -513,7 +513,7 @@
 							<div id="iconMultiUpload" class="thumb"></div>
 							<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 								<button id="multi" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="153600" onchange="uploadJSP(this.id)" multiple /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="40960" onchange="uploadJSP(this.id)" multiple /></div>
 							</form>
 						</div>
 						<div id="zipWrapper" onclick="getFile('zipUpload')" class="uploadWrapper uploadCat">
@@ -521,7 +521,7 @@
 							<div id="iconZipUpload" class="thumb"></div>
 							<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
 								<button id="zip" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="460800" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="409600" onchange="uploadJSP(this.id)" /></div>
 							</form>
 						</div>
 						<div style="clear:both"></div>
@@ -535,7 +535,7 @@
 								<div style="clear:both"></div>
 							</form>
 						</div>
-						<div id="directWrapper" class="uploadWrapper">
+						<div id="urlWrapper" class="uploadWrapper">
 							<form id="directInputForm" action="upload.jsp?uploadType=direct" method="POST">
 								<label for="input-direct">direct input</label>
 								<textarea id="input-direct" name="input-direct" rows="4" cols="50"></textarea>
@@ -851,9 +851,6 @@
 				<div style="clear:both"></div> <!-- important: this is needed after each major section -->
 			</div>
 		
-			
-		
-		</div><!-- container -->
 	
 	
 	</div><!-- overall content container -->
