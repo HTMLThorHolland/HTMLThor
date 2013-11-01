@@ -13,6 +13,7 @@ function setErrors() {
 		brokenErrors = "";
 		underScoreName = jsonObject[j].filename.replace(/\./g,"_");
 		underScoreName = underScoreName.replace(/\//g,"_");
+		underScoreName = underScoreName.replace(/~/g,"_");
 		
 		var errorsArray = new Array();
 		
@@ -154,6 +155,7 @@ function openErrorId(fileowner, errorId) {
 function revealErrors(filename) {
 	underScoreName = filename.replace(/\./g,"_");
 	underScoreName = underScoreName.replace(/\//g,"_");
+	underScoreName = underScoreName.replace(/~/g,"_");
 	$('.errorListing').not('.errorListing.'+underScoreName).hide();
 	$('.errorListing.'+underScoreName).show();
 	$('.errorCategory').not('.errorCategory.'+underScoreName).hide();

@@ -4,7 +4,7 @@ var directoryJSON = null;
 
 if ($.cookie("dirPath")) {
 
-	//console.log("cookie detected at: "+$.cookie("dirPath"));
+	console.log("cookie detected at: "+$.cookie("dirPath"));
 	
 	
 	/*
@@ -152,4 +152,8 @@ if ($.cookie("dirPath")) {
 	
 	
 	 // this is only ending the success() function. May want to rewrite this to make it more clear.
+}
+else {
+	console.log("no cookie");
+	endLoadingAnimation();
 }

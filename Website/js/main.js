@@ -256,6 +256,13 @@
 			if(urlLocation == "upload") {
 				$("#uploadLink").click();
 			}
+			/*if(urlLocation == "validated") {
+				loadingAnimation();
+				if(jsonObject == null || jsonObject == "") {
+					console.log("directed to validated but there's no jsonObject");
+					endLoadingAnimation();
+				}
+			}*/
 
 			
 		});

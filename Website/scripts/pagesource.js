@@ -38,9 +38,10 @@ function setPageSource(source, filename, fileNumber) {
 	}
 	finalSourceSubCode = generateErrors(finalSourceSubCode, filename, fileNumber, oldSourceSubCode);
 	testSource = ["line 1","line 2","line 3"];
-	// remove '.' from filename replace with '_'
+	// remove '.' '/' and '~' from filename replace with '_'
 	filename = filename.replace(/\./g,"_");
 	filename = filename.replace(/\//g,"_");
+	filename = filename.replace(/~/g,"_");
 	finalSourcePre = "<pre name='code' class='html:twilight sourceCodeContainer prettyprint linenums' id='"+filename+"_Pre'>"+finalSourceSubCode.join("")+"</pre>";
 	$('#pageSource').append(finalSourcePre);
 	//$("#"+filename+".Pre").html(finalSourceSubCode);
@@ -467,6 +468,7 @@ function revealPageSource(filename) {
 	console.log("revealing page source");
 	filename = filename.replace(/\./g,"_");
 	filename = filename.replace(/\//g,"_");
+	filename = filename.replace(/~/g,"_");
 	$('.sourceCodeContainer').not('#'+filename+"_Pre").hide();
 	$('#'+filename+"_Pre").show();
 	setScrollWidth(filename+"_Pre");
