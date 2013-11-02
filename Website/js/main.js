@@ -198,8 +198,10 @@
 			
 			
 			$(document).delegate('#breakdown', 'mouseover', function(event) {
-				removeLocation();
-				$('#feedbackLink').addClass('currentLocation');
+				if (!$(event.target).is('h2') && !$(event.target).is('.sectionTitle')) {
+					removeLocation();
+					$('#feedbackLink').addClass('currentLocation');
+				}
 			});
 			
 			

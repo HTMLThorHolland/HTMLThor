@@ -106,7 +106,7 @@
 }
 
 .yellow { 
-		background-color:#F1DF03;
+		background-color:#DAC800;
 }
 
 .blue {
@@ -767,7 +767,7 @@ p.extraText {
 	}
 	
 	.errorKey.warning h5 {
-		border-color: #F1DF03;	
+		border-color: #DAC800;	
 	}
 	
 	.errorKey.deprecated h5 {
@@ -1337,7 +1337,7 @@ h3.totalErrorsHeading {
 	}
 	
 	.totalResult.warning {
-		background-color: #F1DF03;
+		background-color: #F1DF03; /* Note: unique colour for graph */
 	}
 	
 	.totalResult.deprecated {
@@ -1434,23 +1434,23 @@ h3.totalErrorsHeading {
 	}
 
 	.graph.syntax {
-		background-color:#FF153A;
+		background-color: #FF153A;
 }
 
 	.graph.semantic {
-		background-color:#0096ff;
+		background-color: #0096ff;
 	}
 
 	.graph.warning {
-		background-color:#F1DF03;
+		background-color: #F1DF03; /* Note: unique colour for graph */
 	}
 	
 	.graph.deprecated {
-		background-color:#cb1789;	
+		background-color: #cb1789;	
 	}
 	
 	.graph.broken {
-		background-color:#ff8209;	
+		background-color: #ff8209;	
 	}
 
 	.graph.statGraph {
@@ -1753,7 +1753,7 @@ span.brokenLinkIcon {
 	}
 	
 	.warningError pre strong {
-		color:#F1DF03;
+		color:#DAC800;
 	}
 	
 	.deprecatedError pre strong {
@@ -1874,6 +1874,10 @@ pre.sourceCodeContainer {
 		background-color: #EBEBEB;
 	}
 	
+	.qtip.qTipOffsetTop {
+		margin-top: 4px;
+	}
+	
 		.qtip.qTipHighlight.syntax {
 			-moz-box-shadow: inset 6px 0 #FF153A;
 			-webkit-box-shadow: inset 6px 0 #FF153A;
@@ -1887,9 +1891,9 @@ pre.sourceCodeContainer {
 		}
 	
 		.qtip.qTipHighlight.warning {
-			-moz-box-shadow: inset 6px 0 #F1DF03;
-			-webkit-box-shadow: inset 6px 0 #F1DF03;
-			box-shadow: inset 6px 0 #F1DF03;
+			-moz-box-shadow: inset 6px 0 #DAC800;
+			-webkit-box-shadow: inset 6px 0 #DAC800;
+			box-shadow: inset 6px 0 #DAC800;
 		}
 	
 		.qtip.qTipHighlight.deprecated {
@@ -1931,7 +1935,7 @@ pre.sourceCodeContainer {
 		}
 	
 		.leftMessage.warning {
-			border-color: #F1DF03;		
+			border-color: #DAC800;		
 		}
 	
 		.leftMessage.deprecated {
@@ -1998,7 +2002,8 @@ pre.sourceCodeContainer {
 	.syntaxError, .syntaxError span, 
 	.syntax span,
 	.qTipHighlight .syntax,
-	.sourceCodeContainer ol li .syntax span {
+	.syntax span.highlightColour,
+	.sourceCodeContainer ol li .errorSourceWrapper .syntax span {
 		color: #FF153A;
 	}
 	
@@ -2007,28 +2012,32 @@ pre.sourceCodeContainer {
 	.semanticError, .semanticError span, 
 	.semantic span,
 	.qTipHighlight .semantic,
-	.sourceCodeContainer ol li .semantic span  {
+	.semantic span.highlightColour,
+	.sourceCodeContainer ol li .errorSourceWrapper .semantic span  {
 		color: #0096ff;
 	}
 	
 	.warningError , .warningError span, 
 	.warning span,
 	.qTipHighlight .warning,
-	.sourceCodeContainer ol li .warning span {
-		color: #F1DF03; /* best practice */
+	.warning span.highlightColour,
+	.sourceCodeContainer ol li .errorSourceWrapper .warning span {
+		color: #DAC800; /* best practice */
 	}
 	
 	.deprecatedError , .deprecatedError span, 
 	.deprecated span,
 	.qTipHighlight .deprecated,
-	.sourceCodeContainer ol li .deprecated span {
+	.deprecated span.highlightColour,
+	.sourceCodeContainer ol li .errorSourceWrapper .deprecated span {
 		color: #cb1789;
 	}
 	
 	.brokenError , .brokenError span, 
 	.broken span,
 	.qTipHighlight .broken,
-	.sourceCodeContainer ol li .broken span {
+	.broken span.highlightColour,
+	.sourceCodeContainer ol li .errorSourceWrapper .broken span {
 		color: #ff8209;
 	}
 	
@@ -2104,6 +2113,19 @@ pre.sourceCodeContainer {
 		/*position: absolute;
 		top: 0;
 		left: 0;*/
+		cursor: default;
+		-webkit-transition: all 0.1s ease;
+		-moz-transition: all 0.1s ease;
+		-o-transition: all 0.1s ease;
+		transition: all 0.1s ease;
+	}
+	
+		.errorSourceWrapper:hover {
+			background-color: rgba(255, 255, 255, 0.5);
+		}
+	
+	.sourceCodeContainer ol li .errorSourceWrapper span {
+		color: #4E4E4E;
 	}
 	
 	.errorHighlight  {
@@ -2123,7 +2145,7 @@ pre.sourceCodeContainer {
 		height: 17px;
 		position: absolute;
 		left: -90px;
-		top: -3px;
+		top: 0;
 		-webkit-mask-image: url("../images/singleIcon.png");
 	}
 	
@@ -2145,7 +2167,7 @@ pre.sourceCodeContainer {
 	}
 	
 	.pageSource .errorIcon .warning {
-		background-color: #F1DF03;
+		background-color: #DAC800;
 	}
 	
 	.pageSource .errorIcon .deprecated {
@@ -2160,6 +2182,43 @@ pre.sourceCodeContainer {
 /* END Page Source Section */
 
 
+/* (Initially) Unseen HTML */
+
+#errorsOnLine {
+	display: none;
+}
+
+.errorsOnLine {
+	padding: 5px;
+}
+
+	.errorsOnLine h4{
+		font-size: .9em;
+		line-height: 16px;
+		color: #4E4E4E;
+		margin-bottom: 8px;
+	}
+
+	.errorsOnLine h4 span.highlightColour{
+	}
+	
+	.errorsOnLine .errorTipCategory {
+		margin: 5px 0;
+	}
+
+		.errorsOnLine .errorTipCategory p{
+			line-height: 18px;
+			font-size: .9em;
+			padding-left: 8px;
+			margin-bottom: 8px;
+		}
+
+		.errorsOnLine .errorTipCategory p:last-of-type{
+			margin-bottom: 0;
+		}
+
+
+/* END Unseen HTML */
 
 
 

@@ -141,6 +141,33 @@
 
 </head>
 <body>
+	
+	<!-- HTML elements that aren't necessarily seen -->
+	
+	<div id="loadingAnimationWrapper">
+		<div class="loadingAnimation"></div>
+		<p id="ellipsisLoading">loading...</p>
+	</div>
+	
+	<div id="errorsOnLine" class="errorsOnLine">
+		<div class="syntax errorTipCategory">
+			<h4><span class="highlightColour">Syntax</span> Errors</h4>
+		</div>
+		<div class="semantic errorTipCategory">
+			<h4><span class="highlightColour">Semantic</span> Errors</h4>
+		</div>
+		<div class="warning errorTipCategory">
+			<h4><span class="highlightColour">Best Practice</span> Errors</h4>
+		</div>
+		<div class="deprecated errorTipCategory">
+			<h4><span class="highlightColour">Deprecated</span> Errors</h4>
+		</div>
+		<div class="broken errorTipCategory">
+			<h4><span class="highlightColour">Broken</span> Links</h4>
+		</div>
+	</div>
+	
+	<!-- END unseen elements -->
 
 	<!-- Simon's notes
 
@@ -154,13 +181,6 @@
 
 	<!-- Primary Page Layout
 	================================================== -->
-	
-	
-	<div id="loadingAnimationWrapper">
-		<div class="loadingAnimation"></div>
-		<p id="ellipsisLoading">loading...</p>
-	</div>
-	
 	
 	<div class="sideBarNavigation">
 		<div class="siteHeader">
@@ -497,7 +517,7 @@
 							<div id="iconSingleUpload" class="thumb"></div>
 							<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
 								<button id="single" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="51200" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="512000" onchange="uploadJSP(this.id)" /></div>
 							</form>
 							<!--
 							<form action="upload2.jsp" method="POST"
@@ -513,7 +533,7 @@
 							<div id="iconMultiUpload" class="thumb"></div>
 							<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 								<button id="multi" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="153600" onchange="uploadJSP(this.id)" multiple /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="1536000" onchange="uploadJSP(this.id)" multiple /></div>
 							</form>
 						</div>
 						<div id="zipWrapper" onclick="getFile('zipUpload')" class="uploadWrapper uploadCat">
@@ -521,7 +541,7 @@
 							<div id="iconZipUpload" class="thumb"></div>
 							<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
 								<button id="zip" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="460800" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="4608000" onchange="uploadJSP(this.id)" /></div>
 							</form>
 						</div>
 						<div style="clear:both"></div>

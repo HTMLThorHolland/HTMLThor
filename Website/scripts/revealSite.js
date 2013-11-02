@@ -185,6 +185,9 @@ function revealSite() {
 		$('.extraTwo').fadeIn();
 	}
 	endLoadingAnimation();
+	
+	window.location.hash = '#upload';
+	
 }
 
 /* Function to reveal .extraOne and .extraTwo sections of the site */

@@ -1536,11 +1536,11 @@ public class SectionCheck {
 		
 		private int getErrorOffset(String excerpt) {
 			
-			String syntaxString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer syntax errorHighlight syntaxError data-hasqtip= aria-describedby=q-tip></span>";
-			String deprecatedString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer deprecated errorHighlight deprecatedError data-hasqtip= aria-describedby=q-tip></span>";
-			String semanticString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer semantic errorHighlight semanticError data-hasqtip= aria-describedby=q-tip></span>";
-			String warningString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer warning errorHighlight warningError data-hasqtip= aria-describedby=q-tip></span>";
-			String brokenString = "<span data-errorindex= data-filenumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer broken errorHighlight brokenError data-hasqtip= aria-describedby=q-tip></span>";
+			String syntaxString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer syntax errorHighlight syntaxError data-hasqtip= aria-describedby=q-tip></span>";
+			String deprecatedString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer deprecated errorHighlight deprecatedError data-hasqtip= aria-describedby=q-tip></span>";
+			String semanticString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer semantic errorHighlight semanticError data-hasqtip= aria-describedby=q-tip></span>";
+			String warningString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer warning errorHighlight warningError data-hasqtip= aria-describedby=q-tip></span>";
+			String brokenString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer broken errorHighlight brokenError data-hasqtip= aria-describedby=q-tip></span>";
 			int index = 0;
 			int count = 0;
 			

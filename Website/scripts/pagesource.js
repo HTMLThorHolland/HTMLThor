@@ -4,7 +4,7 @@ var oldSource = new Array(); /* Has no error messages */
 var finalSource = new Array();
 
 // JSONObject to contain all file errors.
-var allFileErrorLocations = {};
+var allFileErrorLocations = new Array();
 
 /*
  * Iterates through the source code, escapes certain HTML characters.
@@ -145,7 +145,7 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 		 *	sourceLine = oldSourceLine . replace . excerpt with <span>excerpt</span>
 		 */
 		 
-		var spanWrap = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>";
+		var spanWrap = "<span data-errorIndex="+i+" data-fileNumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' data-errorType='"+jsonObject[fileNumber].errors[i].type+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>";
 		spanWrap += thisErrorExcerpt;
 		spanWrap += "</span>";
 		
@@ -160,7 +160,7 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 		
 		
 		//console.log("is there an error at "+lineNumber+"?" + jsonObject[fileNumber].errors[i].line + jsonObject[fileNumber].errors[i].message);
-		//source[lineNumber] = "<span data-errorIndex="+i+" data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
+		//source[lineNumber] = "<span data-errorIndex="+i+" data-fileNumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+actualLineNumber+"' class='errorContainer "+jsonObject[fileNumber].errors[i].type+" errorHighlight "+jsonObject[fileNumber].errors[i].type+"Error'>"+source[lineNumber]+"</span>"
 		
 		
 		/*
@@ -202,100 +202,17 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 			errorsEachLine[getPosition(errorsEachLine, lineNumber)][1].push(jsonObject[fileNumber].errors[i]);
 		}
 		
-		
-		
 	}
 	
-	/* Loop through the errors by line number
-	for(var j = 0; j < errorsEachLine.length; j++) {
-		// The below line sorts the errors by column number
-		console.log("STARTING MULTIPLE ERROR CHECK");
-		errorsEachLine[j][1].sort(function(a,b) { return a.col - b.col } );
-		var offSetColumn = 0;
-		var lineLocation = errorsEachLine[j][0];
-		
-		// test to see if there's more than 1 error present
-	
-		for(var q = 0; q < errorsEachLine[j][1].length; q++) {
-			var thisErrorExcerpt = errorsEachLine[j][1][q].errorExcerpt;
-			// errorsEachLine[j][1][q].col
-			// get the end column number
-			var endColumn = errorsEachLine[j][1][q].col + offSetColumn;
-			var beginningColumn = endColumn - thisErrorExcerpt.length;
-			console.log("New! Error index is: "+errorsEachLine[j][1][q].errorIndex);
-			console.log("New! Original excerpt: "+thisErrorExcerpt+" and message is: "+errorsEachLine[j][1][q].message);
-			console.log("New! Original col is: "+errorsEachLine[j][1][q].col+" and length is: "+thisErrorExcerpt.length);
-			console.log("New! Manually created column beginning is: "+beginningColumn+" and end is: "+endColumn);
-			console.log("New! Manually created excerpt which is: "+reconvertHTML(source[lineLocation]).substring(beginningColumn,endColumn));
-			
-			// TO DO FIX ERROR INDEX BELOW
-			var beginningSpan = "<span data-errorIndex='"+errorsEachLine[j][1][q].errorIndex+"' data-filenumber='"+fileNumber+"' data-fileowner='"+filename+"' data-errorId='"+lineLocation+"' class='errorContainer "+errorsEachLine[j][1][q].type+" errorHighlight "+errorsEachLine[j][1][q].type+"Error'>";
-					
-			var endSpan = "</span>";
-			
-			var totalSpan = beginningSpan + endSpan;
-			var totalSpanLength = totalSpan.length;
-			
-			// Insert endSpan into source code (first so as not to stuff up the column numbers)
-			//source[lineLocation] = source[lineLocation].substr(0, endColumn) + endSpan + source[lineLocation].substr(endColumn);
-			// inset beginningSpan into source code (by column number)
-			//source[lineLocation] = source[lineLocation].substr(0, beginningColumn) + beginningSpan + source[lineLocation].substr(beginningColumn);
-			
-			// convert back to HTML so the col info corresponds correctly
-			var sourceLine = reconvertHTML(source[lineLocation]);
-			
-			var beginningLine = sourceLine.substr(0, beginningColumn);
-			var lineExcerpt = sourceLine.substr(beginningColumn, endColumn);
-			var endLine = sourceLine.substr(endColumn);
-			
-			// deconvert html
-			
-			beginningLine = escapeHTML(beginningLine);
-			lineExcerpt = escapeHTML(lineExcerpt);
-			endLine = escapeHTML(endLine);
-			console.log("The new line should consist of :"+beginningLine+" : "+beginningSpan);
-			source[lineLocation] = beginningLine + beginningSpan + lineExcerpt + endSpan + endLine;
-			
-			// deconvert html
-			// cut up to begCol
-			// cut out excerpt
-			// cut out after endCol
-			// reconvert html
-			// add beg + span + excerpt + span + end
-			
-			
-			
-			// store this span's beginning starting and ending location and end startin / ending location in an array
-			// at beginning, extract all spans and put in array
-			// append beginning escapedhtml with first span, repeat for all spans
-			// append new span
-			// append excerpt
-			// append close span
-			// append ending
-			
-			
-			
-			console.log ("Old offset is: "+offSetColumn);
-			offSetColumn += totalSpanLength;
-			console.log ("New offset is: "+offSetColumn);
-			
-			
-			
-			// THIS VERSION SHOULD BE ON THE SITE!!!!!
-			
-			// add span
-			// measure length of span
-			// increase offset
-		}
-		
-	}	 */
+	// store the errorsEachLine array in a public / global array for the sake of multiple files
+	allFileErrorLocations.push(errorsEachLine);
 	
 	//console.log("Begin wrapping errors!");
 	/* Loop through errorLineNumbers and wrap each line
 	 *	IMPORTANT: This must come after the errorsEachLine loop!
 	 */
 	for(var j = 0; j < errorLineNumbers.length; j++) {
-		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
+		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-fileNumber='"+fileNumber+"' data-errortypes='"+generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
 	}
 	//console.log("finish finding errors and they take place on these lines: "+errorLineNumbers);
 	return source;
@@ -304,7 +221,13 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 
 function replaceByOccurrence(htmlString, htmlExcerpt, htmlReplace, htmlOccurrence) {
 	console.log("@LOOKING FOR excerpt of "+htmlExcerpt+" and it's the "+htmlOccurrence+" occurrence.");
-	if(htmlOccurrence != -1) {
+	
+	/* Check to see if the excerpt is < > / or span, return the default string if so, as this would stuff up the highlight spans.*/
+	if(htmlReplace == "<" || htmlReplace == ">" || htmlReplace == "/" || htmlReplace == "span" || htmlReplace == "<span" || htmlReplace == "/span" || htmlReplace == "</span>") {
+		return htmlString;
+	}
+	
+	else if(htmlOccurrence != -1) {
 		var nth = 0;
 		var regex = new RegExp(htmlExcerpt, "g");
 		htmlString = htmlString.replace(regex, function (match, i, original) {
@@ -514,6 +437,114 @@ function returnErrorType(filenumber, errorNumber) {
 	return errorType;
 }
 
+/*
+ *	Function to generate an overview for the errors contained on the line when hovering over .errorSourceWrapper
+ *	Return html to be inserted into the qTip
+ */
+function errorsOnLine(lineContainer) {
+	var errorMessageDiv = $("#errorsOnLine").clone();
+	errorMessageDiv.attr("id", "");
+	
+	var lineNumber = lineContainer.parent("li").index() + 1;
+	var fileNumber = lineContainer.attr("data-fileNumber");
+	
+	var syntaxCount = 0;
+	var semanticCount = 0;
+	var warningCount = 0;
+	var deprecatedCount = 0;
+	var brokenCount = 0;
+	
+	console.log("line hovered is: "+lineNumber);
+	
+	console.log("test message of first file first line first error: "+allFileErrorLocations[0][0][1][0].message);
+	
+	for(var i = 0; i < allFileErrorLocations[fileNumber].length; i++) {
+		var checkLineNumber = parseInt(allFileErrorLocations[fileNumber][i][0]) + 1;
+		console.log("Checking for errors at line "+checkLineNumber);
+		if(checkLineNumber == lineNumber) {
+			for(var j = 0; j < allFileErrorLocations[fileNumber][i][1].length; j++) {
+				var errorType = allFileErrorLocations[fileNumber][i][1][j].type;
+				var errorMessage = "<p>"+escapeHTML(allFileErrorLocations[fileNumber][i][1][j].message)+"</p>";
+				errorMessageDiv.find("."+errorType+".errorTipCategory").append(errorMessage);
+				
+				switch (errorType) {
+					case "syntax":
+						syntaxCount++;
+					break;
+					case "semantic":
+						semanticCount++;
+					break;
+					case "warning":
+						warningCount++;
+					break;
+					case "deprecated":
+						deprecatedCount++;
+					break;
+					case "broken":
+						brokenCount++;
+					break;
+				}
+				
+				console.log("Thor will be pleased, a match was found. Error type "+errorType);
+				
+			}
+			break;
+		}
+	}
+	
+	// iterate through each error in allFileErrorLocations[0][0][1]
+	// add to html
+	// increment count
+	
+	/*
+	lineContainer.children(".errorContainer").each(function() {
+		var errorType = $(this).attr("data-errorType");
+		var errorIndex = $(this).attr("data-errorIndex");
+		var fileNumber = $(this).attr("data-fileNumber");
+		
+		var errorMessage = "<p>"+escapeHTML(jsonObject[fileNumber].errors[errorIndex].message)+"</p>";
+		
+		switch (errorType) {
+			case "syntax":
+				syntaxCount++;
+			break;
+			case "semantic":
+				semanticCount++;
+			break;
+			case "warning":
+				warningCount++;
+			break;
+			case "deprecated":
+				deprecatedCount++;
+			break;
+			case "broken":
+				brokenCount++;
+			break;
+		}
+		errorMessageDiv.find("."+errorType+".errorTipCategory").append(errorMessage);
+	});
+	*/
+	
+	
+	if(syntaxCount == 0) {
+		errorMessageDiv.find(".syntax.errorTipCategory").remove();
+	}
+	if(semanticCount == 0) {
+		errorMessageDiv.find(".semantic.errorTipCategory").remove();
+	}
+	if(warningCount == 0) {
+		errorMessageDiv.find(".warning.errorTipCategory").remove();
+	}
+	if(deprecatedCount == 0) {
+		errorMessageDiv.find(".deprecated.errorTipCategory").remove();
+	}
+	if(brokenCount == 0) {
+		errorMessageDiv.find(".broken.errorTipCategory").remove();
+	}
+	
+	return errorMessageDiv;
+}
+
 
 $(document).ready(function() {
 		
@@ -525,7 +556,7 @@ $(document).ready(function() {
 	 $(document).delegate('.errorContainer', 'mouseover', function(event) {
 	 
 		var errorClass = $(this).attr('class').split(' ')[1];
-		var fileNumber = $(this).attr('data-filenumber');
+		var fileNumber = $(this).attr('data-fileNumber');
 	 
 		$(this).qtip({
 			overwrite: false,
@@ -555,6 +586,32 @@ $(document).ready(function() {
 		var fileowner = $(this).attr('data-fileowner');
 		var errorId = $(this).attr('data-errorId');
 		openErrorId(fileowner, errorId); // this function is defined in errors.js
+		event.preventDefault();
+	});
+	
+	$(document).delegate('.errorSourceWrapper', 'mouseover', function(event) {
+		console.log("hover over container");
+		
+		$(this).qtip({
+			overwrite: false,
+			show: {
+				event: event.type,
+				ready: true
+			},
+			position: {
+				my: 'top left',
+				at: 'bottom left',
+				target: $(this)
+			},
+			style: { classes: 'qTipHighlight qTipOffsetTop' },
+			hide: {
+				/*event:"false"*/
+			}, 
+			content: {
+				text: errorsOnLine($(this))
+			}
+		});
+		
 		event.preventDefault();
 	});
 			
