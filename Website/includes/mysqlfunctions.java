@@ -408,8 +408,6 @@ public class Mysqlfunctions {
 	
 	/*
 	 * Checks whether an element is a table element.
-	 * 
-	 * UNIMPLEMENTED
 	 */
 	public boolean isTableElement(String tagName) {
 		Boolean msg = false;
@@ -440,9 +438,68 @@ public class Mysqlfunctions {
 	}
 	
 	/*
+	 * Checks whether an element is a table element that contains other elements.
+	 */
+	public boolean isTableContainer(String tagName) {
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsTableContainer") == 1) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+
+		return msg;
+	}
+	/*
+	 * Checks whether an element is a singular table element.
+	 */
+	public boolean isTableSingular(String tagName) {
+		Boolean msg = false;
+		
+		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
+		ConnectDB con = new ConnectDB();
+		ResultSet result = con.run(query);
+		
+		if (result == null) {
+			return false;
+		}
+		
+		try {
+			if (result.next()) {
+				if (result.getInt("IsTableSingular") == 1) {
+					msg = true;
+				}
+			}
+		} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		con.close();	
+
+		return msg;
+	}
+	
+	/*
 	 * Checks whether an element is a form element.
-	 * 
-	 * UNIMPLEMENTED
 	 */
 	public boolean isFormElement(String tagName) {
 		Boolean msg = false;

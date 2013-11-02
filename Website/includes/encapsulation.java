@@ -20,6 +20,9 @@ public class Encapsulation {
 	public static final int INVALID_BODY_ELEMENT = 106;
 	public static final int UNCLOSED_ELEMENT = 107;
 	public static final int STRAY_CLOSE_TAG = 108;
+	public static final int TABLE_ELEMENT_INCORRECT_ORDER = 140;
+	public static final int DUPLICATE_SINGULAR_TABLE_ELEMENT = 141;
+	public static final int NOT_IN_VALID_TABLE_ELEMENT = 142;
 	
 	/**
 	 * Element class for handling parsed elements and storing their location
@@ -139,7 +142,8 @@ public class Encapsulation {
 	boolean bodyElementOpen = false;
 	boolean tableElementOpen = false;
 	boolean formElementOpen = false;
-	
+	boolean innerTableElementOpen = false;
+
 	/* Create instance of MySQL class. */
 	Mysqlfunctions sql;
 	
@@ -147,6 +151,9 @@ public class Encapsulation {
 	ArrayDeque<Element> openedElements;
 	ArrayList<Element> errorList;
 	ArrayList<Element> encapErrorList;
+	
+	/* Data structure containing table element references. */
+	ArrayDeque<String> tableElements; 
 	
 	/**
 	 * Constructor. Initialises the opened elements deque and the error list.
@@ -156,6 +163,13 @@ public class Encapsulation {
 		errorList = new ArrayList<Element>();
 		encapErrorList = new ArrayList<Element>();
 		sql = new Mysqlfunctions();
+	}
+	
+	/**
+	 * Initialises a new instance of the table element deque.
+	 */
+	private void initialiseTableElementDeque() {
+		tableElements = new ArrayDeque<String>();
 	}
 	
 	/**
@@ -293,6 +307,8 @@ public class Encapsulation {
 	 * @see Element
 	 */
 	public void encapsulation(String element, int line, int colStart, int colEnd) {
+		System.out.println("form open = " + formElementOpen + "; table open = " + tableElementOpen + "; body open = " + bodyElementOpen + "; Element = " + element);
+		System.out.println(openedElements.toString());
 		Element e = new Element(element, line, colStart, colEnd);
 		String cleanName = e.getName();
 		if(e.getName().charAt(0) == '/') {
@@ -312,13 +328,26 @@ public class Encapsulation {
 		}
 		
 		if(bodyElementOpen) {
-			if(sql.isTableElement(e.getName()) && tableElementOpen == false) {
+			if(sql.isTableElement(cleanName) && tableElementOpen == false && innerTableElementOpen == false) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(sql.isFormElement(e.getName()) && formElementOpen == false) {
+				if(sql.isTableContainer(e.getName())) {
+					innerTableElementOpen = true;
+				}
+			}
+			
+			if(sql.isTableElement(e.getName()) && tableElementOpen) {
+				tableElements.push(e.getName());
+				
+				if(sql.isTableSingular(e.getName()) && tableElements.contains(e.getName())) {
+					addError(e, DUPLICATE_SINGULAR_TABLE_ELEMENT);
+				}
+			}
+			
+			if(sql.isFormElement(cleanName) && formElementOpen == false) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
-		
+	
 		if(!sql.isSelfClosing(cleanName)) {
 			tagEncapsulation(e);
 		}
@@ -336,6 +365,9 @@ public class Encapsulation {
 		ArrayDeque<Element> deque = new ArrayDeque<Element>();
 		
 		if(e.getName().charAt(0) != '/') {
+			boolean colgroupOpen = false;
+			boolean trOpen = false;
+			
 			itr = openedElements.iterator();
 			boolean noAdd = false;
 			while(itr.hasNext()) {
@@ -352,6 +384,7 @@ public class Encapsulation {
 				if(itrElem.getName().equals(validNest)) {
 					noAdd = true;
 				}
+				
 				if(e.getName().equals(itrElem.getName())) {
 					if(!((e.getName().equals("div")) || (e.getName().equals("span")) || (e.getName().equals("fieldset")))) {
 						if(!noAdd) {
@@ -359,6 +392,26 @@ public class Encapsulation {
 						}
 					}
 				}
+				
+				if(itrElem.getName().equals("colgroup")) {
+					colgroupOpen = true;
+				}
+				
+				if(itrElem.getName().equals("tr")) {
+					trOpen = true;
+				}
+			}
+			
+			if(e.getName().equals("caption") && !tableElements.isEmpty()) {
+				addError(e, TABLE_ELEMENT_INCORRECT_ORDER);
+			}
+			
+			if(e.getName().equals("col") && !colgroupOpen) {
+				addError(e, NOT_IN_VALID_TABLE_ELEMENT);
+			}
+			
+			if((e.getName().equals("td") || e.getName().equals("th")) && !trOpen) {
+				addError(e, NOT_IN_VALID_TABLE_ELEMENT);
 			}
 			
 			openedElements.push(e);
@@ -381,6 +434,7 @@ public class Encapsulation {
 			
 			if(e.getName().equals("table")) {
 				tableElementOpen = true;
+				initialiseTableElementDeque();
 			}
 			
 		} else {
@@ -422,6 +476,13 @@ public class Encapsulation {
 							if(itr.next().getName().equals("form")) {
 								formElementOpen = true;
 							}
+						}
+					}
+					
+					if(innerTableElementOpen) {
+						String cleanName = e.getName().substring(1);
+						if(sql.isTableContainer(cleanName)) {
+							innerTableElementOpen = false;
 						}
 					}
 					
