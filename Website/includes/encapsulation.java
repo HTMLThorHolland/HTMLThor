@@ -312,9 +312,9 @@ public class Encapsulation {
 		}
 		
 		if(bodyElementOpen) {
-			if(sql.isTableElement(cleanName) && tableElementOpen == false) {
+			if(sql.isTableElement(e.getName()) && tableElementOpen == false) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
-			} else if(sql.isFormElement(cleanName) && formElementOpen == false) {
+			} else if(sql.isFormElement(e.getName()) && formElementOpen == false) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
@@ -373,6 +373,14 @@ public class Encapsulation {
 			
 			if(e.getName().equals("body")) {
 				bodyElementOpen = true;
+			}
+			
+			if(e.getName().equals("form")) {
+				formElementOpen = true;
+			}
+			
+			if(e.getName().equals("table")) {
+				tableElementOpen = true;
 			}
 			
 		} else {
