@@ -240,7 +240,15 @@ function calculatePercentages(file, totalErrors, fileNumber) {
 	
 }
 
-/* In the future this function will generate the highlight message to be displayed. */
+ /**
+ *	
+ *	This function generates the highlight message to be displayed.
+ *	
+ *	@param		barId			HTML Object		The HTML element that was hovered over.
+ *	
+ *	@return		errorMessage	String			The error message that should be displayed in the hover popup.
+ *	
+ */
 function visualHighlight(barId) {
 	errorNumber = barId.attr('errorNumber');
 	errorType = barId.attr('class').split(' ')[0];

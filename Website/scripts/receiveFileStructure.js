@@ -1,48 +1,12 @@
+// global integer to track the total broken links associated with the uploaded .zip
 var allBrokenLinksTotal = 0;
 
-$(document).ready(function() {
-});
-
-/* Example JSON Object that should be generated when a user uploads a directory via .zip */
-var directory = [
-	{ "name":"images", "id":"images_0", "type":"folder", "totalErrors":"0", "errorTypes":"", "children":
-		[
-			{ "name":"index.html", "id":"index.html_0", "type":"brokenFile", "totalErrors":"2", "errorTypes":
-				["brokenLink","incorrectLocation"], "children":""},
-			{ "name":"webloop.html", "id":"webloop.html_0", "type":"file", "totalErrors":"0", "errorTypes":["incorrectLocation"], "children":"" },
-			{ "name":"testfile.html", "id":"testfile.html_0", "type":"brokenFile", "totalErrors":"2", "errorTypes":["brokenLink"], "children":"" },
-			{ "name":"sub_images", "id":"sub_images_0", "type":"folder", "totalErrors":"0", "errorTypes":"", "children":
-				[
-					{ "name":"starlight.tif", "id":"starlight.tif_0", "type":"file", "totalErrors":"0", "errorTypes":"", "children":""}
-				]
-			}
-		]
-	},
-	{ "name":"about.html", "id":"about.html_0", "type":"file", "errorTypes":"", "children":"" }
-];
-
-var fileErrors = [
-	{"id":"index.html_0", "errors":
-		[
-			{ "incorrectLocation":"/images", "linkSuggestion":"root"},
-			{ "brokenLink":"starlight.tfi", "linkSuggestion":"images/starlight.tfi" },
-			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
-		]
-	},
-	{"id":"webloop.html_0", "errors":
-		[
-			{ "incorrectLocation":"/images", "linkSuggestion":"root"}
-		]
-	},
-	{"id":"testfile.html_0", "errors":
-		[
-			{ "brokenLink":"starlight.tfi", "linkSuggestion":"testLocation" },
-			{ "brokenLink":"image.jpg", "linkSuggestion":"" }
-		]
-	}
-];
-
-function generateFileStructure(object) {
+/**
+ *	
+ *	Generate the file structure. Set the file structure feedback.				
+ *	
+ */
+function generateFileStructure() {
 	$('#structureContainer').html(getFiles(directoryJSON.children));
 	createTree(); // executes JSTree
 	$('#totalBroken').text(allBrokenLinksTotal);
@@ -62,24 +26,18 @@ function generateFileStructure(object) {
 		$("#brokenFeedback p").text("No broken links have been detected in your uploaded .zip folder. Congratulations!");
 	}
 	
-	// NEW TESTING FOR NEW JSON OBJECT
-	
 }
 
-/*
- *	NOWHERE NEAR COMPLETE!
- *	Create a new broken link error
- *	Enter into #brokenErrorsContainer
+/**
+ *	
+ *	Recursive function to loop through the supplied container and generate an unordered list formatted specifically to enable the plugin jsTree to convert it
+ *	to an interactive file structure.
+ *			
+ *	@param		container		JSON Object		Contains child files and folders.	
+ *			
+ *	@return		list			String			The generated HTML to be input into the site.	
+ *	
  */
-function generateBrokenError(errorMessage, fileName, lineNumber, underScoreName) {
-	errorDiv = "<div fileowner='"+fileName+"' errorId='"+actualLineNumber+"' class='"+errorType+" errorListing "+underScoreName+"'>";
-	errorDiv += "<p class='errorLocation'>Line "+jsonObject[j].errors[i].line+", Column "+jsonObject[j].errors[i].col+":</p>";
-	errorDiv += "<p class='errorDescription'>"+jsonObject[j].errors[i].message+"</p>";
-	errorDiv += "<pre><span class='linePos'>"+jsonObject[j].errors[i].line+".</span>"+oldSource[j][1][jsonObject[j].errors[i].line - 1]+"</pre></div>";
-	return errorDiv;
-}
-
-/* Loop through each base-level item in the directory */
 function getFiles(container) {
 	//console.log("beginning structure: "+container + " first child is: "+container[0].name);
 	list = "<ul>";
@@ -124,7 +82,15 @@ function getFiles(container) {
 	return list;
 }
 
-
+/**
+ *	
+ *	Get the size of the supplied JSON object.
+ *	
+ *	@param		obj		JSON Object				
+ *	
+ *	@return		size	Integer					
+ *	
+ */
 Object.size = function(obj) {
     var size = 0, key;
     for (key in obj) {
@@ -133,7 +99,16 @@ Object.size = function(obj) {
     return size;
 };
 
-
+/**
+ *	
+ *	Generate a broken file html element and append it to the appropriate container.
+ *	
+ *	@param		name			String			The name of the file.
+ *	@param		total			Integer			The total number of broken links associated with the file.
+ *	@param		filePath		String			The file path of the file. (Based upon the uploaded .zip)
+ *	@param		location		String			Optional. The suggestion for where this file should be located.	
+ *	
+ */
 function generateBrokenFile(name, total, filePath, location) {
 	brokenFile = "<div class='structureBrokenFile' data-fileId='"+filePath+"'>";
 	brokenFile += "<span class='brokenLinkIcon'></span>";
@@ -147,9 +122,9 @@ function generateBrokenFile(name, total, filePath, location) {
 	$('.structureBrokenFilesList').append(brokenFile);
 }
 
-
-
-
+/**
+ * When the user clicks on the file name, open up the appropriate source code.
+ */
 $(document).delegate('.structureBrokenFile .fileLocation', 'click', function(event) {
 
 	id = $(this).closest('.structureBrokenFile').attr('data-fileId');
@@ -160,7 +135,9 @@ $(document).delegate('.structureBrokenFile .fileLocation', 'click', function(eve
 	
 });
 
-
+/**
+ * When the user clicks on the broken link number, open up the appropriate errors container.
+ */
 $(document).delegate('.structureBrokenFile .brokenLinksNumber', 'click', function(event) {
 	changeFile($(this).closest('.structureBrokenFile').attr('data-fileId'));
 	removeLocation();
@@ -169,65 +146,3 @@ $(document).delegate('.structureBrokenFile .brokenLinksNumber', 'click', functio
 		scrollTop: $("#errorsList .errorCategory.broken").offset().top
 	}, 600);
 });
-
-
-/* Function to generate the qtip error message */
-function getFileErrors(fileId) {
-	for(var i = 0; i < fileErrors.length; i++) {
-		/* If this is the case, we know what error message to show */
-		if(fileErrors[i].id == fileId) {
-			errorMessage = "";
-			brokenLinks = 0;
-			for(var j = 0; j < fileErrors[i].errors.length; j++) {
-				if(fileErrors[i].errors[j]['brokenLink']){
-					brokenLinks ++;
-				}
-			}
-			if(brokenLinks == 1) {
-				errorMessage = "<p>This file contains "+brokenLinks+" broken link.</p>";
-			}
-			else {
-				errorMessage = "<p>This file contains "+brokenLinks+" broken links.</p>";
-			}
-			return errorMessage;
-		}
-	}
-}
-
-/* When the user highlights over a brokenLink a qtip is generated. */
-$(document).delegate('.brokenLink', 'mouseover', function(event) {
-	//console.log("hover");
-	$(this).qtip({
-		overwrite: true,
-		show: {
-			event: event.type,
-			ready: true
-		},
-		position: {
-			adjust: {
-               screen: true // Keep the tooltip on-screen at all times
-            },
-			my: 'bottom left',
-			at: 'top left',
-			target: $(this)
-		},
-		style: { 
-			classes: 'fileStructureHighlight',
-			tip: true,
-			border: {
-				width: 3, 
-				radius: 8, 
-				color: '#646358'
-			}
-		},
-		hide: {
-			/*event:"false"*/
-		}, 
-		content: {
-			text: getFileErrors($(this).attr('id'))
-		}
-	});
-	
-	event.preventDefault();
-});
-

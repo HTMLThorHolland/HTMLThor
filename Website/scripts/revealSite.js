@@ -1,5 +1,9 @@
 var zipUploaded = false;
 
+/**
+ *	Main function that is called when the cookie has been detected. It calls the appropriate functions
+ *	to generate the statistics, page source, errors section and the file structure.
+ */
 function rockAndRoll() {
 
 	if(!jsonObject.filecount) {
@@ -43,35 +47,11 @@ var ellipsisCount = 0;
 var loadingEllipsis;
 
 function loadingAnimation() {	
-	console.log("executing loading animation");
 	$("#loadingAnimationWrapper").show();
-	console.log("finished loading the loading animation");
-	
-	//loadingEllipsis=setInterval(function(){ellipsis()},500);
-	
-}
-
-function ellipsis() {
-	if(ellipsisCount == 0) {
-		$("#ellipsisLoading").text("loading");
-		ellipsisCount++;		
-	}
-	else if(ellipsisCount == 1) {
-		$("#ellipsisLoading").text("loading.");
-		ellipsisCount++;	
-	}
-	else if(ellipsisCount == 2) {
-		$("#ellipsisLoading").text("loading..");
-		ellipsisCount++;	
-	}
-	else {
-		$("#ellipsisLoading").text("loading...");
-		ellipsisCount = 0;		
-	}
+	console.log("executing loading animation");
 }
 
 function endLoadingAnimation() {
-	//clearInterval(loadingEllipsis);
 	$("#loadingAnimationWrapper").hide();
 	console.log("loading animation has been destroyed");
 }
@@ -146,10 +126,9 @@ function setSelectBoxes(filename) {
 		$('.selectFileObject').each(function() { // For each other list
 			$(this).val(filename);
 		});
-		//console.log("set the new value to: "+filename);
 	}
 	else {
-		//console.log(filename+" is not an option from the select boxes");
+		console.log(filename+" is not an option from the select boxes");
 	}
 }
 
