@@ -109,6 +109,8 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 		jsonObject[fileNumber].errors[i].errorIndex = i;
 		errorByLineCollection.push(jsonObject[fileNumber].errors[i]);
 	
+		console.log("Error excerpt is: "+jsonObject[fileNumber].errors[i].errorExcerpt);
+	
 		var errorTypes = new Array();
 		
 		errorTypes.push(jsonObject[fileNumber].errors[i].type);
@@ -206,13 +208,30 @@ function replaceByOccurrence(htmlString, htmlExcerpt, htmlReplace, htmlOccurrenc
 	else if(htmlOccurrence != -1) {
 		var nth = 0;
 		var regex = new RegExp(htmlExcerpt, "g");
-		htmlString = htmlString.replace(regex, function (match, i, original) {
-			nth++;
-			console.log("match found this is the "+nth+" occurrence.");
-			return (nth === htmlOccurrence) ? htmlReplace : match;
-		});
-		console.log("REPLACED@ on occurrence number "+nth+" and changed to "+htmlString);
-		return htmlString;
+		var splits = htmlString.split("<");
+		var returnString = "";
+		for (var i = 0; i < splits.length; i++) {
+			if (i != 0) {
+				var splitTwo = splits[i].split(">");
+				splitTwo[1] = splitTwo[1].replace(regex, function (match, i, original) {
+					nth++;
+					console.log("match found this is the "+nth+" occurrence.");
+					return (nth === htmlOccurrence) ? htmlReplace : match;
+				});
+				console.log("REPLACED@ on occurrence number "+nth+" and changed to "+splitTwo[1]);
+				splits[i] = splitTwo[0] + splitTwo[1];
+			} else {
+				splits[0] = splits[0].replace(regex, function (match, i, original) {
+					nth++;
+					console.log("match found this is the "+nth+" occurrence.");
+					return (nth === htmlOccurrence) ? htmlReplace : match;
+				});
+				console.log("REPLACED@ on occurrence number "+nth+" and changed to "+splits[0]);
+			}
+			returnString += splits[i];
+		}
+		
+		return returnString;
 	}
 	else {
 		return htmlString;
@@ -386,10 +405,14 @@ function returnErrorType(filenumber, errorNumber) {
  */
 function errorsOnLine(lineContainer) {
 	var errorMessageDiv = $("#errorsOnLine").clone();
-	errorMessageDiv.attr("id", "");
 	
 	var lineNumber = lineContainer.parent("li").index() + 1;
 	var fileNumber = lineContainer.attr("data-fileNumber");
+	
+	// to enable us to modify the qTip after it's been created.
+	var messageId = lineNumber + "_" + fileNumber + "_messageId";
+	
+	errorMessageDiv.attr("id", messageId);
 	
 	var syntaxCount = 0;
 	var semanticCount = 0;
@@ -407,7 +430,8 @@ function errorsOnLine(lineContainer) {
 		if(checkLineNumber == lineNumber) {
 			for(var j = 0; j < allFileErrorLocations[fileNumber][i][1].length; j++) {
 				var errorType = allFileErrorLocations[fileNumber][i][1][j].type;
-				var errorMessage = "<p>"+escapeHTML(allFileErrorLocations[fileNumber][i][1][j].message)+"</p>";
+				var errorIndex = allFileErrorLocations[fileNumber][i][1][j].errorIndex;
+				var errorMessage = "<p id='"+errorIndex+"_"+lineNumber+"_"+fileNumber+"_errorMessage'>"+escapeHTML(allFileErrorLocations[fileNumber][i][1][j].message)+"</p>";
 				errorMessageDiv.find("."+errorType+".errorTipCategory").append(errorMessage);
 				
 				switch (errorType) {
@@ -454,7 +478,6 @@ function errorsOnLine(lineContainer) {
 	return errorMessageDiv;
 }
 
-
 $(document).ready(function() {
 		
 	/* This is code for the qtip2 plugin. Delegate allows it to work with dynamically generated content
@@ -466,7 +489,13 @@ $(document).ready(function() {
 	 
 		var errorClass = $(this).attr('class').split(' ')[1];
 		var fileNumber = $(this).attr('data-fileNumber');
+		var linePos = $(this).attr('data-errorId');
+		var errorIndex = $(this).attr('data-errorIndex');
 	 
+		// find the correct p tag and add a highlight class
+		$("#"+errorIndex+"_"+linePos+"_"+fileNumber+"_errorMessage").addClass("hover");
+	 
+		/*
 		$(this).qtip({
 			overwrite: false,
 			show: {
@@ -480,13 +509,13 @@ $(document).ready(function() {
 			},
 			style: { classes: 'qTipHighlight ' + errorClass },
 			hide: {
-				/*event:"false"*/
+				event:"false"
 			}, 
 			content: {
 				text: getContent($(this), fileNumber)
 			}
 		});
-		
+		*/
 		event.preventDefault();
 	});
 	
@@ -496,6 +525,17 @@ $(document).ready(function() {
 		var errorId = $(this).attr('data-errorId');
 		openErrorId(fileowner, errorId); // this function is defined in errors.js
 		event.preventDefault();
+	});
+	
+	 $(document).delegate('.errorContainer', 'mouseout', function(event) {
+	 
+		var fileNumber = $(this).attr('data-fileNumber');
+		var linePos = $(this).attr('data-errorId');
+		var errorIndex = $(this).attr('data-errorIndex');
+	 
+		// find the correct p tag and remove the highlight class
+		$("#"+errorIndex+"_"+linePos+"_"+fileNumber+"_errorMessage").removeClass("hover");
+		
 	});
 	
 	$(document).delegate('.errorSourceWrapper', 'mouseover', function(event) {
@@ -522,6 +562,7 @@ $(document).ready(function() {
 		});
 		
 		event.preventDefault();
+		initScrollPanes();
 	});
 			
 });

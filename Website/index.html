@@ -54,26 +54,17 @@
 	<link rel="apple-touch-icon" size="72x72" href="images/apple-touch-icon-72x72.png" />
 	<link rel="apple-touch-icon" size="114x114" href="images/apple-touch-icon-114x114.png" />
 	
-	<!-- Syntax Highlighter Imports
-	==================================================
-	<script type="text/javascript" src="scripts/shCore.js"></script>
-	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
-	<script type="text/javascript" src="scripts/shBrushXml.js"></script>
-	<link type="text/css" rel="stylesheet" href="css/shCore.css"/> -->
-	
 	<!-- GOOGLE PRETTIFY Syntax Highlighter Imports USING THIS ONE
 	================================================== -->
 	<script type="text/javascript" src="js/prettify/prettify.js"></script>
 	
-	<!-- Snippet DELETE NOT WORKING
-	==================================================
-	<script type="text/javascript" src="js/jquery.snippet.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/jquery.min.snippet.css" />  -->
-	
-	<!-- Snippet DELETE NOT WORKING
-	==================================================
-	<script type="text/javascript" src="js/mootools-core-1.4.5-full-compat-yc.js"></script>
-	<script type="text/javascript" src="js/lighter/Lighter.js"></script>  -->
+	<!-- jScrollPane
+	================================================== -->
+	<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/jquery.jscrollpane.css" />
+	<!-- Custom Controller Script for jScrollPane -->
+	<script type="text/javascript" src="scripts/scrollPane.js"></script>
 	
 	<!-- TRIP JS (Tour)
 	================================================== -->
@@ -81,8 +72,6 @@
 	<link type="text/css" rel="stylesheet" href="css/trip.min.css" />
 	<!-- Custom Controller Script for Tour -->
 	<script type="text/javascript" src="scripts/siteTour.js"></script>
-	
-	
 	
 	<!-- JSTREE
 	================================================== -->
@@ -93,7 +82,6 @@
 	<link type="text/css" rel="stylesheet" href="css/custom-jstree.css" />
 	
 	
-	<!-- Currently a test file for "receiving" a JSON object and then constructing the file structure section. -->
 	<script type="text/javascript" src="scripts/receiveFileStructure.js"></script>
 	<script type="text/javascript" src="scripts/statistics.js"></script>
 	<script type="text/javascript" src="scripts/singleFile.js"></script>
@@ -149,7 +137,7 @@
 		<p id="ellipsisLoading">loading...</p>
 	</div>
 	
-	<div id="errorsOnLine" class="errorsOnLine">
+	<div id="errorsOnLine" class="errorsOnLine scroll-pane">
 		<div class="syntax errorTipCategory">
 			<h4><span class="highlightColour">Syntax</span> Errors</h4>
 		</div>

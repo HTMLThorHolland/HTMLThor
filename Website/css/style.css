@@ -1876,6 +1876,7 @@ pre.sourceCodeContainer {
 	
 	.qtip.qTipOffsetTop {
 		margin-top: 4px;
+		background-color: #FCFCFC;
 	}
 	
 		.qtip.qTipHighlight.syntax {
@@ -2190,16 +2191,20 @@ pre.sourceCodeContainer {
 
 .errorsOnLine {
 	padding: 5px;
+	max-height: 400px;
 }
 
 	.errorsOnLine h4{
-		font-size: .9em;
+		font-size: 1em;
 		line-height: 16px;
 		color: #4E4E4E;
 		margin-bottom: 8px;
+		font-weight: 400;
+		font-family: "Source Sans Pro";
 	}
 
 	.errorsOnLine h4 span.highlightColour{
+		font-weight: 600;
 	}
 	
 	.errorsOnLine .errorTipCategory {
@@ -2209,8 +2214,15 @@ pre.sourceCodeContainer {
 		.errorsOnLine .errorTipCategory p{
 			line-height: 18px;
 			font-size: .9em;
-			padding-left: 8px;
+			padding: 0 8px;
 			margin-bottom: 8px;
+		}
+
+		.errorsOnLine .errorTipCategory p.hover {
+			padding-left: 5px;
+			border-left: 2px solid #D1D1D1;
+			margin-left: 1px;
+			color: #484848;
 		}
 
 		.errorsOnLine .errorTipCategory p:last-of-type{
