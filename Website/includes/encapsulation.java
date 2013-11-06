@@ -163,6 +163,7 @@ public class Encapsulation {
 		errorList = new ArrayList<Element>();
 		encapErrorList = new ArrayList<Element>();
 		sql = new Mysqlfunctions();
+		initialiseTableElementDeque();
 	}
 	
 	/**
