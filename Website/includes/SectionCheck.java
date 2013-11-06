@@ -5,7 +5,11 @@ import java.util.*;
 import java.util.zip.*;
 import org.json.simple.JSONObject;
 
-
+/**
+ * The SectionCheck class contains functions to find and record all errors
+ * in each file that it is passed.
+ * 
+ */
 public class SectionCheck {
 	
 	private List<String> filesInZip = null;
@@ -27,8 +31,17 @@ public class SectionCheck {
 	public SectionCheck() {
 		
 	}
-
-		/* This is the coding for the NEW error checking */
+		
+		/**
+		 * Takes the string contents of every file uploaded, 
+		 * (or the string data from direct input if selected)
+		 * and then returns a JSON object of JSON objects,
+		 * each one corresponding to an error with a side element referencing
+		 * its occurrence number.
+		 * 
+		 * @param fileContents - the contents of each file as a list of strings
+		 * @return errors - a JSONObject of JSONObjects, containing each error and its occurrence number
+		 */
 		public JSONObject findErrors(List<String> fileContents) {
 		
 			source = fileContents;
@@ -90,10 +103,9 @@ public class SectionCheck {
 			// 5: ' found - ignoring everything until matching ' found
 			// 6: value not enclosed in quotes - add error when end of attribute value found
 			
-			/* START OF AMEER'S CODE */
-			/* Instantiation of Encapsulation class. */
+			
+			// Instantiation of Encapsulation class. 
 			Encapsulation encap = new Encapsulation();
-			/* END OF AMEER'S CODE */
 			
 			int endTagColumnNo = 0;
 			int endAttrColumnNo = 0;
@@ -225,7 +237,7 @@ public class SectionCheck {
 						continue;
 					}
 					// ==============================================
-					// check whether a style tag is open, in which case content will be unchecked
+					// check whether a script tag is open, in which case content will be unchecked
 					// until </script> is found
 					// ==============================================
 					if (openScript) {
@@ -306,7 +318,10 @@ public class SectionCheck {
 						continue;
 					}
 					
-					/* START OF AMEER'S CODE */
+					// ==============================================
+					// check whether a svg tag is open, in which case content will be unchecked
+					// until </svg> is found
+					// ==============================================
 					if (openSvg) {
 						if (endEscapedTagPhase == 0) {
 							if (charArray.getChar(j) == '<') {
@@ -361,6 +376,10 @@ public class SectionCheck {
 						continue;
 					}
 					
+					// ==============================================
+					// check whether a math tag is open, in which case content will be unchecked
+					// until </math> is found
+					// ==============================================
 					if (openMath) {
 						if (endEscapedTagPhase == 0) {
 							if (charArray.getChar(j) == '<') {
@@ -423,6 +442,10 @@ public class SectionCheck {
 						continue;
 					}
 					
+					// ==============================================
+					// check whether a code tag is open, in which case content will be unchecked
+					// until </code> is found
+					// ==============================================
 					if (openCode) {
 						if (endEscapedTagPhase == 0) {
 							if (charArray.getChar(j) == '<') {
@@ -484,10 +507,9 @@ public class SectionCheck {
 						}
 						continue;
 					}
-					/* END OF AMEER'S CODE */
 					
 					// ==============================================
-					// Script/style checking done
+					// Script/style/math/svg/code checking done
 					// ==============================================
 				
 				
@@ -939,9 +961,14 @@ public class SectionCheck {
 						
 					}
 				
+					// ==============================================
+					// Attribute checking end
+					// ==============================================
 				
 				
-				
+					// ==============================================
+					// Tag checking start
+					// ==============================================
 					if(charArray.getChar(j)=='<') {
 						
 						openTag = true;
@@ -966,15 +993,7 @@ public class SectionCheck {
 						
 						j = j+1;
 						
-						
-						
-								
-						
 					}
-			
-			
-								
-					
 			
 			
 					// As long as a comment tag is not open, another tag is open and 
@@ -1046,9 +1065,18 @@ public class SectionCheck {
 										j--;
 									}
 									
-									
+									// Check all of the singular and required tags
 									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||
-										tag.equalsIgnoreCase("title")||tag.equalsIgnoreCase("meta")) {
+										tag.equalsIgnoreCase("title")||tag.equalsIgnoreCase("meta")||tag.equalsIgnoreCase("main")||tag.equalsIgnoreCase("base") {
+										
+										if(tag.equalsIgnoreCase("main") {
+											error = errorConstructor(sql.getErrMsg(47), "warning", i+1, endTagColumnNo, tag);
+											errors.put(errorCount, error);
+											errorCount += 1;
+										}
+										else if(!tag.equalsIgnoreCase("base") {
+											requiredTags.add(tag.toLowerCase());
+										}
 										
 										if(!tag.equalsIgnoreCase("meta")) {
 											if(singularTags.contains(tag.toLowerCase())) {
@@ -1063,6 +1091,10 @@ public class SectionCheck {
 													error = errorConstructor(sql.getErrMsg(7), "semantic", i+1, endTagColumnNo, tag);
 												} else if (tag.equalsIgnoreCase("body")) {
 													error = errorConstructor(sql.getErrMsg(16), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("main")) {
+													error = errorConstructor(sql.getErrMsg(46), "semantic", i+1, endTagColumnNo, tag);
+												} else if (tag.equalsIgnoreCase("base")) {
+													error = errorConstructor(sql.getErrMsg(45), "semantic", i+1, endTagColumnNo, tag);
 												}
 												errors.put(errorCount, error);
 												errorCount += 1;
@@ -1070,8 +1102,9 @@ public class SectionCheck {
 											else {
 												singularTags.add(tag.toLowerCase());
 											}
-											requiredTags.add(tag.toLowerCase());
 										}
+										
+										
 										
 										
 									}
@@ -1133,6 +1166,7 @@ public class SectionCheck {
 								attrPhase = 0;
 								
 								if (!isClosingTag) {
+									// Get the list of required attributes for a tag from the database
 									List<String> requiredAttributes = new ArrayList<String>();
 									requiredAttributes = sql.requiresAttr(tag.toLowerCase());
 									Boolean erroredAttrAlready = false;
@@ -1262,6 +1296,12 @@ public class SectionCheck {
 							}
 						
 						}
+						
+						// ==============================================
+						// Tag checking end
+						// ==============================================
+						
+						// Signal the end of the tag name and the beginning of an attribute
 						else {
 							if (j != 0) {
 									
@@ -1334,14 +1374,15 @@ public class SectionCheck {
 				}
 			}
 			
-			/* START OF AMEER'S CODE */
+			// Grab the encapsulation errors for the file
 			ArrayList<JSONObject> encapErrorList = parseEncapsulationErrors(encap.getErrorList());
 			for(int i = 0; i < encapErrorList.size(); i++) {
 				errors.put(errorCount, encapErrorList.get(i));
 				errorCount++;
 			}
-			/* END OF AMEER'S CODE */
 			
+			
+			// Add any errors for required tags not being present
 			if(!requiredTags.contains("html")) {
 				error = errorConstructor(sql.getErrMsg(3), "syntax", 1, 0, "");
 				errors.put(errorCount, error);
@@ -1374,13 +1415,10 @@ public class SectionCheck {
 			}
 			
 			
-			
-			
 			errors.put("count", errorCount);
 			return errors;
 		}			
 		
-		/* START OF AMEER'S CODE */
 		/**
 		 * Takes the list of encapsulation errors and converts them to a
 		 * list of JSONObject error objects.
@@ -1422,14 +1460,6 @@ public class SectionCheck {
 					errorExcerpt = "";
 				}
 				col = col + errorExcerpt.length() - 1;
-				/*
-				if(errorExcerpt.charAt(0) == '/') {
-					errorExcerpt = "FIXED";
-					//errorExcerpt = errorValues[4].substring(1);
-				} else {
-					errorExcerpt = "FIXED";
-					//errorExcerpt = errorValues[4];
-				}*/
 				String message = sql.getErrMsg(errorCode);
 				if (message == null) {
 					message = "No message could be found for error code: "+Integer.toString(errorCode);
@@ -1462,18 +1492,7 @@ public class SectionCheck {
 			error.put("errorExcerpt", errorExcerpt);
 			error.put("colOffset", colOffset);
 			int lengthOffset = 0;
-			/*
-			for (int i = 0; i < errorExcerpt.length(); i++) {
-				if (errorExcerpt.charAt(i) == '<' || errorExcerpt.charAt(i) == '>') {
-					lengthOffset += 3;
-				} else if (errorExcerpt.charAt(i) == '"') {
-					lengthOffset += 5;
-				} else if (errorExcerpt.charAt(i) == '\'') {
-					lengthOffset += 4;
-				}
-			}
-			error.put("lengthOffset", lengthOffset);
-			*/
+			
 			
 			boolean parseOcc = true;
 			
@@ -1534,8 +1553,15 @@ public class SectionCheck {
 			errorInChar = true;
 			return error;
 		}
-		/* END OF AMEER'S CODE */
 		
+		
+		
+		/**
+		 * Description
+		 * 
+		 * @param excerpt
+		 * @return 
+		 */
 		private int getErrorOffset(String excerpt) {
 			
 			String syntaxString = "<span data-errorIndex= data-fileNumber= data-fileowner='"+filePath+"' data-errorid= class='errorContainer syntax errorHighlight syntaxError data-hasqtip= aria-describedby=q-tip></span>";
@@ -1638,6 +1664,7 @@ public class SectionCheck {
 		 * Adds a list of file names that have been passed along with the current file. Used to check
 		 * for broken links. User must always call addFilePath after addAssociatedFiles before 
 		 * using findErrors.
+		 *
 		 * @param filenames List of filenames (including file path)
 		 */
 		public void addAssociatedFiles(List<String> filenames) {
@@ -1648,6 +1675,7 @@ public class SectionCheck {
 		 * Adds a path of the file that is about to be checked. Used to find broken links.
 		 * Will still required a call to findErrors before the file is checked.
 		 * This method exists instead of an overloaded findErrors method.
+		 *
 		 * @param filepath Full path of the file that will be checked next.
 		 */
 		public void addFilePath(String filepath) {
@@ -1656,6 +1684,7 @@ public class SectionCheck {
 		
 		/**
 		 * Returns the number of broken links found in the last checked file.
+		 *
 		 * @return The number of broken links in the last file.
 		 */
 		public int getBrokenLinks() {
@@ -1667,6 +1696,7 @@ public class SectionCheck {
 		 * attributes like src. Any full path will be considered valid (eg. starting with http://).
 		 * Any reference to a javascript function will also be considered valid, despite the
 		 * risk that function does not exist.
+		 *
 		 * @param filepath The file path to check whether valid
 		 * @return The string of where the file was expected if non-existent. Otherwise null.
 		 */
@@ -1696,6 +1726,7 @@ public class SectionCheck {
 		
 		/**
 		 * Gets the file path of parent folder of current file.
+		 *
 		 * @param path Path of the file to find parent folder of
 		 * @return The file path of the parent folder
 		 */
@@ -1714,6 +1745,7 @@ public class SectionCheck {
 		
 		/**
 		 * Finds suggested file locations for a broken link.
+		 *
 		 * @param path The file path which could not be found
 		 * @return JSON Object containing list of matching files found elsewhere in zip
 		 */
@@ -1736,8 +1768,6 @@ public class SectionCheck {
 		/**
 		 * Class for accessing the character array of the line of the HTML file
 		 * being parsed. 
-		 *
-		 * @author Ameer Sabri
 		 */
 		public class CharArray {
 				
