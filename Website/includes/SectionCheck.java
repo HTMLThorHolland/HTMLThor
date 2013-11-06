@@ -838,6 +838,7 @@ public class SectionCheck {
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
 										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
+										error.put("locations", suggestedLocations(wrongLoc));
 										errors.put(errorCount, error);
 										errorCount += 1; 
 										brokenLinks += 1;
@@ -887,6 +888,7 @@ public class SectionCheck {
 									String wrongLoc = checkPathExists(attributeVal);
 									if (wrongLoc != null) {
 										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
+										error.put("locations", suggestedLocations(wrongLoc));
 										errors.put(errorCount, error);
 										errorCount += 1;
 										brokenLinks += 1;
@@ -1707,6 +1709,28 @@ public class SectionCheck {
 				return "";
 			}
 			return path.substring(0, iter);
+		}
+		
+		
+		/**
+		 * Finds suggested file locations for a broken link.
+		 * @param path The file path which could not be found
+		 * @return JSON Object containing list of matching files found elsewhere in zip
+		 */
+		private JSONObject suggestedLocations(String path) {
+			String[] pathSplit = path.split("/");
+			JSONObject sugLocs = new JSONObject();
+			int count = 0;
+			String fName = pathSplit[pathSplit.length-1];
+			for (int i = 0; i < filesInZip.size(); i++) {
+				String[] zipSplit = filesInZip.get(i).split("/");
+				if (zipSplit[zipSplit.length-1].equalsIgnoreCase(fName)) {
+					sugLocs.put(count, filesInZip.get(i));
+					count++;
+				}
+			}
+			sugLocs.put("count", count);
+			return sugLocs;
 		}
 		
 		/**

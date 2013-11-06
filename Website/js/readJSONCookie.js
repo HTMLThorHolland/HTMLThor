@@ -101,6 +101,18 @@ if ($.cookie("dirPath")) {
 	-- Access error count for first file --
 	jsonObject[0].errors.count; -> returns integer
 	
+	-- NOTE THE THREE EXAMPLES BELOW ARE ONLY VALID FOR BROKEN LINK ERRORS --
+	-- WILL NOT WORK FOR ANY OTHER TYPE OF ERROR --
+	
+	-- Access list of suggested locations for errors of type brokenLink --
+	jsonObject[0].errors[0].locations
+	
+	-- Access count of suggested locations for errors of type brokenLink --
+	jsonObject[0].errors[0].locations.count
+	
+	-- Access first location of suggested locations for errors of type brokenLink --
+	jsonObject[0].errors[0].locations[0]
+	
 	
 	======= END OF EXAMPLES ERRORS OBJECT ======
 	
