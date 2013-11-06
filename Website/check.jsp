@@ -226,7 +226,12 @@
       					
       					// split into directories and filename
       					String[] filePathSplit = temp.getName().split("/");
-      					if (filePathSplit.length > maxLevel) {
+      					boolean ignoreFile = false;
+      					if (Arrays.asList(filePathSplit).contains("__MACOSX")) {
+      						ignoreFile = true;
+      					}
+      					
+      					if (filePathSplit.length > maxLevel && !ignoreFile) {
       						// add more lists to the structure list for the new levels
       						while (filePathSplit.length > maxLevel) {
       							List<StructureBreakdown> levelList = new ArrayList<StructureBreakdown>();
@@ -235,10 +240,10 @@
       						}
       					}
       					
-      					
-             			fileStruct.setName(filePathSplit[filePathSplit.length-1]);
-             			fileStruct.setPath(path.substring(0, path.length()-4).concat("/").concat(temp.getName()));
-             			
+      					if (!ignoreFile) {
+             				fileStruct.setName(filePathSplit[filePathSplit.length-1]);
+             				fileStruct.setPath(path.substring(0, path.length()-4).concat("/").concat(temp.getName()));
+             			}
              			
              			
              			// read next file contents
@@ -247,7 +252,7 @@
       					}
       					
       					// process the file if it's not a directory
-      					if (!temp.isDirectory()) {
+      					if (!temp.isDirectory() && !ignoreFile) {
       						fileStruct.setType("file");
       					
       						// ensure the file is a .html or .php
@@ -268,20 +273,20 @@
                 			
                 		} else {
                 		// is a directory
-                			
-      						fileStruct.setType("folder");
-                		
+                			if (!ignoreFile) {
+      							fileStruct.setType("folder");
+                			}
                 		}
-                		
-                		
                 		s = new StringBuilder();
                 		
-                		int thisFileLevel = filePathSplit.length-1;
+                		if (!ignoreFile) {
                 		
-                		((ArrayList)structList.get(thisFileLevel)).add(fileStruct);  
+                			int thisFileLevel = filePathSplit.length-1;
+                			
+                			((ArrayList)structList.get(thisFileLevel)).add(fileStruct);  
                 		
-                		debugString = debugString + "Adding: " + temp.getName() + " to level " + Integer.toString(thisFileLevel) + " --- \n";
-                		
+                			debugString = debugString + "Adding: " + temp.getName() + " to level " + Integer.toString(thisFileLevel) + " --- \n";
+                		}
                 				
             		}
             		
