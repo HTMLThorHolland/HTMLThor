@@ -1068,14 +1068,14 @@ public class SectionCheck {
 									
 									// Check all of the singular and required tags
 									if(tag.equalsIgnoreCase("html")||tag.equalsIgnoreCase("head")||tag.equalsIgnoreCase("body")||tag.equalsIgnoreCase("!DOCTYPE")||
-										tag.equalsIgnoreCase("title")||tag.equalsIgnoreCase("meta")||tag.equalsIgnoreCase("main")||tag.equalsIgnoreCase("base") {
+										tag.equalsIgnoreCase("title")||tag.equalsIgnoreCase("meta")||tag.equalsIgnoreCase("main")||tag.equalsIgnoreCase("base")) {
 										
-										if(tag.equalsIgnoreCase("main") {
+										if(tag.equalsIgnoreCase("main")) {
 											error = errorConstructor(sql.getErrMsg(47), "warning", i+1, endTagColumnNo, tag);
 											errors.put(errorCount, error);
 											errorCount += 1;
 										}
-										else if(!tag.equalsIgnoreCase("base") {
+										else if(!tag.equalsIgnoreCase("base")) {
 											requiredTags.add(tag.toLowerCase());
 										}
 										
