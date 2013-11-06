@@ -1,0 +1,1 @@
+find /location/to/files/directory/* -mtime +1 -exec rm {} \;
