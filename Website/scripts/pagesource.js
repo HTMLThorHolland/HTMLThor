@@ -79,7 +79,7 @@ function addErrorIcon(filename) {
 		}
 		
 		errorIcon += "</div>";
-		$(this).children(".errorContainer").after(errorIcon);
+		$(this).append(errorIcon);
 	});
 }
 
@@ -177,7 +177,8 @@ function generateErrors(source, filename, fileNumber, oldPassedSource) {
 	 *	IMPORTANT: This must come after the errorsEachLine loop!
 	 */
 	for(var j = 0; j < errorLineNumbers.length; j++) {
-		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-fileNumber='"+fileNumber+"' data-errortypes='"+
+		var inputLineNumber = errorLineNumbers[j][0]+1;
+		source[errorLineNumbers[j][0]] = "<div class='errorSourceWrapper' data-lineNumber='"+inputLineNumber+"' data-fileNumber='"+fileNumber+"' data-errortypes='"+
 				generateClasses(errorLineNumbers[j][1])+"'>"+source[errorLineNumbers[j][0]]+"</div>";
 	}
 	
@@ -477,6 +478,7 @@ function errorsOnLine(lineContainer) {
 	}
 	
 	return errorMessageDiv;
+
 }
 
 $(document).ready(function() {
@@ -528,7 +530,7 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-	 $(document).delegate('.errorContainer', 'mouseout', function(event) {
+	 $(document).delegate('.errorContainer', 'mouseleave', function(event) {
 	 
 		var fileNumber = $(this).attr('data-fileNumber');
 		var linePos = $(this).attr('data-errorId');
@@ -541,6 +543,9 @@ $(document).ready(function() {
 	
 	$(document).delegate('.errorSourceWrapper', 'mouseover', function(event) {
 		console.log("hover over container");
+		
+		var linePos = $(this).attr('data-lineNumber');
+		var fileNumber = $(this).attr('data-fileNumber');
 		
 		$(this).qtip({
 			overwrite: false,
@@ -555,15 +560,21 @@ $(document).ready(function() {
 			},
 			style: { classes: 'qTipHighlight qTipOffsetTop' },
 			hide: {
-				/*event:"false"*/
-			}, 
+				fixed: true,
+				delay: 50
+			},
 			content: {
 				text: errorsOnLine($(this))
+			},
+			events: {
+				show: function(event, api) {
+					/*initScrollPanes(linePos+"_"+fileNumber+"_messageId");*/
+				}
 			}
 		});
 		
+		
 		event.preventDefault();
-		initScrollPanes();
 	});
 			
 });

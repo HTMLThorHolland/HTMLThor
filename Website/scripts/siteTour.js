@@ -1,8 +1,8 @@
-
+var mainTrip;
 
 $(document).ready(function() {
 
-	var mainTrip = new Trip([
+	mainTrip = new Trip([
 		{ sel : $("#homeKey"), content : "The types of errors you'll find being validated are listed and explained here. Feel free to check these out any time, or use the sidebar for a quick overview.", position : "w", expose: true },
 		{ sel : $("#theHelpKey"), content : "An always-visible list of errors you may encounter in your code are listed here. Hover over one of the listed errors for a quick explanation of what it means.", position : "e", expose: true, tripTheme : "black" },
 		{ sel : $("#homeResources"), content : "If you're struggling with HTML5, check out some of the resources linked here.", position : "e", expose: true },
@@ -15,7 +15,7 @@ $(document).ready(function() {
 		{ sel : $(".breakdownBarResults"), content : "A visual  representation of your errors are listed in bars. Uploading a .zip or multiple files will generate unique bars for each file. Hover over the colours to find out the type of error, and click to be taken to the errors pane for debugging.", position : "s", expose: true },
 		{ sel : $("#structure"), content : "Uploading a .zip file will show your website directory here. You can view broken link errors here and their suggested fix.", position : "n", expose: true },
 		{ sel : $("#sourceWrapper"), content : "Here, errors are presented inline your source code. Hovering over the highlighted lines will bring up an explanation of the error. Use the drop down menu to switch between code if you've uploaded multiple files.", position : "n", expose: true, myFunction : function() { scrollToTour(); } },
-		{ sel : $("#errorsWrapper"), content : "Here, errors are presented in the traditional line-by-line view, a classical approach for the advanced developer.", position : "n", expose: true, myFunction : function() { scrollToTour(); } },
+		{ sel : $("#errorsWrapper"), content : "Here, errors are presented in the traditional line-by-line view, a classical approach for the advanced developer.", position : "n", expose: true, myFunction : function() { scrollToBottom(); } },
 		{ sel : $("#errorsWrapper"), content : "Loading...", position : "e", expose: true, myFunction : function() { $("#homeLink").click(); mainTrip.next(); } },
 		{ sel : $("#goToUpload"), content : "So lets get started!", position : "e", expose: true }
 	], {
@@ -50,7 +50,8 @@ $(document).ready(function() {
 	});
 	
 	$("#startSiteTour").click(function() {
-		mainTrip.start();
+		window.location.href = "http://htmlthor.com/#tour";
+		location.reload();
 	});
 	/* moved above
 	var resultsTrip = new Trip([
@@ -80,8 +81,16 @@ $(document).ready(function() {
 });
 
 function scrollToTour() {
+	console.log("scrolling to source title");
 	$('html, body').animate({
-        scrollTop: $(".trip-block").offset().top + 200
+        scrollTop: $(".trip-block").offset().top + 150
+    }, 1000);
+}
+
+function scrollToBottom() {
+	console.log("scrolling to errors title");
+	$('html, body').animate({
+        scrollTop: $(".trip-block").offset().top + 700
     }, 1000);
 }
 

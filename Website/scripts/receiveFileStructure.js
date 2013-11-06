@@ -52,21 +52,16 @@ function getFiles(container) {
 		//console.log("This file has a new location at: "+container[i].newLocation);
 		if(container[i].totalErrors != 0) {
 			// call function to generate a broken file in the overall broken files list
-			if(container[i].newLocation != "") {
-				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath, container[i].newLocation);
-			}
-			else {
-				generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath);
-			}
+			generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath);
 			allBrokenLinksTotal += parseInt(container[i].totalErrors);
 		}
-		else if(container[i].newLocation != "") {
-			generateBrokenFile(container[i].name, container[i].totalErrors, container[i].fullPath, container[i].newLocation);
+		if(container[i].newLocation != "") {
+			generateLocationSuggestion(container[i].name, container[i].fullPath, container[i].newLocation);
 		}
 		list += ">"; // CLOSE OPENING LI TAG
 		/* Check if the item is a folder */
 		if(container[i].children.count != 0) {
-			list += "<a href='#'>" + container[i].name + "</a>";
+			list += "<a href='#' class='folder'>" + container[i].name + "</a>";
 			//console.log(container[i].name + " has children and is a folder with these children: "+container[i].children);
 			list += getFiles(container[i].children);
 		}
@@ -106,20 +101,36 @@ Object.size = function(obj) {
  *	@param		name			String			The name of the file.
  *	@param		total			Integer			The total number of broken links associated with the file.
  *	@param		filePath		String			The file path of the file. (Based upon the uploaded .zip)
- *	@param		location		String			Optional. The suggestion for where this file should be located.	
  *	
  */
-function generateBrokenFile(name, total, filePath, location) {
+function generateBrokenFile(name, total, filePath) {
 	brokenFile = "<div class='structureBrokenFile' data-fileId='"+filePath+"'>";
 	brokenFile += "<span class='brokenLinkIcon'></span>";
-	brokenFile += "<p class='fileLocation'><span class='fileName'>"+name+"</span></p>";
+	brokenFile += "<p class='fileLocation'><span class='fileName'>"+filePath+"</span></p>";
 	brokenFile += "<p class='brokenLinksNumber'>Broken Links: "+total+"</p>";
-	if(location) {
-		brokenFile += "<p class='fileLocationWarning'>New Location: This file should be placed in <span class='highlight'>"+location+"</span></p>"
-	}
 	brokenFile += "<div style='clear: both'></div>";
 	brokenFile += "</div>";
 	$('.structureBrokenFilesList').append(brokenFile);
+}
+
+/**
+ *	
+ *	Generate a file location suggestion html element and append it to the appropriate container.
+ *	
+ *	@param		name			String			The name of the file.
+ *	@param		filePath		String			The file path of the file. (Based upon the uploaded .zip)
+ *	@param		location		String			Optional. The suggestion for where this file should be located.	
+ *	
+ */
+function generateLocationSuggestion(name, filePath, location) {
+	brokenFile = "<div class='structureLocationFile' data-fileId='"+filePath+"'>";
+	brokenFile += "<p class='fileLocation'><span class='plain fileName'>"+filePath+"</span></p>";
+	brokenFile += "<p class='fileLocationWarning'><span class='highlight'>"+location+"</span></p>";
+	brokenFile += "<div style='clear: both'></div>";
+	brokenFile += "</div>";
+	$('.structureLocationList').append(brokenFile);
+	$('.structureLocationListWrapper').show();
+	console.log("location suggestion generated");
 }
 
 /**

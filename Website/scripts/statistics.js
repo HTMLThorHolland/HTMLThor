@@ -59,7 +59,7 @@ function populateStatistics() {
 	}
 	
 	if(siteTotalBroken != 0 && siteTotalDeprecated == 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {
-		$('#totalErrors').addClass('deprecated');
+		$('#totalErrors').addClass('broken');
 	}
 	
 	else if(siteTotalDeprecated != 0 && siteTotalWarning == 0 && siteTotalSemantic == 0 && siteTotalSyntax == 0) {

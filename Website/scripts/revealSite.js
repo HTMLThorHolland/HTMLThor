@@ -59,7 +59,10 @@ function endLoadingAnimation() {
 /* Load jsonObject for tour */
 function initTour() {
 	
-	
+	// reset arrays
+	oldSource = new Array();
+	finalSource = new Array();
+	allFileErrorLocations = new Array();
 	
 	
 	$.getJSON("../tour/errors.json", function(response){
@@ -79,13 +82,6 @@ function initTour() {
 	
 	
 		
-}
-
-/*
- *	TODO: Initially select the file with the most errors to be displayed.
- */
-function selectMostErrors() {
-	var fileMostErrors = "";
 }
 
 function initSelectBoxes() {

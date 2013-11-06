@@ -1495,7 +1495,7 @@ h3.totalErrorsHeading {
 		font-size: .9em;
 		margin-top: 20px;
 		margin-left: 10px;
-		color: #616161;
+		color: #444;
 	}
 	
 .innerContent {
@@ -1513,7 +1513,53 @@ span.brokenLinkIcon {
 	float: left;
 }
 
-.structureBrokenFilesList {
+.structureLocationListWrapper {
+	display: none;
+}
+
+.structureLocationListWrapper h4 {
+	margin-bottom: 0;
+}
+
+.structureLocationListWrapper p.explanation {
+	padding-left: 20px;
+	font-size: .8em;
+	margin-bottom: 0;
+}
+
+.structureLocationList p.fileLocation {
+	display: block;
+	width: 50%;
+	float: left;
+}
+
+.structureLocationList p.leftHalf {
+	display: block;
+	width: 50%;
+	float: left;
+}
+
+.structureLocationList p.leftHalf,
+.structureLocationList p.rightHalf {
+	color: #555;
+}
+
+.structureLocationList p {
+	font-size: .8em;
+	margin-bottom: 5px;
+	padding-left: 8px;
+}
+
+.fileName.plain {
+	cursor: default;
+}
+
+	.fileName.plain:hover {
+		text-decoration: none;
+	}
+
+.structureBrokenFilesList,
+.structureLocationList {
 	margin-top: 15px;
 	width: 100%;
 	-webkit-box-sizing: border-box;
@@ -1524,7 +1570,12 @@ span.brokenLinkIcon {
 	padding: 0 12px;
 }
 
-	.structureBrokenFilesList p.explanation {
+.structureLocationList {
+	margin-top: 8px;
+}
+
+	.structureBrokenFilesList p.explanation,
+	.structureLocationList p.explanation {
 		font-size: .9em;
 	}
 
@@ -1591,6 +1642,19 @@ span.brokenLinkIcon {
 	padding: 1px 2px;
 	margin: 0;
 }
+
+#structureContainer.jstree li,
+#structureContainer.jstree li a {
+	cursor: default;
+}
+
+#structureContainer.jstree li a.folder {
+	cursor: pointer;
+}
+
+	#structureContainer.jstree li a.folder:hover {
+		color: #202020;
+	}
 		
 /* END File Structure Section */
 
@@ -1717,6 +1781,23 @@ span.brokenLinkIcon {
 	.errorDescription {
 		font-weight:bold;
 	}
+	
+	.errorBrokenSuggestionWrapper {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;	
+		box-sizing: border-box;
+		padding-left: 154px;
+		margin-bottom: 10px;
+	}
+	
+		.errorListing  .errorBrokenSuggestionWrapper p.errorBrokenSuggestion {
+			font-size: .9em;
+			margin-bottom: 6px;
+			padding-left: 10px;
+			color: #ff8209;
+		}
 	
 	.errorExcerpt {
 		margin-left:50px;
@@ -1875,8 +1956,10 @@ pre.sourceCodeContainer {
 	}
 	
 	.qtip.qTipOffsetTop {
-		margin-top: 4px;
+		/*margin-top: 4px;*/
 		background-color: #FCFCFC;
+		padding-top: 2px;
+		padding-bottom: 4px;
 	}
 	
 		.qtip.qTipHighlight.syntax {
@@ -2191,7 +2274,8 @@ pre.sourceCodeContainer {
 
 .errorsOnLine {
 	padding: 5px;
-	max-height: 400px;
+	max-height: 250px;
+	overflow-y: auto;
 }
 
 	.errorsOnLine h4{

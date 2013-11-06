@@ -33,8 +33,20 @@ function setErrors() {
 			if(!errorsArray[i].errorExcerpt) {
 				errorsArray[i].errorExcerpt = "";
 			}
+			console.log("Type of error is: "+errorType);
 			
 			errorDiv += "<p class='errorDescription'>"+escapeHTML(errorsArray[i].message)+"</p>";
+			
+			if(errorType == "broken"){console.log("error message is: "+errorsArray[i].message+" and "+errorsArray[i].locations);}
+			
+			if(errorType == "broken" && errorsArray[i].locations.count != 0) {
+				errorDiv += "<div class='errorBrokenSuggestionWrapper'>";
+				errorDiv += "<p>Perhaps you meant to link to:</p>";
+				for(var q = 0; q < errorsArray[i].locations.count; q++) {
+					errorDiv += "<p class='errorBrokenSuggestion'>"+errorsArray[i].locations[q]+"</p>";
+				}
+				errorDiv += "</div>";
+			}
 			errorDiv += "<pre><span class='linePos'>"+errorsArray[i].line+".</span>"+oldSource[j][1][errorsArray[i].line - 1].replace(/\t/g, "")+"</pre></div>";
 			
 			switch (errorType)

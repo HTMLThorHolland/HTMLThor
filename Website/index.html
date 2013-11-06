@@ -58,12 +58,11 @@
 	================================================== -->
 	<script type="text/javascript" src="js/prettify/prettify.js"></script>
 	
-	<!-- jScrollPane
+	<!-- slimScroll
 	================================================== -->
 	<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
-	<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
-	<link type="text/css" rel="stylesheet" href="css/jquery.jscrollpane.css" />
-	<!-- Custom Controller Script for jScrollPane -->
+	<script type="text/javascript" src="js/jquery.slimscroll.min.js"></script>
+	<!-- Custom Controller Script for slimScroll -->
 	<script type="text/javascript" src="scripts/scrollPane.js"></script>
 	
 	<!-- TRIP JS (Tour)
@@ -137,7 +136,7 @@
 		<p id="ellipsisLoading">loading...</p>
 	</div>
 	
-	<div id="errorsOnLine" class="errorsOnLine scroll-pane">
+	<div id="errorsOnLine" class="errorsOnLine">
 		<div class="syntax errorTipCategory">
 			<h4><span class="highlightColour">Syntax</span> Errors</h4>
 		</div>
@@ -374,7 +373,7 @@
 					</div>
 				
 					<div id="startSiteTour" class="actionButton">
-						<p>Site Tour</p>
+						<a href="http://htmlthor.com/#tour"><p>Site Tour</p></a>
 					</div>
 					<!--<p class="extraText">or</p>-->
 					<div id="goToUpload" class="actionButton">
@@ -505,7 +504,7 @@
 							<div id="iconSingleUpload" class="thumb"></div>
 							<form id="singleUploadForm"	action="upload.jsp?uploadType=single" method="POST" enctype="multipart/form-data" name="singleForm">
 								<button id="single" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="512000" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="singleUpload" type="file" name="file" data-max-size="5120000" onchange="uploadJSP(this.id)" /></div>
 							</form>
 							<!--
 							<form action="upload2.jsp" method="POST"
@@ -521,7 +520,7 @@
 							<div id="iconMultiUpload" class="thumb"></div>
 							<form id="multiUploadForm" action="upload.jsp?uploadType=multi" method="POST" enctype="multipart/form-data" name="multiForm">
 								<button id="multi" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="1536000" onchange="uploadJSP(this.id)" multiple /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="multiUpload" type="file" name="file[]" data-max-size="15360000" onchange="uploadJSP(this.id)" multiple /></div>
 							</form>
 						</div>
 						<div id="zipWrapper" onclick="getFile('zipUpload')" class="uploadWrapper uploadCat">
@@ -529,7 +528,7 @@
 							<div id="iconZipUpload" class="thumb"></div>
 							<form id="zipUploadForm" action="upload.jsp?uploadType=zip" method="POST" enctype="multipart/form-data" name="zipForm">
 								<button id="zip" type="button">browse</button>
-								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="4608000" onchange="uploadJSP(this.id)" /></div>
+								<div style='height: 0px;width: 0px; overflow:hidden;'><input id="zipUpload" type="file" name="file" data-max-size="46080000" onchange="uploadJSP(this.id)" /></div>
 							</form>
 						</div>
 						<div style="clear:both"></div>
@@ -700,24 +699,14 @@
 							<div style="clear:both"></div>
 						</div>
 						<div class="structureBrokenFilesList">
-							<!--
-							<div class="structureBrokenFile">
-								<span class="brokenLinkIcon"></span>
-								<p class="fileLocation">htmlthor/<span class="fileName">index.html</span></p>
-								<p class="brokenLinksNumber">Broken Links: 2</p>
-								<p class="fileLocationWarning">New Location: This file should be placed in the <span class="highlight link">/html folder</span>.</p>
-								<div style="clear: both"></div>
+						</div>
+						<div class="structureLocationListWrapper">
+							<h4>Best Practice File Placement</h4>
+							<p class="explanation">Looks like some files in your main directory should be moved into an appropriate folder. For best practice standards, you should put image files in an "images" folder, javascript files in a "js" folder and stylesheets in a "css" folder.</p>
+							<div class="structureLocationList">
+							<p class="leftHalf">Current Location</p>
+							<p class="rightHalf">Suggested Location</p>
 							</div>
-							<div style="clear: both"></div>
-							<div class="structureBrokenFile">
-								<span class="brokenLinkIcon"></span>
-								<p class="fileLocation">htmlthor/<span class="fileName">secondfile.html</span></p>
-								<p class="brokenLinksNumber">Broken Links: 2</p>
-								<p class="fileLocationWarning">New Location: This file should be placed in the <span class="highlight link">/html folder</span>.</p>
-								<div style="clear: both"></div>
-							</div>
-							<div style="clear: both"></div>
-							-->
 						</div>
 						<h4>Uploaded .zip file structure</h4>
 						<div id="structureContainer">

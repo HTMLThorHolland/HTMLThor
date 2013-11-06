@@ -271,29 +271,19 @@
 						event: 'unfocus'
 					}
 				});
-			});
-			
-			
-			/* Developer Testing */
-			
-			$(".developers").click(function() {
-				revealSiteZip();
-				addBreakdownBar();
-			});
-			
-			function addBreakdownBar() {
-				//var something = "test";
-				var bar = "<div class='fileGraph'><p class='fileName'>brokentestpage.html</p><div class='bar'><div class='syntax graph' style='width:33.33333333333333%;' errornumber='1' data-hasqtip='2' aria-describedby='qtip-2'></div><div class='semantic graph' style='width:33.33333333333333%;' errornumber='1' data-hasqtip='3' aria-describedby='qtip-3'></div><div class='warning graph' style='width:33.33333333333333%;' errornumber='1' data-hasqtip='6' aria-describedby='qtip-6'></div><div class='deprecated graph' style='width:0%;' errornumber='0'></div></div><p class='errorNumber'>3 errors</p><div style='clear:both'></div></div>";
-				$('#statGraph').append(bar);
-			}
-			
-			
+			});			
 		
 			var urlLocation = location.hash.substr(1);
 			console.log("url location is "+urlLocation);
 			if(urlLocation == "upload") {
 				$("#uploadLink").click();
 			}
+
+			if(urlLocation == "tour") {
+				window.location.hash = '#upload';
+				mainTrip.start();
+			}
+			
 			/*if(urlLocation == "validated") {
 				loadingAnimation();
 				if(jsonObject == null || jsonObject == "") {
