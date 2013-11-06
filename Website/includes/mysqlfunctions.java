@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/*
-
-*/
+/**
+ * Class for handling SQL calls to the database. Contains a number of functions
+ * used to access the database, and to run checks on various tags.
+ */
 public class Mysqlfunctions {
 
-	//Nested Class for DB Connect
+	/**
+	 * Private class for handling connecting to the database.
+	 */
 	private class ConnectDB {
 	
 			ResultSet result = null;
@@ -24,7 +27,6 @@ public class Mysqlfunctions {
 			}
 	
 			public ResultSet run(String Q) {
-
 				String url = "htmlthor.com";
 					
 				try {
@@ -48,7 +50,6 @@ public class Mysqlfunctions {
 			
 			
 			public void close() {
-			
 				try {
 					con.close();
 				} catch (SQLException ex) {
@@ -61,17 +62,23 @@ public class Mysqlfunctions {
 			}
 	}
 
-	
-
-
+	/**
+	 * Given an error ID, the appropriate error message is fetched from the
+	 * database.
+	 * 
+	 * @param eID the error ID corresponding to the error to be fetched
+	 * @return the error message string
+	 */
 	public String getErrMsg(int eID) {
 		String msg = null;
 		
+		/* Creates the query to be run by the database. */
 		String query = new StringBuilder("SELECT * FROM Error WHERE eID = '").append(eID).append("'").toString();
 		
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
 		
+		/* Checks if an error message exists for the error ID. */
 		if (result == null) {
 			return "No message";
 		}
@@ -90,13 +97,23 @@ public class Mysqlfunctions {
 	   return msg;
 	}
 
-
-	//Options for tbl are - dep,elem,att (deprecated element and attribte repesctively)
+	/**
+	 * Fetches the relevant fields for an attribute, deprecated element or
+	 * element for a given tag or attribute.
+	 * 
+	 * @param tbl a string corresponding to one of three data types;
+	 * <code>dep</code> if checking a deprecated element,
+	 * <code>elem</code> if checking a non-deprecated element and
+	 * <code>att</code> if checking an element
+	 * @param tag the tag or attribute to be checked
+	 * @return a list containing the relevant fields for the data type specified
+	 */
 	public List<String> getDBanswer(String tbl, String tag) {
 		List<String> list = new ArrayList<String>();
 		
 		if (tbl.equalsIgnoreCase("dep")) {
-		
+			
+			/* Creates the query to be run by the database. */
 			String query = new StringBuilder("SELECT * FROM Deprecated WHERE depTag = ").append(tag).toString();
 			ConnectDB con = new ConnectDB();
 			ResultSet result = con.run(query);
@@ -117,7 +134,7 @@ public class Mysqlfunctions {
 			
 		} else if  (tbl.equalsIgnoreCase("elem")) {
 		
-			
+			/* Creates the query to be run by the database. */
 			String query = new StringBuilder("SELECT * FROM Element WHERE EName = ").append(tag).toString();
 			ConnectDB con = new ConnectDB();
 			ResultSet result = con.run(query);
@@ -142,6 +159,7 @@ public class Mysqlfunctions {
 		
 		} else if  (tbl.equalsIgnoreCase("att")) {
 		
+			/* Creates the query to be run by the database. */
 			String query = new StringBuilder("SELECT * FROM RequiredAttributes WHERE EName = ").append(tag).toString();
 			ConnectDB con = new ConnectDB();
 			ResultSet result = con.run(query);
@@ -166,11 +184,16 @@ public class Mysqlfunctions {
 		return (ArrayList)list; 
 	}
 
-	//Returns a list of Arrays - get deprecated tags * NOTE!
+	/**
+	 * Returns a list of the elements.
+	 * 
+	 * @return an ArrayList containing the element names
+	 */
 	public ArrayList<String> getTags() {
 		
 		List<String> list = new ArrayList<String>();
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -188,15 +211,23 @@ public class Mysqlfunctions {
 				System.out.println("SQLState: " + ex.getSQLState());
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
+		
 		con.close();
 		
 		return (ArrayList<String>) list;
 	}
 
-	//Return true or false for deprecated tag or not
+	/**
+	 * Checks if the given tag is deprecated.
+	 * 
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is deprecated; <code>false</code>
+	 * otherwise
+	 */
 	public boolean isDeprecated(String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -223,10 +254,18 @@ public class Mysqlfunctions {
 	}
 	
 	
-	//Return true or false for deprecated attribute or not
+	/**
+	 * Checks if the attribute for the given tag is deprecated.
+	 * 
+	 * @param attName the attribute to be checked
+	 * @param tagName the tag corresponding to the attribute
+	 * @return <code>true</code> if the attribute is deprecated;
+	 * <code>false</code> otherwise
+	 */
 	public boolean isDeprecatedAttribute(String attName, String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT eID FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -234,8 +273,6 @@ public class Mysqlfunctions {
 		int eID = 0;
 		
 		if (result != null) {
-			
-		
 			try {
 		
 				while (result.next()) {
@@ -248,6 +285,8 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 			}
 		}
+		
+		/* Creates the query to be run by the database. */
 		query = "SELECT * FROM Attribute WHERE (eID = " + Integer.toString(eID) + " OR isGlobal = 1) AND Name = '" + attName + "'";
 		result = con.run(query);
 		
@@ -271,11 +310,16 @@ public class Mysqlfunctions {
 		return msg;
 	}
 
-	//Returns true if tag requires an Attribute
+	/**
+	 * Not sure what this does
+	 *
+	 * @param tagName
+	 * @return
+	 */
 	public List<String> requiresAttr(String tagName) {
 		List<String> DBRequires = new ArrayList<String>();
 		
-		
+		/* Creates the query to be run by the database. */
 		String query = new StringBuilder("SELECT * FROM Attribute WHERE isRequired = 1 AND eID = (SELECT eID FROM Element WHERE Ename = '" ).append(tagName).append("' )").toString();
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -300,9 +344,17 @@ public class Mysqlfunctions {
 		return DBRequires;
 	}
 
-	//Returns a list of all Attribtes for a tagName
+	/**
+	 * Returns a list of all the valid attributes for the given tag.
+	 * 
+	 * @param tagName the tag to get the attributes for
+	 * @return an ArrayList of strings containing the attribute names for the
+	 * given tag
+	 */
 	public ArrayList<String> getAttr(String tagName) {
 		List<String> list = new ArrayList<String>();
+		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Attribute WHERE eID = (SELECT eID FROM Element WHERE EName = '"+tagName+"') OR isGlobal=1";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -327,7 +379,13 @@ public class Mysqlfunctions {
 	}
 
 
-	//If a tag exists
+	/**
+	 * Checks if the tag given is a valid tag.
+	 * 
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is a valid tag; <code>false</code>
+	 * otherwise
+	 */
 	public boolean checkValidTag(String tagName) {
 		List<String> list = new ArrayList<String>();
 		list = getTags();
@@ -341,9 +399,17 @@ public class Mysqlfunctions {
 		return false;
 	}
 
+	/**
+	 * Checks if the tag given is a self-closing tag.
+	 * 
+	 * @param tagName the tag to be checked.
+	 * @return <code>true</code if the tag is a self-closing tag;
+	 * <code>false</code> otherwise
+	 */
 	public boolean isSelfClosing(String tagName) {
 		boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -364,23 +430,22 @@ public class Mysqlfunctions {
 				System.out.println("VendorError: " + ex.getErrorCode());
 		}
 				
-			
-
 		con.close();
 
 		return msg;
 	}
 	
-	/*
-	 * Checks whether an element is a metadata/script element.
-	 * Needs data to be added to database tables before it can be coded.
+	/**
+	 * Checks whether the tag given is a metadata or script element.
 	 * 
-	 * UNIMPLEMENTED
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is a metadata or script element;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isMeta(String tagName) {
-		
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -406,12 +471,17 @@ public class Mysqlfunctions {
 		return msg;
 	}
 	
-	/*
-	 * Checks whether an element is a table element.
+	/**
+	 * Checks if the tag given is a table element.
+	 * 
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is a table element;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isTableElement(String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -437,12 +507,18 @@ public class Mysqlfunctions {
 		return msg;
 	}
 	
-	/*
-	 * Checks whether an element is a table element that contains other elements.
+	/**
+	 * Checks whether the tag is a table element that can contain other table
+	 * elements.
+	 * 
+	 * @param tagName the tag to be checked.
+	 * @return <code>true</code> if the table element is a table tag container;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isTableContainer(String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -467,12 +543,18 @@ public class Mysqlfunctions {
 
 		return msg;
 	}
-	/*
-	 * Checks whether an element is a singular table element.
+	
+	/**
+	 * Checks if the given tag is a singular table element.
+	 * 
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is a singular table element;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isTableSingular(String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -498,12 +580,17 @@ public class Mysqlfunctions {
 		return msg;
 	}
 	
-	/*
-	 * Checks whether an element is a form element.
+	/**
+	 * Checks if the given tag is a form element.
+	 * 
+	 * @param tagName the tag to be checked
+	 * @return <code>true</code> if the tag is a form element;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isFormElement(String tagName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Element WHERE EName = '" + tagName + "'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);
@@ -529,14 +616,17 @@ public class Mysqlfunctions {
 		return msg;
 	}
 	
-	/*
-	 * Checks whether an Attribte is, isBoolean
+	/**
+	 * Checks if the given attribute is a boolean attribute.
 	 * 
-	 * Returns 1 for yes and 0 for no
+	 * @param attributeName the attribute to be checked
+	 * @return <code>true</code> if the attribute is boolean; <code>false</code>
+	 * otherwise
 	 */
 	public boolean isAttrBool(String attributeName) {
 		Boolean msg = false;
 		
+		/* Creates the query to be run by the database. */
 		String query = "SELECT * FROM Attribute WHERE Name = '"+attributeName+"'";
 		ConnectDB con = new ConnectDB();
 		ResultSet result = con.run(query);

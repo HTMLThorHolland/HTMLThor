@@ -182,7 +182,8 @@ public class Encapsulation {
 
 		/* Creates a new ArrayList big enough for the current error list and
 		 * the unclosed elements. */
-		ArrayList<String> errors = new ArrayList<String>(errorList.size() + openedElements.size() + encapErrorList.size());
+		ArrayList<String> errors = new ArrayList<String>(errorList.size() 
+				+ openedElements.size() + encapErrorList.size());
 		addUnclosedElements();
 		addEncapErrorsToList();
 		
@@ -239,11 +240,11 @@ public class Encapsulation {
 	
 	/**
 	 * Checks if two elements are the same by comparing all the relevant fields.
-	 * Will fill in Javadoc when I can be stuffed.
 	 * 
-	 * @param e1
-	 * @param e2
-	 * @return
+	 * @param e1 the first element to be compared
+	 * @param e2 the second element to be compared
+	 * @return <code>true</code> if the elements are the same;
+	 * <code>false</code> otherwise
 	 */
 	private boolean checkSameElement(Element e1, Element e2) {
 		boolean check = false;
@@ -307,47 +308,63 @@ public class Encapsulation {
 	 * @see Element
 	 */
 	public void encapsulation(String element, int line, int colStart, int colEnd) {
-		System.out.println("form open = " + formElementOpen + "; table open = " + tableElementOpen + "; body open = " + bodyElementOpen + "; Element = " + element);
-		System.out.println(openedElements.toString());
 		Element e = new Element(element, line, colStart, colEnd);
 		String cleanName = e.getName();
 		if(e.getName().charAt(0) == '/') {
 			cleanName = e.getName().substring(1);
 		}
 		
+		/* Checks if a tag is added outside of the <html> tags. */
 		if(!htmlElementOpen) {
 			if(!e.getName().equals("html")) {
 				addError(e, OUTSIDE_HTML_TAGS);
 			}
 		}
 		
+		/* Checks if a tag that cannot exist inside a <head> tag is added while
+		 * the <head> tag is open. */
 		if(headElementOpen) {
-			if(!(sql.isMeta(cleanName) || cleanName.equals("title") || e.getName().equals("/head"))) {
+			if(!(sql.isMeta(cleanName) || cleanName.equals("title") 
+					|| e.getName().equals("/head"))) {
 				addError(e, INVALID_HEAD_ELEMENT);
 			}
 		}
 		
+		/* Series of checks on tags when the <body> tag is open. */
 		if(bodyElementOpen) {
-			if(sql.isTableElement(cleanName) && tableElementOpen == false && innerTableElementOpen == false) {
+			/* Checks if a table element is added outside of a table. */
+			if(sql.isTableElement(cleanName) && !tableElementOpen && 
+					!innerTableElementOpen) {
 				addError(e, TABLE_ELEMENT_OUT_OF_TABLE);
+				
+				/* If the table element is a container for other table elements,
+				 * set the table container variable on. */
 				if(sql.isTableContainer(e.getName())) {
 					innerTableElementOpen = true;
 				}
 			}
 			
+			/* Adds the table element to the table elements deque if valid. */
 			if(sql.isTableElement(e.getName()) && tableElementOpen) {
 				tableElements.push(e.getName());
 				
-				if(sql.isTableSingular(e.getName()) && tableElements.contains(e.getName())) {
+				/* Detects if a singular table element being added already
+				 * exists within the currently open table. */
+				if(sql.isTableSingular(e.getName()) 
+						&& tableElements.contains(e.getName())) {
 					addError(e, DUPLICATE_SINGULAR_TABLE_ELEMENT);
 				}
 			}
 			
-			if(sql.isFormElement(cleanName) && formElementOpen == false) {
+			/* Checks if a form element is being added outside of a form. */
+			if(sql.isFormElement(cleanName) && !formElementOpen) {
 				addError(e, FORM_ELEMENT_OUT_OF_FORM);
 			}
 		}
 	
+		/* If the tag is self-closing, it is not parsed into the encapsulation
+		 * function, as tag encapsulation is only relevant to elements with
+		 * start and end tags. */
 		if(!sql.isSelfClosing(cleanName)) {
 			tagEncapsulation(e);
 		}
@@ -361,19 +378,23 @@ public class Encapsulation {
 	 * @see encapsulation
 	 */
 	private void tagEncapsulation(Element e) {
+		/* Initialise iterator and deque. */
 		Iterator<Element> itr;
 		ArrayDeque<Element> deque = new ArrayDeque<Element>();
 		
+		/* Checks if the tag given is a start tag. */
 		if(e.getName().charAt(0) != '/') {
+			/* Used for form checks. */
 			boolean colgroupOpen = false;
 			boolean trOpen = false;
 			
+			boolean noAdd = false; /* Used for li/ul nest checks. */
 			itr = openedElements.iterator();
-			boolean noAdd = false;
+			
+			/* Iterates through the opened elements deque. */
 			while(itr.hasNext()) {
 				Element itrElem = itr.next();
 				String validNest = "";
-				
 				if(e.getName().equals("li")) {
 					validNest = "ul";
 				}
@@ -381,18 +402,27 @@ public class Encapsulation {
 					validNest = "li";
 				}
 				
+				/* If a ul/li tag was added and a li/ul tag exists in the 
+				 * opened elements, the no add variable is flicked. */
 				if(itrElem.getName().equals(validNest)) {
 					noAdd = true;
 				}
-				
+			
+				/* Checks that an element has not been opened inside another
+				 * element of the same type, with the exception of <div>,
+				 * <span> and <fieldset>. It also checks for <li>/<ul> nesting.
+				 */
 				if(e.getName().equals(itrElem.getName())) {
-					if(!((e.getName().equals("div")) || (e.getName().equals("span")) || (e.getName().equals("fieldset")))) {
+					if(!((e.getName().equals("div")) 
+							|| (e.getName().equals("span")) 
+							|| (e.getName().equals("fieldset")))) {
 						if(!noAdd) {
 							addError(e, ELEMENT_INSIDE_ITSELF);
 						}
 					}
 				}
 				
+				/* Checks if a <colgroup> or <tr> tag has been opened. */
 				if(itrElem.getName().equals("colgroup")) {
 					colgroupOpen = true;
 				}
@@ -402,6 +432,7 @@ public class Encapsulation {
 				}
 			}
 			
+			/* Various table element error checks. */
 			if(e.getName().equals("caption") && !tableElements.isEmpty()) {
 				addError(e, TABLE_ELEMENT_INCORRECT_ORDER);
 			}
@@ -410,12 +441,15 @@ public class Encapsulation {
 				addError(e, NOT_IN_VALID_TABLE_ELEMENT);
 			}
 			
-			if((e.getName().equals("td") || e.getName().equals("th")) && !trOpen) {
+			if((e.getName().equals("td") || e.getName().equals("th")) 
+					&& !trOpen) {
 				addError(e, NOT_IN_VALID_TABLE_ELEMENT);
 			}
 			
+			/* Adds the tag to the opened elements deque. */
 			openedElements.push(e);
 			
+			/* Turns various boolean opened tag variables on. */
 			if(e.getName().equals("html")) {
 				htmlElementOpen = true;
 			}
@@ -434,19 +468,29 @@ public class Encapsulation {
 			
 			if(e.getName().equals("table")) {
 				tableElementOpen = true;
+				/* Creates a new table deque if a <table> tag is detected. */
 				initialiseTableElementDeque();
 			}
-			
+		
+		/* If the tag is an end tag. */	
 		} else {
+			/* Add an error if an end tag is added without having a start
+			 * tag. */
 			if(openedElements.isEmpty()) {
 				addEncapError(e, STRAY_CLOSE_TAG);
 			}
 				
 			while(!openedElements.isEmpty()) {
+				/* Checks if the close tag added is equal to the last element
+				 * in the opened elements deque, and removes it. Any opened tags
+				 * which have been popped off while checking for the appropriate
+				 * opening tag are readded to the opened elements deque. */
 				if(e.getName().substring(1).equals(openedElements.peek().getName())) {
 					openedElements.pop();
 					reAddOpenedElements(deque);
 					
+					/* Closes the opened tag variables if the end tag is 
+					 * detected. */
 					if(e.getName().equals("/html")) {
 						htmlElementOpen = false;
 					}
@@ -458,7 +502,9 @@ public class Encapsulation {
 					if(e.getName().equals("/body")) {
 						bodyElementOpen = false;
 					}
-						
+					
+					/* Closes the table opened variable, provided no other table
+					 * has been opened. */
 					if(e.getName().equals("/table")) {
 						tableElementOpen = false;
 						itr = openedElements.iterator();
@@ -468,7 +514,9 @@ public class Encapsulation {
 							}
 						}
 					}
-						
+					
+					/* Closes the form opened variable, provided no other form
+					 * has been opened. */
 					if(e.getName().equals("/form")) {
 						formElementOpen = false;
 						itr = openedElements.iterator();
@@ -479,6 +527,9 @@ public class Encapsulation {
 						}
 					}
 					
+					/* If a table container element is open, it closes the
+					 * check variable only if an appropriate close tag is
+					 * detected. */
 					if(innerTableElementOpen) {
 						String cleanName = e.getName().substring(1);
 						if(sql.isTableContainer(cleanName)) {
@@ -488,12 +539,19 @@ public class Encapsulation {
 					
 					break;
 				} else {
+					/* If the close tag does not match the last opened tag,
+					 * add an error for that opened tag and remove it from the
+					 * opened tags deque and add it to the temporary holding
+					 * deque. */
 					addEncapError(openedElements.peek(), UNCLOSED_ELEMENT);
 					deque.push(openedElements.peek());
 					openedElements.pop();
 				}
 			}
-
+			
+			/* If a close tag does not have a matching open tag within the
+			 * opened tag deque, add a stray close tag error on the close tag.
+			 */
 			if(openedElements.isEmpty() && !deque.isEmpty()) {
 				int size = deque.size();
 				reAddOpenedElements(deque);
