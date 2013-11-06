@@ -219,7 +219,8 @@ function replaceByOccurrence(htmlString, htmlExcerpt, htmlReplace, htmlOccurrenc
 					return (nth === htmlOccurrence) ? htmlReplace : match;
 				});
 				console.log("REPLACED@ on occurrence number "+nth+" and changed to "+splitTwo[1]);
-				splits[i] = splitTwo[0] + splitTwo[1];
+				splits[i] = splitTwo[0] + ">" + splitTwo[1];
+				returnString += "<" + splits[i];
 			} else {
 				splits[0] = splits[0].replace(regex, function (match, i, original) {
 					nth++;
@@ -227,8 +228,8 @@ function replaceByOccurrence(htmlString, htmlExcerpt, htmlReplace, htmlOccurrenc
 					return (nth === htmlOccurrence) ? htmlReplace : match;
 				});
 				console.log("REPLACED@ on occurrence number "+nth+" and changed to "+splits[0]);
+				returnString += splits[0];
 			}
-			returnString += splits[i];
 		}
 		
 		return returnString;
