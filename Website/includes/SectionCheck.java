@@ -1053,7 +1053,8 @@ public class SectionCheck {
 									// Assign tag to prevTag
 									prevTag = tag;
 									
-									if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
+									//if(!singularTags.contains(tag.toLowerCase()) && !tag.equalsIgnoreCase("!doctype")) {
+									if(!tag.equalsIgnoreCase("!doctype")) {
 										if (tag.length() > 0) {
 											encap.encapsulation(tag.toLowerCase(), i+1, tagStart, endTagColumnNo);
 										}
