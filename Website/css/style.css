@@ -1599,7 +1599,10 @@ span.brokenLinkIcon {
 	}
 	
 	.structureBrokenFile p.fileLocation {
-		width: 250px;
+		width: 500px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		color: #949494;
 }
 	
