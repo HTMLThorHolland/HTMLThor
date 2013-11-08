@@ -857,13 +857,15 @@ public class SectionCheck {
 								// check for broken link
 								if (attribute.equalsIgnoreCase("src") || attribute.equalsIgnoreCase("href")) {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
-									String wrongLoc = checkPathExists(attributeVal);
-									if (wrongLoc != null) {
-										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
-										error.put("locations", suggestedLocations(wrongLoc));
-										errors.put(errorCount, error);
-										errorCount += 1; 
-										brokenLinks += 1;
+									if (!attributeVal.equals("#")) {
+										String wrongLoc = checkPathExists(attributeVal);
+										if (wrongLoc != null) {
+											error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
+											error.put("locations", suggestedLocations(wrongLoc));
+											errors.put(errorCount, error);
+											errorCount += 1; 
+											brokenLinks += 1;
+										}
 									}
 								}
 							
@@ -907,13 +909,15 @@ public class SectionCheck {
 								// check for broken link
 								if (attribute.equalsIgnoreCase("src") || attribute.equalsIgnoreCase("href")) {
 									String attributeVal = charArray.getString(attrValStart+1, j-1);
-									String wrongLoc = checkPathExists(attributeVal);
-									if (wrongLoc != null) {
-										error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
-										error.put("locations", suggestedLocations(wrongLoc));
-										errors.put(errorCount, error);
-										errorCount += 1;
-										brokenLinks += 1;
+									if (!attributeVal.equals("#")) {
+										String wrongLoc = checkPathExists(attributeVal);
+										if (wrongLoc != null) {
+											error = errorConstructor(sql.getErrMsg(40).replaceAll("--fp",wrongLoc), "broken", i+1, j-1, attributeVal);
+											error.put("locations", suggestedLocations(wrongLoc));
+											errors.put(errorCount, error);
+											errorCount += 1;
+											brokenLinks += 1;
+										}
 									}
 								}
 								
@@ -1705,7 +1709,7 @@ public class SectionCheck {
 			if (filesInZip == null) {
 				return null;
 			}
-			if (filepath.toLowerCase().indexOf("http://") == 0 || filepath.toLowerCase().indexOf("javascript:") == 0) {
+			if (filepath.toLowerCase().indexOf("http://") == 0 || filepath.toLowerCase().indexOf("javascript:") == 0 || filepath.equals("#")) {
 				return null;
 			}
 			String currentPath = upOneFolder(filePath); // eliminated the file name
@@ -1740,7 +1744,7 @@ public class SectionCheck {
 			} else {
 				return "";
 			}
-			return path.substring(0, iter);
+			return path.substring(0, iter+1);
 		}
 		
 		
